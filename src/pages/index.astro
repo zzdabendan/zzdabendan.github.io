@@ -1,32 +1,100 @@
 ---
-// 页面数据：以后改内容，主要改这里
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const profile = {
 	name: '你好，我是小明',
 	bio: '一名正在学习 Astro 的初学者，在这里记录我的学习笔记和项目作品。',
-	tags: ['Astro', '前端学习', '个人主页'],
 };
+
+// 关于页摘要
+const aboutSummary = [
+	{ label: '意向岗位', value: 'xxx' },
+	{ label: '意向城市', value: '南昌' },
+	{ label: '期望薪资', value: '￥9999' },
+	{ label: '求职类型', value: '全职' },
+];
+const workCount = 5;
+const eduSchool = '江西信息应用职业技术学院';
+
+// 感悟页摘要（最新一条）
+const latestReflection = {
+	date: '2026/09/07',
+	day: '周一',
+	weather: '晴',
+	insight: '向前走。阿巴阿巴',
+};
+const reflectionCount = 23;
+
+// 计划页摘要
+const planPhases = [
+	{ phase: '短期', goal: '每天做好基础饮食与肌肉运动' },
+	{ phase: '中期', goal: '坚持 30 天，观察身体指数变化' },
+	{ phase: '长期', goal: '坚持到质变，身材明显改善' },
+];
 ---
 
 <BaseLayout title="我的个人主页" description={profile.bio}>
 	<section class="hero">
 		<h1>{profile.name}</h1>
 		<p class="bio">{profile.bio}</p>
+	</section>
 
-		<ul class="tags">
-			{profile.tags.map((tag) => <li>{tag}</li>)}
-		</ul>
+	<section class="cards">
+		<!-- 左栏：关于 -->
+		<a href="/about" class="card">
+			<div class="card-head">
+				<span class="card-icon">关于</span>
+				<span class="card-arrow">→</span>
+			</div>
+			<dl class="card-list">
+				{aboutSummary.map((item) => (
+					<div class="card-list-row">
+						<dt>{item.label}</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))}
+			</dl>
+			<p class="card-meta">{workCount} 段工作经历 · {eduSchool}</p>
+		</a>
 
-		<div class="actions">
-			<a href="/about" class="btn">了解更多 →</a>
-		</div>
+		<!-- 中栏：感悟 -->
+		<a href="/reflections" class="card">
+			<div class="card-head">
+				<span class="card-icon">感悟</span>
+				<span class="card-arrow">→</span>
+			</div>
+			<div class="card-date">{latestReflection.date} {latestReflection.day} · {latestReflection.weather}</div>
+			<p class="card-insight">{latestReflection.insight}</p>
+			<p class="card-meta">共 {reflectionCount} 条感悟记录</p>
+		</a>
+
+		<!-- 右栏：计划 -->
+		<a href="/plan" class="card">
+			<div class="card-head">
+				<span class="card-icon">计划</span>
+				<span class="card-arrow">→</span>
+			</div>
+			<ul class="card-phases">
+				{planPhases.map((p) => (
+					<li>
+						<span class="phase-tag">{p.phase}</span>
+						<span class="phase-goal">{p.goal}</span>
+					</li>
+				))}
+			</ul>
+			<p class="card-meta">当前主题：运动</p>
+		</a>
 	</section>
 </BaseLayout>
+
+<style is:global>
+	.container { --content-width: 1100px; }
+</style>
 
 <style>
 	.hero {
 		padding-top: 32px;
+		margin-bottom: 48px;
 	}
 
 	h1 {
@@ -38,37 +106,129 @@ const profile = {
 	.bio {
 		font-size: 18px;
 		color: var(--muted);
-		margin-bottom: 24px;
 	}
 
-	.tags {
-		list-style: none;
-		padding: 0;
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 24px;
+	}
+
+	.card {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		margin-bottom: 32px;
+		flex-direction: column;
+		padding: 24px;
+		background: #fff;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		transition: border-color 0.2s, box-shadow 0.2s;
 	}
 
-	.tags li {
-		font-size: 14px;
-		padding: 4px 12px;
-		border-radius: 999px;
-		background: #f3e8ff;
+	.card:hover {
+		border-color: var(--accent);
+		box-shadow: 0 4px 16px rgba(109, 40, 217, 0.1);
+	}
+
+	.card-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 16px;
+		padding-bottom: 12px;
+		border-bottom: 2px solid #f3e8ff;
+	}
+
+	.card-icon {
+		font-size: 20px;
+		font-weight: 700;
 		color: var(--accent);
 	}
 
-	.btn {
-		display: inline-block;
-		padding: 10px 20px;
-		border-radius: 8px;
-		background: var(--accent);
-		color: #fff;
-		font-size: 15px;
+	.card-arrow {
+		font-size: 18px;
+		color: var(--muted);
+		transition: transform 0.2s, color 0.2s;
 	}
 
-	.btn:hover {
-		opacity: 0.9;
-		color: #fff;
+	.card:hover .card-arrow {
+		transform: translateX(4px);
+		color: var(--accent);
+	}
+
+	/* 关于栏 */
+	.card-list {
+		margin: 0 0 12px;
+	}
+
+	.card-list-row {
+		display: flex;
+		justify-content: space-between;
+		font-size: 14px;
+		padding: 3px 0;
+	}
+
+	.card-list-row dt {
+		color: var(--muted);
+	}
+
+	.card-list-row dd {
+		font-weight: 600;
+	}
+
+	/* 感悟栏 */
+	.card-date {
+		font-size: 13px;
+		color: var(--muted);
+		margin-bottom: 8px;
+	}
+
+	.card-insight {
+		font-size: 15px;
+		line-height: 1.6;
+		margin-bottom: 12px;
+		flex-grow: 1;
+	}
+
+	/* 计划栏 */
+	.card-phases {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 12px;
+	}
+
+	.card-phases li {
+		display: flex;
+		gap: 8px;
+		align-items: baseline;
+		font-size: 14px;
+		padding: 4px 0;
+	}
+
+	.phase-tag {
+		flex-shrink: 0;
+		padding: 1px 8px;
+		border-radius: 999px;
+		background: #f3e8ff;
+		color: var(--accent);
+		font-size: 12px;
+		font-weight: 600;
+	}
+
+	.phase-goal {
+		color: var(--text);
+	}
+
+	.card-meta {
+		font-size: 13px;
+		color: var(--muted);
+		margin-top: auto;
+		padding-top: 12px;
+		border-top: 1px solid #f3f4f6;
+	}
+
+	@media (max-width: 900px) {
+		.cards {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>
