@@ -1,0 +1,419 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// 感悟数据：每条包含日期、星期、城市、天气、分类记录和今日感悟
+const reflections = [
+	{
+		date: '2026/09/07',
+		day: '周一',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: '拉完了', detail: '桩功、早跑、晚练、闭目养神、心立志。消耗280kcal，摄入350+500kcal，体重62.5kg' },
+			{ category: '家务', status: '拉完了', detail: '早起、刷牙、背包、早勤、晚归、洗澡、洗衣、晒衣' },
+			{ category: '工作', status: '拉完了', detail: '打卡、巡检机房、巡检工区、巡检协助、台账登记、下班。收入+80，余额236.5' },
+			{ category: '学习', status: '拉完了', detail: '无' },
+			{ category: '娱乐', status: '拉完了', detail: '写作2h、视频、小说、直播2h' },
+		],
+		insight: '向前走。阿巴阿巴',
+	},
+	{
+		date: '2026/09/02',
+		day: '周三',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: '拉完了', detail: '消耗280kcal，摄入350+500kcal，体重62.5kg' },
+			{ category: '家务', status: '拉完了', detail: '早起、刷牙、背包、早勤、晚归、洗澡、洗衣、晒衣' },
+			{ category: '工作', status: '拉完了', detail: '收入+80，余额236.5' },
+			{ category: '学习', status: '拉完了', detail: '无' },
+			{ category: '娱乐', status: '拉完了', detail: '写作2h、视频、小说、直播2h' },
+		],
+		insight: '向前走',
+	},
+	{
+		date: '2026/08/29',
+		day: '周六',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: '拉完了', detail: '体重：；摄入：；消耗：' },
+			{ category: '家务', status: 'NPC', detail: '' },
+			{ category: '工作', status: '拉完了', detail: '余额：；花费：；收入：' },
+			{ category: '学习', status: '拉完了', detail: '' },
+			{ category: '娱乐', status: 'NPC', detail: '' },
+		],
+		insight: '向前走。今天玩了游戏里的直升机，好玩。把家里的桌子换了个位置',
+	},
+	{
+		date: '2026/08/27',
+		day: '周四',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: '拉完了', detail: '徒劳无功' },
+			{ category: '家务', status: '拉完了', detail: '徒劳无功' },
+			{ category: '工作', status: 'NPC', detail: '忙点好啊' },
+			{ category: '学习', status: '拉完了', detail: '徒劳无功' },
+			{ category: '娱乐', status: '拉完了', detail: '徒劳无功' },
+		],
+		insight: '向前走。这两天天天都是早出晚归一小时，工作上的事忙不停，麻了',
+	},
+	{
+		date: '2026/08/25',
+		day: '周二',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: '拉完了', detail: '懒惰大于勤奋' },
+			{ category: '家务', status: '拉完了', detail: '杂乱大于整洁' },
+			{ category: '工作', status: 'NPC', detail: '复杂大于精简' },
+			{ category: '学习', status: '人上人', detail: '今日小有所得' },
+			{ category: '娱乐', status: '拉完了', detail: '享乐大于创作' },
+		],
+		insight: '向前走。昨天也是检查了一个月的工作情况，发现一个小问题，幸好没啥扣分。学习了一下git分布式版本管理系统，确实好用，还有好多家务没整理，好多学习的内容，和工作内容，还有好多好玩的，阿巴阿巴，精力有限，一天只有一半时间自由，另一半时间睡觉，维持生命，维持生活。',
+	},
+	{
+		date: '2026/08/23',
+		day: '周日',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: '拉完了', detail: '' },
+			{ category: '家务', status: '拉完了', detail: '' },
+			{ category: '工作', status: '拉完了', detail: '' },
+			{ category: '学习', status: '拉完了', detail: '' },
+			{ category: '娱乐', status: '拉完了', detail: '' },
+		],
+		insight: '向前走。阿巴阿巴阿巴',
+	},
+	{
+		date: '2026/08/20',
+		day: '周四',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: 'NPC', detail: '体重：；摄入：；消耗：' },
+			{ category: '家务', status: 'NPC', detail: '' },
+			{ category: '工作', status: 'NPC', detail: '余额：；花费：；收入：' },
+			{ category: '学习', status: 'NPC', detail: '' },
+			{ category: '娱乐', status: 'NPC', detail: '' },
+		],
+		insight: '向前走。这两天忘记充电了，下班都是走回去，热了个身，晚上绕了小区周围5圈，跑一圈就虚了，两天下来肚子感觉小了一点，挺好。',
+	},
+	{
+		date: '2026/08/18',
+		day: '周二',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '运动', status: '', detail: '体重：；摄入：；消耗：' },
+			{ category: '家务', status: '', detail: '' },
+			{ category: '工作', status: '', detail: '余额：；花费：；收入：' },
+			{ category: '学习', status: '', detail: '' },
+			{ category: '娱乐', status: '', detail: '' },
+		],
+		insight: '向前走。最近几天一直想要锻炼，结果还是躺在家里一动不动，周运动量5分钟哈哈哈',
+	},
+	{
+		date: '2026/08/14',
+		day: '周五',
+		city: '南昌',
+		weather: '阴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：；花费：；收入：；体重：；摄入：；消耗：' },
+		],
+		insight: '向前走。前几天把我的个人主页改了一下，页面使用了最基本的博客布局方式。最上面是长条标题，下来是横幅图，下面是左7右3的主内容和侧边栏布局。这一版已经非常接近我需要的了。然后还把房间布局改了一部分，走廊上的收纳箱移到了床边，空出来的走廊能串起床铺、书桌、阳台、收纳箱、厨房、厕所，还能兼顾运动。今天同事过完离职流程了，以后只有我在这个岗位了。再过几天要检查，工作量有点压力。空出来的运动区跟着视频练了一会儿，希望坚持。',
+	},
+	{
+		date: '2026/08/01',
+		day: '周六',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：；花费：；收入：；体重：；摄入：早餐酱香饼、鸡蛋饼、韭菜饼、优酸乳。午餐鸡腿堡、鸡翅根、骨肉相连、可乐。消耗：拿快递走了一段。' },
+		],
+		insight: '向前走。下半年第一天。最重要的变化：去常德出差半个月，兼职美团外卖半个月，驾照考了，开始存钱，改版人生日记。一位大学教授对人之间的沟通做了一个模型：画一根时间轴，用现在划分成左右两半。人们沟通总是问"为什么"，观察过去发生的事。但重要的是往右边看，往未来看，既然事情发生了，我们能够做些什么让事情变得更好？这启发很大。我的个人主页也参考这样，分成了左中右：中间是现在的位置，左边是经历和物品，右边是计划。今年上半年买了模拟驾驶方向盘和脚踏板，做了铁架支架，优点是便宜，缺点是不能折叠扩展。今年也很少做饭运动，精力花在了工作、改版、游戏、驾照上。',
+	},
+	{
+		date: '2026/07/31',
+		day: '周五',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：711；收入：0；体重：67.5。摄入：豆沙包、鸡蛋、米饭、青菜、豆角、木耳、鸡腿、虾、豆腐、土豆、红萝卜。消耗：坐' },
+		],
+		insight: '向前走，做得好。前段时间好压抑，身材胖要减肥，饮食极端要清淡，家务遗漏，学车挂科三，工作要请假顶班写文档，作息颠倒晚上8-11点睡2-3点醒。过了这段时间好多了，现在9-10点睡5-7点起，驾校考完拿到驾照，家务清理了一遍，每天一桶水1000ml，文档写了一大半，开始存钱，尝试兼职外卖。',
+	},
+	{
+		date: '2026/07/29',
+		day: '周三',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：749；花费：5+18；收入：0；体重：68。摄入：鸡蛋、豆沙包、米饭、红烧肉、辣椒炒肉、猪油渣、虾、豆角、豆腐、菠菜。消耗：坐' },
+		],
+		insight: '向前走，做得好。行政人事的小伙伴回来了，但安全体检的姐要做手术请假。现在有一台台式主机配置挺好，但移动不方便。方法是配宽带连接互联网，另一台轻薄笔记本远程连接主机，一个月60-90多度电费。换成游戏笔记本更便携但散热差价格贵，最缺的是钱，只能忍了。',
+	},
+	{
+		date: '2026/07/28',
+		day: '周二',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：776；花费：1052；收入：0；体重：68。摄入：薯片、妙脆角、烧卖、鸡蛋、米饭辣椒炒肉、红烧肉、虾、豆腐、芹菜、木耳、豆角、油炸鸡翅根。消耗：办公室坐、上楼18楼、睡觉躺着' },
+		],
+		insight: '向前走，做得好。',
+	},
+	{
+		date: '2026/07/25',
+		day: '周六',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：3910；体重：68' },
+		],
+		insight: '向前走，做得好。今天睡到5-6点起床，昨晚好早睡，精神好放松。昨天考完科目四，94分通过合格。一下子不知道未来该做什么了，问AI通过银行利息要多久和多少钱才够每天生活花销，答案是一百万只够日常吃喝，房租需要更多。每月2000元要60年，3000也要30多年。好难呀。',
+	},
+	{
+		date: '2026/07/22',
+		day: '周三',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：129；体重：68KG' },
+		],
+		insight: '向前走，做得好。今天正式考过了驾照最重要的科目三。科目三在第4次终于考过了，科目二第2次机会过的。8点多出发到考场，等了3个小时从9点到12点。考试按步骤做：绕车、系安全带、启动发动机、夜间灯光模拟过了、起步顺利、加减档完成、直线行驶用镜子最高点对准路中间线保持不偏移，开了10-20秒听到通过。掉头回起点路口做超车，后面有辆奔驰大车跟着，我直接路边一停让先过，然后完成变道超车。最后路口左转时对向来车，一档怠速慢慢挪动，幸好没超过路口中心。最后靠边停车、拉手刹、关发动机、下车。系统核算成功成绩合格。从5月29号第一次挂到现在第4次终于过了，松了口气。',
+	},
+	{
+		date: '2026/07/19',
+		day: '周日',
+		city: '南昌',
+		weather: '雨',
+		records: [
+			{ category: '固定', status: '', detail: '余额：170；体重：69' },
+		],
+		insight: '向前走，做得好。',
+	},
+	{
+		date: '2026/07/17',
+		day: '周五',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：196；体重：70' },
+		],
+		insight: '向前走，做得好。今天开了个小会，确定以后单人单岗。同事要去另一个城市照顾医院的亲人。世事充满变故，两难的选择。买了五六根香蕉放冰箱保鲜，但拿出来冷的不能立刻吃。公司5年了，开始走下坡路。最好的时候是刚入职满一年，慢慢累积正常工作。之后开始扩张，招人加设备，问题显现。巅峰后人开始缩减，现在是衰退期。暂时先兼职配送外卖，新工作没思路，或许可以一边兼职一边早睡早起锻炼身体。',
+	},
+	{
+		date: '2026/07/16',
+		day: '周四',
+		city: '南昌',
+		weather: '晴',
+		records: [
+			{ category: '固定', status: '', detail: '余额：650；体重：70' },
+		],
+		insight: '向前走。同事离职照顾亲人，以后每周一两天岗位空缺，周末出事得保持通讯。增加工作量，效率降低。生活上睡眠不好，锻炼学习没方向，压力因变故更大。科目三挂科过了8天，得准备下一次考试。前前后后两三个月耗在这件事上。',
+	},
+	{
+		date: '2026/07/14',
+		day: '周二',
+		city: '南昌',
+		weather: '阴',
+		records: [
+			{ category: '固定', status: '', detail: '存款：679；体重：70KG' },
+		],
+		insight: '今天同事要离职因为家人生病。公司从21年到26年快6年了，我在这待了4年。以后每月检查归我负责，周末出事得去帮忙算加班。一个人做效率会低很多。睡眠不好，锻炼学习没方向，压力更大。科目三挂科过了8天得准备下次考试。',
+	},
+	{
+		date: '2026/07/13',
+		day: '周一',
+		city: '南昌',
+		weather: '阴',
+		records: [],
+		insight: '压力，作息不规律，饮食偏差，运动不足，睡眠缺少，娱乐过度，工作进展不佳，身体不适。怎么解决这么多问题，一件一件来。',
+	},
+	{
+		date: '2026/07/12',
+		day: '周日',
+		city: '南昌',
+		weather: '晴',
+		records: [],
+		insight: '今天周末最后一天。一两点钟就醒了。前两天买的蔬菜还放冰箱里。自己做饭太麻烦，还是点外卖方便。一升两升的油放了快一年多了。台风靠近浙江海岸，不知道会不会影响内陆。大清早先烧壶水补补水。',
+	},
+	{
+		date: '2026/07/11',
+		day: '周六',
+		city: '南昌',
+		weather: '晴',
+		records: [],
+		insight: '今天把桌子调整了位置，桌腿折叠起来当增高垫放阳台前面，省了半个桌子的空间。收好的衣服放收纳箱，床清空只留被子和枕头。清理了风扇扇叶灰尘，洗了空调滤网，路由器位置抬高。早餐点了两份主食一个肠粉一个炒粉，结果吃不完，早餐分量只需午餐一半甚至更少。',
+	},
+	{
+		date: '2026/07/10',
+		day: '周五',
+		city: '南昌',
+		weather: '晴',
+		records: [],
+		insight: '又是凌晨2点多起来，枕头垫太高，空调开着效果不大，口渴。一堆事要处理：房间物品、电脑资料、工作步骤、减体重、考驾照、锻炼、吃饭、体检看医生。给自己烧了壶水。劣势有：饮食不健康、作息不健康、缺乏锻炼、睡眠缺乏、过量游戏娱乐、缺乏生活卫生整理。但优势是：所有劣势都可以在下一天瞬间扭转，只要稍加注意。',
+	},
+];
+---
+
+<BaseLayout title="我的感悟 - 个人主页" description="生活中的个人感悟与每日记录">
+	<article class="reflections-page">
+		<h1>我的感悟</h1>
+		<p class="intro">记录生活中的点滴感悟，向前走。</p>
+
+		{
+			reflections.map((entry) => (
+				<section class="entry">
+					<div class="entry-header">
+						<span class="entry-date">{entry.date}</span>
+						<span class="entry-meta">{entry.day} · {entry.city} · {entry.weather}</span>
+					</div>
+
+					{entry.records.length > 0 && (
+						<div class="records">
+							{entry.records.map((rec) => (
+								<div class="record-row">
+									<span class="record-cat">{rec.category}</span>
+									{rec.status && <span class="record-status">{rec.status}</span>}
+									{rec.detail && <span class="record-detail">{rec.detail}</span>}
+								</div>
+							))}
+						</div>
+					)}
+
+					<div class="insight">
+						<span class="insight-label">今日感悟</span>
+						<p class="insight-text">{entry.insight}</p>
+					</div>
+				</section>
+			))
+		}
+
+		<p class="back-link"><a href="/">← 返回首页</a></p>
+	</article>
+</BaseLayout>
+
+<style>
+	.reflections-page {
+		padding-top: 16px;
+	}
+
+	h1 {
+		font-size: 32px;
+		margin-bottom: 8px;
+	}
+
+	.intro {
+		color: var(--muted);
+		font-size: 15px;
+		margin-bottom: 32px;
+	}
+
+	.entry {
+		background: #fff;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		padding: 20px 24px;
+		margin-bottom: 20px;
+	}
+
+	.entry-header {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-wrap: wrap;
+		margin-bottom: 16px;
+		padding-bottom: 12px;
+		border-bottom: 1px solid #f3f4f6;
+	}
+
+	.entry-date {
+		font-size: 17px;
+		font-weight: 700;
+		color: var(--text);
+	}
+
+	.entry-meta {
+		font-size: 14px;
+		color: var(--muted);
+	}
+
+	.records {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		margin-bottom: 16px;
+	}
+
+	.record-row {
+		display: flex;
+		gap: 8px;
+		align-items: baseline;
+		font-size: 14px;
+		line-height: 1.8;
+	}
+
+	.record-cat {
+		color: var(--accent);
+		font-weight: 500;
+		min-width: 50px;
+		flex-shrink: 0;
+	}
+
+	.record-status {
+		font-size: 12px;
+		padding: 1px 6px;
+		border-radius: 4px;
+		background: #f3e8ff;
+		color: var(--accent);
+		flex-shrink: 0;
+	}
+
+	.record-detail {
+		color: var(--muted);
+		flex: 1;
+	}
+
+	.insight {
+		background: #faf5ff;
+		border-left: 3px solid var(--accent);
+		padding: 12px 16px;
+		border-radius: 0 8px 8px 0;
+	}
+
+	.insight-label {
+		display: block;
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--accent);
+		margin-bottom: 6px;
+	}
+
+	.insight-text {
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
+		white-space: pre-wrap;
+	}
+
+	.back-link {
+		text-align: center;
+		margin-top: 32px;
+		font-size: 15px;
+	}
+
+	@media (max-width: 600px) {
+		.entry {
+			padding: 16px;
+		}
+
+		.record-row {
+			flex-direction: column;
+			gap: 2px;
+		}
+	}
+</style>

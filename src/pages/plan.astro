@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const plans = [
+	{
+		phase: '短期计划',
+		goal: '每天做好基础饮食与肌肉运动',
+		items: [
+			'蔬菜：每餐搭配绿叶或根茎类蔬菜',
+			'碳水：米饭、面条、红薯等主食适量摄入',
+			'蛋白质：鸡蛋、鸡腿、豆腐、虾等优质蛋白',
+			'水分：每天至少 1000ml 饮水',
+			'俯卧撑：每天分组练习',
+			'深蹲：每天分组练习',
+			'引体向上：每天分组练习',
+		],
+	},
+	{
+		phase: '中期计划',
+		goal: '坚持 30 天，观察身体指数变化',
+		items: [
+			'BMI：记录体重与身高比例变化',
+			'肌肉量：观察手臂、腿部、核心肌群围度',
+			'力气：俯卧撑、深蹲、引体向上的单次最大数量增长',
+			'动作质量：从借力代偿到标准发力',
+		],
+	},
+	{
+		phase: '长期计划',
+		goal: '坚持到质变，身材明显改善',
+		items: [
+			'体型：从偏胖到匀称，体脂率下降',
+			'体能：运动耐力与爆发力显著提升',
+			'习惯：饮食与运动成为生活本能而非任务',
+			'质变：身材改善达到肉眼可见的程度',
+		],
+	},
+];
+---
+
+<BaseLayout title="计划 - 个人主页" description="短期、中期、长期计划">
+	<article>
+		<h1>计划</h1>
+		<p>当前主题：运动</p>
+
+		{
+			plans.map((plan) => (
+				<section>
+					<h2>{plan.phase}</h2>
+					<p>{plan.goal}</p>
+					<ul>
+						{plan.items.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				</section>
+			))
+		}
+
+		<p><a href="/">← 返回首页</a></p>
+	</article>
+</BaseLayout>
+
+<style>
+	h1 {
+		font-size: 32px;
+		margin-bottom: 8px;
+	}
+
+	section {
+		margin-top: 32px;
+	}
+
+	h2 {
+		font-size: 20px;
+		margin-bottom: 8px;
+	}
+
+	p {
+		margin-bottom: 12px;
+	}
+
+	ul {
+		padding-left: 20px;
+	}
+
+	li {
+		margin-bottom: 8px;
+		line-height: 1.8;
+	}
+</style>

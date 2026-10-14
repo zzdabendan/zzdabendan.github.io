@@ -1,0 +1,77 @@
+---
+// 导航组件：所有页面共用。想加新链接，只改 links 数组即可
+const links = [
+	{ href: '/', label: '首页' },
+	{ href: '/kb', label: '知识库' },
+	{ href: '/plan', label: '计划' },
+	{ href: '/reflections', label: '感悟' },
+	{ href: '/about', label: '关于' },
+];
+
+// Astro.url.pathname 是当前页面地址，用来给当前页的链接加高亮
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+	href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header class="nav">
+	<div class="nav-inner">
+		<a href="/" class="brand">我的主页</a>
+		<nav>
+			{
+				links.map((link) => (
+					<a
+						href={link.href}
+						class:list={['nav-link', { active: isActive(link.href) }]}
+					>
+						{link.label}
+					</a>
+				))
+			}
+		</nav>
+	</div>
+</header>
+
+<style>
+	.nav {
+		background: #ffffff;
+		border-bottom: 1px solid #e5e7eb;
+	}
+
+	.nav-inner {
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 14px 20px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.brand {
+		font-weight: 700;
+		font-size: 18px;
+		color: var(--text);
+	}
+
+	nav {
+		display: flex;
+		gap: 20px;
+	}
+
+	.nav-link {
+		color: var(--muted);
+		font-size: 15px;
+		padding: 4px 2px;
+		border-bottom: 2px solid transparent;
+	}
+
+	.nav-link:hover {
+		color: var(--accent);
+	}
+
+	/* 当前页对应的链接：高亮显示 */
+	.nav-link.active {
+		color: var(--accent);
+		border-bottom-color: var(--accent);
+	}
+</style>
