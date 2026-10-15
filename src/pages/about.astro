@@ -1,6 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// ④ 基本信息
+const basicInfo = [
+	{ label: '年龄', value: '24岁' },
+	{ label: '身高', value: '163cm' },
+	{ label: '体重', value: '70kg' },
+	{ label: '电话1', value: '10000000000' },
+	{ label: '微信', value: '10000000000' },
+	{ label: '电话2', value: '10000000000' },
+	{ label: 'QQ', value: '10000000000（邮箱：10000000000@qq.com）' },
+	{ label: 'QQ2', value: '20000000000（邮箱：20000000000@qq.com）' },
+	{ label: 'QQ3', value: '30000000000' },
+];
+
+const socialLinks = [
+	{ label: '抖音', value: 'douyin' },
+	{ label: 'B站', value: 'https://space.bilibili.com/', isLink: true },
+	{ label: '个人主页', value: 'https://zzdabendan.github.io', isLink: true },
+	{ label: '个人知识库', value: 'http://danbendada.wiki', isLink: true },
+	{ label: 'GitHub 1', value: 'https://github.com/zzdabendan/', isLink: true },
+	{ label: 'GitHub 2', value: 'https://github.com/danbendada/', isLink: true },
+	{ label: '备份站点', value: 'https://gitee.com/danbendada', isLink: true },
+];
+
 // ① 个人简介（求职意向）
 const jobIntention = [
 	{ label: '意向岗位', value: 'xxx' },
@@ -56,29 +79,6 @@ const education = [
 		major: '计算机网络技术',
 		courses: '组网技术、Linux系统、无线技术、Windows系统、综合布线等等',
 	},
-];
-
-// ④ 基本信息
-const basicInfo = [
-	{ label: '年龄', value: '24岁' },
-	{ label: '身高', value: '163cm' },
-	{ label: '体重', value: '70kg' },
-	{ label: '电话1', value: '10000000000' },
-	{ label: '微信', value: '10000000000' },
-	{ label: '电话2', value: '10000000000' },
-	{ label: 'QQ', value: '10000000000（邮箱：10000000000@qq.com）' },
-	{ label: 'QQ2', value: '20000000000（邮箱：20000000000@qq.com）' },
-	{ label: 'QQ3', value: '30000000000' },
-];
-
-const socialLinks = [
-	{ label: '抖音', value: 'douyin' },
-	{ label: 'B站', value: 'https://space.bilibili.com/', isLink: true },
-	{ label: '个人主页', value: 'https://zzdabendan.github.io', isLink: true },
-	{ label: '个人知识库', value: 'http://danbendada.wiki', isLink: true },
-	{ label: 'GitHub 1', value: 'https://github.com/zzdabendan/', isLink: true },
-	{ label: 'GitHub 2', value: 'https://github.com/danbendada/', isLink: true },
-	{ label: '备份站点', value: 'https://gitee.com/danbendada', isLink: true },
 ];
 
 // ⑤ 个人经历时间线（按人生阶段分组）
@@ -190,6 +190,39 @@ const timeline = [
 	<article class="about">
 		<h1>关于我</h1>
 
+		
+		<!-- 基本信息 -->
+		<section class="card">
+			<h2>基本信息</h2>
+			<div class="info-grid">
+				{
+					basicInfo.map((item) => (
+						<div class="info-row">
+							<span class="info-label">{item.label}</span>
+							<span class="info-value">{item.value}</span>
+						</div>
+					))
+				}
+			</div>
+			<h3 class="sub-title">社交与站点</h3>
+			<div class="info-grid">
+				{
+					socialLinks.map((item) => (
+						<div class="info-row">
+							<span class="info-label">{item.label}</span>
+							{item.isLink ? (
+								<a class="info-value" href={item.value} target="_blank" rel="noopener">
+									{item.value}
+								</a>
+							) : (
+								<span class="info-value">{item.value}</span>
+							)}
+						</div>
+					))
+				}
+			</div>
+		</section>
+
 		<!-- 个人简介（求职意向） -->
 		<section class="card">
 			<h2>个人简介</h2>
@@ -246,37 +279,6 @@ const timeline = [
 			</div>
 		</section>
 
-		<!-- 基本信息 -->
-		<section class="card">
-			<h2>基本信息</h2>
-			<div class="info-grid">
-				{
-					basicInfo.map((item) => (
-						<div class="info-row">
-							<span class="info-label">{item.label}</span>
-							<span class="info-value">{item.value}</span>
-						</div>
-					))
-				}
-			</div>
-			<h3 class="sub-title">社交与站点</h3>
-			<div class="info-grid">
-				{
-					socialLinks.map((item) => (
-						<div class="info-row">
-							<span class="info-label">{item.label}</span>
-							{item.isLink ? (
-								<a class="info-value" href={item.value} target="_blank" rel="noopener">
-									{item.value}
-								</a>
-							) : (
-								<span class="info-value">{item.value}</span>
-							)}
-						</div>
-					))
-				}
-			</div>
-		</section>
 
 		<!-- 个人经历时间线 -->
 		<section class="card">
