@@ -24,6 +24,90 @@ const socialLinks = [
 	{ label: '备份站点', value: 'https://gitee.com/danbendada', isLink: true },
 ];
 
+// 个人能力（四大维度，filled 为进度实心点数量，满分 8 点）
+const abilities = [
+	{
+		name: '价值能力',
+		percent: '02%',
+		filled: 0,
+		groups: [
+			{
+				title: '资源与禀赋',
+				tags: ['家境', '人脉', '权势', '钱财', '资产', '收入', '社会经济地位', '职位', '学历', '等级', '境界', '幸运', '颜值', '经验', '眼力', '民族', '出生', '个人信仰'],
+			},
+			{
+				title: '身心素养',
+				tags: ['体力', '精神', '自制力', '创造力', '想象力', '意志力', '做人'],
+			},
+			{
+				title: '职业技能',
+				tags: ['网络技术', 'Linux系统', '无线技术', 'Windows系统', '办公技能', '表格', '文档', '演示', '函数', '编程', '视频剪辑', '修图', '设计', '制图', '制作', '设备维护', '维修', '教学', '翻译', '演讲', '发言', '说话', '销售', '接待', '客户服务', '管理', '调研', '生产', '耕种', '采收', '建造', '教育', '防护', '疗愈', '救援', '侦查', '抓捕'],
+			},
+		],
+	},
+	{
+		name: '感觉能力',
+		percent: '03%',
+		filled: 1,
+		groups: [
+			{
+				title: '生理机能',
+				tags: ['生存', '呼吸', '消化', '咀嚼', '代谢', '排泄', '免疫', '心率', '心脏', '肺部', '肝脏', '胃部', '肾脏', '大脑'],
+			},
+			{
+				title: '体能运动',
+				tags: ['运动', '休息', '放松', '熬夜', '跳跃', '跑步', '武术', '肌肉力', '力量', '速度', '耐力', '柔韧', '重量'],
+			},
+			{
+				title: '休闲娱乐',
+				tags: ['钢琴', '游戏', '绘画', '唱歌', '娱乐'],
+			},
+		],
+	},
+	{
+		name: '照顾能力',
+		percent: '15%',
+		filled: 2,
+		groups: [
+			{
+				title: '心性素养',
+				tags: ['气质', '性格', '智商', '情商', '勇敢', '信心', '大胆', '语调', '气势', '表情', '体质', '心情', '情绪', '付出'],
+			},
+			{
+				title: '生活自理',
+				tags: ['家务', '整理', '叠被', '清洁', '洗被', '理发', '化妆', '打扮'],
+			},
+			{
+				title: '社交协作',
+				tags: ['社交', '识人', '欣赏', '夸赞', '批评', '骂人', '照顾', '爱', '表达', '开心', '抗压', '沟通', '共情', '感染', '领导', '执行', '说服', '采纳', '建议'],
+			},
+		],
+	},
+	{
+		name: '计划能力',
+		percent: '80%',
+		filled: 7,
+		groups: [
+			{
+				title: '认知学习',
+				tags: ['大道理', '预知', '学习', '记忆', '遗忘', '记录', '名字', '算数', '数学', '写字', '识字', '读音', '读书', '写作', '提问'],
+			},
+			{
+				title: '思维决策',
+				tags: ['推演', '计谋', '计划', '判断', '选择', '分析', '复盘', '搜索', '检查', '检验', '比较', '分类', '评价', '总结'],
+			},
+			{
+				title: '自我调节',
+				tags: ['疲劳', '摸鱼', '打断', '停止', '小脑'],
+			},
+			{
+				title: '关注领域',
+				tags: ['身体锻炼', '饮食三餐', '睡眠作息', '工作', '财产', '物品', '宗族朋友', '网友粉丝', '游戏', '旅游', '音乐', '绘画', '课程知识', '技能经验', '黄帝内经', '易经', '道德经', '论语', '孟子', '鬼谷子', '庄子', '武术', '气功', 'B站', 'GitHub', '博客', '知识库'],
+			},
+		],
+	},
+];
+
 // ① 个人简介（求职意向）
 const jobIntention = [
 	{ label: '意向岗位', value: 'xxx' },
@@ -223,6 +307,40 @@ const timeline = [
 			</div>
 		</section>
 
+		<!-- 个人能力 -->
+		<section class="card">
+			<h2>个人能力</h2>
+			<div class="ability-list">
+				{
+					abilities.map((ab) => (
+						<div class="ability-item">
+							<div class="ability-head">
+								<span class="ability-name">{ab.name}</span>
+								<span class="ability-dots">
+									{Array.from({ length: 8 }).map((_, i) => (
+										<span class:list={['dot', { filled: i < ab.filled }]}></span>
+									))}
+								</span>
+								<span class="ability-percent">{ab.percent}</span>
+							</div>
+							<div class="ability-groups">
+								{ab.groups.map((g) => (
+									<div class="ability-group">
+										<span class="group-title">{g.title}</span>
+										<div class="tag-cloud">
+											{g.tags.map((t) => (
+												<span class="skill-tag">{t}</span>
+											))}
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
 		<!-- 个人简介（求职意向） -->
 		<section class="card">
 			<h2>个人简介</h2>
@@ -345,6 +463,101 @@ const timeline = [
 		margin-top: 20px;
 		margin-bottom: 12px;
 		color: var(--muted);
+	}
+
+	/* 个人能力 */
+	.ability-list {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.ability-item {
+		padding-bottom: 20px;
+		border-bottom: 1px dashed #e5e7eb;
+	}
+
+	.ability-item:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+
+	.ability-head {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 12px;
+	}
+
+	.ability-name {
+		font-size: 16px;
+		font-weight: 700;
+		color: var(--accent);
+		min-width: 72px;
+	}
+
+	.ability-dots {
+		display: inline-flex;
+		gap: 4px;
+		letter-spacing: 0;
+	}
+
+	.dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		border: 1.5px solid #c4b5fd;
+		background: transparent;
+		display: inline-block;
+	}
+
+	.dot.filled {
+		background: var(--accent);
+		border-color: var(--accent);
+	}
+
+	.ability-percent {
+		margin-left: auto;
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--muted);
+	}
+
+	.ability-groups {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.ability-group {
+		display: flex;
+		gap: 12px;
+		align-items: flex-start;
+	}
+
+	.group-title {
+		flex-shrink: 0;
+		width: 72px;
+		font-size: 13px;
+		color: var(--muted);
+		line-height: 26px;
+	}
+
+	.tag-cloud {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		flex: 1;
+	}
+
+	.skill-tag {
+		font-size: 13px;
+		line-height: 1;
+		padding: 6px 10px;
+		border-radius: 999px;
+		background: #f5f3ff;
+		color: #5b21b6;
+		white-space: nowrap;
 	}
 
 	/* 信息网格 */
@@ -479,6 +692,16 @@ const timeline = [
 
 		.timeline-period {
 			min-width: auto;
+		}
+
+		.ability-group {
+			flex-direction: column;
+			gap: 6px;
+		}
+
+		.group-title {
+			width: auto;
+			line-height: 1.4;
 		}
 	}
 </style>
