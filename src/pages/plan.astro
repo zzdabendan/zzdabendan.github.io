@@ -1,38 +1,76 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const plans = [
+// 计划数据：5 个主题，每个主题含短/中/长三层
+const themes = [
 	{
-		phase: '短期计划',
-		goal: '每天做好基础饮食与肌肉运动',
-		items: [
-			'蔬菜：每餐搭配绿叶或根茎类蔬菜',
-			'碳水：米饭、面条、红薯等主食适量摄入',
-			'蛋白质：鸡蛋、鸡腿、豆腐、虾等优质蛋白',
-			'水分：每天至少 1000ml 饮水',
-			'俯卧撑：每天分组练习',
-			'深蹲：每天分组练习',
-			'引体向上：每天分组练习',
+		name: '运动',
+		phases: [
+			{
+				phase: '短期',
+				goal: '每天做好基础饮食与肌肉运动',
+				items: [
+					'蔬菜：每餐搭配绿叶或根茎类蔬菜',
+					'碳水：米饭、面条、红薯等主食适量摄入',
+					'蛋白质：鸡蛋、鸡腿、豆腐、虾等优质蛋白',
+					'水分：每天至少 1000ml 饮水',
+					'俯卧撑：每天分组练习',
+					'深蹲：每天分组练习',
+					'引体向上：每天分组练习',
+				],
+			},
+			{
+				phase: '中期',
+				goal: '坚持 30 天，观察身体指数变化',
+				items: [
+					'BMI：记录体重与身高比例变化',
+					'肌肉量：观察手臂、腿部、核心肌群围度',
+					'力气：俯卧撑、深蹲、引体向上的单次最大数量增长',
+					'动作质量：从借力代偿到标准发力',
+				],
+			},
+			{
+				phase: '长期',
+				goal: '坚持到质变，身材明显改善',
+				items: [
+					'体型：从偏胖到匀称，体脂率下降',
+					'体能：运动耐力与爆发力显著提升',
+					'习惯：饮食与运动成为生活本能而非任务',
+					'质变：身材改善达到肉眼可见的程度',
+				],
+			},
 		],
 	},
 	{
-		phase: '中期计划',
-		goal: '坚持 30 天，观察身体指数变化',
-		items: [
-			'BMI：记录体重与身高比例变化',
-			'肌肉量：观察手臂、腿部、核心肌群围度',
-			'力气：俯卧撑、深蹲、引体向上的单次最大数量增长',
-			'动作质量：从借力代偿到标准发力',
+		name: '家务',
+		phases: [
+			{ phase: '短期', goal: '待填写', items: ['待填写'] },
+			{ phase: '中期', goal: '待填写', items: ['待填写'] },
+			{ phase: '长期', goal: '待填写', items: ['待填写'] },
 		],
 	},
 	{
-		phase: '长期计划',
-		goal: '坚持到质变，身材明显改善',
-		items: [
-			'体型：从偏胖到匀称，体脂率下降',
-			'体能：运动耐力与爆发力显著提升',
-			'习惯：饮食与运动成为生活本能而非任务',
-			'质变：身材改善达到肉眼可见的程度',
+		name: '学习',
+		phases: [
+			{ phase: '短期', goal: '待填写', items: ['待填写'] },
+			{ phase: '中期', goal: '待填写', items: ['待填写'] },
+			{ phase: '长期', goal: '待填写', items: ['待填写'] },
+		],
+	},
+	{
+		name: '娱乐',
+		phases: [
+			{ phase: '短期', goal: '待填写', items: ['待填写'] },
+			{ phase: '中期', goal: '待填写', items: ['待填写'] },
+			{ phase: '长期', goal: '待填写', items: ['待填写'] },
+		],
+	},
+	{
+		name: '工作',
+		phases: [
+			{ phase: '短期', goal: '待填写', items: ['待填写'] },
+			{ phase: '中期', goal: '待填写', items: ['待填写'] },
+			{ phase: '长期', goal: '待填写', items: ['待填写'] },
 		],
 	},
 ];
@@ -41,23 +79,30 @@ const plans = [
 <BaseLayout title="计划 - 个人主页" description="短期、中期、长期计划">
 	<article>
 		<h1>计划</h1>
-		<p>当前主题：运动</p>
+		<p>共 {themes.length} 个主题：{themes.map(t => t.name).join('、')}</p>
 
 		{
-			plans.map((plan) => (
-				<section>
-					<h2>{plan.phase}</h2>
-					<p>{plan.goal}</p>
-					<ul>
-						{plan.items.map((item) => (
-							<li>{item}</li>
-						))}
-					</ul>
+			themes.map((theme) => (
+				<section class="theme-block">
+					<h2 class="theme-title">{theme.name}</h2>
+					{theme.phases.map((plan) => (
+						<div class="phase">
+							<h3 class="phase-name">
+								<span class="phase-tag">{plan.phase}</span>
+								<span class="phase-goal">{plan.goal}</span>
+							</h3>
+							<ul>
+								{plan.items.map((item) => (
+									<li>{item}</li>
+								))}
+							</ul>
+						</div>
+					))}
 				</section>
 			))
 		}
 
-		<p><a href="/">← 返回首页</a></p>
+		<p class="back"><a href="/">← 返回首页</a></p>
 	</article>
 </BaseLayout>
 
@@ -67,17 +112,43 @@ const plans = [
 		margin-bottom: 8px;
 	}
 
-	section {
-		margin-top: 32px;
+	.theme-block {
+		margin-top: 40px;
+		padding-left: 16px;
+		border-left: 3px solid #111111;
 	}
 
-	h2 {
-		font-size: 20px;
+	.theme-title {
+		font-size: 22px;
+		font-weight: 700;
+		color: #111111;
+		margin-bottom: 16px;
+	}
+
+	.phase {
+		margin-bottom: 24px;
+	}
+
+	.phase-name {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+		font-size: 15px;
 		margin-bottom: 8px;
 	}
 
-	p {
-		margin-bottom: 12px;
+	.phase-tag {
+		flex-shrink: 0;
+		padding: 1px 8px;
+		border: 1px solid #cccccc;
+		border-radius: 2px;
+		color: #555555;
+		font-size: 12px;
+		font-weight: 600;
+	}
+
+	.phase-goal {
+		color: #444444;
 	}
 
 	ul {
@@ -85,7 +156,20 @@ const plans = [
 	}
 
 	li {
-		margin-bottom: 8px;
+		margin-bottom: 6px;
 		line-height: 1.8;
+		font-size: 14px;
+		color: #555555;
+	}
+
+	.back {
+		margin-top: 40px;
+	}
+
+	@media (max-width: 600px) {
+		.phase-name {
+			flex-direction: column;
+			gap: 4px;
+		}
 	}
 </style>
