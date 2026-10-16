@@ -35,8 +35,9 @@ const isActive = (href: string) =>
 
 <style>
 	.nav {
-		background: #ffffff;
-		border-bottom: 1px solid #e5e7eb;
+		background: rgba(255, 255, 255, 0.9);
+		backdrop-filter: blur(8px);
+		border-bottom: 1px solid var(--line);
 	}
 
 	.nav-inner {
@@ -60,19 +61,19 @@ const isActive = (href: string) =>
 	}
 
 	.nav-link {
-		color: var(--muted);
+		color: #555555;
 		font-size: 15px;
 		padding: 4px 2px;
 		border-bottom: 2px solid transparent;
 	}
 
 	.nav-link:hover {
-		color: var(--accent);
+		color: #000000;
 	}
 
 	/* 当前页对应的链接：高亮显示 */
 	.nav-link.active {
-		color: var(--accent);
-		border-bottom-color: var(--accent);
+		color: #000000;
+		border-bottom-color: #000000;
 	}
 </style>

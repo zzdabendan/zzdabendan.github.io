@@ -445,8 +445,8 @@ const timeline = [
 
 	.card {
 		background: #fff;
-		border: 1px solid #e5e7eb;
-		border-radius: 12px;
+		border: 1px solid var(--line);
+		border-radius: 4px;
 		padding: 24px;
 		margin-bottom: 24px;
 	}
@@ -455,7 +455,7 @@ const timeline = [
 		font-size: 20px;
 		margin-bottom: 16px;
 		padding-bottom: 8px;
-		border-bottom: 2px solid var(--accent);
+		border-bottom: 1px solid var(--line);
 	}
 
 	.sub-title {
@@ -492,7 +492,7 @@ const timeline = [
 	.ability-name {
 		font-size: 16px;
 		font-weight: 700;
-		color: var(--accent);
+		color: #111111;
 		min-width: 72px;
 	}
 
@@ -506,14 +506,14 @@ const timeline = [
 		width: 10px;
 		height: 10px;
 		border-radius: 50%;
-		border: 1.5px solid #c4b5fd;
+		border: 1.5px solid #bbbbbb;
 		background: transparent;
 		display: inline-block;
 	}
 
 	.dot.filled {
-		background: var(--accent);
-		border-color: var(--accent);
+		background: #111111;
+		border-color: #111111;
 	}
 
 	.ability-percent {
@@ -553,10 +553,11 @@ const timeline = [
 	.skill-tag {
 		font-size: 13px;
 		line-height: 1;
-		padding: 6px 10px;
-		border-radius: 999px;
-		background: #f5f3ff;
-		color: #5b21b6;
+		padding: 5px 10px;
+		border-radius: 2px;
+		border: 1px solid #dddddd;
+		background: #fafafa;
+		color: #444444;
 		white-space: nowrap;
 	}
 
@@ -616,9 +617,10 @@ const timeline = [
 	.tag {
 		font-size: 12px;
 		padding: 2px 8px;
-		border-radius: 4px;
-		background: #f3e8ff;
-		color: var(--accent);
+		border-radius: 2px;
+		border: 1px solid #dddddd;
+		background: #fafafa;
+		color: #555555;
 	}
 
 	.company {
@@ -639,10 +641,10 @@ const timeline = [
 
 	.stage-title {
 		font-size: 16px;
-		color: var(--accent);
+		color: #111111;
 		margin-bottom: 12px;
 		padding-left: 12px;
-		border-left: 3px solid var(--accent);
+		border-left: 3px solid #111111;
 	}
 
 	.event-list {
@@ -661,7 +663,7 @@ const timeline = [
 		content: '·';
 		position: absolute;
 		left: 0;
-		color: var(--accent);
+		color: #111111;
 		font-weight: bold;
 	}
 

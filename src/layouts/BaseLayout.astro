@@ -44,9 +44,10 @@ const { title = '我的个人主页', description = '这是我的个人主页，
 <!-- ③ 全局基础样式（is:global 表示不做作用域隔离，对所有页面生效） -->
 <style is:global>
 	:root {
-		--accent: #6d28d9; /* 主题色，改这一处就能换整站配色 */
-		--text: #1f2937;
-		--muted: #6b7280;
+		--accent: #111111; /* 朴素纸张风：主色为墨黑 */
+		--text: #333333;
+		--muted: #888888;
+		--line: #eeeeee; /* 细分隔线 */
 		--content-width: 720px; /* 默认内容宽度，宽布局页面可覆盖 */
 	}
 
@@ -60,11 +61,11 @@ const { title = '我的个人主页', description = '这是我的个人主页，
 			'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
 		color: var(--text);
 		line-height: 1.7;
-		background: #fafaf9;
+		background: #ffffff;
 	}
 
 	a {
-		color: var(--accent);
+		color: var(--text);
 		text-decoration: none;
 	}
 </style>
@@ -81,9 +82,10 @@ const { title = '我的个人主页', description = '这是我的个人主页，
 	.site-footer {
 		text-align: center;
 		color: var(--muted);
-		font-size: 14px;
-		padding: 24px 20px;
-		border-top: 1px solid #e5e7eb;
+		font-size: 13px;
+		padding: 28px 20px;
+		background: #fafafa;
+		border-top: 1px solid var(--line);
 	}
 
 	.beian {
