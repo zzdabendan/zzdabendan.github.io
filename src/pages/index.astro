@@ -26,6 +26,21 @@ const planPhases = [
 	{ phase: '中期', goal: '坚持 30 天，观察身体指数变化' },
 	{ phase: '长期', goal: '坚持到质变，身材明显改善' },
 ];
+
+// 物品页摘要
+const financeSummary = [
+	{ label: '欠款', value: '￥0' },
+	{ label: '月收入', value: '￥4100' },
+	{ label: '存款', value: '￥2331' },
+];
+const itemCategories = ['随身物品', '出行物品', '收纳物品', '家具物品'];
+
+// 知识库页摘要
+const kbArticles = [
+	{ title: 'Astro 框架基础', category: '前端' },
+	{ title: 'Git 版本管理入门', category: '工具' },
+	{ title: 'Linux 网络基础', category: '运维' },
+];
 ---
 
 <BaseLayout title="ZZ · 个人成长志" description="从历史中借智，在当下解决问题">
@@ -87,6 +102,45 @@ const planPhases = [
 				))}
 			</ul>
 			<p class="card-meta">当前主题：运动</p>
+		</a>
+
+		<!-- 物品（第二行，占一半宽） -->
+		<a href="/items" class="card card-wide">
+			<div class="card-head">
+				<span class="card-icon">物品</span>
+				<span class="card-arrow">→</span>
+			</div>
+			<dl class="card-list">
+				{financeSummary.map((item) => (
+					<div class="card-list-row">
+						<dt>{item.label}</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))}
+			</dl>
+			<div class="tag-row">
+				{itemCategories.map((c) => (
+					<span class="mini-tag">{c}</span>
+				))}
+			</div>
+			<p class="card-meta">4 类物品 · 含财务记录</p>
+		</a>
+
+		<!-- 知识库（第二行，占一半宽） -->
+		<a href="/kb" class="card card-wide">
+			<div class="card-head">
+				<span class="card-icon">知识库</span>
+				<span class="card-arrow">→</span>
+			</div>
+			<ul class="article-mini">
+				{kbArticles.map((a) => (
+					<li>
+						<span class="mini-cat">{a.category}</span>
+						<span class="article-title">{a.title}</span>
+					</li>
+				))}
+			</ul>
+			<p class="card-meta">共 5 篇文章 · 4 个分类</p>
 		</a>
 	</section>
 </BaseLayout>
@@ -159,13 +213,21 @@ const planPhases = [
 		color: #111111;
 	}
 
-	/* ===== 三栏内容：朴素文字风，无卡片框 ===== */
+	/* ===== 内容卡片：6 列网格，前 3 个各占 2 列，后 2 个各占 3 列 ===== */
 	.cards {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(6, 1fr);
 		gap: 48px;
 		padding-top: 56px;
 		padding-bottom: 24px;
+	}
+
+	.card:nth-child(-n+3) {
+		grid-column: span 2;
+	}
+
+	.card-wide {
+		grid-column: span 3;
 	}
 
 	.card {
@@ -277,6 +339,51 @@ const planPhases = [
 		border-top: 1px dashed var(--line);
 	}
 
+	/* 物品标签组 */
+	.tag-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		margin-bottom: 12px;
+	}
+
+	.mini-tag {
+		padding: 2px 8px;
+		border: 1px solid #cccccc;
+		border-radius: 2px;
+		font-size: 12px;
+		color: #555555;
+	}
+
+	/* 知识库文章小列表 */
+	.article-mini {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 12px;
+		flex-grow: 1;
+	}
+
+	.article-mini li {
+		display: flex;
+		align-items: baseline;
+		gap: 8px;
+		padding: 5px 0;
+		font-size: 14px;
+	}
+
+	.mini-cat {
+		flex-shrink: 0;
+		padding: 1px 6px;
+		border: 1px solid #dddddd;
+		border-radius: 2px;
+		font-size: 11px;
+		color: #888888;
+	}
+
+	.article-title {
+		color: #444444;
+	}
+
 	@media (max-width: 900px) {
 		.hero {
 			height: auto;
@@ -304,6 +411,11 @@ const planPhases = [
 		.cards {
 			grid-template-columns: 1fr;
 			gap: 40px;
+		}
+
+		.card:nth-child(-n+3),
+		.card-wide {
+			grid-column: span 1;
 		}
 	}
 </style>
