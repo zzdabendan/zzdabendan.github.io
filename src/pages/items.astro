@@ -49,8 +49,7 @@ const monthlyRest = totalIncome - monthlySpend; // 月结余
 // 血条按最大值定标尺
 const hpMax = Math.max(totalIncome, monthlySpend);
 const shellPct = Math.round((monthlySpend / hpMax) * 100);
-const fillPct = Math.round((Math.min(totalIncome, monthlySpend) / hpMax) * 100);
-const restPct = Math.round((Math.max(monthlyRest, 0) / hpMax) * 100);
+const restPct = 100 - shellPct;
 
 const savingTips = [
 	{ text: '晚餐自做比外卖省 600+', strong: true },
@@ -98,10 +97,10 @@ const categories = [
 			<!-- 左：全部明细 -->
 			<div class="console-detail">
 				<h3 class="console-sub">明细</h3>
-				<div class="detail-group tone-debt">
-					<h4>欠款</h4>
+				<div class="detail-group tone-spend">
+					<h4>固定花费（月 · {fixedCost.total}）</h4>
 					<ul>
-						{debtRows.map((r) => (
+						{fixedCost.items.map((r) => (
 							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 						))}
 					</ul>
@@ -114,18 +113,18 @@ const categories = [
 						))}
 					</ul>
 				</div>
-				<div class="detail-group tone-spend">
-					<h4>固定花费（月 · {fixedCost.total}）</h4>
-					<ul>
-						{fixedCost.items.map((r) => (
-							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-						))}
-					</ul>
-				</div>
 				<div class="detail-group tone-deposit">
 					<h4>存款（存量）</h4>
 					<ul>
 						{depositRows.map((r) => (
+							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+						))}
+					</ul>
+				</div>
+				<div class="detail-group tone-debt">
+					<h4>欠款</h4>
+					<ul>
+						{debtRows.map((r) => (
 							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 						))}
 					</ul>
@@ -138,13 +137,11 @@ const categories = [
 				<section class="scene">
 					<h3 class="scene-q">我的钱是什么关系？</h3>
 
-					<!-- 血条：整根=月收入（标准灰），黑边框=月花费壳，壳外=月结余（深墨） -->
+					<!-- 血条积木：左=花费（灰底纯黑描边），右=月结余（深墨），轨道留内边距与空隙 -->
 					<div class="hp">
 						<div class="hp-track">
-							<div class="hp-fill" style={`width:${fillPct + restPct}%`}>
-								<span class="hp-rest" style={`width:${(restPct / (fillPct + restPct)) * 100}%`}></span>
-								<span class="hp-shell" style={`--shell-w:${(shellPct / (fillPct + restPct)) * 100}%`}></span>
-							</div>
+							<span class="hp-block hp-block-spend" style={`width:calc(${shellPct}% - 2px)`}></span>
+							<span class="hp-block hp-block-rest" style={`width:calc(${restPct}% - 2px)`}></span>
 						</div>
 						<div class="hp-legend">
 							<span class="lg-spend"><i class="box box-spend"></i>花费 {monthlySpend}</span>
@@ -311,42 +308,32 @@ const categories = [
 		margin-bottom: 16px;
 	}
 
+	/* 轨道：浅灰槽，带内边距，积木与槽边、积木之间都有空隙 */
 	.hp-track {
-		position: relative;
-		height: 24px;
+		display: flex;
+		gap: 4px;
+		padding: 4px;
 		background: #f3f4f6;
+		border-radius: 6px;
+	}
+
+	/* 积木：统一高度与小圆角 */
+	.hp-block {
+		display: block;
+		height: 18px;
 		border-radius: 3px;
-	}
-
-	/* 填充=月收入（标准灰） */
-	.hp-fill {
-		position: relative;
-		height: 100%;
-		background: var(--c-income);
-		border-radius: 2px;
-	}
-
-	/* 超出壳的月结余（深墨，存款色） */
-	.hp-rest {
-		position: absolute;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		background: var(--c-deposit);
-	}
-
-	/* 花费壳：纯黑描边框，边界在 --shell 处 */
-	.hp-shell {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		width: var(--shell-w, 46%);
-		border: 2px solid var(--c-spend);
-		border-radius: 2px;
-		background: transparent;
 		box-sizing: border-box;
-		z-index: 2;
+	}
+
+	/* 花费积木：收入灰底 + 纯黑描边壳 */
+	.hp-block-spend {
+		background: var(--c-income);
+		border: 2px solid var(--c-spend);
+	}
+
+	/* 结余积木：深墨实心（存款色） */
+	.hp-block-rest {
+		background: var(--c-deposit);
 	}
 
 	.hp-legend {

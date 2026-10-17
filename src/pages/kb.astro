@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoBili from '../components/VideoBili.astro';
 
 // 知识库文章数据：每篇含 id、标题、分类、HTML 内容
 const articles = [
@@ -7,6 +8,7 @@ const articles = [
 		id: 'astro-basics',
 		title: 'Astro 框架基础',
 		category: '前端',
+		video: 'BV1GJ411x7h7', // 示例：换成你的 B 站视频 BV 号即可；不需要视频的文章删掉此行
 		summary: 'Astro 是现代静态站点生成器，适合博客、文档和个人主页。',
 		content: `
 <h2>什么是 Astro</h2>
@@ -189,6 +191,7 @@ const articles = [
 		<main class="kb-content" id="kb-content">
 			{articles.map((article) => (
 				<div class="article-content" data-id={article.id} style={article.id !== articles[0].id ? 'display:none' : 'display:block'}>
+					{article.video && <VideoBili bvid={article.video} title={article.title} />}
 					<h1 class="article-h1">{article.title}</h1>
 					<p class="article-summary">{article.summary}</p>
 					<div class="article-body" set:html={article.content} />
@@ -215,6 +218,8 @@ const articles = [
 				const content = el as HTMLElement;
 				content.style.display = content.dataset.id === id ? 'block' : 'none';
 			});
+			// 隐藏文章里已加载的视频还原为封面，避免后台继续播放
+			window.dispatchEvent(new Event('bili:refresh'));
 			// 切换按钮高亮
 			buttons.forEach((btn) => {
 				btn.classList.toggle('active', (btn as HTMLElement).dataset.id === id);

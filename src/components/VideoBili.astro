@@ -1,0 +1,175 @@
+---
+// B 站视频 Facade 组件：默认只显示封面占位，点击后才加载 iframe
+// 用法：<VideoBili bvid="BV1xx411c7mD" title="视频标题" cover="/images/xx.jpg" />
+interface Props {
+	bvid: string;
+	title?: string;
+	cover?: string;
+}
+const { bvid, title = '哔哩哔哩视频', cover } = Astro.props;
+---
+
+<div
+	class="bili-facade"
+	data-bvid={bvid}
+	role="button"
+	tabindex="0"
+	aria-label={`播放视频：${title}`}
+>
+	{
+		cover ? (
+			<img class="bili-cover" src={cover} alt={title} loading="lazy" />
+		) : (
+			<div class="bili-placeholder" aria-hidden="true">
+				<svg class="bili-watermark" viewBox="0 0 24 24"><path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-4l3 3v1H5v-1l3-3H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm1 2v9h14V6H5zm3 2l5 2.5L8 13V8z" fill="currentColor"/></svg>
+			</div>
+		)
+	}
+	<span class="bili-badge">B站</span>
+	<span class="bili-play" aria-hidden="true">
+		<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+	</span>
+	<span class="bili-title">{title}</span>
+</div>
+
+<script>
+	// 点击封面才真正创建 iframe（Facade 模式，避免打开页面就连 B 站）
+	function loadVideo(el: HTMLElement) {
+		if (el.classList.contains('is-loaded')) return;
+		const bvid = el.dataset.bvid!;
+		el.dataset.facadeHtml = el.innerHTML;
+		const iframe = document.createElement('iframe');
+		iframe.src = `https://player.bilibili.com/player.html?bvid=${bvid}&autoplay=1&high_quality=1&danmaku=0`;
+		iframe.scrolling = 'no';
+		iframe.frameBorder = '0';
+		iframe.allowFullscreen = true;
+		iframe.setAttribute('allow', 'fullscreen; autoplay; encrypted-media; picture-in-picture');
+		iframe.title = '哔哩哔哩视频播放器';
+		el.innerHTML = '';
+		el.appendChild(iframe);
+		el.classList.add('is-loaded');
+		el.removeAttribute('role');
+	}
+
+	// 文章切换时，隐藏区块里已加载的视频还原为封面（停止播放/声音）
+	function unloadHidden() {
+		document.querySelectorAll<HTMLElement>('.bili-facade.is-loaded').forEach((el) => {
+			// 祖先 display:none 时自身 computed display 仍是 block，用 getClientRects 判定
+			if (el.getClientRects().length === 0 && el.dataset.facadeHtml) {
+				el.innerHTML = el.dataset.facadeHtml;
+				el.classList.remove('is-loaded');
+				el.setAttribute('role', 'button');
+			}
+		});
+	}
+
+	document.addEventListener('click', (e) => {
+		const el = (e.target as HTMLElement).closest<HTMLElement>('.bili-facade');
+		if (el) loadVideo(el);
+	});
+	document.addEventListener('keydown', (e) => {
+		if (e.key !== 'Enter' && e.key !== ' ') return;
+		const el = (e.target as HTMLElement).closest<HTMLElement>('.bili-facade');
+		if (el) {
+			e.preventDefault();
+			loadVideo(el);
+		}
+	});
+	window.addEventListener('bili:refresh', unloadHidden);
+</script>
+
+<style>
+	.bili-facade {
+		position: relative;
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		margin-bottom: 20px;
+		background: #f3f4f6;
+		border: 1px solid #e5e7eb;
+		border-radius: 4px;
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	.bili-facade:hover .bili-play {
+		transform: translate(-50%, -50%) scale(1.08);
+	}
+
+	.bili-cover {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.bili-placeholder {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #d4d4d4;
+	}
+
+	.bili-watermark {
+		width: 56px;
+		height: 56px;
+	}
+
+	.bili-badge {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		padding: 2px 8px;
+		font-size: 11px;
+		letter-spacing: 1px;
+		color: #ffffff;
+		background: #111111;
+		border-radius: 2px;
+	}
+
+	.bili-play {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 56px;
+		height: 56px;
+		background: rgba(17, 17, 17, 0.82);
+		border-radius: 50%;
+		transition: transform 0.15s;
+	}
+
+	.bili-play svg {
+		width: 24px;
+		height: 24px;
+		margin-left: 3px;
+		color: #ffffff;
+	}
+
+	.bili-title {
+		position: absolute;
+		left: 12px;
+		right: 12px;
+		bottom: 10px;
+		font-size: 13px;
+		color: #555555;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	/* iframe 由脚本动态创建，需要 :global 才能命中 */
+	.bili-facade :global(iframe) {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+</style>
