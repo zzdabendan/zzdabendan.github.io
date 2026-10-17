@@ -1,52 +1,57 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// 财务（金额单位：元，无金额的记为 null）
-const finance = [
-	{
-		name: '欠款',
-		icon: '欠',
-		rows: [
-			{ label: '花呗', value: 0 },
-			{ label: '白条', value: 0 },
-		],
-	},
-	{
-		name: '收入',
-		icon: '收',
-		rows: [
-			{ label: '工资收入', value: 4100 },
-			{ label: '兼职收入', value: 0 },
-		],
-	},
-	{
-		name: '花费',
-		icon: '花',
-		rows: [
-			{ label: '房租花费', value: 600 },
-			{ label: '水电', value: 200 },
-			{ label: '话费', value: 39 },
-			{ label: '网费', value: 99 },
-			{ label: '饮食', value: null },
-			{ label: '外卖', value: null },
-			{ label: '充电', value: null },
-			{ label: '网购', value: null },
-		],
-	},
-	{
-		name: '存款',
-		icon: '存',
-		rows: [
-			{ label: '江西银行', value: 331 },
-			{ label: '建设银行', value: 0 },
-			{ label: '工商银行', value: 0 },
-			{ label: '招商银行', value: 0 },
-			{ label: '农商银行', value: 0 },
-			{ label: '支付宝', value: 0 },
-			{ label: '微信', value: 0 },
-			{ label: '定期', value: 2000 },
-		],
-	},
+// 财务明细（金额单位：元）
+const debtRows = [
+	{ label: '花呗', value: 0 },
+	{ label: '白条', value: 0 },
+];
+const incomeRows = [
+	{ label: '工资收入', value: 4100 },
+	{ label: '兼职收入', value: 0 },
+];
+const depositRows = [
+	{ label: '江西银行', value: 331 },
+	{ label: '建设银行', value: 0 },
+	{ label: '工商银行', value: 0 },
+	{ label: '招商银行', value: 0 },
+	{ label: '农商银行', value: 0 },
+	{ label: '支付宝', value: 0 },
+	{ label: '微信', value: 0 },
+	{ label: '定期', value: 2000 },
+];
+
+// 花费分析（横条宽度按 2852 为满幅计算百分比）
+const fixedCost = {
+	total: 962,
+	items: [
+		{ label: '房租', value: 600 },
+		{ label: '水电', value: 224 },
+		{ label: '话费', value: 39 },
+		{ label: '宽带', value: 99 },
+	],
+};
+
+// KPI 仪表数字（自动合计，改明细数字即联动）
+const kpis = [
+	{ label: '欠款', value: debtRows.reduce((s, r) => s + r.value, 0) },
+	{ label: '月收入', value: incomeRows.reduce((s, r) => s + r.value, 0) },
+	{ label: '月固定', value: fixedCost.total },
+	{ label: '存款', value: depositRows.reduce((s, r) => s + r.value, 0) },
+];
+
+const mealPlans = [
+	{ tag: '最省', amount: 1892, note: '早包子·午外卖·晚自做', best: true },
+	{ tag: '常见', amount: 1952, note: '同上（晚自做8元档）', best: false },
+	{ tag: '早外卖', amount: 2252, note: '', best: false },
+	{ tag: '晚外卖', amount: 2552, note: '', best: false },
+	{ tag: '全外卖', amount: 2852, note: '', best: false },
+];
+
+const savingTips = [
+	{ text: '晚餐自做比外卖省 600+', strong: true },
+	{ text: '早餐包子替代外卖省 300', strong: false },
+	{ text: '宽带话费融合省 40~80', strong: false },
 ];
 
 // 物品分类（装备→随身、出行→出行、仓库→收纳、家具→区域）
@@ -77,31 +82,82 @@ const categories = [
 <BaseLayout title="物品 - 个人主页" description="我的财务状况与物品清单">
 	<h1>物品</h1>
 
-	<!-- 财务 -->
-	<section class="finance-card">
+	<!-- 财务控制台 -->
+	<section class="console-card">
 		<div class="block-head">
 			<span class="block-icon">财</span>
 			<h2>财务</h2>
 		</div>
-		<div class="finance-grid">
-			{finance.map((f) => (
-				<div class="finance-group">
-					<h3>
-						<span class="finance-icon">{f.icon}</span>
-						{f.name}
-					</h3>
-					<ul class="finance-list">
-						{f.rows.map((r) => (
-							<li>
-								<span class="finance-label">{r.label}</span>
-								<span class:list={['finance-value', { empty: r.value === null }]}>
-									{r.value === null ? '—' : r.value}
-								</span>
-							</li>
+
+		<!-- KPI 仪表行 -->
+		<div class="kpi-row">
+			{kpis.map((k) => (
+				<div class="kpi">
+					<span class="kpi-value">{k.value}</span>
+					<span class="kpi-label">{k.label}</span>
+				</div>
+			))}
+		</div>
+
+		<!-- 左右两栏 -->
+		<div class="console-body">
+			<!-- 左：明细 -->
+			<div class="console-detail">
+				<h3 class="console-sub">明细</h3>
+				<div class="detail-group">
+					<h4>欠款</h4>
+					<ul>
+						{debtRows.map((r) => (
+							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 						))}
 					</ul>
 				</div>
-			))}
+				<div class="detail-group">
+					<h4>收入</h4>
+					<ul>
+						{incomeRows.map((r) => (
+							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+						))}
+					</ul>
+				</div>
+				<div class="detail-group">
+					<h4>存款</h4>
+					<ul>
+						{depositRows.map((r) => (
+							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+						))}
+					</ul>
+				</div>
+			</div>
+
+			<!-- 右：花费分析 -->
+			<div class="console-analysis">
+				<h3 class="console-sub">花费分析</h3>
+				<p class="spend-fixed">
+					{fixedCost.items.map((i) => `${i.label}${i.value}`).join(' · ')}
+				</p>
+
+				<h4 class="spend-sub">三餐方案对比（月）</h4>
+				<ul class="spend-bars">
+					{mealPlans.map((p) => (
+						<li class:list={['spend-bar-row', { best: p.best }]}>
+							<span class="spend-tag">{p.tag}</span>
+							<span class="spend-track">
+								<span class="spend-fill" style={`width:${Math.round((p.amount / 2852) * 100)}%`}></span>
+							</span>
+							<span class="spend-amount">{p.amount}</span>
+							{p.note && <span class="spend-note">{p.note}</span>}
+						</li>
+					))}
+				</ul>
+
+				<h4 class="spend-sub">怎么省</h4>
+				<ul class="spend-tips">
+					{savingTips.map((t) => (
+						<li class:list={{ strong: t.strong }}>{t.text}</li>
+					))}
+				</ul>
+			</div>
 		</div>
 	</section>
 
@@ -153,8 +209,8 @@ const categories = [
 		font-weight: 700;
 	}
 
-	/* 财务 */
-	.finance-card {
+	/* 财务控制台 */
+	.console-card {
 		background: #fff;
 		border: 1px solid #e5e7eb;
 		border-radius: 4px;
@@ -162,67 +218,184 @@ const categories = [
 		margin-bottom: 32px;
 	}
 
-	.finance-grid {
+	/* KPI 仪表行 */
+	.kpi-row {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 20px;
-	}
-
-	.finance-group {
+		grid-template-columns: repeat(4, 1fr);
 		border: 1px solid #f3f4f6;
-		border-radius: 10px;
-		padding: 16px;
-		background: #fcfcfd;
+		border-radius: 4px;
+		background: #f9fafb;
+		margin-bottom: 20px;
 	}
 
-	.finance-group h3 {
+	.kpi {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		gap: 8px;
-		font-size: 15px;
+		padding: 14px 8px;
+		gap: 2px;
+	}
+
+	.kpi + .kpi {
+		border-left: 1px solid #e5e7eb;
+	}
+
+	.kpi-value {
+		font-size: 22px;
+		font-weight: 700;
+		color: #111111;
+		font-variant-numeric: tabular-nums;
+		line-height: 1.2;
+	}
+
+	.kpi-label {
+		font-size: 12px;
+		color: var(--muted);
+	}
+
+	/* 左右两栏 */
+	.console-body {
+		display: grid;
+		grid-template-columns: 1fr 1.4fr;
+		gap: 28px;
+	}
+
+	.console-sub {
+		font-size: 14px;
+		font-weight: 700;
+		color: #111111;
 		margin-bottom: 12px;
 		padding-bottom: 8px;
 		border-bottom: 1px dashed #e5e7eb;
 	}
 
-	.finance-icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 22px;
-		height: 22px;
-		border-radius: 6px;
-		background: #f3f3f3;
-		color: #333333;
-		font-size: 12px;
-		font-weight: 700;
+	.detail-group {
+		margin-bottom: 16px;
 	}
 
-	.finance-list {
+	.detail-group h4 {
+		font-size: 13px;
+		color: var(--muted);
+		margin-bottom: 4px;
+	}
+
+	.detail-group ul {
 		list-style: none;
 		padding: 0;
 		margin: 0;
 	}
 
-	.finance-list li {
+	.detail-group li {
 		display: flex;
 		justify-content: space-between;
 		font-size: 14px;
 		line-height: 2;
 	}
 
-	.finance-label {
-		color: var(--muted);
+	.detail-group li span:first-child {
+		color: #555555;
 	}
 
-	.finance-value {
+	.detail-group .num {
 		font-weight: 600;
+		color: #333333;
 		font-variant-numeric: tabular-nums;
 	}
 
-	.finance-value.empty {
-		color: #c4c4c4;
-		font-weight: 400;
+	/* 花费分析 */
+	.spend-fixed {
+		font-size: 13px;
+		color: var(--muted);
+		margin-bottom: 16px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.spend-sub {
+		font-size: 14px;
+		color: #333333;
+		margin-bottom: 10px;
+	}
+
+	.spend-bars {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.spend-bar-row {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 13px;
+	}
+
+	.spend-tag {
+		flex-shrink: 0;
+		width: 52px;
+		color: var(--muted);
+	}
+
+	.spend-track {
+		flex-grow: 1;
+		height: 10px;
+		background: #f3f4f6;
+		border-radius: 2px;
+		overflow: hidden;
+	}
+
+	.spend-fill {
+		display: block;
+		height: 100%;
+		background: #c9c9c9;
+		border-radius: 2px;
+	}
+
+	.spend-bar-row.best .spend-tag {
+		color: #111111;
+		font-weight: 700;
+	}
+
+	.spend-bar-row.best .spend-fill {
+		background: #111111;
+	}
+
+	.spend-amount {
+		flex-shrink: 0;
+		width: 44px;
+		text-align: right;
+		color: #444444;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.spend-bar-row.best .spend-amount {
+		color: #111111;
+		font-weight: 700;
+	}
+
+	.spend-note {
+		flex-shrink: 0;
+		font-size: 12px;
+		color: var(--muted);
+	}
+
+	.spend-tips {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.spend-tips li {
+		font-size: 14px;
+		color: #555555;
+		line-height: 1.9;
+	}
+
+	.spend-tips li.strong {
+		color: #111111;
+		font-weight: 600;
 	}
 
 	/* 物品分类 */
@@ -293,8 +466,20 @@ const categories = [
 		background: #fafbfc;
 	}
 
-	@media (max-width: 600px) {
-		.finance-grid {
+	@media (max-width: 700px) {
+		.kpi-row {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.kpi:nth-child(3) {
+			border-left: none;
+		}
+
+		.kpi:nth-child(n + 3) {
+			border-top: 1px solid #e5e7eb;
+		}
+
+		.console-body {
 			grid-template-columns: 1fr;
 		}
 	}
