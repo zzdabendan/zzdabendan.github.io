@@ -417,19 +417,19 @@ const timeline = [
 				timeline.map((group) => (
 					<div class="timeline-group">
 						<h3 class="stage-title">{group.stage}</h3>
-						{group.years.map((y, i) => (
-					<details class="year-details" open={i === 0}>
-						<summary class="year-title">{y.year}</summary>
-						<ul class="month-list">
-							{y.months.map((m) => (
-								<li>
-									{m.month && <span class="month-label">{m.month}</span>}
-									{m.events && <span class="month-events">{m.events}</span>}
-								</li>
-							))}
-						</ul>
-					</details>
-				))}
+						{group.years.map((y) => (
+							<div class="year-block">
+								<h4 class="year-title">{y.year}</h4>
+								<ul class="month-list">
+									{y.months.map((m) => (
+										<li>
+											{m.month && <span class="month-label">{m.month}</span>}
+											{m.events && <span class="month-events">{m.events}</span>}
+										</li>
+									))}
+								</ul>
+							</div>
+						))}
 					</div>
 				))
 			}
@@ -656,51 +656,40 @@ const timeline = [
 		display: inline-block;
 	}
 
-	/* 年份折叠面板 */
-	.year-details {
-		margin-bottom: 8px;
+	/* 四级标题：年份，细线区分 */
+	.year-block {
+		margin-bottom: 16px;
 	}
 
-	.year-details summary {
-		font-size: 15px;
+	.year-title {
+		font-size: 14px;
 		font-weight: 600;
 		color: var(--text);
-		line-height: 1.9;
-		cursor: pointer;
-		user-select: none;
-		list-style: none;
-		padding-left: 20px;
-		position: relative;
-	}
-
-	.year-details summary::before {
-		content: '▸';
-		position: absolute;
-		left: 0;
-		color: #9ca3af;
-		transition: transform 0.15s;
-	}
-
-	.year-details[open] summary::before {
-		transform: rotate(90deg);
-	}
-
-	.year-details summary::-webkit-details-marker {
-		display: none;
+		margin: 0 0 8px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #e5e7eb;
 	}
 
 	/* 月份列表 */
 	.month-list {
 		list-style: none;
-		padding-left: 20px;
-		margin: 8px 0 0;
+		padding-left: 0;
+		margin: 0;
 	}
 
 	.month-list li {
 		font-size: 15px;
 		line-height: 1.9;
 		color: var(--text);
+		padding-bottom: 4px;
 		margin-bottom: 4px;
+		border-bottom: 1px solid #f3f4f6;
+	}
+
+	.month-list li:last-child {
+		border-bottom: none;
+		margin-bottom: 0;
+		padding-bottom: 0;
 	}
 
 	.month-label {

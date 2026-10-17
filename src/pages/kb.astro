@@ -108,6 +108,9 @@ const articles = [
 <h3>三级标题</h3>
 <p>用 <code>&lt;h3&gt;</code> 划分章节内的小节，带浅灰圆角背景。连续两个三级标题之间至少要有一段正文。</p>
 <div class="demo"><div class="demo-h3">小节标题示例</div></div>
+<h3>四级标题</h3>
+<p>用 <code>&lt;h4&gt;</code> 划分小节内的子项，下方带一条细灰线，字号小于三级标题。</p>
+<div class="demo"><div class="demo-h4">子项标题示例</div></div>
 
 <h2>字体</h2>
 <p>本站全局使用思源黑体作为默认字体，标题、正文、列表、代码均统一。提供三种字体供选用。</p>
@@ -395,23 +398,25 @@ const articles = [
 			// 生成目录
 			const active = document.querySelector(`.article-content[data-id="${id}"]`) as HTMLElement;
 			if (!active) return;
-			const headings = active.querySelectorAll('h2, h3');
-			tocList.innerHTML = '';
-			headings.forEach((h, i) => {
-				const heading = h as HTMLElement;
-				heading.id = `heading-${i}`;
-				const li = document.createElement('li');
-				const a = document.createElement('a');
-				a.href = `#heading-${i}`;
-				a.textContent = heading.textContent;
-				a.className = heading.tagName === 'H3' ? 'toc-h3' : 'toc-h2';
-				a.addEventListener('click', (e) => {
-					e.preventDefault();
-					heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-				});
-				li.appendChild(a);
-				tocList.appendChild(li);
+			const headings = active.querySelectorAll('h2, h3, h4');
+		tocList.innerHTML = '';
+		headings.forEach((h, i) => {
+			const heading = h as HTMLElement;
+			heading.id = `heading-${i}`;
+			const li = document.createElement('li');
+			const a = document.createElement('a');
+			a.href = `#heading-${i}`;
+			a.textContent = heading.textContent;
+			if (heading.tagName === 'H4') a.className = 'toc-h4';
+			else if (heading.tagName === 'H3') a.className = 'toc-h3';
+			else a.className = 'toc-h2';
+			a.addEventListener('click', (e) => {
+				e.preventDefault();
+				heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
 			});
+			li.appendChild(a);
+			tocList.appendChild(li);
+		});
 		}
 
 		buttons.forEach((btn) => {
@@ -536,6 +541,15 @@ const articles = [
 		color: var(--text);
 	}
 
+	.article-body :global(h4) {
+		font-size: 14px;
+		font-weight: 600;
+		margin: 16px 0 6px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #e5e7eb;
+		color: var(--text);
+	}
+
 	.article-body :global(p) {
 		font-size: 15px;
 		line-height: 1.9;
@@ -603,6 +617,14 @@ const articles = [
 		background: #d1d5db;
 		border-radius: 4px;
 		display: inline-block;
+	}
+
+	.article-body :global(.demo-h4) {
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--text);
+		padding-bottom: 4px;
+		border-bottom: 1px solid #e5e7eb;
 	}
 
 	.article-body :global(.demo-p) {
@@ -732,6 +754,12 @@ const articles = [
 	.toc-list a.toc-h3 {
 		padding-left: 24px;
 		font-size: 12px;
+	}
+
+	.toc-list a.toc-h4 {
+		padding-left: 36px;
+		font-size: 12px;
+		color: #aaa;
 	}
 
 	/* 响应式 */
