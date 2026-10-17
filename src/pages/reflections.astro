@@ -287,7 +287,7 @@ const reflections = [
 
 <BaseLayout title="我的感悟 - 个人主页" description="生活中的个人感悟与每日记录">
 	<article class="reflections-page">
-		<h1>我的感悟</h1>
+		<h1>感悟</h1>
 		<p class="intro">记录生活中的点滴感悟，向前走。</p>
 
 		{
@@ -350,6 +350,9 @@ const reflections = [
 
 	.records {
 		margin-bottom: 16px;
+		background: #f3f4f6;
+		border-radius: 4px;
+		padding: 10px 14px;
 	}
 
 	.record-line {
@@ -357,6 +360,10 @@ const reflections = [
 		line-height: 1.9;
 		color: var(--text);
 		margin-bottom: 4px;
+	}
+
+	.record-line:last-child {
+		margin-bottom: 0;
 	}
 
 	/* 三级标题：固定记录/今日感悟，和知识库 h3 一致 */
@@ -396,11 +403,6 @@ const reflections = [
 	@media (max-width: 600px) {
 		.entry {
 			padding: 16px;
-		}
-
-		.record-row {
-			flex-direction: column;
-			gap: 2px;
 		}
 	}
 </style>

@@ -269,23 +269,6 @@ const categories = [
 		--c-debt: #999999;
 	}
 
-	/* 明细组：标题色 + 左边框色随语义 */
-	.detail-group.tone-spend h4 { color: var(--c-spend); }
-	.detail-group.tone-income h4 { color: var(--c-income); }
-	.detail-group.tone-deposit h4 { color: var(--c-deposit); }
-	.detail-group.tone-debt h4 { color: var(--c-debt); }
-
-	.detail-group.tone-spend { border-left: 3px solid var(--c-spend); padding-left: 10px; }
-	.detail-group.tone-income { border-left: 3px solid var(--c-income); padding-left: 10px; }
-	.detail-group.tone-deposit { border-left: 3px solid var(--c-deposit); padding-left: 10px; }
-	.detail-group.tone-debt { border-left: 3px solid var(--c-debt); padding-left: 10px; }
-
-	.detail-group .num { font-weight: 600; }
-	.tone-spend .num { color: var(--c-spend); }
-	.tone-income .num { color: var(--c-income); }
-	.tone-deposit .num { color: var(--c-deposit); }
-	.tone-debt .num { color: var(--c-debt); }
-
 	/* 财务血条 */
 	.hp {
 		margin-bottom: 16px;
@@ -389,8 +372,11 @@ const categories = [
 	}
 
 	.detail-group h4 {
-		font-size: 13px;
-		margin-bottom: 4px;
+		font-size: 14px;
+		font-weight: 600;
+		margin-bottom: 8px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
 	}
 
 	.detail-group ul {
@@ -411,6 +397,7 @@ const categories = [
 	}
 
 	.detail-group .num {
+		font-weight: 600;
 		font-variant-numeric: tabular-nums;
 	}
 
