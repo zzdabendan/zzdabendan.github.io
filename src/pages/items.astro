@@ -32,14 +32,6 @@ const fixedCost = {
 	],
 };
 
-// KPI 仪表数字（自动合计，改明细数字即联动）
-const kpis = [
-	{ label: '欠款', value: debtRows.reduce((s, r) => s + r.value, 0) },
-	{ label: '月收入', value: incomeRows.reduce((s, r) => s + r.value, 0) },
-	{ label: '月固定', value: fixedCost.total },
-	{ label: '存款', value: depositRows.reduce((s, r) => s + r.value, 0) },
-];
-
 const mealPlans = [
 	{ tag: '最省', amount: 1892, note: '早包子·午外卖·晚自做', best: true },
 	{ tag: '常见', amount: 1952, note: '同上（晚自做8元档）', best: false },
@@ -47,6 +39,18 @@ const mealPlans = [
 	{ tag: '晚外卖', amount: 2552, note: '', best: false },
 	{ tag: '全外卖', amount: 2852, note: '', best: false },
 ];
+
+// 场景1：财务血条（壳=月花费，填充=月收入，超出=月结余，缺口=欠款）
+const totalDebt = debtRows.reduce((s, r) => s + r.value, 0);
+const totalIncome = incomeRows.reduce((s, r) => s + r.value, 0);
+const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
+const monthlySpend = mealPlans[0].amount; // 以最省组合为壳
+const monthlyRest = totalIncome - monthlySpend; // 月结余
+// 血条按最大值定标尺
+const hpMax = Math.max(totalIncome, monthlySpend);
+const shellPct = Math.round((monthlySpend / hpMax) * 100);
+const fillPct = Math.round((Math.min(totalIncome, monthlySpend) / hpMax) * 100);
+const restPct = Math.round((Math.max(monthlyRest, 0) / hpMax) * 100);
 
 const savingTips = [
 	{ text: '晚餐自做比外卖省 600+', strong: true },
@@ -89,22 +93,12 @@ const categories = [
 			<h2>财务</h2>
 		</div>
 
-		<!-- KPI 仪表行 -->
-		<div class="kpi-row">
-			{kpis.map((k) => (
-				<div class="kpi">
-					<span class="kpi-value">{k.value}</span>
-					<span class="kpi-label">{k.label}</span>
-				</div>
-			))}
-		</div>
-
-		<!-- 左右两栏 -->
+		<!-- 左右两栏：左明细，右场景 -->
 		<div class="console-body">
-			<!-- 左：明细 -->
+			<!-- 左：全部明细 -->
 			<div class="console-detail">
 				<h3 class="console-sub">明细</h3>
-				<div class="detail-group">
+				<div class="detail-group tone-debt">
 					<h4>欠款</h4>
 					<ul>
 						{debtRows.map((r) => (
@@ -112,16 +106,24 @@ const categories = [
 						))}
 					</ul>
 				</div>
-				<div class="detail-group">
-					<h4>收入</h4>
+				<div class="detail-group tone-income">
+					<h4>收入（月）</h4>
 					<ul>
 						{incomeRows.map((r) => (
 							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 						))}
 					</ul>
 				</div>
-				<div class="detail-group">
-					<h4>存款</h4>
+				<div class="detail-group tone-spend">
+					<h4>固定花费（月 · {fixedCost.total}）</h4>
+					<ul>
+						{fixedCost.items.map((r) => (
+							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+						))}
+					</ul>
+				</div>
+				<div class="detail-group tone-deposit">
+					<h4>存款（存量）</h4>
 					<ul>
 						{depositRows.map((r) => (
 							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
@@ -130,33 +132,58 @@ const categories = [
 				</div>
 			</div>
 
-			<!-- 右：花费分析 -->
+			<!-- 右：场景问答 -->
 			<div class="console-analysis">
-				<h3 class="console-sub">花费分析</h3>
-				<p class="spend-fixed">
-					{fixedCost.items.map((i) => `${i.label}${i.value}`).join(' · ')}
-				</p>
+				<!-- 场景1：财务血条 -->
+				<section class="scene">
+					<h3 class="scene-q">我的钱是什么关系？</h3>
 
-				<h4 class="spend-sub">三餐方案对比（月）</h4>
-				<ul class="spend-bars">
-					{mealPlans.map((p) => (
-						<li class:list={['spend-bar-row', { best: p.best }]}>
-							<span class="spend-tag">{p.tag}</span>
-							<span class="spend-track">
-								<span class="spend-fill" style={`width:${Math.round((p.amount / 2852) * 100)}%`}></span>
-							</span>
-							<span class="spend-amount">{p.amount}</span>
-							{p.note && <span class="spend-note">{p.note}</span>}
-						</li>
-					))}
-				</ul>
+					<!-- 血条：整根=月收入（标准灰），黑边框=月花费壳，壳外=月结余（深墨） -->
+					<div class="hp">
+						<div class="hp-track">
+							<div class="hp-fill" style={`width:${fillPct + restPct}%`}>
+								<span class="hp-rest" style={`width:${(restPct / (fillPct + restPct)) * 100}%`}></span>
+								<span class="hp-shell" style={`--shell-w:${(shellPct / (fillPct + restPct)) * 100}%`}></span>
+							</div>
+						</div>
+						<div class="hp-legend">
+							<span class="lg-spend"><i class="box box-spend"></i>花费 {monthlySpend}</span>
+							<span class="lg-income"><i class="box box-income"></i>收入 {totalIncome}</span>
+							<span class="lg-deposit"><i class="box box-deposit"></i>月结余 {monthlyRest}</span>
+						</div>
+					</div>
 
-				<h4 class="spend-sub">怎么省</h4>
-				<ul class="spend-tips">
-					{savingTips.map((t) => (
-						<li class:list={{ strong: t.strong }}>{t.text}</li>
-					))}
-				</ul>
+					<ul class="scene-answers">
+						<li class="tone-spend">我有多少花费？<b>{monthlySpend}/月</b><small>（最省组合，全外卖则 2852）</small></li>
+						<li class="tone-income">我有多少收入？<b>{totalIncome}/月</b></li>
+						<li class="tone-deposit">我有多少存款？<b>{totalDeposit}</b><small>（存量，月增 {monthlyRest}）</small></li>
+						<li class="tone-debt">我有多少欠款？<b class={totalDebt === 0 ? 'zero' : ''}>{totalDebt}</b></li>
+					</ul>
+				</section>
+
+				<!-- 场景2：三餐方案 -->
+				<section class="scene">
+					<h3 class="scene-q">三餐怎么吃最省？</h3>
+					<ul class="spend-bars">
+						{mealPlans.map((p) => (
+							<li class:list={['spend-bar-row', { best: p.best }]}>
+								<span class="spend-tag">{p.tag}</span>
+								<span class="spend-track">
+									<span class="spend-fill" style={`width:${Math.round((p.amount / 2852) * 100)}%`}></span>
+								</span>
+								<span class="spend-amount">{p.amount}</span>
+								{p.note && <span class="spend-note">{p.note}</span>}
+							</li>
+						))}
+					</ul>
+
+					<h4 class="spend-sub">怎么省</h4>
+					<ul class="spend-tips">
+						{savingTips.map((t) => (
+							<li class:list={{ strong: t.strong }}>{t.text}</li>
+						))}
+					</ul>
+				</section>
 			</div>
 		</div>
 	</section>
@@ -218,42 +245,7 @@ const categories = [
 		margin-bottom: 32px;
 	}
 
-	/* KPI 仪表行 */
-	.kpi-row {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		border: 1px solid #f3f4f6;
-		border-radius: 4px;
-		background: #f9fafb;
-		margin-bottom: 20px;
-	}
-
-	.kpi {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 14px 8px;
-		gap: 2px;
-	}
-
-	.kpi + .kpi {
-		border-left: 1px solid #e5e7eb;
-	}
-
-	.kpi-value {
-		font-size: 22px;
-		font-weight: 700;
-		color: #111111;
-		font-variant-numeric: tabular-nums;
-		line-height: 1.2;
-	}
-
-	.kpi-label {
-		font-size: 12px;
-		color: var(--muted);
-	}
-
-	/* 左右两栏 */
+	/* 左右两栏：明细 + 场景 */
 	.console-body {
 		display: grid;
 		grid-template-columns: 1fr 1.4fr;
@@ -269,13 +261,165 @@ const categories = [
 		border-bottom: 1px dashed #e5e7eb;
 	}
 
+	/* 场景问答 */
+	.scene {
+		padding-bottom: 20px;
+		margin-bottom: 20px;
+		border-bottom: 1px dashed #e5e7eb;
+	}
+
+	.scene:last-child {
+		border-bottom: none;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+
+	.scene-q {
+		font-size: 15px;
+		font-weight: 700;
+		color: #111111;
+		margin-bottom: 14px;
+	}
+
+	/* ===== 4 级语义灰阶：花费纯黑 / 收入标准灰 / 存款深墨 / 欠款浅墨 ===== */
+	:root {
+		--c-spend: #111111;
+		--c-income: #666666;
+		--c-deposit: #333333;
+		--c-debt: #999999;
+	}
+
+	/* 明细组：标题色 + 左边框色随语义 */
+	.detail-group.tone-spend h4 { color: var(--c-spend); }
+	.detail-group.tone-income h4 { color: var(--c-income); }
+	.detail-group.tone-deposit h4 { color: var(--c-deposit); }
+	.detail-group.tone-debt h4 { color: var(--c-debt); }
+
+	.detail-group.tone-spend { border-left: 3px solid var(--c-spend); padding-left: 10px; }
+	.detail-group.tone-income { border-left: 3px solid var(--c-income); padding-left: 10px; }
+	.detail-group.tone-deposit { border-left: 3px solid var(--c-deposit); padding-left: 10px; }
+	.detail-group.tone-debt { border-left: 3px solid var(--c-debt); padding-left: 10px; }
+
+	.detail-group .num { font-weight: 600; }
+	.tone-spend .num { color: var(--c-spend); }
+	.tone-income .num { color: var(--c-income); }
+	.tone-deposit .num { color: var(--c-deposit); }
+	.tone-debt .num { color: var(--c-debt); }
+
+	/* 财务血条 */
+	.hp {
+		margin-bottom: 16px;
+	}
+
+	.hp-track {
+		position: relative;
+		height: 24px;
+		background: #f3f4f6;
+		border-radius: 3px;
+	}
+
+	/* 填充=月收入（标准灰） */
+	.hp-fill {
+		position: relative;
+		height: 100%;
+		background: var(--c-income);
+		border-radius: 2px;
+	}
+
+	/* 超出壳的月结余（深墨，存款色） */
+	.hp-rest {
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background: var(--c-deposit);
+	}
+
+	/* 花费壳：纯黑描边框，边界在 --shell 处 */
+	.hp-shell {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: var(--shell-w, 46%);
+		border: 2px solid var(--c-spend);
+		border-radius: 2px;
+		background: transparent;
+		box-sizing: border-box;
+		z-index: 2;
+	}
+
+	.hp-legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px 16px;
+		margin-top: 10px;
+		font-size: 12px;
+	}
+
+	.hp-legend span {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.hp-legend .box {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		margin-right: 5px;
+		border-radius: 2px;
+	}
+
+	.lg-spend { color: var(--c-spend); }
+	.lg-income { color: var(--c-income); }
+	.lg-deposit { color: var(--c-deposit); }
+
+	.box-spend { border: 2px solid var(--c-spend); background: transparent; box-sizing: border-box; }
+	.box-income { background: var(--c-income); }
+	.box-deposit { background: var(--c-deposit); }
+
+	/* 四问四答：数字用对应语义色 */
+	.scene-answers {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.scene-answers li {
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 8px;
+		font-size: 14px;
+		color: #555555;
+		line-height: 2.1;
+	}
+
+	.scene-answers b {
+		font-size: 15px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.tone-spend b { color: var(--c-spend); }
+	.tone-income b { color: var(--c-income); }
+	.tone-deposit b { color: var(--c-deposit); }
+	.tone-debt b { color: var(--c-debt); }
+
+	.scene-answers b.zero {
+		color: var(--c-debt);
+	}
+
+	.scene-answers small {
+		color: #9b9b9b;
+		font-size: 12px;
+	}
+
 	.detail-group {
 		margin-bottom: 16px;
 	}
 
 	.detail-group h4 {
 		font-size: 13px;
-		color: var(--muted);
 		margin-bottom: 4px;
 	}
 
@@ -297,19 +441,10 @@ const categories = [
 	}
 
 	.detail-group .num {
-		font-weight: 600;
-		color: #333333;
 		font-variant-numeric: tabular-nums;
 	}
 
 	/* 花费分析 */
-	.spend-fixed {
-		font-size: 13px;
-		color: var(--muted);
-		margin-bottom: 16px;
-		font-variant-numeric: tabular-nums;
-	}
-
 	.spend-sub {
 		font-size: 14px;
 		color: #333333;
@@ -467,18 +602,6 @@ const categories = [
 	}
 
 	@media (max-width: 700px) {
-		.kpi-row {
-			grid-template-columns: repeat(2, 1fr);
-		}
-
-		.kpi:nth-child(3) {
-			border-left: none;
-		}
-
-		.kpi:nth-child(n + 3) {
-			border-top: 1px solid #e5e7eb;
-		}
-
 		.console-body {
 			grid-template-columns: 1fr;
 		}
