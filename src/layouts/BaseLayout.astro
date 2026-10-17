@@ -20,6 +20,12 @@ const { title = '我的个人主页', description = '这是我的个人主页，
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap"
+			rel="stylesheet"
+		/>
 		<title>{title}</title>
 	</head>
 	<body>
@@ -58,10 +64,16 @@ const { title = '我的个人主页', description = '这是我的个人主页，
 
 	body {
 		font-family:
-			'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+			'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
 		color: var(--text);
 		line-height: 1.7;
 		background: #ffffff;
+	}
+
+	h1, h2, h3, h4, h5, h6,
+	p, li, td, th, blockquote,
+	input, textarea, select, button {
+		font-family: inherit;
 	}
 
 	a {

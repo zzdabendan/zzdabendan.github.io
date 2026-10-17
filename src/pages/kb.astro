@@ -103,11 +103,23 @@ const articles = [
 <p>每篇文章只有一个一级标题，即文章标题本身，由页面自动渲染，正文里不再手写。</p>
 <div class="demo"><div class="demo-h1">文章标题示例</div></div>
 <h3>二级标题</h3>
-<p>用 <code>&lt;h2&gt;</code> 划分大章节，左侧带黑色竖线。一篇文章 3-6 个为宜，标题用短语，不用句号结尾。</p>
+<p>用 <code>&lt;h2&gt;</code> 划分大章节，下方带一条细灰线。一篇文章 3-6 个为宜，标题用短语，不用句号结尾。</p>
 <div class="demo"><div class="demo-h2">章节标题示例</div></div>
 <h3>三级标题</h3>
-<p>用 <code>&lt;h3&gt;</code> 划分章节内的小节，无竖线。连续两个三级标题之间至少要有一段正文。</p>
+<p>用 <code>&lt;h3&gt;</code> 划分章节内的小节，带浅灰圆角背景。连续两个三级标题之间至少要有一段正文。</p>
 <div class="demo"><div class="demo-h3">小节标题示例</div></div>
+
+<h2>字体</h2>
+<p>本站全局使用思源黑体作为默认字体，标题、正文、列表、代码均统一。提供三种字体供选用。</p>
+<h3>思源黑体（默认）</h3>
+<p>无衬线黑体，笔画均匀，屏幕显示清晰，适合正文和标题。全站默认。</p>
+<div class="demo"><p class="demo-p" style="font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif">思源黑体：这是正文示例，Ag 123。字体清晰易读，适合屏幕显示。</p></div>
+<h3>思源宋体</h3>
+<p>衬线宋体，笔画有粗细变化，适合大段文字阅读、印刷风格页面。</p>
+<div class="demo"><p class="demo-p" style="font-family:'Noto Serif SC','SimSun',serif">思源宋体：这是正文示例，Ag 123。衬线字体更有书卷气。</p></div>
+<h3>微软雅黑</h3>
+<p>Windows 系统自带字体，无需加载网络字体，兼容性最好。</p>
+<div class="demo"><p class="demo-p" style="font-family:'Microsoft YaHei',sans-serif">微软雅黑：这是正文示例，Ag 123。系统自带，无需额外加载。</p></div>
 
 <h2>正文与段落</h2>
 <p>正文用 <code>&lt;p&gt;</code> 标签，一段只讲一个意思。段落之间空行分隔，段内不换行。句末用句号，列举停顿用顿号，分句用逗号。</p>
@@ -507,14 +519,20 @@ const articles = [
 
 	.article-body :global(h2) {
 		font-size: 20px;
+		font-weight: 700;
 		margin: 28px 0 12px;
-		padding-left: 12px;
-		border-left: 3px solid #111111;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
 	}
 
 	.article-body :global(h3) {
-		font-size: 16px;
+		font-size: 15px;
+		font-weight: 600;
 		margin: 20px 0 8px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 		color: var(--text);
 	}
 
@@ -573,14 +591,18 @@ const articles = [
 		font-size: 20px;
 		font-weight: 700;
 		color: var(--text);
-		padding-left: 12px;
-		border-left: 3px solid #111111;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
 	}
 
 	.article-body :global(.demo-h3) {
-		font-size: 16px;
+		font-size: 15px;
 		font-weight: 600;
 		color: var(--text);
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	.article-body :global(.demo-p) {

@@ -8,10 +8,16 @@ const reflections = [
 		day: '周六',
 		city: '南昌',
 		weather: '晴',
-		records: [],
+		records: [
+			{ category: '固定', status: '', detail: '余额：196；体重：70' },
+			{ category: '运动', status: '', detail: '就做了3个俯卧撑' },
+			{ category: '工作', status: '', detail: '处理了一天的事' },
+			{ category: '学习', status: '', detail: '回忆了学校计算机课的数据处理' },
+			{ category: '娱乐', status: '', detail: '摸鱼刷了一天视频' },
+		],
 		insight: `忙了一天，累死，好想睡一觉。好想吃点什么好吃的，酸奶、水果、冰淇淋、甜饮。
 今天不知道怎么了，供电局突然停电，导致所有设备都关机，还得每台重启检查，加了一个小时班。上一次停电还是好几年前，其他地方施工挖断了电线，这一次又不知道是什么事。不过好像基本没什么大问题，也是不幸中的万幸。明天再看一下，设备都过一遍，希望明天不要再出现这样的问题了。
-今天早上吃了汉堡，中午吃了一个啤酒鸭加小白菜，晚上回来就躺着，该吃些啥呢。运动上呢，就做了3个俯卧撑。学习上，回忆了一下学校计算机课教过的数据处理，最关键的一个领悟是：你要这些数据来回答什么问题，并且将这些数据怎样地展现。为此，我更新了物品页面中的财务关系，做出了一个基本的财务血条——血条中的填充内容是我的收入，限制血条的框框是我的花费，框框之内的不足是欠款，框框之外额外的是我的存款。工作上处理了一天事。娱乐上，摸鱼的时候刷了一天的视频。`,
+今天早上吃了汉堡，中午吃了一个啤酒鸭加小白菜，晚上回来就躺着，该吃些啥呢。最关键的一个领悟是：你要这些数据来回答什么问题，并且将这些数据怎样地展现。为此，我更新了物品页面中的财务关系，做出了一个基本的财务血条——血条中的填充内容是我的收入，限制血条的框框是我的花费，框框之内的不足是欠款，框框之外额外的是我的存款。`,
 	},
 	{
 		date: '2026/10/16',
@@ -287,27 +293,20 @@ const reflections = [
 		{
 			reflections.map((entry) => (
 				<section class="entry">
-					<div class="entry-header">
-						<span class="entry-date">{entry.date}</span>
-						<span class="entry-meta">{entry.day} · {entry.city} · {entry.weather}</span>
-					</div>
+					<h2 class="entry-title">{entry.date} {entry.day} · {entry.city} · {entry.weather}</h2>
 
 					{entry.records.length > 0 && (
-						<div class="records">
-							{entry.records.map((rec) => (
-								<div class="record-row">
-									<span class="record-cat">{rec.category}</span>
-									{rec.status && <span class="record-status">{rec.status}</span>}
-									{rec.detail && <span class="record-detail">{rec.detail}</span>}
-								</div>
-							))}
+					<h3 class="records-label">固定记录</h3>
+					<div class="records">
+							{entry.records.map((rec) => {
+								const parts = [rec.category, rec.status, rec.detail].filter(Boolean);
+								return <p class="record-line">{parts.join('，')}</p>;
+							})}
 						</div>
 					)}
 
-					<div class="insight">
-						<span class="insight-label">今日感悟</span>
-						<p class="insight-text">{entry.insight}</p>
-					</div>
+					<h3 class="insight-label">今日感悟</h3>
+					<p class="insight-text">{entry.insight}</p>
 				</section>
 			))
 		}
@@ -340,77 +339,45 @@ const reflections = [
 		margin-bottom: 20px;
 	}
 
-	.entry-header {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		flex-wrap: wrap;
-		margin-bottom: 16px;
-		padding-bottom: 12px;
-		border-bottom: 1px solid #f3f4f6;
-	}
-
-	.entry-date {
-		font-size: 17px;
+	/* 二级标题：日期行，和知识库 h2 一致 */
+	.entry-title {
+		font-size: 20px;
 		font-weight: 700;
-		color: var(--text);
-	}
-
-	.entry-meta {
-		font-size: 14px;
-		color: var(--muted);
+		margin: 0 0 16px;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
 	}
 
 	.records {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
 		margin-bottom: 16px;
 	}
 
-	.record-row {
-		display: flex;
-		gap: 8px;
-		align-items: baseline;
-		font-size: 14px;
-		line-height: 1.8;
+	.record-line {
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
+		margin-bottom: 4px;
 	}
 
-	.record-cat {
-		color: #111111;
+	/* 三级标题：固定记录/今日感悟，和知识库 h3 一致 */
+	.records-label {
+		font-size: 15px;
 		font-weight: 600;
-		min-width: 50px;
-		flex-shrink: 0;
-	}
-
-	.record-status {
-		font-size: 12px;
-		padding: 1px 6px;
-		border-radius: 2px;
-		border: 1px solid #dddddd;
-		background: #fafafa;
-		color: #555555;
-		flex-shrink: 0;
-	}
-
-	.record-detail {
-		color: var(--muted);
-		flex: 1;
-	}
-
-	.insight {
-		background: #fafafa;
-		border-left: 3px solid #111111;
-		padding: 12px 16px;
-		border-radius: 0 4px 4px 0;
+		margin: 0 0 8px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	.insight-label {
-		display: block;
-		font-size: 13px;
+		font-size: 15px;
 		font-weight: 600;
-		color: #111111;
-		margin-bottom: 6px;
+		margin: 0 0 8px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	.insight-text {
