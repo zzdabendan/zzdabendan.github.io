@@ -87,10 +87,8 @@ const themes = [
 					<h2 class="theme-title">{theme.name}</h2>
 					{theme.phases.map((plan) => (
 						<div class="phase">
-							<h3 class="phase-name">
-								<span class="phase-tag">{plan.phase}</span>
-								<span class="phase-goal">{plan.goal}</span>
-							</h3>
+							<h3 class="phase-name">{plan.phase}</h3>
+							<p class="phase-goal">{plan.goal}</p>
 							<ul>
 								{plan.items.map((item) => (
 									<li>{item}</li>
@@ -112,43 +110,40 @@ const themes = [
 		margin-bottom: 8px;
 	}
 
+	/* 二级标题：主题名，和知识库 h2 一致 */
 	.theme-block {
-		margin-top: 40px;
-		padding-left: 16px;
-		border-left: 3px solid #111111;
+		margin-top: 32px;
 	}
 
 	.theme-title {
-		font-size: 22px;
+		font-size: 20px;
 		font-weight: 700;
-		color: #111111;
-		margin-bottom: 16px;
+		margin: 0 0 16px;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
 	}
 
 	.phase {
-		margin-bottom: 24px;
+		margin-bottom: 20px;
 	}
 
+	/* 三级标题：阶段名，和知识库 h3 一致 */
 	.phase-name {
-		display: flex;
-		align-items: baseline;
-		gap: 10px;
 		font-size: 15px;
-		margin-bottom: 8px;
-	}
-
-	.phase-tag {
-		flex-shrink: 0;
-		padding: 1px 8px;
-		border: 1px solid #cccccc;
-		border-radius: 2px;
-		color: #555555;
-		font-size: 12px;
 		font-weight: 600;
+		margin: 0 0 8px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	.phase-goal {
-		color: #444444;
+		display: block;
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--muted);
+		margin-bottom: 8px;
 	}
 
 	ul {

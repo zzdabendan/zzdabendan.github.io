@@ -119,7 +119,7 @@ const jobIntention = [
 // ② 工作经历
 const workExperience = [
 	{
-		period: '2022年06月 —— 2026年',
+		period: '2022年06月 —— 至今',
 		industry: '客服行业',
 		role: '运维专员',
 		company: '湖南德沃信息技术有限公司',
@@ -133,14 +133,14 @@ const workExperience = [
 		duties: '负责驾校设备维护技术，负责客户服务',
 	},
 	{
-		period: '2021年12月',
+		period: '2021年12月（15天）',
 		industry: '制造行业',
 		role: '装配工人',
 		company: '南昌龙旗',
 		duties: '负责制造装配',
 	},
 	{
-		period: '2021年10月',
+		period: '2021年10月（3天）',
 		industry: '物流行业',
 		role: '分拣工人',
 		company: '某京东厂库',
@@ -165,107 +165,128 @@ const education = [
 	},
 ];
 
-// ⑤ 个人经历时间线（按人生阶段分组）
+// ⑤ 个人经历时间线（按人生阶段→年份→月份嵌套）
 const timeline = [
 	{
 		stage: '工作阶段',
-		items: [
-			{ date: '2026年12月', event: '上旬、中旬、下旬' },
-			{ date: '2026年11月', event: '上旬、中旬、下旬' },
-			{ date: '2026年10月', event: '上旬、中旬、下旬' },
-			{ date: '2026年09月', event: '上旬，更改个人网页计划模块' },
-			{ date: '2026年09月', event: '中旬' },
-			{ date: '2026年09月', event: '下旬' },
-			{ date: '2026年08月', event: '上旬，改版个人网页，居中布局' },
-			{ date: '2026年08月', event: '中旬，改版个人网页，主侧栏布局' },
-			{ date: '2026年08月', event: '下旬，改变个人生活感悟记录' },
-			{ date: '2026年07月', event: '上旬，准备考试，科目三挂科' },
-			{ date: '2026年07月', event: '中旬，准备考试，请假练车' },
-			{ date: '2026年07月', event: '下旬，通过科目三和科目四，获得驾照' },
-			{ date: '2026年06月', event: '上旬，准备考试' },
-			{ date: '2026年06月', event: '中旬，科目三挂科' },
-			{ date: '2026年06月', event: '下旬，电脑故障，咸鱼同城急速提货' },
-			{ date: '2026年05月', event: '上旬，联系教练练车，做饭省钱，查看热水器电量占比' },
-			{ date: '2026年05月', event: '中旬，请假练车科目三，整理储物柜、收纳箱、工具，统计花费支出' },
-			{ date: '2026年05月', event: '下旬，练习科目三，预约考试，挂在手刹未放到底，下载欧卡2练习驾驶' },
-			{ date: '2026年04月', event: '上旬，继续练车，晴天兼职外卖配送员，雨天休息' },
-			{ date: '2026年04月', event: '中旬，完成科目二训练模拟及考试，编辑主页内容，完成电动车换电' },
-			{ date: '2026年04月', event: '下旬，试用换电整天兼职，全城可达，月底只剩500，挑战低成本过一个月' },
-			{ date: '2026年03月', event: '上旬，出差湖南常德半月，安装 wiki.js 知识库系统' },
-			{ date: '2026年03月', event: '中旬，休息，新增兼职外卖配送员，准备电动车、头盔、手机支架、保温盒' },
-			{ date: '2026年03月', event: '下旬，完成域名购买、ICP备案、公安备案中，科目二教练训练' },
-			{ date: '2026年02月', event: '上旬，完成《三角洲行动》统帅等级' },
-			{ date: '2026年02月', event: '中旬，过年回老家7天，安装 WordPress 建站系统，考驾驶证科目一' },
-			{ date: '2026年02月', event: '下旬' },
-			{ date: '2026年01月', event: '上旬' },
-			{ date: '2026年01月', event: '中旬，编写知识库' },
-			{ date: '2026年01月', event: '下旬，完成侦查直升机、武装直升机、固定翼飞行技能训练，工作总结' },
-			{ date: '2025年12月', event: '老家祖厅重建，工作总结，第四年 2025年' },
-			{ date: '2025年11月', event: '出差湖南常德28天，购买二手 MAC 苹果笔记本电脑' },
-			{ date: '2025年10月', event: '固态硬盘故障，购买新固态硬盘' },
-			{ date: '2025年04月', event: '出差江西新余' },
-			{ date: '2025年03月', event: '出差江西新余' },
-			{ date: '2023年11月', event: '购买电动车，购买联想笔记本' },
-			{ date: '2023年12月', event: '工作总结，第二年 2023年' },
-			{ date: '2023年02月', event: '征兵体检，眼耳鼻舌，外科内科，超声波，脚掌，手指' },
+		years: [
 			{
-				date: '2022年06月 —— 2026年',
-				event: '湖南德沃信息技术有限公司 · 运维专员。学习安装接线台式机，Ghost 安装系统，BIOS 和 UEFI，MBR/GPT 分区，深信服上网行为管理，华为防火墙，域控服务器，ping 网络测试',
+				year: '2026年',
+				months: [
+					{ month: '12月', events: '' },
+					{ month: '11月', events: '' },
+					{ month: '10月', events: '' },
+					{ month: '09月', events: '改网页计划模块' },
+					{ month: '08月', events: '网页布局改版 / 感悟记录格式' },
+					{ month: '07月', events: '科目三挂科 / 请假练车 / 拿驾照' },
+					{ month: '06月', events: '备考 / 挂科 / 电脑故障' },
+					{ month: '05月', events: '练车 / 做饭省钱 / 整理物品 / 科目三挂科 / 欧卡2' },
+					{ month: '04月', events: '练车 / 兼职外卖 / 科目二通过 / 全职外卖' },
+					{ month: '03月', events: '出差常德 / 装wiki.js / 兼职外卖 / 域名备案 / 科目二' },
+					{ month: '02月', events: '游戏统帅 / 过年 / WordPress / 科目一' },
+					{ month: '01月', events: '写知识库 / 飞行技能训练 / 工作总结' },
+				],
+			},
+			{
+				year: '2025年',
+				months: [
+					{ month: '12月', events: '祖厅重建，年度总结' },
+					{ month: '11月', events: '出差常德28天，买二手MAC' },
+					{ month: '10月', events: '硬盘故障，买新硬盘' },
+					{ month: '04月', events: '出差新余' },
+					{ month: '03月', events: '出差新余' },
+				],
+			},
+			{
+				year: '2023年',
+				months: [
+					{ month: '12月', events: '年度总结' },
+					{ month: '11月', events: '买电动车+笔记本' },
+					{ month: '02月', events: '征兵体检' },
+				],
+			},
+			{
+				year: '2022年',
+				months: [
+					{ month: '06月 —— 至今', events: '德沃信息 · 运维专员。装机、Ghost、BIOS/UEFI、分区、防火墙、域控、网络测试' },
+				],
 			},
 		],
 	},
 	{
 		stage: '大学阶段',
-		items: [
-			{ date: '2021年', event: '离校' },
-			{ date: '2021年12月', event: '手机装配（工作经历3）' },
-			{ date: '2021年10月', event: '物流分拣（工作经历2）' },
-			{ date: '2021年07-09月', event: '视频剪辑（实习经历1），招聘宣传会、毕业证照片、实习协议' },
-			{ date: '2021年大三上学期', event: '' },
-			{ date: '2021年大二下学期', event: '' },
-			{ date: '2020年大二上学期', event: '暑假、大一下学期、网课、寒假' },
+		years: [
 			{
-				date: '2022年03月 —— 05月',
-				event: '驾校技术维护：备份监控数据，更新车机软件，配合考试安排',
+				year: '2022年',
+				months: [
+					{ month: '03月 —— 05月', events: '驾校维护：备份监控，更新车机，配合考试' },
+				],
+			},
+			{
+				year: '2021年',
+				months: [
+					{ month: '12月', events: '手机装配（15天）' },
+					{ month: '10月', events: '物流分拣（3天）' },
+					{ month: '07月 —— 09月', events: '视频剪辑实习，毕业手续' },
+					{ month: '大二', events: '网课、寒暑假' },
+				],
 			},
 		],
 	},
 	{
 		stage: '高中阶段（3年）',
-		items: [
-			{ date: '2019年02月', event: '高三下学期，6班' },
-			{ date: '2019年06月', event: '高考' },
-			{ date: '2019年05月', event: '南昌市单招，大学入学' },
-			{ date: '2018年09月', event: '高三上学期，6班' },
-			{ date: '2018年02月', event: '高二下学期，6班' },
-			{ date: '2017年09月', event: '高二上学期，理科2班' },
-			{ date: '2017年02月', event: '高一下学期，理科1班' },
-			{ date: '2017年08月', event: '暑假，新华书店看书，学习乒乓球、哲学、武术、故事书' },
-			{ date: '2016年09月', event: '入学信丰五中，高一上学期，26班' },
-			{ date: '2016年12月', event: '第二次月考，选择是否参加艺术或体育特长生' },
+		years: [
+			{
+				year: '2019年',
+				months: [
+					{ month: '06月', events: '高考' },
+					{ month: '05月', events: '单招入学' },
+					{ month: '02月', events: '高三下，6班' },
+				],
+			},
+			{
+				year: '2018年',
+				months: [
+					{ month: '09月', events: '高三上，6班' },
+					{ month: '02月', events: '高二下，6班' },
+				],
+			},
+			{
+				year: '2017年',
+				months: [
+					{ month: '09月', events: '高二上，理科2班' },
+					{ month: '08月', events: '暑假看书：乒乓球、哲学、武术' },
+					{ month: '02月', events: '高一下，理科1班' },
+				],
+			},
+			{
+				year: '2016年',
+				months: [
+					{ month: '12月', events: '月考，选特长方向' },
+					{ month: '09月', events: '入学信丰五中，高一上，26班' },
+				],
+			},
 		],
 	},
 	{
 		stage: '小学初中',
-		items: [
-			{ date: '2015年', event: '初三，走读，初中中考' },
-			{ date: '2014年', event: '初二，校车，新手机，手机游戏：天天酷跑、PSP模拟器' },
-			{ date: '2013年', event: '初一，校车' },
-			{ date: '2012年', event: '六年级，小升初考试' },
-			{
-				date: '小学时期',
-				event:
-					'接触电脑，三个途径：1.学校电脑信息课程 2.同学朋友家里电脑 3.跟同学在附近网吧。主要用途：冰火人闯关、坦克大战、枪战大乱斗、滑轮车、火柴人打羽毛球，后来玩洛克王国、CF、CS、DNF、逆战等',
-			},
-			{ date: '2008年', event: '二年级' },
-			{ date: '2007年', event: '一年级' },
-			{ date: '2006年', event: '大班' },
-			{ date: '2005年', event: '小班' },
+		years: [
+			{ year: '2015年', months: [{ month: '全年', events: '初三，中考' }] },
+			{ year: '2014年', months: [{ month: '全年', events: '初二，手机游戏' }] },
+			{ year: '2013年', months: [{ month: '全年', events: '初一' }] },
+			{ year: '2012年', months: [{ month: '全年', events: '小升初' }] },
+			{ year: '2008年', months: [{ month: '全年', events: '二年级' }] },
+			{ year: '2007年', months: [{ month: '全年', events: '一年级' }] },
+			{ year: '2006年', months: [{ month: '全年', events: '大班' }] },
+			{ year: '2005年', months: [{ month: '全年', events: '小班' }] },
+			{ year: '小学时期', months: [{ month: '', events: '接触电脑：学校课程、同学家、网吧。玩游戏：洛克王国、CF、DNF等' }] },
 		],
 	},
 	{
 		stage: '出生',
-		items: [{ date: '2001年09月23日', event: '出生' }],
+		years: [
+			{ year: '2001年', months: [{ month: '09月23日', events: '出生' }] },
+		],
 	},
 ];
 ---
@@ -362,16 +383,10 @@ const timeline = [
 			<div class="timeline-list">
 				{
 					workExperience.map((job) => (
-						<div class="timeline-item">
-							<div class="timeline-period">{job.period}</div>
-							<div class="timeline-body">
-								<h3>
-									<span class="tag">{job.industry}</span>
-									{job.role}
-								</h3>
-								<p class="company">{job.company}</p>
-								<p class="duties">工作内容：{job.duties}</p>
-							</div>
+						<div class="job-entry">
+							<h3 class="job-title">{job.period} · {job.industry} · {job.company} · {job.role}</h3>
+							<p class="job-sub">工作内容</p>
+							<p class="job-detail">{job.duties}</p>
 						</div>
 					))
 				}
@@ -384,13 +399,10 @@ const timeline = [
 			<div class="timeline-list">
 				{
 					education.map((edu) => (
-						<div class="timeline-item">
-							<div class="timeline-period">{edu.period}</div>
-							<div class="timeline-body">
-								<h3>{edu.school}</h3>
-								<p class="major">专业：{edu.major}</p>
-								<p class="duties">专科课程：{edu.courses}</p>
-							</div>
+						<div class="job-entry">
+							<h3 class="job-title">{edu.period} · {edu.school} · {edu.major}</h3>
+							<p class="job-sub">专科课程</p>
+							<p class="job-detail">{edu.courses}</p>
 						</div>
 					))
 				}
@@ -405,25 +417,19 @@ const timeline = [
 				timeline.map((group) => (
 					<div class="timeline-group">
 						<h3 class="stage-title">{group.stage}</h3>
-						{group.items.length > 0 && group.items.every((i) => i.event !== '') ? (
-							<ul class="event-list">
-								{group.items.map((item) => (
-									<li>
-										<span class="event-date">{item.date}</span>
-										{item.event && <span class="event-text"> — {item.event}</span>}
-									</li>
-								))}
-							</ul>
-						) : (
-							<ul class="event-list">
-								{group.items.map((item) => (
-									<li>
-										<span class="event-date">{item.date}</span>
-										{item.event && <span class="event-text"> — {item.event}</span>}
-									</li>
-								))}
-							</ul>
-						)}
+						{group.years.map((y, i) => (
+					<details class="year-details" open={i === 0}>
+						<summary class="year-title">{y.year}</summary>
+						<ul class="month-list">
+							{y.months.map((m) => (
+								<li>
+									{m.month && <span class="month-label">{m.month}</span>}
+									{m.events && <span class="month-events">{m.events}</span>}
+								</li>
+							))}
+						</ul>
+					</details>
+				))}
 					</div>
 				))
 			}
@@ -451,18 +457,24 @@ const timeline = [
 		margin-bottom: 24px;
 	}
 
+	/* 二级标题：各板块，和知识库 h2 一致 */
 	.card h2 {
 		font-size: 20px;
-		margin-bottom: 16px;
-		padding-bottom: 8px;
-		border-bottom: 1px solid var(--line);
+		font-weight: 700;
+		margin: 0 0 16px;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
 	}
 
+	/* 三级标题：子板块，和知识库 h3 一致 */
 	.sub-title {
-		font-size: 16px;
-		margin-top: 20px;
-		margin-bottom: 12px;
-		color: var(--muted);
+		font-size: 15px;
+		font-weight: 600;
+		margin: 20px 0 12px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	/* 个人能力 */
@@ -586,51 +598,45 @@ const timeline = [
 		word-break: break-all;
 	}
 
-	/* 时间线列表 */
+	/* 工作/教育经历列表 */
 	.timeline-list {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
 	}
 
-	.timeline-item {
-		display: flex;
-		gap: 16px;
+	.job-entry {
+		padding-bottom: 16px;
+		border-bottom: 1px dashed #e5e7eb;
 	}
 
-	.timeline-period {
-		min-width: 180px;
-		font-size: 14px;
-		color: var(--muted);
-		padding-top: 2px;
-		flex-shrink: 0;
+	.job-entry:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
 	}
 
-	.timeline-body h3 {
-		font-size: 16px;
-		margin-bottom: 4px;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.tag {
-		font-size: 12px;
+	/* 三级标题：日期·行业·公司·岗位 */
+	.job-title {
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0 0 8px;
 		padding: 2px 8px;
-		border-radius: 2px;
-		border: 1px solid #dddddd;
-		background: #fafafa;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
+	}
+
+	/* 四级标题：工作内容 */
+	.job-sub {
+		font-size: 14px;
+		font-weight: 600;
 		color: #555555;
+		margin: 8px 0 4px;
 	}
 
-	.company {
+	.job-detail {
 		font-size: 14px;
-		color: var(--muted);
-		margin-bottom: 4px;
-	}
-
-	.duties {
-		font-size: 14px;
+		line-height: 1.9;
 		color: var(--text);
 	}
 
@@ -639,40 +645,69 @@ const timeline = [
 		margin-bottom: 24px;
 	}
 
+	/* 三级标题：人生阶段，和知识库 h3 一致 */
 	.stage-title {
-		font-size: 16px;
-		color: #111111;
-		margin-bottom: 12px;
-		padding-left: 12px;
-		border-left: 3px solid #111111;
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0 0 12px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
-	.event-list {
+	/* 年份折叠面板 */
+	.year-details {
+		margin-bottom: 8px;
+	}
+
+	.year-details summary {
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--text);
+		line-height: 1.9;
+		cursor: pointer;
+		user-select: none;
 		list-style: none;
-		padding-left: 0;
-	}
-
-	.event-list li {
-		font-size: 14px;
-		line-height: 2.2;
-		padding-left: 12px;
+		padding-left: 20px;
 		position: relative;
 	}
 
-	.event-list li::before {
-		content: '·';
+	.year-details summary::before {
+		content: '▸';
 		position: absolute;
 		left: 0;
-		color: #111111;
-		font-weight: bold;
+		color: #9ca3af;
+		transition: transform 0.15s;
 	}
 
-	.event-date {
-		color: var(--muted);
-		font-weight: 500;
+	.year-details[open] summary::before {
+		transform: rotate(90deg);
 	}
 
-	.event-text {
+	.year-details summary::-webkit-details-marker {
+		display: none;
+	}
+
+	/* 月份列表 */
+	.month-list {
+		list-style: none;
+		padding-left: 20px;
+		margin: 8px 0 0;
+	}
+
+	.month-list li {
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
+		margin-bottom: 4px;
+	}
+
+	.month-label {
+		color: var(--text);
+	}
+
+	.month-events {
 		color: var(--text);
 	}
 
@@ -685,15 +720,6 @@ const timeline = [
 	@media (max-width: 600px) {
 		.info-grid {
 			grid-template-columns: 1fr;
-		}
-
-		.timeline-item {
-			flex-direction: column;
-			gap: 4px;
-		}
-
-		.timeline-period {
-			min-width: auto;
 		}
 
 		.ability-group {

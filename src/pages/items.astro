@@ -87,10 +87,7 @@ const categories = [
 
 	<!-- 财务控制台 -->
 	<section class="console-card">
-		<div class="block-head">
-			<span class="block-icon">财</span>
-			<h2>财务</h2>
-		</div>
+			<h2 class="block-title">财务</h2>
 
 		<!-- 左右两栏：左明细，右场景 -->
 		<div class="console-body">
@@ -188,12 +185,8 @@ const categories = [
 	<!-- 物品分类 -->
 	<div class="categories">
 		{categories.map((cat) => (
-			<section class="category">
-				<div class="cat-head">
-					<span class="cat-icon">{cat.icon}</span>
-					<h2>{cat.name}</h2>
-					<span class="cat-count">{cat.items.length}</span>
-				</div>
+				<section class="category">
+					<h2 class="cat-title">{cat.name}<span class="cat-count">{cat.items.length}</span></h2>
 				<ul class="item-list">
 					{cat.items.map((item) => (
 						<li>{item}</li>
@@ -209,28 +202,13 @@ const categories = [
 		margin-bottom: 32px;
 	}
 
-	.block-head {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		margin-bottom: 16px;
-	}
-
-	.block-head h2 {
+	/* 二级标题：板块名，和知识库 h2 一致 */
+	.block-title {
 		font-size: 20px;
-	}
-
-	.block-icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 36px;
-		height: 36px;
-		border-radius: 8px;
-		background: #f3f3f3;
-		color: #333333;
-		font-size: 14px;
 		font-weight: 700;
+		margin: 0 0 16px;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
 	}
 
 	/* 财务控制台 */
@@ -249,13 +227,15 @@ const categories = [
 		gap: 28px;
 	}
 
+	/* 三级标题：明细/场景名，和知识库 h3 一致 */
 	.console-sub {
-		font-size: 14px;
-		font-weight: 700;
-		color: #111111;
-		margin-bottom: 12px;
-		padding-bottom: 8px;
-		border-bottom: 1px dashed #e5e7eb;
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0 0 12px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	/* 场景问答 */
@@ -273,9 +253,12 @@ const categories = [
 
 	.scene-q {
 		font-size: 15px;
-		font-weight: 700;
-		color: #111111;
-		margin-bottom: 14px;
+		font-weight: 600;
+		margin: 0 0 12px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	/* ===== 4 级语义灰阶：花费纯黑 / 收入标准灰 / 存款深墨 / 欠款浅墨 ===== */
@@ -433,9 +416,13 @@ const categories = [
 
 	/* 花费分析 */
 	.spend-sub {
-		font-size: 14px;
-		color: #333333;
-		margin-bottom: 10px;
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0 0 10px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	.spend-bars {
@@ -533,31 +520,14 @@ const categories = [
 		overflow: hidden;
 	}
 
-	.cat-head {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		padding: 16px 20px;
-		background: #f9fafb;
-		border-bottom: 1px solid #e5e7eb;
-	}
-
-	.cat-icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 36px;
-		height: 36px;
-		border-radius: 8px;
-		background: #f3f3f3;
-		color: #333333;
-		font-size: 12px;
+	/* 二级标题：物品分类，和知识库 h2 一致 */
+	.cat-title {
+		font-size: 20px;
 		font-weight: 700;
-	}
-
-	.cat-head h2 {
-		font-size: 18px;
-		flex-grow: 1;
+		margin: 0;
+		padding: 16px 20px;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
 	}
 
 	.cat-count {
