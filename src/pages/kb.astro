@@ -7,7 +7,7 @@ const articles = [
 	{
 		id: 'global-elites',
 		title: '全球行业精英主页速览',
-		category: '收藏',
+		category: '生活',
 		summary: '86 个全球科技、金融、设计、艺术、文体领域精英的个人主页与博客，按领域分类，可作导航参考。',
 		content: `
 <h2>科技 · 商业</h2>
@@ -134,7 +134,7 @@ const articles = [
 	{
 		id: 'writing-style',
 		title: '写作排版规范',
-		category: '写作',
+		category: '工作',
 		summary: '写作中重复性内容的标准格式：标题、段落、列表、代码、图片、视频的统一写法。',
 		content: `
 <h2>页面布局</h2>
@@ -305,7 +305,7 @@ const articles = [
 	{
 		id: 'astro-basics',
 		title: 'Astro 框架基础',
-		category: '前端',
+		category: '工作',
 		video: 'BV1GJ411x7h7', // 示例：换成你的 B 站视频 BV 号即可；不需要视频的文章删掉此行
 		summary: 'Astro 是现代静态站点生成器，适合博客、文档和个人主页。',
 		content: `
@@ -334,7 +334,7 @@ const articles = [
 	{
 		id: 'git-guide',
 		title: 'Git 版本管理入门',
-		category: '工具',
+		category: '工作',
 		summary: 'Git 是分布式版本控制系统，记录文件变更历史，支持分支协作。',
 		content: `
 <h2>什么是 Git</h2>
@@ -370,7 +370,7 @@ const articles = [
 	{
 		id: 'linux-network',
 		title: 'Linux 网络基础',
-		category: '运维',
+		category: '工作',
 		summary: 'Linux 网络配置常用命令，含 ping、ifconfig、网络排查思路。',
 		content: `
 <h2>网络配置查看</h2>
@@ -403,7 +403,7 @@ const articles = [
 	{
 		id: 'system-install',
 		title: '系统安装入门',
-		category: '运维',
+		category: '工作',
 		summary: '从 BIOS 设置到磁盘分区、系统安装的基础流程。',
 		content: `
 <h2>BIOS 与 UEFI</h2>
@@ -460,7 +460,48 @@ const articles = [
 <p>每 30 天回顾一次，调整饮食和运动强度，保持持续改进。</p>
 `,
 	},
+	{
+		id: 'study-primary',
+		title: '小学知识',
+		category: '学校',
+		summary: '小学阶段的知识与笔记，待整理补充。',
+		content: `<p>待补充。</p>`,
+	},
+	{
+		id: 'study-junior',
+		title: '初中知识',
+		category: '学校',
+		summary: '初中阶段的知识与笔记，待整理补充。',
+		content: `<p>待补充。</p>`,
+	},
+	{
+		id: 'study-senior',
+		title: '高中知识',
+		category: '学校',
+		summary: '高中阶段的知识与笔记，待整理补充。',
+		content: `<p>待补充。</p>`,
+	},
+	{
+		id: 'study-college',
+		title: '大学知识',
+		category: '学校',
+		summary: '大学阶段的知识与笔记，待整理补充。',
+		content: `<p>待补充。</p>`,
+	},
+	{
+		id: 'work-knowledge',
+		title: '工作知识',
+		category: '工作',
+		summary: '工作相关的知识与经验，待整理补充。',
+		content: `<p>待补充。</p>`,
+	},
 ];
+
+// 左栏按分类分组显示，顺序固定为 生活 → 学校 → 工作
+const groups = ['生活', '学校', '工作'].map((category) => ({
+	category,
+	items: articles.filter((a) => a.category === category),
+}));
 ---
 
 <BaseLayout title="知识库 - 邹兆廷" description="个人知识库文章">
@@ -470,15 +511,21 @@ const articles = [
 			<h2 class="kb-sidebar-title">文章列表</h2>
 			<ul class="article-list" id="article-list">
 				{
-					articles.map((article, i) => (
-						<li>
-							<button
-								class:list={['article-btn', { active: i === 0 }]}
-								data-id={article.id}
-							>
-								<span class="article-cat">{article.category}</span>
-								<span class="article-title">{article.title}</span>
-							</button>
+					groups.map((group) => (
+						<li class="article-group">
+							<p class="article-group-title">{group.category}</p>
+							<ul class="article-sublist">
+								{group.items.map((article) => (
+									<li>
+										<button
+											class:list={['article-btn', { active: article.id === articles[0].id }]}
+											data-id={article.id}
+										>
+											<span class="article-title">{article.title}</span>
+										</button>
+									</li>
+								))}
+							</ul>
 						</li>
 					))
 				}
@@ -590,6 +637,21 @@ const articles = [
 		padding: 0;
 		display: flex;
 		flex-direction: column;
+		gap: 16px;
+	}
+
+	.article-group-title {
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--muted);
+		margin: 0 0 4px 12px;
+	}
+
+	.article-sublist {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
 		gap: 4px;
 	}
 
@@ -613,12 +675,6 @@ const articles = [
 
 	.article-btn.active {
 		background: #f3f3f3;
-	}
-
-	.article-cat {
-		font-size: 11px;
-		color: #555555;
-		font-weight: 500;
 	}
 
 	.article-title {
