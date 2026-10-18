@@ -938,11 +938,12 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 		border-left: 2px solid #e5e7eb;
 	}
 
-	.toc-list li {
+	/* 目录项是 JS 动态创建的，没有 Astro 作用域属性，必须用 :global 才能命中 */
+	.toc-list :global(li) {
 		margin: 0;
 	}
 
-	.toc-list a {
+	.toc-list :global(a) {
 		display: block;
 		font-size: 13px;
 		color: var(--muted);
@@ -952,18 +953,18 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 		transition: all 0.15s;
 	}
 
-	.toc-list a:hover {
+	.toc-list :global(a:hover) {
 		color: #111111;
 		border-left-color: #111111;
 	}
 
-	.toc-list a.toc-h3 {
-		padding-left: 24px;
+	.toc-list :global(a.toc-h3) {
+		padding-left: 30px;
 		font-size: 12px;
 	}
 
-	.toc-list a.toc-h4 {
-		padding-left: 36px;
+	.toc-list :global(a.toc-h4) {
+		padding-left: 48px;
 		font-size: 12px;
 		color: #aaa;
 	}
