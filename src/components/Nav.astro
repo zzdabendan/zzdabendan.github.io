@@ -18,9 +18,9 @@ const isActive = (href: string) =>
 <header class="nav">
 	<div class="nav-inner">
 		<a href="/" class="brand">邹兆廷</a>
-		<details class="nav-menu" open>
-			<summary class="nav-toggle" aria-label="打开菜单">≡</summary>
-			<nav>
+		<input type="checkbox" id="nav-check" class="nav-check" />
+		<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
+		<nav>
 				{
 					links.map((link) => (
 						<a
@@ -32,7 +32,6 @@ const isActive = (href: string) =>
 					))
 				}
 			</nav>
-		</details>
 	</div>
 </header>
 
@@ -58,9 +57,9 @@ const isActive = (href: string) =>
 		color: var(--text);
 	}
 
-	/* 桌面端：details 透明化，菜单直接横排 */
-	.nav-menu {
-		display: contents;
+	/* 桌面端：checkbox 隐藏，菜单直接横排 */
+	.nav-check {
+		display: none;
 	}
 
 	.nav-toggle {
@@ -91,11 +90,6 @@ const isActive = (href: string) =>
 
 	/* 移动端：折叠为汉堡菜单，点击 ≡ 展开 */
 	@media (max-width: 700px) {
-		.nav-menu {
-			display: block;
-			position: relative;
-		}
-
 		.nav-toggle {
 			display: flex;
 			align-items: center;
@@ -107,11 +101,7 @@ const isActive = (href: string) =>
 			line-height: 1;
 			color: #555555;
 			cursor: pointer;
-			list-style: none;
-		}
-
-		.nav-toggle::-webkit-details-marker {
-			display: none;
+			user-select: none;
 		}
 
 		nav {
@@ -130,7 +120,7 @@ const isActive = (href: string) =>
 			z-index: 10;
 		}
 
-		.nav-menu[open] nav {
+		.nav-check:checked ~ nav {
 			display: flex;
 		}
 
