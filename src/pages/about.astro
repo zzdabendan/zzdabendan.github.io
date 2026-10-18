@@ -434,6 +434,23 @@ const timeline = [
 			</div>
 		</section>
 
+		<!-- 优点缺点 -->
+		<section class="card">
+			<h2>优点缺点</h2>
+			<div class="trait-grid">
+				<div class="trait-group">
+					<h3 class="sub-title">优点</h3>
+					<p class="trait-item">优点1</p>
+					<p class="trait-item">优点2</p>
+				</div>
+				<div class="trait-group">
+					<h3 class="sub-title">缺点</h3>
+					<p class="trait-item">缺点1</p>
+					<p class="trait-item">缺点2</p>
+				</div>
+			</div>
+		</section>
+
 		<!-- 个人能力 -->
 		<section class="card">
 			<h2>个人能力</h2>
@@ -581,6 +598,25 @@ const timeline = [
 		background: #d1d5db;
 		border-radius: 4px;
 		display: inline-block;
+	}
+
+	/* 优点缺点 */
+	.trait-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 24px;
+	}
+
+	.trait-item {
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
+	}
+
+	@media (max-width: 700px) {
+		.trait-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	/* 个人能力 */
