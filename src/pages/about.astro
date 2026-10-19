@@ -398,16 +398,19 @@ const timeline = [
 		<!-- 优点缺点 -->
 		<section class="card">
 			<h2>优点缺点</h2>
+			<p class="intro-text">优缺点不是固定标签，而是相对当前目标的评估：帮我靠近目标的是优点，挡路的是缺点。它们从下面「个人能力」的自评中推导而来，目标变了，这份清单也会跟着变。</p>
 			<div class="trait-grid">
 				<div class="trait-group">
 					<h3 class="sub-title">优点</h3>
-					<p class="trait-item">优点1</p>
-					<p class="trait-item">优点2</p>
+					<p class="trait-item"><b>擅长规划与复盘。</b>练车把考试流程拆成步骤，挂科后记录原因再针对性练习，最终通过；对应「计划能力」的最高自评。</p>
+					<p class="trait-item"><b>能吃苦，执行力强。</b>兼职外卖全城跑，月底只剩 500 元也挑战低成本生活，并统计每笔支出。</p>
+					<p class="trait-item"><b>持续记录沉淀。</b>坚持写感悟、维护知识库与个人主页，把经验变成可复用的条目。</p>
 				</div>
 				<div class="trait-group">
 					<h3 class="sub-title">缺点</h3>
-					<p class="trait-item">缺点1</p>
-					<p class="trait-item">缺点2</p>
+					<p class="trait-item"><b>体能偏弱。</b>「感觉能力」自评最低，长期缺少系统锻炼。对策：把锻炼拆进日常，对应长期目标——锻炼健身。</p>
+					<p class="trait-item"><b>资源积累薄。</b>「价值能力」自评仅 2%，家境、人脉、收入都还在起点。对策：不硬拼资源，用规划和执行换时间。</p>
+					<p class="trait-item"><b>方向感不够稳。</b>目标时常摇摆，容易迷茫。对策：靠每月记录与定期复盘，让目标从记录里长出来。</p>
 				</div>
 			</div>
 		</section>
@@ -415,6 +418,7 @@ const timeline = [
 		<!-- 个人能力 -->
 		<section class="card">
 			<h2>个人能力</h2>
+			<p class="intro-text">四大维度的自评盘点，是上面优缺点与长期目标的推导依据：优势继续发挥，短板要么补、要么绕。</p>
 			<div class="ability-list">
 				{
 					abilities.map((ab) => (
