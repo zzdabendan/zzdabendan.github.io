@@ -203,9 +203,6 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 		align-self: start;
 		max-height: calc(100vh - 94px);
 		overflow-y: auto;
-		background: #f5f5f5;
-		border-radius: 6px;
-		padding: 12px;
 	}
 
 	.kb-toc-title {
@@ -246,28 +243,33 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 		color: #777777;
 	}
 
-	/* 侧栏细滚动条：Firefox */
-	.kb-sidebar,
-	.kb-toc {
+	/* 左栏细滚动条：Firefox */
+	.kb-sidebar {
 		scrollbar-width: thin;
 		scrollbar-color: #d1d5db transparent;
 	}
 
-	/* 侧栏细滚动条：Chrome / Edge */
-	.kb-sidebar::-webkit-scrollbar,
-	.kb-toc::-webkit-scrollbar {
+	/* 左栏细滚动条：Chrome / Edge */
+	.kb-sidebar::-webkit-scrollbar {
 		width: 6px;
 	}
 
-	.kb-sidebar::-webkit-scrollbar-thumb,
-	.kb-toc::-webkit-scrollbar-thumb {
+	.kb-sidebar::-webkit-scrollbar-thumb {
 		background: #d1d5db;
 		border-radius: 3px;
 	}
 
-	.kb-sidebar::-webkit-scrollbar-track,
-	.kb-toc::-webkit-scrollbar-track {
+	.kb-sidebar::-webkit-scrollbar-track {
 		background: transparent;
+	}
+
+	/* 目录滚动条隐藏，滚动能力保留 */
+	.kb-toc {
+		scrollbar-width: none;
+	}
+
+	.kb-toc::-webkit-scrollbar {
+		display: none;
 	}
 
 	/* 响应式 */
