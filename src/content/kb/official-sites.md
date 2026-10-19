@@ -1,0 +1,80 @@
+---
+title: 权威官网速查
+category: 生活
+summary: 9 个权威官方网站，覆盖学历核验、企业信用、法律文书、消费维权、社保与药品查询，关键时刻直接查源头，不被截图与转述带偏。
+order: 11
+---
+
+把官网比作「经典名著」很妙——名著是经过时间检验的思想源头，而权威官网是信息社会里事实与规则的源头。普通人不需要通读所有官网，但有几类应该像读经典一样，知道它们「在那里」，并在关键时刻去查阅。
+
+## 核验身份与信用
+
+涉及钱、学历、合同、企业时，别信截图或转述，直接查官网底本。
+
+<ul class="site-list">
+<li>
+<span class="site-name">学信网</span>
+<span class="site-note">查国内大专以上学历，2001 年后学历可查</span>
+<a class="site-link" href="https://www.chsi.com.cn" target="_blank" rel="noopener">chsi.com.cn</a>
+</li>
+<li>
+<span class="site-name">国家企业信用信息公示系统</span>
+<span class="site-note">入职或合作前查经营异常、严重违法失信</span>
+<a class="site-link" href="https://www.gsxt.gov.cn" target="_blank" rel="noopener">gsxt.gov.cn</a>
+</li>
+<li>
+<span class="site-name">中国裁判文书网</span>
+<span class="site-note">查已公开判决书，了解涉诉情况，不公开案件查不到</span>
+<a class="site-link" href="https://wenshu.court.gov.cn" target="_blank" rel="noopener">wenshu.court.gov.cn</a>
+</li>
+</ul>
+
+## 维护权益
+
+遇到消费、快递、法律纠纷，这些官网是免费且有效的申诉入口。
+
+<ul class="site-list">
+<li>
+<span class="site-name">全国 12315 平台</span>
+<span class="site-note">消费投诉举报统一入口，覆盖商品与服务纠纷</span>
+<a class="site-link" href="https://www.12315.cn" target="_blank" rel="noopener">12315.cn</a>
+</li>
+<li>
+<span class="site-name">国家邮政局申诉网站</span>
+<span class="site-note">快递丢失、损毁且企业处理不满意时申诉</span>
+<a class="site-link" href="https://sswz.spb.gov.cn" target="_blank" rel="noopener">sswz.spb.gov.cn</a>
+</li>
+<li>
+<span class="site-name">国家法律法规数据库</span>
+<span class="site-note">查法律条文原文，避免被二手解读带偏</span>
+<a class="site-link" href="https://flk.npc.gov.cn" target="_blank" rel="noopener">flk.npc.gov.cn</a>
+</li>
+</ul>
+
+## 生活办事与安全
+
+从社保到药品，从合同到标准，官方信息能帮你避开很多坑。
+
+<ul class="site-list">
+<li>
+<span class="site-name">国家社会保险公共服务平台</span>
+<span class="site-note">查社保缴费记录、办转移接续</span>
+<a class="site-link" href="https://si.12333.gov.cn" target="_blank" rel="noopener">si.12333.gov.cn</a>
+</li>
+<li>
+<span class="site-name">国家药品监督管理局</span>
+<span class="site-note">查药品、医疗器械、化妆品注册信息，买药前可核实</span>
+<a class="site-link" href="https://www.nmpa.gov.cn" target="_blank" rel="noopener">nmpa.gov.cn</a>
+</li>
+<li>
+<span class="site-name">合同示范文本库</span>
+<span class="site-note">市场监管总局官方合同范本，下载修改后使用，减少霸王条款风险</span>
+<a class="site-link" href="https://htsfwb.samr.gov.cn" target="_blank" rel="noopener">htsfwb.samr.gov.cn</a>
+</li>
+</ul>
+
+## 一个安全习惯
+
+认准域名后缀 .gov.cn（中国政府网站专用）。任何让你输入身份证、银行卡的「官网」，先核对域名——仿冒网站往往在字母上做手脚。
+
+经典名著教你理解人性与世界，而这些官网教你在现实里保护自己、少走弯路。收藏它们，需要时直接去源头查，比在信息流里翻找靠谱得多。

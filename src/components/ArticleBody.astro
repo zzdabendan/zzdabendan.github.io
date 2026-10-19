@@ -90,6 +90,46 @@
 		margin-bottom: 4px;
 	}
 
+	/* 权威官网清单：站名独占首行，用途与域名分列左右 */
+	.article-body :global(.site-list) {
+		list-style: none;
+		padding-left: 0;
+		margin: 4px 0 16px;
+	}
+
+	.article-body :global(.site-list li) {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		column-gap: 24px;
+		padding: 8px 0;
+		font-size: 15px;
+		line-height: 1.7;
+		margin-bottom: 0;
+	}
+
+	.article-body :global(.site-list li + li) {
+		border-top: 1px solid var(--line);
+	}
+
+	.article-body :global(.site-list .site-name) {
+		grid-column: 1 / -1;
+		font-weight: 600;
+		color: #111111;
+	}
+
+	.article-body :global(.site-list .site-note) {
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.article-body :global(.site-list .site-link) {
+		grid-column: 2;
+		grid-row: 2;
+		font-size: 13px;
+		color: var(--muted);
+		white-space: nowrap;
+	}
+
 	.article-body :global(img) {
 		display: block;
 		max-width: 100%;
@@ -228,6 +268,16 @@
 	@media (max-width: 900px) {
 		.article-body :global(.elite-list) {
 			columns: 1;
+		}
+
+		.article-body :global(.site-list li) {
+			grid-template-columns: 1fr;
+		}
+
+		.article-body :global(.site-list .site-link) {
+			grid-column: 1;
+			grid-row: auto;
+			margin-top: 2px;
 		}
 	}
 </style>
