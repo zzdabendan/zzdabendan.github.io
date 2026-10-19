@@ -44,7 +44,7 @@ const kbArticles = [
 ---
 
 <BaseLayout title="欢迎" description="从历史中借智，在当下解决问题">
-	<!-- 半屏英雄区：左头像，右今日提问 -->
+	<!-- 半屏英雄区：左头像，右今日提问（首页特有） -->
 	<section class="hero">
 		<div class="hero-avatar">
 			<img src="/avatar.svg" alt="个人头像" class="avatar-img" width="200" height="200" />
@@ -57,91 +57,69 @@ const kbArticles = [
 		</div>
 	</section>
 
-	<!-- 三栏内容展示 -->
-	<section class="cards">
-		<!-- 左栏：关于 -->
-		<a href="/about" class="card">
-			<div class="card-head">
-				<span class="card-icon">关于</span>
-				<span class="card-arrow">→</span>
-			</div>
-			<dl class="card-list">
-				{aboutSummary.map((item) => (
-					<div class="card-list-row">
-						<dt>{item.label}</dt>
-						<dd>{item.value}</dd>
-					</div>
-				))}
-			</dl>
-			<p class="card-meta">{workCount} 段工作经历 · {eduSchool}</p>
-		</a>
+	<!-- 文档流板块：与子页面栏目样式一致 -->
+	<section class="home-section">
+		<h2 class="section-title"><a href="/about">关于 →</a></h2>
+		<dl class="row-list">
+			{aboutSummary.map((item) => (
+				<div class="row-item">
+					<dt>{item.label}</dt>
+					<dd>{item.value}</dd>
+				</div>
+			))}
+		</dl>
+		<p class="section-meta">{workCount} 段工作经历 · {eduSchool}</p>
+	</section>
 
-		<!-- 中栏：感悟 -->
-		<a href="/reflections" class="card">
-			<div class="card-head">
-				<span class="card-icon">感悟</span>
-				<span class="card-arrow">→</span>
-			</div>
-			<div class="card-date">{latestReflection.date} {latestReflection.day} · {latestReflection.weather}</div>
-			<p class="card-insight">{latestReflection.insight}</p>
-			<p class="card-meta">共 {reflectionCount} 条感悟记录</p>
-		</a>
+	<section class="home-section">
+		<h2 class="section-title"><a href="/reflections">感悟 →</a></h2>
+		<p class="ref-date">{latestReflection.date} {latestReflection.day} · {latestReflection.weather}</p>
+		<p class="ref-insight">{latestReflection.insight}</p>
+		<p class="section-meta">共 {reflectionCount} 条感悟记录</p>
+	</section>
 
-		<!-- 右栏：计划 -->
-		<a href="/plan" class="card">
-			<div class="card-head">
-				<span class="card-icon">计划</span>
-				<span class="card-arrow">→</span>
-			</div>
-			<ul class="card-phases">
-				{planPhases.map((p) => (
-					<li>
-						<span class="phase-tag">{p.phase}</span>
-						<span class="phase-goal">{p.goal}</span>
-					</li>
-				))}
-			</ul>
-			<p class="card-meta">当前主题：运动</p>
-		</a>
+	<section class="home-section">
+		<h2 class="section-title"><a href="/plan">计划 →</a></h2>
+		<ul class="phase-list">
+			{planPhases.map((p) => (
+				<li>
+					<span class="phase-tag">{p.phase}</span>
+					<span class="phase-goal">{p.goal}</span>
+				</li>
+			))}
+		</ul>
+		<p class="section-meta">当前主题：运动</p>
+	</section>
 
-		<!-- 物品（第二行，占一半宽） -->
-		<a href="/items" class="card card-wide">
-			<div class="card-head">
-				<span class="card-icon">物品</span>
-				<span class="card-arrow">→</span>
-			</div>
-			<dl class="card-list">
-				{financeSummary.map((item) => (
-					<div class="card-list-row">
-						<dt>{item.label}</dt>
-						<dd>{item.value}</dd>
-					</div>
-				))}
-			</dl>
-			<div class="tag-row">
-				{itemCategories.map((c) => (
-					<span class="mini-tag">{c}</span>
-				))}
-			</div>
-			<p class="card-meta">4 类物品 · 含财务记录</p>
-		</a>
+	<section class="home-section">
+		<h2 class="section-title"><a href="/items">物品 →</a></h2>
+		<dl class="row-list">
+			{financeSummary.map((item) => (
+				<div class="row-item">
+					<dt>{item.label}</dt>
+					<dd>{item.value}</dd>
+				</div>
+			))}
+		</dl>
+		<div class="cat-row">
+			{itemCategories.map((c) => (
+				<span class="cat-tag">{c}</span>
+			))}
+		</div>
+		<p class="section-meta">4 类物品 · 含财务记录</p>
+	</section>
 
-		<!-- 知识库（第二行，占一半宽） -->
-		<a href="/kb" class="card card-wide">
-			<div class="card-head">
-				<span class="card-icon">知识库</span>
-				<span class="card-arrow">→</span>
-			</div>
-			<ul class="article-mini">
-				{kbArticles.map((a) => (
-					<li>
-						<span class="mini-cat">{a.category}</span>
-						<span class="article-title">{a.title}</span>
-					</li>
-				))}
-			</ul>
-			<p class="card-meta">共 5 篇文章 · 4 个分类</p>
-		</a>
+	<section class="home-section">
+		<h2 class="section-title"><a href="/kb">知识库 →</a></h2>
+		<ul class="kb-list">
+			{kbArticles.map((a) => (
+				<li>
+					<span class="kb-cat">{a.category}</span>
+					<span class="kb-title">{a.title}</span>
+				</li>
+			))}
+		</ul>
+		<p class="section-meta">共 5 篇文章 · 4 个分类</p>
 	</section>
 </BaseLayout>
 
@@ -150,7 +128,7 @@ const kbArticles = [
 </style>
 
 <style>
-	/* ===== 半屏英雄区（全宽通栏） ===== */
+	/* ===== 半屏英雄区（全宽通栏，首页特有） ===== */
 	.hero {
 		position: relative;
 		width: 100vw;
@@ -199,6 +177,8 @@ const kbArticles = [
 		font-size: 32px;
 		font-weight: 700;
 		color: #111111;
+		border-bottom: none;
+		padding-bottom: 0;
 	}
 
 	.hero-question p {
@@ -213,175 +193,146 @@ const kbArticles = [
 		color: #111111;
 	}
 
-	/* ===== 内容卡片：6 列网格，前 3 个各占 2 列，后 2 个各占 3 列 ===== */
-	.cards {
-		display: grid;
-		grid-template-columns: repeat(6, 1fr);
-		gap: 48px;
-		padding-top: 56px;
-		padding-bottom: 24px;
+	/* ===== 文档流板块（与子页面栏目样式一致） ===== */
+	.home-section {
+		margin-top: 48px;
+		margin-bottom: 8px;
 	}
 
-	.card:nth-child(-n+3) {
-		grid-column: span 2;
-	}
-
-	.card-wide {
-		grid-column: span 3;
-	}
-
-	.card {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.card-head {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		margin-bottom: 16px;
-		padding-bottom: 10px;
-		border-bottom: 1px solid var(--line);
-	}
-
-	.card-icon {
-		font-size: 18px;
+	/* 板块标题：与子页面 h2 统一（20px / 700 / 2px solid #555 底边线） */
+	.section-title {
+		font-size: 20px;
 		font-weight: 700;
+		margin: 0 0 16px;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
+	}
+
+	.section-title a {
 		color: #111111;
+		text-decoration: none;
 	}
 
-	.card-arrow {
-		font-size: 16px;
-		color: #bbbbbb;
-		transition: transform 0.2s, color 0.2s;
-	}
-
-	.card:hover .card-arrow {
-		transform: translateX(4px);
-		color: #111111;
-	}
-
-	.card:hover .card-icon {
+	.section-title a:hover {
 		text-decoration: underline;
 		text-underline-offset: 4px;
 	}
 
-	/* 关于栏 */
-	.card-list {
-		margin: 0 0 12px;
+	/* 键值对行（关于、物品） */
+	.row-list {
+		margin: 0 0 8px;
+		list-style: none;
 	}
 
-	.card-list-row {
+	.row-item {
 		display: flex;
 		justify-content: space-between;
-		font-size: 14px;
-		padding: 3px 0;
+		font-size: 15px;
+		padding: 4px 0;
 	}
 
-	.card-list-row dt {
+	.row-item dt {
 		color: var(--muted);
 	}
 
-	.card-list-row dd {
+	.row-item dd {
 		font-weight: 600;
+		color: #333333;
+		margin: 0;
+	}
+
+	/* 感悟 */
+	.ref-date {
+		font-size: 13px;
+		color: var(--muted);
+		margin-bottom: 6px;
+	}
+
+	.ref-insight {
+		font-size: 15px;
+		line-height: 1.9;
+		margin-bottom: 8px;
 		color: #333333;
 	}
 
-	/* 感悟栏 */
-	.card-date {
-		font-size: 13px;
-		color: var(--muted);
-		margin-bottom: 8px;
-	}
-
-	.card-insight {
-		font-size: 15px;
-		line-height: 1.7;
-		margin-bottom: 12px;
-		flex-grow: 1;
-		color: #444444;
-	}
-
-	/* 计划栏 */
-	.card-phases {
+	/* 计划三阶段 */
+	.phase-list {
 		list-style: none;
 		padding: 0;
-		margin: 0 0 12px;
+		margin: 0 0 8px;
 	}
 
-	.card-phases li {
+	.phase-list li {
 		display: flex;
 		gap: 8px;
 		align-items: baseline;
-		font-size: 14px;
+		font-size: 15px;
 		padding: 4px 0;
 	}
 
 	.phase-tag {
 		flex-shrink: 0;
-		padding: 1px 8px;
-		border: 1px solid #cccccc;
-		border-radius: 2px;
-		color: #555555;
-		font-size: 12px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		font-size: 15px;
 		font-weight: 600;
+		display: inline-block;
 	}
 
 	.phase-goal {
-		color: #444444;
+		color: #333333;
 	}
 
-	.card-meta {
-		font-size: 13px;
-		color: var(--muted);
-		margin-top: auto;
-		padding-top: 12px;
-		border-top: 1px dashed var(--line);
-	}
-
-	/* 物品标签组 */
-	.tag-row {
+	/* 物品分类标签 */
+	.cat-row {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 6px;
-		margin-bottom: 12px;
+		margin-bottom: 8px;
 	}
 
-	.mini-tag {
-		padding: 2px 8px;
-		border: 1px solid #cccccc;
+	.cat-tag {
+		padding: 1px 6px;
+		border: 1px solid #9ca3af;
 		border-radius: 2px;
 		font-size: 12px;
 		color: #555555;
 	}
 
 	/* 知识库文章小列表 */
-	.article-mini {
+	.kb-list {
 		list-style: none;
 		padding: 0;
-		margin: 0 0 12px;
-		flex-grow: 1;
+		margin: 0 0 8px;
 	}
 
-	.article-mini li {
+	.kb-list li {
 		display: flex;
 		align-items: baseline;
 		gap: 8px;
-		padding: 5px 0;
-		font-size: 14px;
+		padding: 4px 0;
+		font-size: 15px;
 	}
 
-	.mini-cat {
+	.kb-cat {
 		flex-shrink: 0;
-		padding: 1px 6px;
-		border: 1px solid #dddddd;
+		padding: 2px 6px;
+		background: #f3f4f6;
 		border-radius: 2px;
-		font-size: 11px;
-		color: #888888;
+		font-size: 12px;
+		color: #666666;
 	}
 
-	.article-title {
-		color: #444444;
+	.kb-title {
+		color: #333333;
+	}
+
+	/* 板块底部元信息 */
+	.section-meta {
+		font-size: 13px;
+		color: var(--muted);
+		margin-top: 8px;
 	}
 
 	@media (max-width: 900px) {
@@ -408,14 +359,8 @@ const kbArticles = [
 			font-size: 24px;
 		}
 
-		.cards {
-			grid-template-columns: 1fr;
-			gap: 40px;
-		}
-
-		.card:nth-child(-n+3),
-		.card-wide {
-			grid-column: span 1;
+		.home-section {
+			margin-top: 36px;
 		}
 	}
 </style>

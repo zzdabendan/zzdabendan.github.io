@@ -172,6 +172,62 @@ Windows 系统自带字体，无需加载网络字体，兼容性最好。
 
 <div class="demo"><p class="demo-p" style="font-family:'Microsoft YaHei',sans-serif">微软雅黑：这是正文示例，Ag 123。系统自带，无需额外加载。</p></div>
 
+## 文字大小
+
+全站字号统一，各级元素有固定值，不需要自己调整。下表是实际渲染的数值，按从大到小排列。
+
+### 一级标题 28px
+
+文章最顶部的标题，由页面自动渲染，正文里不会出现。
+
+<div class="demo"><div class="demo-h1">文章标题 28px</div></div>
+
+### 二级标题 20px
+
+用 `##` 写的大章节标题，下方带 2px 深灰线。
+
+<div class="demo"><div class="demo-h2">二级标题 20px</div></div>
+
+### 三级标题 15px
+
+用 `###` 写的小节标题，浅灰圆角背景。字号和正文一样大，靠背景色区分层级。
+
+<div class="demo"><div class="demo-h3">三级标题 15px</div></div>
+
+### 四级标题 14px
+
+用 `####` 写的子项标题，下方带 1px 浅灰线。
+
+<div class="demo"><div class="demo-h4">四级标题 14px</div></div>
+
+### 正文 15px
+
+段落正文，行高 1.9，保证长段落阅读舒适。
+
+<div class="demo"><p class="demo-p">正文 15px，行高 1.9。这是一段示例文字，展示正文字号和行距的实际效果。</p></div>
+
+### 列表 15px
+
+有序列表和无序列表的字号与正文一致，行高略紧（1.8）。
+
+<div class="demo"><ul class="demo-ul"><li>列表项 15px</li><li>列表第二项</li></ul></div>
+
+### 行内代码 13px
+
+反引号包裹的代码片段，比正文小 2px，浅灰底衬托。
+
+<div class="demo"><p class="demo-p">正文里的 <code>行内代码 13px</code> 和正文形成对比。</p></div>
+
+### 小字说明 12px
+
+用于布局示意图、占位框内的标注文字，最小字号，仅做辅助。
+
+<div class="demo"><div class="demo-layout"><div class="dl-row">小字说明 12px</div></div></div>
+
+### 字号差距逻辑
+
+相邻层级的字号差控制在 1-5px 之间，避免跳级太大造成视觉断层：标题之间 4-8px 递进，正文与三级标题同号（靠背景区分），行内代码比正文小 2px。阅读时视线从上到下自然过渡。
+
 ## 正文与段落
 
 正文直接写文字段落，一段只讲一个意思。段落之间空行分隔，段内不换行。句末用句号，列举停顿用顿号，分句用逗号。
