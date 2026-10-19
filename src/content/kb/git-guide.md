@@ -3,6 +3,7 @@ title: Git 笔记
 category: 工作
 summary: Git 是分布式版本控制系统，记录文件变更历史，支持分支协作。
 order: 2
+tags: [Git, 教程]
 ---
 
 ## 什么是 Git

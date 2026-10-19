@@ -20,16 +20,22 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const fmt = (d: Date) => d.toISOString().slice(0, 10);
+
+// 阅读时间估算：中文字符数 ÷ 400
+const chineseChars = (entry.body ?? '').replace(/[^\u4e00-\u9fa5]/g, '').length;
+const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 ---
 
 <BaseLayout title={`${entry.data.title} - 邹兆廷`} description={entry.data.summary}>
 	<article>
 		<h1 class="post-h1">{entry.data.title}</h1>
 		<p class="post-meta">
-			<time>{fmt(entry.data.date)}</time> · {entry.data.summary}
+			<time>{fmt(entry.data.date)}</time> · {entry.data.summary} · 约 {readMinutes} 分钟
 		</p>
 		<ArticleBody>
-			<Content />
+			<div data-pagefind-body>
+				<Content />
+			</div>
 		</ArticleBody>
 
 		<!-- 上一篇 / 下一篇 -->

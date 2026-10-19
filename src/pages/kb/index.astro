@@ -4,9 +4,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleBody from '../../components/ArticleBody.astro';
 import ArticleList from '../../components/ArticleList.astro';
 import Toc from '../../components/Toc.astro';
+import SearchBox from '../../components/SearchBox.astro';
 
 // 知识库首页：与文章详情页一致的三栏布局
-// 左栏文章列表 / 中栏导读、管理方法、分组导航、待完善清单 / 右栏本页目录
+// 左栏文章列表 / 中栏导读、管理方法、分组导航 / 右栏本页目录
 const all = await getCollection('kb');
 const groups = ['生活', '学校', '工作'].map((category) => ({
 	category,
@@ -21,15 +22,14 @@ const sidebarGroups = groups.map((g) => ({
 	items: g.items.map((a) => ({ id: a.id, title: a.data.title })),
 }));
 
-// 待完善：正文仍是占位状态的条目
-const pending = all.filter((a) => (a.body ?? '').trim() === '待补充。');
-
 // 右栏目录
 const toc = [
 	{ id: '管理方法', text: '知识库管理方法' },
 	...groups.map((g) => ({ id: g.category, text: g.category })),
-	...(pending.length > 0 ? [{ id: '待完善', text: '待完善' }] : []),
 ];
+
+// 收集全部标签（去重）
+const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 ---
 
 <BaseLayout title="知识库 - 邹兆廷" description="个人知识库文章导航">
@@ -38,11 +38,27 @@ const toc = [
 		<ArticleList groups={sidebarGroups} />
 
 		<!-- 中栏：导读 + 管理方法 + 分组导航 + 待完善 -->
-		<main class="kb-content">
-			<h1 class="article-h1">知识库</h1>
-			<p class="kb-stats">
-				共 {all.length} 篇 · 生活 {groups[0].items.length} · 学校 {groups[1].items.length} · 工作 {groups[2].items.length}
-			</p>
+			<main class="kb-content">
+				<h1 class="article-h1">知识库</h1>
+				<p class="kb-stats">
+					共 {all.length} 篇 · 生活 {groups[0].items.length} · 学校 {groups[1].items.length} · 工作 {groups[2].items.length}
+				</p>
+
+				<SearchBox />
+
+				{
+					allTags.length > 0 && (
+						<div class="tag-bar">
+							<span class="tag-label">标签：</span>
+							{allTags.map((tag) => (
+								<button class="tag-btn" data-tag={tag}>
+									{tag}
+								</button>
+							))}
+							<button class="tag-btn tag-clear" data-tag="">全部</button>
+						</div>
+					)
+				}
 
 			<ArticleBody>
 				<section>
@@ -64,11 +80,11 @@ const toc = [
 
 				{
 					groups.map((group) => (
-						<section>
+						<section data-group={group.category}>
 							<h2 id={group.category}>{group.category}</h2>
 							<ul class="entry-list">
 								{group.items.map((article) => (
-									<li>
+									<li data-tags={JSON.stringify(article.data.tags ?? [])}>
 										<a href={`/kb/${article.id}/`} class="entry-title">
 											{article.data.title}
 										</a>
@@ -79,36 +95,47 @@ const toc = [
 						</section>
 					))
 				}
-
-				{
-					pending.length > 0 && (
-						<section>
-							<h2 id="待完善">待完善</h2>
-							<p>以下条目还是占位状态，内容待补充：</p>
-							<ul class="entry-list">
-								{pending.map((article) => (
-									<li>
-										<a href={`/kb/${article.id}/`} class="entry-title">
-											{article.data.title}
-										</a>
-										<p class="entry-summary">{article.data.category}</p>
-									</li>
-								))}
-							</ul>
-						</section>
-					)
-				}
 			</ArticleBody>
 		</main>
 
 		<!-- 右栏：本页目录 -->
 		<Toc items={toc.map((t) => ({ href: `#${t.id}`, text: t.text }))} />
 	</div>
+
+	<script is:inline>
+		// 标签筛选：点击标签显示对应文章，点击"全部"恢复
+		document.addEventListener('DOMContentLoaded', () => {
+			const btns = document.querySelectorAll('.tag-btn');
+			const entries = document.querySelectorAll('.entry-list li');
+			const sections = document.querySelectorAll('section[data-group]');
+
+			btns.forEach((btn) => {
+				btn.addEventListener('click', () => {
+					const tag = btn.dataset.tag;
+					btns.forEach((b) => b.classList.remove('active'));
+					btn.classList.add('active');
+
+					entries.forEach((li) => {
+						const tags = JSON.parse(li.dataset.tags || '[]');
+						li.style.display = !tag || tags.includes(tag) ? '' : 'none';
+					});
+
+					// 隐藏空分组
+					sections.forEach((sec) => {
+						const hasVisible = [...sec.querySelectorAll('li')].some(
+							(li) => li.style.display !== 'none'
+						);
+						sec.style.display = hasVisible ? '' : 'none';
+					});
+				});
+			});
+		});
+	</script>
 </BaseLayout>
 
 <style is:global>
 	/* 三栏容器：侧栏 220 + 目录 200 + 中栏正文 680px，与子页面文字行宽一致 */
-	.container { --content-width: 1200px; }
+	.container { --content-width: 1200px; padding-top: 20px; }
 
 	html {
 		scroll-behavior: smooth;
@@ -121,7 +148,8 @@ const toc = [
 		grid-template-columns: 220px 1fr 200px;
 		gap: 30px;
 		margin: 0 auto;
-		padding: 32px 0;
+		padding: 0 0 32px;
+		min-height: calc(100vh - 166px); /* 撑满一屏：100vh - 导航 70px - 容器上下 padding 96px */
 	}
 
 	/* 中栏 */
@@ -171,6 +199,49 @@ const toc = [
 		color: var(--muted);
 		margin: 2px 0 0;
 		line-height: 1.7;
+	}
+
+	/* 标签栏 */
+	.tag-bar {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 24px;
+		align-items: center;
+	}
+
+	.tag-label {
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.tag-btn {
+		font-size: 13px;
+		padding: 4px 10px;
+		border-radius: 4px;
+		background: #f0ece5;
+		color: var(--text);
+		cursor: pointer;
+		border: none;
+		transition: background 0.15s;
+	}
+
+	.tag-btn:hover {
+		background: #e5dfd8;
+	}
+
+	.tag-btn.active {
+		background: #d1d5db;
+		font-weight: 600;
+	}
+
+	.tag-clear {
+		background: transparent;
+		color: var(--muted);
+	}
+
+	.tag-clear:hover {
+		background: #f0ece5;
 	}
 
 	/* 响应式 */

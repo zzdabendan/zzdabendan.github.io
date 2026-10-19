@@ -14,6 +14,8 @@ const kb = defineCollection({
 		video: z.string().optional(),
 		// 可选：视频自定义封面
 		cover: z.string().optional(),
+		// 可选：文章标签，用于筛选
+		tags: z.array(z.string()).optional(),
 	}),
 });
 
@@ -26,6 +28,8 @@ const posts = defineCollection({
 		summary: z.string(),
 		// 发布日期，格式 YYYY-MM-DD
 		date: z.coerce.date(),
+		// 可选：文章标签
+		tags: z.array(z.string()).optional(),
 	}),
 });
 

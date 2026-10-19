@@ -1,0 +1,38 @@
+---
+// 搜索组件：基于 pagefind 的静态搜索
+// 构建后运行 `npx pagefind --site dist` 生成索引
+---
+
+<div class="search-wrap">
+	<div id="search"></div>
+</div>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js" defer></script>
+<script is:inline>
+	window.addEventListener('DOMContentLoaded', () => {
+		if (typeof PagefindUI === 'undefined') return;
+		new PagefindUI({
+			element: '#search',
+			showSubResults: true,
+			showImages: false,
+			translations: {
+				placeholder: '搜索知识库文章…',
+				clear_search: '清除',
+				load_more: '加载更多',
+				search_label: '搜索',
+				filters_label: '筛选',
+				zero_results: '未找到相关内容',
+				many_results: '找到 [COUNT] 个结果',
+				one_result: '找到 1 个结果',
+				alt_search: '未找到，显示相关结果',
+			},
+		});
+	});
+</script>
+
+<style>
+	.search-wrap {
+		margin-bottom: 24px;
+	}
+</style>
