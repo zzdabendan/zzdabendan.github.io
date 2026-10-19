@@ -82,16 +82,17 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					groups.map((group) => (
 						<section data-group={group.category}>
 							<h2 id={group.category}>{group.category}</h2>
-							<ul class="entry-list">
+							<div class="card-grid">
 								{group.items.map((article) => (
-									<li data-tags={JSON.stringify(article.data.tags ?? [])}>
-										<a href={`/kb/${article.id}/`} class="entry-title">
-											{article.data.title}
-										</a>
-										<p class="entry-summary">{article.data.summary}</p>
-									</li>
+									<a
+										href={`/kb/${article.id}/`}
+										class="card-item"
+										data-tags={JSON.stringify(article.data.tags ?? [])}
+									>
+										<span class="card-title">{article.data.title}</span>
+									</a>
 								))}
-							</ul>
+							</div>
 						</section>
 					))
 				}
@@ -106,7 +107,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		// 标签筛选：点击标签显示对应文章，点击"全部"恢复
 		document.addEventListener('DOMContentLoaded', () => {
 			const btns = document.querySelectorAll('.tag-btn');
-			const entries = document.querySelectorAll('.entry-list li');
+			const cards = document.querySelectorAll('.card-item');
 			const sections = document.querySelectorAll('section[data-group]');
 
 			btns.forEach((btn) => {
@@ -115,15 +116,15 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					btns.forEach((b) => b.classList.remove('active'));
 					btn.classList.add('active');
 
-					entries.forEach((li) => {
-						const tags = JSON.parse(li.dataset.tags || '[]');
-						li.style.display = !tag || tags.includes(tag) ? '' : 'none';
+					cards.forEach((card) => {
+						const tags = JSON.parse(card.dataset.tags || '[]');
+						card.style.display = !tag || tags.includes(tag) ? '' : 'none';
 					});
 
 					// 隐藏空分组
 					sections.forEach((sec) => {
-						const hasVisible = [...sec.querySelectorAll('li')].some(
-							(li) => li.style.display !== 'none'
+						const hasVisible = [...sec.querySelectorAll('.card-item')].some(
+							(c) => c.style.display !== 'none'
 						);
 						sec.style.display = hasVisible ? '' : 'none';
 					});
@@ -170,35 +171,34 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		border-bottom: 1px solid #e5e7eb;
 	}
 
-	/* 中栏内的分组导航条目（覆盖 ArticleBody 的通用 ul/a 样式） */
-	.entry-list {
-		list-style: none;
-		padding: 0;
-		margin: 8px 0 12px;
+	/* 卡片网格 */
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
+		margin: 8px 0 24px;
 	}
 
-	.entry-list li {
-		margin-bottom: 14px;
+	.card-item {
+		display: flex;
+		align-items: center;
+		padding: 16px;
+		border: 1px solid var(--line);
+		border-radius: 6px;
+		background: #ffffff;
+		text-decoration: none;
+		transition: border-color 0.15s, box-shadow 0.15s;
 	}
 
-	.entry-title {
+	.card-item:hover {
+		border-color: #9ca3af;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	}
+
+	.card-title {
 		font-size: 15px;
 		font-weight: 600;
 		color: var(--text);
-		text-decoration: none;
-	}
-
-	.entry-title:hover {
-		text-decoration: underline;
-		text-decoration-color: #9ca3af;
-		text-underline-offset: 2px;
-	}
-
-	.entry-summary {
-		font-size: 14px;
-		color: var(--muted);
-		margin: 2px 0 0;
-		line-height: 1.7;
 	}
 
 	/* 标签栏 */
@@ -253,6 +253,10 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 
 		.kb-content {
 			order: 2;
+		}
+
+		.card-grid {
+			grid-template-columns: 1fr;
 		}
 	}
 </style>
