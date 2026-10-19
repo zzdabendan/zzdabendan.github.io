@@ -1,139 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// 个人能力（四大维度，filled 为进度实心点数量，满分 8 点）
-const abilities = [
-	{
-		name: '价值能力',
-		percent: '02%',
-		filled: 0,
-		groups: [
-			{
-				title: '资源与禀赋',
-				tags: ['家境', '人脉', '权势', '钱财', '资产', '收入', '社会经济地位', '职位', '学历', '等级', '境界', '幸运', '颜值', '经验', '眼力', '民族', '出生', '个人信仰'],
-			},
-			{
-				title: '身心素养',
-				tags: ['体力', '精神', '自制力', '创造力', '想象力', '意志力', '做人'],
-			},
-			{
-				title: '职业技能',
-				tags: ['网络技术', 'Linux系统', '无线技术', 'Windows系统', '办公技能', '表格', '文档', '演示', '函数', '编程', '视频剪辑', '修图', '设计', '制图', '制作', '设备维护', '维修', '教学', '翻译', '演讲', '发言', '说话', '销售', '接待', '客户服务', '管理', '调研', '生产', '耕种', '采收', '建造', '教育', '防护', '疗愈', '救援', '侦查', '抓捕'],
-			},
-		],
-	},
-	{
-		name: '感觉能力',
-		percent: '03%',
-		filled: 1,
-		groups: [
-			{
-				title: '生理机能',
-				tags: ['生存', '呼吸', '消化', '咀嚼', '代谢', '排泄', '免疫', '心率', '心脏', '肺部', '肝脏', '胃部', '肾脏', '大脑'],
-			},
-			{
-				title: '体能运动',
-				tags: ['运动', '休息', '放松', '熬夜', '跳跃', '跑步', '武术', '肌肉力', '力量', '速度', '耐力', '柔韧', '重量'],
-			},
-			{
-				title: '休闲娱乐',
-				tags: ['钢琴', '游戏', '绘画', '唱歌', '娱乐'],
-			},
-		],
-	},
-	{
-		name: '照顾能力',
-		percent: '15%',
-		filled: 2,
-		groups: [
-			{
-				title: '心性素养',
-				tags: ['气质', '性格', '智商', '情商', '勇敢', '信心', '大胆', '语调', '气势', '表情', '体质', '心情', '情绪', '付出'],
-			},
-			{
-				title: '生活自理',
-				tags: ['家务', '整理', '叠被', '清洁', '洗被', '理发', '化妆', '打扮'],
-			},
-			{
-				title: '社交协作',
-				tags: ['社交', '识人', '欣赏', '夸赞', '批评', '骂人', '照顾', '爱', '表达', '开心', '抗压', '沟通', '共情', '感染', '领导', '执行', '说服', '采纳', '建议'],
-			},
-		],
-	},
-	{
-		name: '计划能力',
-		percent: '80%',
-		filled: 7,
-		groups: [
-			{
-				title: '认知学习',
-				tags: ['大道理', '预知', '学习', '记忆', '遗忘', '记录', '名字', '算数', '数学', '写字', '识字', '读音', '读书', '写作', '提问'],
-			},
-			{
-				title: '思维决策',
-				tags: ['推演', '计谋', '计划', '判断', '选择', '分析', '复盘', '搜索', '检查', '检验', '比较', '分类', '评价', '总结'],
-			},
-			{
-				title: '自我调节',
-				tags: ['疲劳', '摸鱼', '打断', '停止', '小脑'],
-			},
-			{
-				title: '关注领域',
-				tags: ['身体锻炼', '饮食三餐', '睡眠作息', '工作', '财产', '物品', '宗族朋友', '网友粉丝', '游戏', '旅游', '音乐', '绘画', '课程知识', '技能经验', '黄帝内经', '易经', '道德经', '论语', '孟子', '鬼谷子', '庄子', '武术', '气功', 'B站', 'GitHub', '博客', '知识库'],
-			},
-		],
-	},
-];
-
-// ② 工作经历
-const workExperience = [
-	{
-		period: '2022年06月 —— 至今',
-		industry: '客服行业',
-		role: '运维专员',
-		company: '湖南德沃信息技术有限公司',
-		duties: '负责客服技术维护，负责客户服务',
-	},
-	{
-		period: '2022年03月 —— 2022年05月',
-		industry: '驾校行业',
-		role: '技术专员',
-		company: '南昌人才驾校有限公司',
-		duties: '负责驾校设备维护技术，负责客户服务',
-	},
-	{
-		period: '2021年12月（15天）',
-		industry: '制造行业',
-		role: '装配工人',
-		company: '南昌龙旗',
-		duties: '负责制造装配',
-	},
-	{
-		period: '2021年10月（3天）',
-		industry: '物流行业',
-		role: '分拣工人',
-		company: '某京东厂库',
-		duties: '负责物流分拣，负责订单处理，负责客户服务',
-	},
-	{
-		period: '2021年07月 —— 2021年09月',
-		industry: '媒体行业',
-		role: '视频剪辑',
-		company: '南昌酷哦文化传播有限公司',
-		duties: '负责视频剪辑，负责视频上传，负责视频推广',
-	},
-];
-
-// ③ 教育经历
-const education = [
-	{
-		period: '2019年09月 —— 2022年07月',
-		school: '江西信息应用职业技术学院',
-		major: '计算机网络技术',
-		courses: '组网技术、Linux系统、无线技术、Windows系统、综合布线等等',
-	},
-];
-
 // ⑤ 个人经历时间线（按人生阶段→年份→月份嵌套）
 const timeline = [
 	{
@@ -366,15 +233,14 @@ const timeline = [
 ];
 ---
 
-<BaseLayout title="关于 - 邹兆廷" description="个人简介、工作经历、教育经历、基本信息与个人经历">
+<BaseLayout title="关于 - 邹兆廷" description="自我介绍、我的技能与我的经历">
 	<article class="about">
 		<h1>关于</h1>
 
-		
 		<!-- 自我介绍（文档式） -->
 		<section class="card">
 			<h2>自我介绍</h2>
-			<p class="intro-text">我是邹兆廷，24 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
+			<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
 			<p class="intro-text">毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
 			<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。</p>
 			<p class="intro-text">工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。</p>
@@ -395,103 +261,45 @@ const timeline = [
 			</p>
 		</section>
 
-		<!-- 优点缺点 -->
+		<!-- 我的技能 -->
 		<section class="card">
-			<h2>优点缺点</h2>
-			<p class="intro-text">优缺点不是固定标签，而是相对当前目标的评估：帮我靠近目标的是优点，挡路的是缺点。它们从下面「个人能力」的自评中推导而来，目标变了，这份清单也会跟着变。</p>
-			<div class="trait-grid">
-				<div class="trait-group">
-					<h3 class="sub-title">优点</h3>
-					<p class="trait-item"><b>擅长规划与复盘。</b>练车把考试流程拆成步骤，挂科后记录原因再针对性练习，最终通过；对应「计划能力」的最高自评。</p>
-					<p class="trait-item"><b>能吃苦，执行力强。</b>兼职外卖全城跑，月底只剩 500 元也挑战低成本生活，并统计每笔支出。</p>
-					<p class="trait-item"><b>持续记录沉淀。</b>坚持写感悟、维护知识库与个人主页，把经验变成可复用的条目。</p>
-				</div>
-				<div class="trait-group">
-					<h3 class="sub-title">缺点</h3>
-					<p class="trait-item"><b>体能偏弱。</b>「感觉能力」自评最低，长期缺少系统锻炼。对策：把锻炼拆进日常，对应长期目标——锻炼健身。</p>
-					<p class="trait-item"><b>资源积累薄。</b>「价值能力」自评仅 2%，家境、人脉、收入都还在起点。对策：不硬拼资源，用规划和执行换时间。</p>
-					<p class="trait-item"><b>方向感不够稳。</b>目标时常摇摆，容易迷茫。对策：靠每月记录与定期复盘，让目标从记录里长出来。</p>
-				</div>
+			<h2>我的技能</h2>
+			<p class="intro-text">这里只列已经会用的技能标签，具体做法沉淀在<a href="/kb/">知识库</a>对应条目。</p>
+			<h3 class="sub-title">技术运维</h3>
+			<div class="tag-cloud">
+				<span class="skill-tag">网络技术</span>
+				<span class="skill-tag">Linux 系统</span>
+				<span class="skill-tag">Windows 系统</span>
+				<span class="skill-tag">无线技术</span>
+				<span class="skill-tag">综合布线</span>
+				<span class="skill-tag">装机维护</span>
+				<span class="skill-tag">设备维修</span>
+			</div>
+			<h3 class="sub-title">办公与制作</h3>
+			<div class="tag-cloud">
+				<span class="skill-tag">表格</span>
+				<span class="skill-tag">文档</span>
+				<span class="skill-tag">演示</span>
+				<span class="skill-tag">函数</span>
+				<span class="skill-tag">视频剪辑</span>
+				<span class="skill-tag">修图</span>
+				<span class="skill-tag">设计</span>
+				<span class="skill-tag">制图</span>
+			</div>
+			<h3 class="sub-title">表达与协作</h3>
+			<div class="tag-cloud">
+				<span class="skill-tag">编程</span>
+				<span class="skill-tag">教学</span>
+				<span class="skill-tag">翻译</span>
+				<span class="skill-tag">演讲</span>
+				<span class="skill-tag">客户服务</span>
 			</div>
 		</section>
 
-		<!-- 个人能力 -->
+		<!-- 我的经历时间线 -->
 		<section class="card">
-			<h2>个人能力</h2>
-			<p class="intro-text">四大维度的自评盘点，是上面优缺点与长期目标的推导依据：优势继续发挥，短板要么补、要么绕。</p>
-			<div class="ability-list">
-				{
-					abilities.map((ab) => (
-						<div class="ability-item">
-							<div class="ability-head">
-								<span class="ability-name">{ab.name}</span>
-								<span class="ability-dots">
-									{Array.from({ length: 8 }).map((_, i) => (
-										<span class:list={['dot', { filled: i < ab.filled }]}></span>
-									))}
-								</span>
-								<span class="ability-percent">{ab.percent}</span>
-							</div>
-							<div class="ability-groups">
-								{ab.groups.map((g) => (
-									<div class="ability-group">
-										<span class="group-title">{g.title}</span>
-										<div class="tag-cloud">
-											{g.tags.map((t) => (
-												<span class="skill-tag">{t}</span>
-											))}
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
-					))
-				}
-			</div>
-		</section>
-
-		<!-- 求职意向 -->
-		<section class="card">
-			<h2>求职意向</h2>
-			<p class="intro-text">意向岗位：xxx；意向城市：南昌；期望薪资：￥9999；求职类型：全职。</p>
-		</section>
-
-		<!-- 工作经历 -->
-		<section class="card">
-			<h2>工作经历</h2>
-			<div class="timeline-list">
-				{
-					workExperience.map((job) => (
-						<div class="job-entry">
-							<h3 class="job-title">{job.period} · {job.industry} · {job.company} · {job.role}</h3>
-							<p class="job-sub">工作内容</p>
-							<p class="job-detail">{job.duties}</p>
-						</div>
-					))
-				}
-			</div>
-		</section>
-
-		<!-- 教育经历 -->
-		<section class="card">
-			<h2>教育经历</h2>
-			<div class="timeline-list">
-				{
-					education.map((edu) => (
-						<div class="job-entry">
-							<h3 class="job-title">{edu.period} · {edu.school} · {edu.major}</h3>
-							<p class="job-sub">专科课程</p>
-							<p class="job-detail">{edu.courses}</p>
-						</div>
-					))
-				}
-			</div>
-		</section>
-
-
-		<!-- 个人经历时间线 -->
-		<section class="card">
-			<h2>个人经历</h2>
+			<h2>我的经历</h2>
+			<p class="intro-text">从 2001 年出生至今的完整记录，按阶段 → 年份 → 月份排列。</p>
 			{
 				timeline.map((group) => (
 					<div class="timeline-group">
@@ -552,103 +360,6 @@ const timeline = [
 		display: inline-block;
 	}
 
-	/* 优点缺点 */
-	.trait-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 24px;
-	}
-
-	.trait-item {
-		font-size: 15px;
-		line-height: 1.9;
-		color: var(--text);
-	}
-
-	@media (max-width: 700px) {
-		.trait-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	/* 个人能力 */
-	.ability-list {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
-	}
-
-	.ability-item {
-		padding-bottom: 20px;
-		border-bottom: 1px dashed #e5e7eb;
-	}
-
-	.ability-item:last-child {
-		padding-bottom: 0;
-		border-bottom: none;
-	}
-
-	.ability-head {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		margin-bottom: 12px;
-	}
-
-	.ability-name {
-		font-size: 16px;
-		font-weight: 700;
-		color: #111111;
-		min-width: 72px;
-	}
-
-	.ability-dots {
-		display: inline-flex;
-		gap: 4px;
-		letter-spacing: 0;
-	}
-
-	.dot {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		border: 1.5px solid #bbbbbb;
-		background: transparent;
-		display: inline-block;
-	}
-
-	.dot.filled {
-		background: #111111;
-		border-color: #111111;
-	}
-
-	.ability-percent {
-		margin-left: auto;
-		font-size: 14px;
-		font-weight: 600;
-		color: var(--muted);
-	}
-
-	.ability-groups {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-	}
-
-	.ability-group {
-		display: flex;
-		gap: 12px;
-		align-items: flex-start;
-	}
-
-	.group-title {
-		flex-shrink: 0;
-		width: 72px;
-		font-size: 13px;
-		color: var(--muted);
-		line-height: 26px;
-	}
-
 	.tag-cloud {
 		display: flex;
 		flex-wrap: wrap;
@@ -682,48 +393,6 @@ const timeline = [
 
 	.link-line a:hover {
 		text-decoration-color: #555555;
-	}
-
-	/* 工作/教育经历列表 */
-	.timeline-list {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-	}
-
-	.job-entry {
-		padding-bottom: 16px;
-		border-bottom: 1px dashed #e5e7eb;
-	}
-
-	.job-entry:last-child {
-		padding-bottom: 0;
-		border-bottom: none;
-	}
-
-	/* 三级标题：日期·行业·公司·岗位 */
-	.job-title {
-		font-size: 15px;
-		font-weight: 600;
-		margin: 0 0 8px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		display: inline-block;
-	}
-
-	/* 四级标题：工作内容 */
-	.job-sub {
-		font-size: 14px;
-		font-weight: 600;
-		color: #555555;
-		margin: 8px 0 4px;
-	}
-
-	.job-detail {
-		font-size: 14px;
-		line-height: 1.9;
-		color: var(--text);
 	}
 
 	/* 个人经历 */
@@ -790,17 +459,5 @@ const timeline = [
 		text-align: center;
 		margin-top: 32px;
 		font-size: 15px;
-	}
-
-	@media (max-width: 600px) {
-		.ability-group {
-			flex-direction: column;
-			gap: 6px;
-		}
-
-		.group-title {
-			width: auto;
-			line-height: 1.4;
-		}
 	}
 </style>
