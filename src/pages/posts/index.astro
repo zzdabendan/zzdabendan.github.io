@@ -22,10 +22,9 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 				<ul class="post-list">
 					{items.map((post) => (
 						<li>
-							<time class="post-date">{fmt(post.data.date)}</time>
-							<a href={`/posts/${post.id}/`} class="post-title">{post.data.title}</a>
-							<p class="post-summary">{post.data.summary}</p>
-						</li>
+								<time class="post-date">{fmt(post.data.date)}</time>
+								<a href={`/posts/${post.id}/`} class="post-title">{post.data.title}</a>
+							</li>
 					))}
 				</ul>
 			)
@@ -53,18 +52,21 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 	}
 
 	.post-list li {
-		margin-bottom: 22px;
+		display: flex;
+		align-items: baseline;
+		gap: 14px;
+		margin-bottom: 10px;
 	}
 
 	.post-date {
-		display: block;
 		font-size: 13px;
 		color: var(--muted);
+		flex-shrink: 0;
 	}
 
 	.post-title {
-		font-size: 17px;
-		font-weight: 600;
+		font-size: 15px;
+		font-weight: 500;
 		color: var(--text);
 	}
 
@@ -72,12 +74,6 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 		text-decoration: underline;
 		text-decoration-color: #9ca3af;
 		text-underline-offset: 2px;
-	}
-
-	.post-summary {
-		font-size: 14px;
-		color: var(--muted);
-		margin-top: 2px;
 	}
 
 	.back {
