@@ -1,29 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// ④ 基本信息
-const basicInfo = [
-	{ label: '年龄', value: '24岁' },
-	{ label: '身高', value: '163cm' },
-	{ label: '体重', value: '70kg' },
-	{ label: '电话1', value: '10000000000' },
-	{ label: '微信', value: '10000000000' },
-	{ label: '电话2', value: '10000000000' },
-	{ label: 'QQ', value: '10000000000（邮箱：10000000000@qq.com）' },
-	{ label: 'QQ2', value: '20000000000（邮箱：20000000000@qq.com）' },
-	{ label: 'QQ3', value: '30000000000' },
-];
-
-const socialLinks = [
-	{ label: '抖音', value: 'douyin' },
-	{ label: 'B站', value: 'https://space.bilibili.com/', isLink: true },
-	{ label: '个人主页', value: 'https://zzdabendan.github.io', isLink: true },
-	{ label: '个人知识库', value: 'http://danbendada.wiki', isLink: true },
-	{ label: 'GitHub 1', value: 'https://github.com/zzdabendan/', isLink: true },
-	{ label: 'GitHub 2', value: 'https://github.com/danbendada/', isLink: true },
-	{ label: '备份站点', value: 'https://gitee.com/danbendada', isLink: true },
-];
-
 // 个人能力（四大维度，filled 为进度实心点数量，满分 8 点）
 const abilities = [
 	{
@@ -106,14 +83,6 @@ const abilities = [
 			},
 		],
 	},
-];
-
-// ① 个人简介（求职意向）
-const jobIntention = [
-	{ label: '意向岗位', value: 'xxx' },
-	{ label: '意向城市', value: '南昌' },
-	{ label: '期望薪资', value: '￥9999' },
-	{ label: '求职类型', value: '全职' },
 ];
 
 // ② 工作经历
@@ -402,36 +371,26 @@ const timeline = [
 		<h1>关于</h1>
 
 		
-		<!-- 基本信息 -->
+		<!-- 自我介绍（文档式） -->
 		<section class="card">
-			<h2>基本信息</h2>
-			<div class="info-grid">
-				{
-					basicInfo.map((item) => (
-						<div class="info-row">
-							<span class="info-label">{item.label}</span>
-							<span class="info-value">{item.value}</span>
-						</div>
-					))
-				}
-			</div>
+			<h2>自我介绍</h2>
+			<p class="intro-text">我是邹兆廷，24 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
+			<p class="intro-text">毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
+			<p class="intro-text">工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。</p>
+
+			<h3 class="sub-title">联系方式</h3>
+			<p class="intro-text">电话：10000000000（备用 10000000000）<br />微信：10000000000<br />QQ：10000000000（邮箱 10000000000@qq.com）、20000000000（邮箱 20000000000@qq.com）、30000000000</p>
+
 			<h3 class="sub-title">社交与站点</h3>
-			<div class="info-grid">
-				{
-					socialLinks.map((item) => (
-						<div class="info-row">
-							<span class="info-label">{item.label}</span>
-							{item.isLink ? (
-								<a class="info-value" href={item.value} target="_blank" rel="noopener">
-									{item.value}
-								</a>
-							) : (
-								<span class="info-value">{item.value}</span>
-							)}
-						</div>
-					))
-				}
-			</div>
+			<p class="intro-text link-line">
+				<a href="https://zzdabendan.github.io" target="_blank" rel="noopener">个人主页</a> ·
+				<a href="http://danbendada.wiki" target="_blank" rel="noopener">个人知识库</a> ·
+				<a href="https://space.bilibili.com/" target="_blank" rel="noopener">B站</a> ·
+				抖音（douyin） ·
+				<a href="https://github.com/zzdabendan/" target="_blank" rel="noopener">GitHub 1</a> ·
+				<a href="https://github.com/danbendada/" target="_blank" rel="noopener">GitHub 2</a> ·
+				<a href="https://gitee.com/danbendada" target="_blank" rel="noopener">备份站点</a>
+			</p>
 		</section>
 
 		<!-- 优点缺点 -->
@@ -485,19 +444,10 @@ const timeline = [
 			</div>
 		</section>
 
-		<!-- 个人简介（求职意向） -->
+		<!-- 求职意向 -->
 		<section class="card">
-			<h2>个人简介</h2>
-			<div class="info-grid">
-				{
-					jobIntention.map((item) => (
-						<div class="info-row">
-							<span class="info-label">{item.label}</span>
-							<span class="info-value">{item.value}</span>
-						</div>
-					))
-				}
-			</div>
+			<h2>求职意向</h2>
+			<p class="intro-text">意向岗位：xxx；意向城市：南昌；期望薪资：￥9999；求职类型：全职。</p>
 		</section>
 
 		<!-- 工作经历 -->
@@ -711,29 +661,21 @@ const timeline = [
 		white-space: nowrap;
 	}
 
-	/* 信息网格 */
-	.info-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 10px 24px;
-	}
-
-	.info-row {
-		display: flex;
-		gap: 8px;
+	/* 文档式介绍段落 */
+	.intro-text {
 		font-size: 15px;
-		line-height: 2;
+		line-height: 1.9;
+		margin-bottom: 12px;
 	}
 
-	.info-label {
-		color: var(--muted);
-		white-space: nowrap;
-		min-width: 70px;
+	.link-line a {
+		text-decoration: underline;
+		text-decoration-color: #d1d5db;
+		text-underline-offset: 2px;
 	}
 
-	.info-value {
-		color: var(--text);
-		word-break: break-all;
+	.link-line a:hover {
+		text-decoration-color: #555555;
 	}
 
 	/* 工作/教育经历列表 */
@@ -845,10 +787,6 @@ const timeline = [
 	}
 
 	@media (max-width: 600px) {
-		.info-grid {
-			grid-template-columns: 1fr;
-		}
-
 		.ability-group {
 			flex-direction: column;
 			gap: 6px;
