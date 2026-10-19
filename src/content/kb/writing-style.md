@@ -1,7 +1,7 @@
 ---
 title: 写作排版规范
 category: 生活
-summary: 写作中重复性内容的标准格式：标题、段落、列表、代码、图片、视频的统一写法。
+summary: 写作中重复性内容的标准格式：标题、段落、列表、链接、代码、图片、视频的统一写法。
 order: 2
 ---
 
@@ -272,6 +272,35 @@ Windows 系统自带字体，无需加载网络字体，兼容性最好。
 		<li>第三步</li>
 	</ol>
 </div>
+
+## 链接
+
+### 基本写法
+
+用 Markdown 语法 `[链接文字](URL)` 插入链接。链接文字直接描述指向的内容，不写「点击这里」，也不贴裸网址，读者看文字就知道要去哪。
+
+<div class="demo">
+	<p class="demo-p">正文中的<a href="https://example.com" target="_blank" rel="noopener">站外链接示例</a>，链接文字说明指向的内容。</p>
+	<p class="demo-p">跳转到站内页面，例如<a href="/about">关于页</a>或<a href="/kb">知识库</a>。</p>
+</div>
+
+### 站内链接
+
+地址用相对路径，以 `/` 开头，例如 `[关于页](/about)`、`[Astro 笔记](/kb/astro-basics)`。站内链接保持在当前窗口打开，不额外设置属性。
+
+### 站外链接
+
+地址写完整 URL。站外跳转会离开文章，统一用 HTML 写法并新窗口打开：
+
+`<a href="https://example.com" target="_blank" rel="noopener">链接文字</a>`
+
+`target="_blank"` 负责新窗口打开，`rel="noopener"` 必须带上，防止新页面拿到原页面控制权，是安全要求。
+
+### 链接样式
+
+全站链接不做蓝色高亮：文字颜色与正文一致，下方一条 1px 浅灰下划线（#9ca3af），偏移 2px，悬停不变色。白纸黑字风格下，链接靠下划线识别，不靠颜色跳脱。
+
+<div class="demo"><p class="demo-p">链接<a href="https://example.com" target="_blank" rel="noopener">样式示例</a>：颜色同正文，浅灰细下划线。</p></div>
 
 ## 图片
 
