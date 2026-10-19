@@ -105,6 +105,8 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 		position: sticky;
 		top: 70px;
 		align-self: start;
+		max-height: calc(100vh - 94px);
+		overflow-y: auto;
 		background: #f5f5f5;
 		border-radius: 6px;
 		padding: 12px 8px;
@@ -199,6 +201,8 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 		position: sticky;
 		top: 70px;
 		align-self: start;
+		max-height: calc(100vh - 94px);
+		overflow-y: auto;
 		background: #f5f5f5;
 		border-radius: 6px;
 		padding: 12px;
@@ -252,6 +256,8 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 		.kb-sidebar,
 		.kb-toc {
 			position: static;
+			max-height: none;
+			overflow-y: visible;
 		}
 
 		.kb-sidebar {
@@ -273,6 +279,27 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 
 		.article-link {
 			width: auto;
+		}
+	}
+
+	/* 桌面端：侧栏固定于视口，不随文档流上下位移；网格列位保留，中栏仍占第二列 */
+	@media (min-width: 901px) {
+		.kb-sidebar {
+			position: fixed;
+			top: 70px;
+			left: max(40px, calc(50vw - 510px));
+			width: 220px;
+		}
+
+		.kb-toc {
+			position: fixed;
+			top: 70px;
+			right: max(40px, calc(50vw - 510px));
+			width: 200px;
+		}
+
+		.kb-content {
+			grid-column: 2;
 		}
 	}
 </style>
