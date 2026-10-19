@@ -24,6 +24,37 @@ const contacts = [
 	},
 ];
 
+// 社交与站点：与联系方式同一格式，左侧站点名，右侧账号或域名
+const socialLinks = [
+	{
+		label: '个人主页',
+		items: [{ value: 'zzdabendan.github.io', url: 'https://zzdabendan.github.io' }],
+	},
+	{
+		label: '个人知识库',
+		items: [{ value: 'danbendada.wiki', url: 'http://danbendada.wiki' }],
+	},
+	{
+		label: 'B站',
+		items: [{ value: 'space.bilibili.com', url: 'https://space.bilibili.com/' }],
+	},
+	{
+		label: '抖音',
+		items: [{ value: 'douyin' }],
+	},
+	{
+		label: 'GitHub',
+		items: [
+			{ value: 'github.com/zzdabendan', url: 'https://github.com/zzdabendan/', note: '主用' },
+			{ value: 'github.com/danbendada', url: 'https://github.com/danbendada/', note: '备用' },
+		],
+	},
+	{
+		label: '备份站点',
+		items: [{ value: 'gitee.com/danbendada', url: 'https://gitee.com/danbendada' }],
+	},
+];
+
 // ⑤ 个人经历时间线（按人生阶段→年份→月份嵌套）
 const timeline = [
 	{
@@ -278,7 +309,13 @@ const timeline = [
 							<div class="contact-values">
 								{c.items.map((item) => (
 									<span>
-										{item.value}
+										{item.url ? (
+											<a href={item.url} target="_blank" rel="noopener">
+												{item.value}
+											</a>
+										) : (
+											item.value
+										)}
 										{item.note && <span class="contact-note">（{item.note}）</span>}
 									</span>
 								))}
@@ -289,15 +326,29 @@ const timeline = [
 			</div>
 
 			<h3 class="sub-title">社交与站点</h3>
-			<p class="intro-text link-line">
-				<a href="https://zzdabendan.github.io" target="_blank" rel="noopener">个人主页</a> ·
-				<a href="http://danbendada.wiki" target="_blank" rel="noopener">个人知识库</a> ·
-				<a href="https://space.bilibili.com/" target="_blank" rel="noopener">B站</a> ·
-				抖音（douyin） ·
-				<a href="https://github.com/zzdabendan/" target="_blank" rel="noopener">GitHub 1</a> ·
-				<a href="https://github.com/danbendada/" target="_blank" rel="noopener">GitHub 2</a> ·
-				<a href="https://gitee.com/danbendada" target="_blank" rel="noopener">备份站点</a>
-			</p>
+			<div class="contact-list">
+				{
+					socialLinks.map((c) => (
+						<div class="contact-row">
+							<span class="contact-label">{c.label}</span>
+							<div class="contact-values">
+								{c.items.map((item) => (
+									<span>
+										{item.url ? (
+											<a href={item.url} target="_blank" rel="noopener">
+												{item.value}
+											</a>
+										) : (
+											item.value
+										)}
+										{item.note && <span class="contact-note">（{item.note}）</span>}
+									</span>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
 		</section>
 
 		<!-- 我的技能 -->
@@ -413,7 +464,7 @@ const timeline = [
 		margin-bottom: 12px;
 	}
 
-	/* 联系方式：渠道标签列 + 账号逐行排列 */
+	/* 联系方式 / 社交与站点：渠道标签列 + 账号逐行排列 */
 	.contact-list {
 		font-size: 15px;
 		line-height: 1.9;
@@ -421,7 +472,7 @@ const timeline = [
 
 	.contact-row {
 		display: grid;
-		grid-template-columns: 3em 1fr;
+		grid-template-columns: auto 1fr;
 		column-gap: 12px;
 	}
 
@@ -430,18 +481,18 @@ const timeline = [
 		flex-direction: column;
 	}
 
-	.contact-note {
-		color: #6b7280;
-	}
-
-	.link-line a {
+	.contact-values a {
 		text-decoration: underline;
 		text-decoration-color: #d1d5db;
 		text-underline-offset: 2px;
 	}
 
-	.link-line a:hover {
+	.contact-values a:hover {
 		text-decoration-color: #555555;
+	}
+
+	.contact-note {
+		color: #6b7280;
 	}
 
 	/* 个人经历 */
