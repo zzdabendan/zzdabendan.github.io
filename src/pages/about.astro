@@ -1,6 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// 联系方式：按渠道分组，每个账号一行，备注统一括注
+const contacts = [
+	{
+		label: '电话',
+		items: [
+			{ value: '10000000000', note: '常用' },
+			{ value: '10000000000', note: '备用' },
+		],
+	},
+	{
+		label: '微信',
+		items: [{ value: '10000000000' }],
+	},
+	{
+		label: 'QQ',
+		items: [
+			{ value: '10000000000', note: '邮箱同号' },
+			{ value: '20000000000', note: '邮箱同号' },
+			{ value: '30000000000' },
+		],
+	},
+];
+
 // ⑤ 个人经历时间线（按人生阶段→年份→月份嵌套）
 const timeline = [
 	{
@@ -247,7 +270,23 @@ const timeline = [
 			<p class="intro-text">长期目标是坚持锻炼健身，保持健康的身体。</p>
 
 			<h3 class="sub-title">联系方式</h3>
-			<p class="intro-text">电话：10000000000（备用 10000000000）<br />微信：10000000000<br />QQ：10000000000（邮箱 10000000000@qq.com）、20000000000（邮箱 20000000000@qq.com）、30000000000</p>
+			<div class="contact-list">
+				{
+					contacts.map((c) => (
+						<div class="contact-row">
+							<span class="contact-label">{c.label}</span>
+							<div class="contact-values">
+								{c.items.map((item) => (
+									<span>
+										{item.value}
+										{item.note && <span class="contact-note">（{item.note}）</span>}
+									</span>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
 
 			<h3 class="sub-title">社交与站点</h3>
 			<p class="intro-text link-line">
@@ -383,6 +422,27 @@ const timeline = [
 		font-size: 15px;
 		line-height: 1.9;
 		margin-bottom: 12px;
+	}
+
+	/* 联系方式：渠道标签列 + 账号逐行排列 */
+	.contact-list {
+		font-size: 15px;
+		line-height: 1.9;
+	}
+
+	.contact-row {
+		display: grid;
+		grid-template-columns: 3em 1fr;
+		column-gap: 12px;
+	}
+
+	.contact-values {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.contact-note {
+		color: #6b7280;
 	}
 
 	.link-line a {
