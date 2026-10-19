@@ -27,11 +27,11 @@ const contacts = [
 // 社交与站点：与联系方式同一格式，左侧站点名，右侧账号或域名
 const socialLinks = [
 	{
-		label: '个人主页',
+		label: '主页',
 		items: [{ value: 'zzdabendan.github.io', url: 'https://zzdabendan.github.io' }],
 	},
 	{
-		label: '个人知识库',
+		label: '文库',
 		items: [{ value: 'danbendada.wiki', url: 'http://danbendada.wiki' }],
 	},
 	{
@@ -43,14 +43,14 @@ const socialLinks = [
 		items: [{ value: 'douyin' }],
 	},
 	{
-		label: 'GitHub',
+		label: '代码',
 		items: [
 			{ value: 'github.com/zzdabendan', url: 'https://github.com/zzdabendan/', note: '主用' },
 			{ value: 'github.com/danbendada', url: 'https://github.com/danbendada/', note: '备用' },
 		],
 	},
 	{
-		label: '备份站点',
+		label: '备站',
 		items: [{ value: 'gitee.com/danbendada', url: 'https://gitee.com/danbendada' }],
 	},
 ];
@@ -468,7 +468,7 @@ const timeline = [
 
 	.contact-row {
 		display: grid;
-		grid-template-columns: auto 1fr;
+		grid-template-columns: 2em 1fr;
 		column-gap: 12px;
 	}
 
