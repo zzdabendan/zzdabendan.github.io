@@ -257,7 +257,7 @@ const timeline = [
 ---
 
 <BaseLayout title="关于 - 邹兆廷" description="自我介绍、我的技能与我的经历">
-	<article class="about">
+	<article>
 		<h1>关于</h1>
 
 		<!-- 自我介绍（文档式） -->
@@ -303,7 +303,6 @@ const timeline = [
 		<!-- 我的技能 -->
 		<section class="card">
 			<h2>我的技能</h2>
-			<p class="intro-text">这里只列已经会用的技能标签，具体做法沉淀在<a href="/kb/">知识库</a>对应条目。</p>
 			<h3 class="sub-title">技术运维</h3>
 			<div class="tag-cloud">
 				<span class="skill-tag">网络技术</span>
@@ -338,7 +337,6 @@ const timeline = [
 		<!-- 我的经历时间线 -->
 		<section class="card">
 			<h2>我的经历</h2>
-			<p class="intro-text">从 2001 年出生至今的完整记录，按阶段 → 年份 → 月份排列。</p>
 			{
 				timeline.map((group) => (
 					<div class="timeline-group">
@@ -366,15 +364,6 @@ const timeline = [
 </BaseLayout>
 
 <style>
-	.about {
-		padding-top: 16px;
-	}
-
-	h1 {
-		font-size: 28px;
-		margin-bottom: 24px;
-	}
-
 	.card {
 		margin-bottom: 40px;
 	}

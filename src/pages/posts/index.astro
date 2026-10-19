@@ -11,9 +11,6 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 <BaseLayout title="文章 - 邹兆廷" description="完整成篇的文章">
 	<article>
 		<h1>文章</h1>
-		<p class="intro">
-			这里用于发布完整成篇的文章：一件事的经过叙述、项目复盘、教程或观点。与「感悟」的碎片记录、「知识库」的条目沉淀不同，这里的每篇都是写完定稿、可以从头读到尾的文章。
-		</p>
 
 		{
 			items.length === 0 ? (
@@ -35,11 +32,6 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 </BaseLayout>
 
 <style>
-	h1 {
-		font-size: 28px;
-		margin-bottom: 8px;
-	}
-
 	.intro {
 		color: var(--text);
 		margin-bottom: 12px;
@@ -48,7 +40,6 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 	.post-list {
 		list-style: none;
 		padding: 0;
-		margin-top: 24px;
 	}
 
 	.post-list li {

@@ -1,0 +1,148 @@
+---
+// 知识库左栏：按分组列出全部文章，传入 activeId 时高亮当前篇
+interface Props {
+	groups: { category: string; items: { id: string; title: string }[] }[];
+	activeId?: string;
+}
+
+const { groups, activeId } = Astro.props;
+---
+
+<aside class="kb-sidebar">
+	<h2 class="kb-sidebar-title"><a href="/kb/">文章列表</a></h2>
+	<ul class="article-list">
+		{
+			groups.map((group) => (
+				<li class="article-group">
+					<p class="article-group-title">{group.category}</p>
+					<ul class="article-sublist">
+						{group.items.map((article) => (
+							<li>
+								<a
+									href={`/kb/${article.id}/`}
+									class:list={['article-link', { active: article.id === activeId }]}
+								>
+									<span class="article-title">{article.title}</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</li>
+			))
+		}
+	</ul>
+</aside>
+
+<style>
+	.kb-sidebar {
+		position: sticky;
+		top: 70px;
+		align-self: start;
+		max-height: calc(100vh - 94px);
+		overflow-y: auto;
+		background: #f5f5f5;
+		border-radius: 6px;
+		padding: 12px 8px;
+		scrollbar-width: thin;
+		scrollbar-color: #d1d5db transparent;
+	}
+
+	/* 细滚动条：Chrome / Edge */
+	.kb-sidebar::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.kb-sidebar::-webkit-scrollbar-thumb {
+		background: #d1d5db;
+		border-radius: 3px;
+	}
+
+	.kb-sidebar::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	.kb-sidebar-title {
+		font-size: 15px;
+		margin-bottom: 12px;
+		color: #666666;
+	}
+
+	.kb-sidebar-title a:hover {
+		color: var(--text);
+	}
+
+	.article-list {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.article-group-title {
+		display: inline-block;
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--text);
+		background: #d1d5db;
+		border-radius: 4px;
+		padding: 2px 8px;
+		margin: 0 0 6px 12px;
+	}
+
+	.article-sublist {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.article-link {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		width: 100%;
+		text-align: left;
+		padding: 8px 12px;
+		border-radius: 8px;
+		transition: background 0.15s;
+	}
+
+	.article-link:hover {
+		background: #f3f4f6;
+	}
+
+	.article-link.active {
+		background: #f3f3f3;
+	}
+
+	.article-title {
+		font-size: 15px;
+		color: var(--text);
+		line-height: 1.4;
+	}
+
+	.article-link.active .article-title {
+		font-weight: 600;
+	}
+
+	/* 窄屏：回到文档流，横向排布 */
+	@media (max-width: 900px) {
+		.kb-sidebar {
+			position: static;
+			max-height: none;
+			overflow-y: visible;
+			order: 1;
+		}
+
+		.article-list {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		.article-link {
+			width: auto;
+		}
+	}
+</style>

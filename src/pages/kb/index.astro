@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleBody from '../../components/ArticleBody.astro';
+import ArticleList from '../../components/ArticleList.astro';
+import Toc from '../../components/Toc.astro';
 
 // 知识库首页：与文章详情页一致的三栏布局
 // 左栏文章列表 / 中栏导读、管理方法、分组导航、待完善清单 / 右栏本页目录
@@ -11,6 +13,12 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 	items: all
 		.filter((a) => a.data.category === category)
 		.sort((a, b) => a.data.order - b.data.order),
+}));
+
+// 左栏组件数据：只取 id 与标题
+const sidebarGroups = groups.map((g) => ({
+	category: g.category,
+	items: g.items.map((a) => ({ id: a.id, title: a.data.title })),
 }));
 
 // 待完善：正文仍是占位状态的条目
@@ -27,35 +35,11 @@ const toc = [
 <BaseLayout title="知识库 - 邹兆廷" description="个人知识库文章导航">
 	<div class="kb-layout">
 		<!-- 左栏：文章列表 -->
-		<aside class="kb-sidebar">
-			<h2 class="kb-sidebar-title"><a href="/kb/">文章列表</a></h2>
-			<ul class="article-list">
-				{
-					groups.map((group) => (
-						<li class="article-group">
-							<p class="article-group-title">{group.category}</p>
-							<ul class="article-sublist">
-								{group.items.map((article) => (
-									<li>
-										<a href={`/kb/${article.id}/`} class="article-link">
-											<span class="article-title">{article.data.title}</span>
-										</a>
-									</li>
-								))}
-							</ul>
-						</li>
-					))
-				}
-			</ul>
-		</aside>
+		<ArticleList groups={sidebarGroups} />
 
 		<!-- 中栏：导读 + 管理方法 + 分组导航 + 待完善 -->
 		<main class="kb-content">
 			<h1 class="article-h1">知识库</h1>
-			<p class="article-summary">
-				这里沉淀可复用的知识条目：生活中的方法与收藏、学生时代的功课、工作中的技术笔记。按「生活 → 学校 →
-				工作」分组，点击标题进入阅读；每篇文章右侧带目录，可快速跳转。
-			</p>
 			<p class="kb-stats">
 				共 {all.length} 篇 · 生活 {groups[0].items.length} · 学校 {groups[1].items.length} · 工作 {groups[2].items.length}
 			</p>
@@ -118,18 +102,7 @@ const toc = [
 		</main>
 
 		<!-- 右栏：本页目录 -->
-		<aside class="kb-toc">
-			<h2 class="kb-toc-title">目录</h2>
-			<ul class="toc-list">
-				{
-					toc.map((item) => (
-						<li>
-							<a href={`#${item.id}`} class="toc-h2">{item.text}</a>
-						</li>
-					))
-				}
-			</ul>
-		</aside>
+		<Toc items={toc.map((t) => ({ href: `#${t.id}`, text: t.text }))} />
 	</div>
 </BaseLayout>
 
@@ -151,76 +124,6 @@ const toc = [
 		padding: 32px 0;
 	}
 
-	/* 左栏 */
-	.kb-sidebar {
-		position: sticky;
-		top: 70px;
-		align-self: start;
-		max-height: calc(100vh - 94px);
-		overflow-y: auto;
-		background: #f5f5f5;
-		border-radius: 6px;
-		padding: 12px 8px;
-	}
-
-	.kb-sidebar-title {
-		font-size: 15px;
-		margin-bottom: 12px;
-		color: #666666;
-	}
-
-	.kb-sidebar-title a:hover {
-		color: var(--text);
-	}
-
-	.article-list {
-		list-style: none;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	.article-group-title {
-		display: inline-block;
-		font-size: 12px;
-		font-weight: 600;
-		color: var(--text);
-		background: #d1d5db;
-		border-radius: 4px;
-		padding: 2px 8px;
-		margin: 0 0 6px 12px;
-	}
-
-	.article-sublist {
-		list-style: none;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-	}
-
-	.article-link {
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
-		width: 100%;
-		text-align: left;
-		padding: 8px 12px;
-		border-radius: 8px;
-		transition: background 0.15s;
-	}
-
-	.article-link:hover {
-		background: #f3f4f6;
-	}
-
-	.article-title {
-		font-size: 15px;
-		color: var(--text);
-		line-height: 1.4;
-	}
-
 	/* 中栏 */
 	.kb-content {
 		min-width: 0;
@@ -229,12 +132,6 @@ const toc = [
 	.article-h1 {
 		font-size: 28px;
 		margin-bottom: 8px;
-	}
-
-	.article-summary {
-		color: var(--muted);
-		font-size: 15px;
-		margin-bottom: 12px;
 	}
 
 	.kb-stats {
@@ -276,71 +173,6 @@ const toc = [
 		line-height: 1.7;
 	}
 
-	/* 右栏 */
-	.kb-toc {
-		position: sticky;
-		top: 70px;
-		align-self: start;
-		max-height: calc(100vh - 94px);
-		overflow-y: auto;
-	}
-
-	.kb-toc-title {
-		font-size: 15px;
-		margin-bottom: 12px;
-		color: #666666;
-	}
-
-	.toc-list {
-		list-style: none;
-		padding: 0;
-		border-left: 2px solid #e5e7eb;
-	}
-
-	.toc-list a {
-		display: block;
-		font-size: 13px;
-		color: #555555;
-		padding: 4px 12px;
-		margin-left: -2px;
-		border-left: 2px solid transparent;
-		transition: all 0.15s;
-	}
-
-	.toc-list a:hover {
-		color: #111111;
-		border-left-color: #111111;
-	}
-
-	/* 左栏细滚动条：Firefox */
-	.kb-sidebar {
-		scrollbar-width: thin;
-		scrollbar-color: #d1d5db transparent;
-	}
-
-	/* 左栏细滚动条：Chrome / Edge */
-	.kb-sidebar::-webkit-scrollbar {
-		width: 6px;
-	}
-
-	.kb-sidebar::-webkit-scrollbar-thumb {
-		background: #d1d5db;
-		border-radius: 3px;
-	}
-
-	.kb-sidebar::-webkit-scrollbar-track {
-		background: transparent;
-	}
-
-	/* 目录滚动条隐藏，滚动能力保留 */
-	.kb-toc {
-		scrollbar-width: none;
-	}
-
-	.kb-toc::-webkit-scrollbar {
-		display: none;
-	}
-
 	/* 响应式 */
 	@media (max-width: 900px) {
 		.kb-layout {
@@ -348,32 +180,8 @@ const toc = [
 			gap: 16px;
 		}
 
-		.kb-sidebar,
-		.kb-toc {
-			position: static;
-			max-height: none;
-			overflow-y: visible;
-		}
-
-		.kb-sidebar {
-			order: 1;
-		}
-
 		.kb-content {
 			order: 2;
-		}
-
-		.kb-toc {
-			order: 3;
-		}
-
-		.article-list {
-			flex-direction: row;
-			flex-wrap: wrap;
-		}
-
-		.article-link {
-			width: auto;
 		}
 	}
 </style>

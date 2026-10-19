@@ -286,9 +286,8 @@ const reflections = [
 ---
 
 <BaseLayout title="感悟 - 邹兆廷" description="生活中的个人感悟与每日记录">
-	<article class="reflections-page">
+	<article>
 		<h1>感悟</h1>
-		<p class="intro">记录生活中的点滴感悟，向前走。</p>
 
 		{
 			reflections.map((entry) => (
@@ -316,21 +315,6 @@ const reflections = [
 </BaseLayout>
 
 <style>
-	.reflections-page {
-		padding-top: 16px;
-	}
-
-	h1 {
-		font-size: 28px;
-		margin-bottom: 8px;
-	}
-
-	.intro {
-		color: var(--muted);
-		font-size: 15px;
-		margin-bottom: 32px;
-	}
-
 	.entry {
 		margin-bottom: 40px;
 	}

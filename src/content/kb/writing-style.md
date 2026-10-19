@@ -1,7 +1,7 @@
 ---
 title: 写作排版规范
 category: 生活
-summary: 写作中重复性内容的标准格式：标题、段落、列表、链接、代码、图片、视频的统一写法。
+summary: 写作中重复性内容的标准格式：布局、标题、段落、列表、链接、代码、图片、视频的统一写法。
 order: 2
 ---
 
@@ -26,6 +26,27 @@ order: 2
 	<div class="dl-row" style="width:50%;margin:0 auto">内容居中，两边留白</div>
 	<div class="dl-row" style="width:50%;margin:0 auto">宽度固定不随屏幕变</div>
 </div></div>
+
+### 页面标题与内容间距
+
+从上而下的限宽布局里，页面标题（一级标题）到下方内容的距离全站统一，不因页面不同而变化，标题后直接进入内容，中间不放引导语。
+
+无摘要的页面（关于、感悟、计划、物品、文章列表）：标题 28px，下方留 32px 进入内容。
+
+<div class="demo"><div class="demo-layout">
+	<div class="dl-row dl-dark">页面标题 28px</div>
+	<div class="dl-row" style="margin-top:32px">下方内容（距标题 32px）</div>
+</div></div>
+
+带摘要的页面（知识库文章、文章详情）：标题距摘要 8px，摘要用小字灰字，下方留 16px 内距加一条 1px 细灰线，再留 24px 进入正文。
+
+<div class="demo"><div class="demo-layout">
+	<div class="dl-row dl-dark">页面标题 28px</div>
+	<div class="dl-row" style="margin-top:8px">摘要行（距标题 8px）</div>
+	<div class="dl-row" style="margin-top:24px">正文（距摘要 24px）</div>
+</div></div>
+
+这两个数值在全站只写一次：BaseLayout 的全局 `h1` 规则负责 28px 和 32px，带摘要的页面用 `.article-h1` 之类改成 8px，页面里不再各自重复声明标题样式。
 
 ### 多栏布局
 
