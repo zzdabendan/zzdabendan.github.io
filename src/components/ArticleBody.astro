@@ -1,0 +1,233 @@
+---
+// 文章正文样式容器：知识库与文章详情页共用。
+// Markdown 渲染出的元素没有 Astro 作用域属性，内部选择器必须用 :global()
+---
+
+<div class="article-body">
+	<slot />
+</div>
+
+<style>
+	.article-body :global(h2) {
+		font-size: 20px;
+		font-weight: 700;
+		margin: 28px 0 12px;
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
+		scroll-margin-top: 80px;
+	}
+
+	.article-body :global(h3) {
+		font-size: 15px;
+		font-weight: 600;
+		margin: 20px 0 8px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
+		color: var(--text);
+		scroll-margin-top: 80px;
+	}
+
+	.article-body :global(h4) {
+		font-size: 14px;
+		font-weight: 600;
+		margin: 16px 0 6px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
+		color: var(--text);
+		scroll-margin-top: 80px;
+	}
+
+	.article-body :global(p) {
+		font-size: 15px;
+		line-height: 1.9;
+		margin-bottom: 12px;
+		color: var(--text);
+	}
+
+	.article-body :global(code) {
+		font-size: 13px;
+		padding: 2px 6px;
+		border-radius: 2px;
+		background: #f3f3f3;
+		color: #111111;
+	}
+
+	.article-body :global(ul),
+	.article-body :global(ol) {
+		padding-left: 24px;
+		margin: 8px 0 12px;
+		font-size: 15px;
+		line-height: 1.8;
+		color: var(--text);
+	}
+
+	.article-body :global(li) {
+		margin-bottom: 4px;
+	}
+
+	.article-body :global(a) {
+		color: var(--text);
+		text-decoration: underline;
+		text-decoration-color: #9ca3af;
+		text-underline-offset: 2px;
+	}
+
+	/* 精英主页清单：双栏紧凑排列 */
+	.article-body :global(.elite-list) {
+		columns: 2;
+		column-gap: 32px;
+		padding-left: 24px;
+		margin: 8px 0 12px;
+		font-size: 15px;
+		line-height: 1.8;
+		color: var(--text);
+	}
+
+	.article-body :global(.elite-list li) {
+		break-inside: avoid;
+		margin-bottom: 4px;
+	}
+
+	.article-body :global(img) {
+		display: block;
+		max-width: 100%;
+		border-radius: 4px;
+		border: 1px solid #e5e7eb;
+		margin: 12px 0;
+	}
+
+	/* 示意框：展示排版元素的实际效果 */
+	.article-body :global(.demo) {
+		border: 1px solid #e5e7eb;
+		border-radius: 4px;
+		padding: 16px 20px;
+		margin: 8px 0 16px;
+		background: #fafafa;
+	}
+
+	.article-body :global(.demo-h1) {
+		font-size: 28px;
+		font-weight: 700;
+		color: var(--text);
+	}
+
+	.article-body :global(.demo-h2) {
+		font-size: 20px;
+		font-weight: 700;
+		color: var(--text);
+		padding-bottom: 6px;
+		border-bottom: 2px solid #555555;
+	}
+
+	.article-body :global(.demo-h3) {
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--text);
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
+	}
+
+	.article-body :global(.demo-h4) {
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--text);
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
+	}
+
+	.article-body :global(.demo-p) {
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
+		margin-bottom: 12px;
+	}
+
+	.article-body :global(.demo-p:last-child) {
+		margin-bottom: 0;
+	}
+
+	.article-body :global(.demo-ul),
+	.article-body :global(.demo-ol) {
+		padding-left: 24px;
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.8;
+		color: var(--text);
+	}
+
+	.article-body :global(.demo-ul) {
+		list-style-type: disc;
+	}
+
+	.article-body :global(.demo-ol) {
+		list-style-type: decimal;
+	}
+
+	.article-body :global(.demo-img) {
+		height: 120px;
+		background: #e5e7eb;
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 14px;
+		color: #9ca3af;
+	}
+
+	.article-body :global(.demo-video) {
+		height: 80px;
+		background: #f3f4f6;
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 14px;
+		color: #9ca3af;
+		border: 1px dashed #d1d5db;
+	}
+
+	/* 布局示意图：灰色块表示区域 */
+	.article-body :global(.demo-layout) {
+		font-size: 12px;
+		color: #555;
+	}
+
+	.article-body :global(.dl-row) {
+		background: #e5e7eb;
+		border-radius: 2px;
+		padding: 4px 8px;
+		margin-bottom: 4px;
+		line-height: 1.4;
+	}
+
+	.article-body :global(.dl-row:last-child) {
+		margin-bottom: 0;
+	}
+
+	.article-body :global(.dl-flex) {
+		display: flex;
+		gap: 4px;
+	}
+
+	.article-body :global(.dl-col) {
+		background: #e5e7eb;
+		border-radius: 2px;
+		padding: 4px 8px;
+		line-height: 1.4;
+	}
+
+	.article-body :global(.dl-dark) {
+		background: #9ca3af;
+		color: #fff;
+	}
+
+	@media (max-width: 900px) {
+		.article-body :global(.elite-list) {
+			columns: 1;
+		}
+	}
+</style>

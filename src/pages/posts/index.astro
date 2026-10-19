@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// 文章首页：博客布局，按发布时间倒序
+const all = await getCollection('posts');
+const items = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<BaseLayout title="文章 - 邹兆廷" description="完整成篇的文章">
+	<article>
+		<h1>文章</h1>
+		<p class="intro">
+			这里用于发布完整成篇的文章：一件事的经过叙述、项目复盘、教程或观点。与「感悟」的碎片记录、「知识库」的条目沉淀不同，这里的每篇都是写完定稿、可以从头读到尾的文章。
+		</p>
+
+		{
+			items.length === 0 ? (
+				<p class="intro">暂无文章，待积累后发布。</p>
+			) : (
+				<ul class="post-list">
+					{items.map((post) => (
+						<li>
+							<time class="post-date">{fmt(post.data.date)}</time>
+							<a href={`/posts/${post.id}/`} class="post-title">{post.data.title}</a>
+							<p class="post-summary">{post.data.summary}</p>
+						</li>
+					))}
+				</ul>
+			)
+		}
+
+		<p class="back"><a href="/">← 返回首页</a></p>
+	</article>
+</BaseLayout>
+
+<style>
+	h1 {
+		font-size: 32px;
+		margin-bottom: 8px;
+	}
+
+	.intro {
+		color: var(--text);
+		margin-bottom: 12px;
+	}
+
+	.post-list {
+		list-style: none;
+		padding: 0;
+		margin-top: 24px;
+	}
+
+	.post-list li {
+		margin-bottom: 22px;
+	}
+
+	.post-date {
+		display: block;
+		font-size: 13px;
+		color: var(--muted);
+	}
+
+	.post-title {
+		font-size: 17px;
+		font-weight: 600;
+		color: var(--text);
+	}
+
+	.post-title:hover {
+		text-decoration: underline;
+		text-decoration-color: #9ca3af;
+		text-underline-offset: 2px;
+	}
+
+	.post-summary {
+		font-size: 14px;
+		color: var(--muted);
+		margin-top: 2px;
+	}
+
+	.back {
+		margin-top: 40px;
+		font-size: 14px;
+		color: var(--muted);
+	}
+</style>

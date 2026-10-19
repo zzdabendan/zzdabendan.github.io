@@ -1,0 +1,281 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleBody from '../../components/ArticleBody.astro';
+
+// 知识库首页：与文章详情页一致的三栏布局
+// 左栏文章列表 / 中栏导读与分组导航 / 右栏本页目录
+const all = await getCollection('kb');
+const groups = ['生活', '学校', '工作'].map((category) => ({
+	category,
+	items: all
+		.filter((a) => a.data.category === category)
+		.sort((a, b) => a.data.order - b.data.order),
+}));
+---
+
+<BaseLayout title="知识库 - 邹兆廷" description="个人知识库文章导航">
+	<div class="kb-layout">
+		<!-- 左栏：文章列表 -->
+		<aside class="kb-sidebar">
+			<h2 class="kb-sidebar-title"><a href="/kb/">文章列表</a></h2>
+			<ul class="article-list">
+				{
+					groups.map((group) => (
+						<li class="article-group">
+							<p class="article-group-title">{group.category}</p>
+							<ul class="article-sublist">
+								{group.items.map((article) => (
+									<li>
+										<a href={`/kb/${article.id}/`} class="article-link">
+											<span class="article-title">{article.data.title}</span>
+										</a>
+									</li>
+								))}
+							</ul>
+						</li>
+					))
+				}
+			</ul>
+		</aside>
+
+		<!-- 中栏：导读 + 分组导航 -->
+		<main class="kb-content">
+			<h1 class="article-h1">知识库</h1>
+			<p class="article-summary">
+				这里沉淀可复用的知识条目：生活中的方法与收藏、学生时代的功课、工作中的技术笔记。按「生活 → 学校 →
+				工作」分组，点击标题进入阅读；每篇文章右侧带目录，可快速跳转。
+			</p>
+			<ArticleBody>
+				{
+					groups.map((group) => (
+						<section>
+							<h2 id={group.category}>{group.category}</h2>
+							<ul class="entry-list">
+								{group.items.map((article) => (
+									<li>
+										<a href={`/kb/${article.id}/`} class="entry-title">
+											{article.data.title}
+										</a>
+										<p class="entry-summary">{article.data.summary}</p>
+									</li>
+								))}
+							</ul>
+						</section>
+					))
+				}
+			</ArticleBody>
+		</main>
+
+		<!-- 右栏：本页目录 -->
+		<aside class="kb-toc">
+			<h2 class="kb-toc-title">目录</h2>
+			<ul class="toc-list">
+				{
+					groups.map((group) => (
+						<li>
+							<a href={`#${group.category}`} class="toc-h2">{group.category}</a>
+						</li>
+					))
+				}
+			</ul>
+		</aside>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	/* 与知识库详情页一致的宽度 */
+	.container { --content-width: 1100px; }
+
+	html {
+		scroll-behavior: smooth;
+	}
+</style>
+
+<style>
+	.kb-layout {
+		display: grid;
+		grid-template-columns: 220px 1fr 200px;
+		gap: 24px;
+		margin: 0 auto;
+		padding: 32px 20px;
+	}
+
+	/* 左栏 */
+	.kb-sidebar {
+		position: sticky;
+		top: 70px;
+		align-self: start;
+	}
+
+	.kb-sidebar-title {
+		font-size: 16px;
+		margin-bottom: 12px;
+		color: var(--muted);
+	}
+
+	.kb-sidebar-title a:hover {
+		color: var(--text);
+	}
+
+	.article-list {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.article-group-title {
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--muted);
+		margin: 0 0 4px 12px;
+	}
+
+	.article-sublist {
+		list-style: none;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.article-link {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		width: 100%;
+		text-align: left;
+		padding: 8px 12px;
+		border-radius: 8px;
+		transition: background 0.15s;
+	}
+
+	.article-link:hover {
+		background: #f3f4f6;
+	}
+
+	.article-title {
+		font-size: 14px;
+		color: var(--text);
+		line-height: 1.4;
+	}
+
+	/* 中栏 */
+	.kb-content {
+		min-width: 0;
+	}
+
+	.article-h1 {
+		font-size: 28px;
+		margin-bottom: 8px;
+	}
+
+	.article-summary {
+		color: var(--muted);
+		font-size: 15px;
+		margin-bottom: 24px;
+		padding-bottom: 16px;
+		border-bottom: 1px solid #e5e7eb;
+	}
+
+	/* 中栏内的分组导航条目（覆盖 ArticleBody 的通用 ul/a 样式） */
+	.entry-list {
+		list-style: none;
+		padding: 0;
+		margin: 8px 0 12px;
+	}
+
+	.entry-list li {
+		margin-bottom: 14px;
+	}
+
+	.entry-title {
+		font-size: 16px;
+		font-weight: 600;
+		color: var(--text);
+		text-decoration: none;
+	}
+
+	.entry-title:hover {
+		text-decoration: underline;
+		text-decoration-color: #9ca3af;
+		text-underline-offset: 2px;
+	}
+
+	.entry-summary {
+		font-size: 14px;
+		color: var(--muted);
+		margin: 2px 0 0;
+		line-height: 1.7;
+	}
+
+	/* 右栏 */
+	.kb-toc {
+		position: sticky;
+		top: 70px;
+		align-self: start;
+	}
+
+	.kb-toc-title {
+		font-size: 16px;
+		margin-bottom: 12px;
+		color: var(--muted);
+	}
+
+	.toc-list {
+		list-style: none;
+		padding: 0;
+		border-left: 2px solid #e5e7eb;
+	}
+
+	.toc-list a {
+		display: block;
+		font-size: 13px;
+		color: var(--muted);
+		padding: 4px 12px;
+		margin-left: -2px;
+		border-left: 2px solid transparent;
+		transition: all 0.15s;
+	}
+
+	.toc-list a:hover {
+		color: #111111;
+		border-left-color: #111111;
+	}
+
+	/* 响应式 */
+	@media (max-width: 900px) {
+		.kb-layout {
+			grid-template-columns: 1fr;
+			gap: 16px;
+		}
+
+		.kb-sidebar,
+		.kb-toc {
+			position: static;
+		}
+
+		.kb-sidebar {
+			order: 1;
+		}
+
+		.kb-content {
+			order: 2;
+		}
+
+		.kb-toc {
+			order: 3;
+		}
+
+		.article-list {
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		.article-link {
+			width: auto;
+		}
+	}
+</style>
