@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleBody from '../../components/ArticleBody.astro';
 
 // 知识库首页：与文章详情页一致的三栏布局
-// 左栏文章列表 / 中栏导读与分组导航 / 右栏本页目录
+// 左栏文章列表 / 中栏导读、管理方法、分组导航、待完善清单 / 右栏本页目录
 const all = await getCollection('kb');
 const groups = ['生活', '学校', '工作'].map((category) => ({
 	category,
@@ -12,6 +12,16 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 		.filter((a) => a.data.category === category)
 		.sort((a, b) => a.data.order - b.data.order),
 }));
+
+// 待完善：正文仍是占位状态的条目
+const pending = all.filter((a) => (a.body ?? '').trim() === '待补充。');
+
+// 右栏目录
+const toc = [
+	{ id: '管理方法', text: '知识库管理方法' },
+	...groups.map((g) => ({ id: g.category, text: g.category })),
+	...(pending.length > 0 ? [{ id: '待完善', text: '待完善' }] : []),
+];
 ---
 
 <BaseLayout title="知识库 - 邹兆廷" description="个人知识库文章导航">
@@ -39,14 +49,35 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 			</ul>
 		</aside>
 
-		<!-- 中栏：导读 + 分组导航 -->
+		<!-- 中栏：导读 + 管理方法 + 分组导航 + 待完善 -->
 		<main class="kb-content">
 			<h1 class="article-h1">知识库</h1>
 			<p class="article-summary">
 				这里沉淀可复用的知识条目：生活中的方法与收藏、学生时代的功课、工作中的技术笔记。按「生活 → 学校 →
 				工作」分组，点击标题进入阅读；每篇文章右侧带目录，可快速跳转。
 			</p>
+			<p class="kb-stats">
+				共 {all.length} 篇 · 生活 {groups[0].items.length} · 学校 {groups[1].items.length} · 工作 {groups[2].items.length}
+			</p>
+
 			<ArticleBody>
+				<section>
+					<h2 id="管理方法">知识库管理方法</h2>
+					<h3>分类原则</h3>
+					<p>
+						固定三个分组，不再新增：生活放日常方法、习惯与收藏；学校放学生时代的功课笔记；工作放技术笔记与工作方法。新文章只归入其中一组。
+					</p>
+					<h3>条目管理</h3>
+					<p>
+						一个主题一个条目，标题用短语不用句子。内容还少时先合并进相关条目，长到能独立成篇时再拆分。占位条目先建骨架，内容逐步补充。
+					</p>
+					<h3>写作与维护</h3>
+					<p>
+						排版格式统一遵循<a href="/kb/writing-style/">写作排版规范</a>。新文章在 <code>src/content/kb/</code> 下新建
+						.md 文件，frontmatter 写明标题、分组、摘要与排序号，首页导航与目录会自动生成。
+					</p>
+				</section>
+
 				{
 					groups.map((group) => (
 						<section>
@@ -64,6 +95,25 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 						</section>
 					))
 				}
+
+				{
+					pending.length > 0 && (
+						<section>
+							<h2 id="待完善">待完善</h2>
+							<p>以下条目还是占位状态，内容待补充：</p>
+							<ul class="entry-list">
+								{pending.map((article) => (
+									<li>
+										<a href={`/kb/${article.id}/`} class="entry-title">
+											{article.data.title}
+										</a>
+										<p class="entry-summary">{article.data.category}</p>
+									</li>
+								))}
+							</ul>
+						</section>
+					)
+				}
 			</ArticleBody>
 		</main>
 
@@ -72,9 +122,9 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 			<h2 class="kb-toc-title">目录</h2>
 			<ul class="toc-list">
 				{
-					groups.map((group) => (
+					toc.map((item) => (
 						<li>
-							<a href={`#${group.category}`} class="toc-h2">{group.category}</a>
+							<a href={`#${item.id}`} class="toc-h2">{item.text}</a>
 						</li>
 					))
 				}
@@ -175,6 +225,12 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 	.article-summary {
 		color: var(--muted);
 		font-size: 15px;
+		margin-bottom: 12px;
+	}
+
+	.kb-stats {
+		font-size: 13px;
+		color: var(--muted);
 		margin-bottom: 24px;
 		padding-bottom: 16px;
 		border-bottom: 1px solid #e5e7eb;
