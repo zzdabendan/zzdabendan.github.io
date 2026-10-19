@@ -246,6 +246,30 @@ const toc = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 		color: #777777;
 	}
 
+	/* 侧栏细滚动条：Firefox */
+	.kb-sidebar,
+	.kb-toc {
+		scrollbar-width: thin;
+		scrollbar-color: #d1d5db transparent;
+	}
+
+	/* 侧栏细滚动条：Chrome / Edge */
+	.kb-sidebar::-webkit-scrollbar,
+	.kb-toc::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.kb-sidebar::-webkit-scrollbar-thumb,
+	.kb-toc::-webkit-scrollbar-thumb {
+		background: #d1d5db;
+		border-radius: 3px;
+	}
+
+	.kb-sidebar::-webkit-scrollbar-track,
+	.kb-toc::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
 	/* 响应式 */
 	@media (max-width: 900px) {
 		.kb-layout {
