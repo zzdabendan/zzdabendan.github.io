@@ -1,46 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-// 关于页摘要
-const aboutSummary = [
-	{ label: '意向岗位', value: 'xxx' },
-	{ label: '意向城市', value: '南昌' },
-	{ label: '期望薪资', value: '￥9999' },
-	{ label: '求职类型', value: '全职' },
-];
-const workCount = 5;
-const eduSchool = '江西信息应用职业技术学院';
-
-// 感悟页摘要（最新一条）
-const latestReflection = {
-	date: '2026/09/07',
-	day: '周一',
-	weather: '晴',
-	insight: '向前走。阿巴阿巴',
-};
-const reflectionCount = 23;
-
-// 计划页摘要
-const planPhases = [
-	{ phase: '短期', goal: '每天做好基础饮食与肌肉运动' },
-	{ phase: '中期', goal: '坚持 30 天，观察身体指数变化' },
-	{ phase: '长期', goal: '坚持到质变，身材明显改善' },
-];
-
-// 物品页摘要
-const financeSummary = [
-	{ label: '欠款', value: '￥0' },
-	{ label: '月收入', value: '￥4100' },
-	{ label: '存款', value: '￥2331' },
-];
-const itemCategories = ['随身物品', '出行物品', '收纳物品', '家具物品'];
-
-// 知识库页摘要
-const kbArticles = [
-	{ title: 'Astro 框架基础', category: '前端' },
-	{ title: 'Git 版本管理入门', category: '工具' },
-	{ title: 'Linux 网络基础', category: '运维' },
-];
 ---
 
 <BaseLayout title="欢迎" description="从历史中借智，在当下解决问题">
@@ -57,75 +16,11 @@ const kbArticles = [
 		</div>
 	</section>
 
-	<!-- 文档流板块：与子页面栏目样式一致 -->
-	<section class="home-section">
-		<h2 class="section-title"><a href="/about">关于 →</a></h2>
-		<dl class="row-list">
-			{aboutSummary.map((item) => (
-				<div class="row-item">
-					<dt>{item.label}</dt>
-					<dd>{item.value}</dd>
-				</div>
-			))}
-		</dl>
-		<p class="section-meta">{workCount} 段工作经历 · {eduSchool}</p>
-	</section>
-
-	<section class="home-section">
-		<h2 class="section-title"><a href="/reflections">感悟 →</a></h2>
-		<p class="ref-date">{latestReflection.date} {latestReflection.day} · {latestReflection.weather}</p>
-		<p class="ref-insight">{latestReflection.insight}</p>
-		<p class="section-meta">共 {reflectionCount} 条感悟记录</p>
-	</section>
-
-	<section class="home-section">
-		<h2 class="section-title"><a href="/plan">计划 →</a></h2>
-		<ul class="phase-list">
-			{planPhases.map((p) => (
-				<li>
-					<span class="phase-tag">{p.phase}</span>
-					<span class="phase-goal">{p.goal}</span>
-				</li>
-			))}
-		</ul>
-		<p class="section-meta">当前主题：运动</p>
-	</section>
-
-	<section class="home-section">
-		<h2 class="section-title"><a href="/items">物品 →</a></h2>
-		<dl class="row-list">
-			{financeSummary.map((item) => (
-				<div class="row-item">
-					<dt>{item.label}</dt>
-					<dd>{item.value}</dd>
-				</div>
-			))}
-		</dl>
-		<div class="cat-row">
-			{itemCategories.map((c) => (
-				<span class="cat-tag">{c}</span>
-			))}
-		</div>
-		<p class="section-meta">4 类物品 · 含财务记录</p>
-	</section>
-
-	<section class="home-section">
-		<h2 class="section-title"><a href="/kb">知识库 →</a></h2>
-		<ul class="kb-list">
-			{kbArticles.map((a) => (
-				<li>
-					<span class="kb-cat">{a.category}</span>
-					<span class="kb-title">{a.title}</span>
-				</li>
-			))}
-		</ul>
-		<p class="section-meta">共 5 篇文章 · 4 个分类</p>
+	<!-- 极简欢迎页：hero 之下仅一句站点引言，其余交给导航 -->
+	<section class="welcome">
+		<p>从历史中借智，在当下解决问题。</p>
 	</section>
 </BaseLayout>
-
-<style is:global>
-	.container { --content-width: 1100px; }
-</style>
 
 <style>
 	/* ===== 半屏英雄区（全宽通栏，首页特有） ===== */
@@ -193,146 +88,19 @@ const kbArticles = [
 		color: #111111;
 	}
 
-	/* ===== 文档流板块（与子页面栏目样式一致） ===== */
-	.home-section {
-		margin-top: 48px;
-		margin-bottom: 8px;
-	}
-
-	/* 板块标题：与子页面 h2 统一（20px / 700 / 2px solid #555 底边线） */
-	.section-title {
-		font-size: 20px;
-		font-weight: 700;
-		margin: 0 0 16px;
-		padding-bottom: 6px;
-		border-bottom: 2px solid #555555;
-	}
-
-	.section-title a {
-		color: #111111;
-		text-decoration: none;
-	}
-
-	.section-title a:hover {
-		text-decoration: underline;
-		text-underline-offset: 4px;
-	}
-
-	/* 键值对行（关于、物品） */
-	.row-list {
-		margin: 0 0 8px;
-		list-style: none;
-	}
-
-	.row-item {
+	/* ===== 站点引言：撑满 hero 以下剩余视口，居中成满屏构图 ===== */
+	.welcome {
+		min-height: calc(50vh - 64px); /* 视口高度 - hero半屏 - 导航64px */
 		display: flex;
-		justify-content: space-between;
+		align-items: center;
+		justify-content: center;
+		padding: 40px 20px;
+	}
+
+	.welcome p {
 		font-size: 15px;
-		padding: 4px 0;
-	}
-
-	.row-item dt {
-		color: var(--muted);
-	}
-
-	.row-item dd {
-		font-weight: 600;
 		color: #333333;
-		margin: 0;
-	}
-
-	/* 感悟 */
-	.ref-date {
-		font-size: 13px;
-		color: var(--muted);
-		margin-bottom: 6px;
-	}
-
-	.ref-insight {
-		font-size: 15px;
-		line-height: 1.9;
-		margin-bottom: 8px;
-		color: #333333;
-	}
-
-	/* 计划三阶段 */
-	.phase-list {
-		list-style: none;
-		padding: 0;
-		margin: 0 0 8px;
-	}
-
-	.phase-list li {
-		display: flex;
-		gap: 8px;
-		align-items: baseline;
-		font-size: 15px;
-		padding: 4px 0;
-	}
-
-	.phase-tag {
-		flex-shrink: 0;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		font-size: 15px;
-		font-weight: 600;
-		display: inline-block;
-	}
-
-	.phase-goal {
-		color: #333333;
-	}
-
-	/* 物品分类标签 */
-	.cat-row {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px;
-		margin-bottom: 8px;
-	}
-
-	.cat-tag {
-		padding: 1px 6px;
-		border: 1px solid #9ca3af;
-		border-radius: 2px;
-		font-size: 12px;
-		color: #555555;
-	}
-
-	/* 知识库文章小列表 */
-	.kb-list {
-		list-style: none;
-		padding: 0;
-		margin: 0 0 8px;
-	}
-
-	.kb-list li {
-		display: flex;
-		align-items: baseline;
-		gap: 8px;
-		padding: 4px 0;
-		font-size: 15px;
-	}
-
-	.kb-cat {
-		flex-shrink: 0;
-		padding: 2px 6px;
-		background: #f3f4f6;
-		border-radius: 2px;
-		font-size: 12px;
-		color: #666666;
-	}
-
-	.kb-title {
-		color: #333333;
-	}
-
-	/* 板块底部元信息 */
-	.section-meta {
-		font-size: 13px;
-		color: var(--muted);
-		margin-top: 8px;
+		letter-spacing: 0.05em;
 	}
 
 	@media (max-width: 900px) {
@@ -359,8 +127,9 @@ const kbArticles = [
 			font-size: 24px;
 		}
 
-		.home-section {
-			margin-top: 36px;
+		.welcome {
+			min-height: auto;
+			padding: 48px 20px;
 		}
 	}
 </style>
