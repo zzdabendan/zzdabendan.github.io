@@ -54,7 +54,7 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 		--text: #333333;
 		--muted: #888888;
 		--line: #eeeeee; /* 细分隔线 */
-		--content-width: 1100px; /* 全站统一内容宽度 */
+		--content-width: 720px; /* 正文阅读宽度，宽布局页面自行覆盖 */
 	}
 
 	* {
@@ -85,7 +85,7 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 <!-- 布局自身的样式仍然保持作用域隔离 -->
 <style>
 	.container {
-		max-width: var(--content-width, 1100px);
+		max-width: var(--content-width, 720px);
 		margin: 0 auto;
 		padding: 48px 20px;
 		min-height: calc(100vh - 120px);

@@ -134,6 +134,9 @@ const toc = [
 </BaseLayout>
 
 <style is:global>
+	/* 三栏容器：侧栏 220 + 目录 200 + 中栏正文 680px，与子页面文字行宽一致 */
+	.container { --content-width: 1200px; }
+
 	html {
 		scroll-behavior: smooth;
 	}
@@ -143,9 +146,9 @@ const toc = [
 	.kb-layout {
 		display: grid;
 		grid-template-columns: 220px 1fr 200px;
-		gap: 24px;
+		gap: 30px;
 		margin: 0 auto;
-		padding: 32px 20px;
+		padding: 32px 0;
 	}
 
 	/* 左栏 */
@@ -371,27 +374,6 @@ const toc = [
 
 		.article-link {
 			width: auto;
-		}
-	}
-
-	/* 桌面端：侧栏固定于视口，不随文档流上下位移；网格列位保留，中栏仍占第二列 */
-	@media (min-width: 901px) {
-		.kb-sidebar {
-			position: fixed;
-			top: 70px;
-			left: max(40px, calc(50vw - 510px));
-			width: 220px;
-		}
-
-		.kb-toc {
-			position: fixed;
-			top: 70px;
-			right: max(40px, calc(50vw - 510px));
-			width: 200px;
-		}
-
-		.kb-content {
-			grid-column: 2;
 		}
 	}
 </style>
