@@ -39,7 +39,9 @@ const isActive = (href: string) =>
 	.nav {
 		background: #ffffff;
 		border-bottom: 1px solid var(--line);
-		position: relative;
+		position: sticky;
+		top: 0;
+		z-index: 100;
 	}
 
 	.nav-inner {
