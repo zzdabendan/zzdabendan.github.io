@@ -2,8 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="欢迎" description="从历史中借智，在当下解决问题">
-	<!-- 半屏英雄区：左头像，右今日提问（首页特有） -->
+<BaseLayout title="欢迎" description="邹兆廷的个人主页">
+	<!-- 英雄区：左头像+世界地图+能量链，右今日提问（首页特有） -->
 	<section class="hero">
 		<div class="hero-avatar">
 			<img src="/avatar.svg" alt="个人头像" class="avatar-img" width="240" height="240" />
@@ -20,28 +20,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					</g>
 				</svg>
 			</div>
-		</div>
-		<div class="hero-question">
-			<div class="title-row">
-				<p id="now-time" class="hero-time"></p>
-				<h2>今天想做什么？</h2>
-			</div>
-			<div class="search-box">
-				<input
-					type="text"
-					id="deepseek-input"
-					class="search-input"
-					placeholder="每一天，解决一个真实的生活问题"
-				/>
-				<button class="search-btn" onclick="goDeepSeek()">提问</button>
-			</div>
-		</div>
-	</section>
-
-	<!-- 极简欢迎页：hero 之下仅一句站点引言，其余交给导航 -->
-		<section class="welcome">
-			<div class="welcome-map">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="500" height="250">
+			<div class="hero-map">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="340" height="170">
 					<g stroke="#9ca3af" stroke-width="1" fill="#e5e7eb" opacity="0.5">
 						<!-- 北美洲 -->
 						<path d="M 150 130 Q 200 90 260 100 Q 300 120 320 170 Q 300 230 260 250 Q 200 240 170 190 Z"/>
@@ -68,19 +48,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					</g>
 				</svg>
 			</div>
-			<p>从历史中借智，在当下解决问题。</p>
-		</section>
+			<p class="energy-chain">太阳能 → 植物固定 → 食草动物 → 食肉动物 → 顶级捕食者</p>
+			<p class="energy-note">每级损失 90%，残骸由分解者回收循环</p>
+		</div>
+		<div class="hero-question">
+			<div class="title-row">
+				<p id="now-time" class="hero-time"></p>
+				<h2>今天想做什么？</h2>
+			</div>
+			<div class="search-box">
+				<input
+					type="text"
+					id="deepseek-input"
+					class="search-input"
+					placeholder="每一天，解决一个真实的生活问题"
+				/>
+				<button class="search-btn" onclick="goDeepSeek()">提问</button>
+			</div>
+		</div>
+	</section>
 </BaseLayout>
 
 <style>
-	/* ===== 半屏英雄区（全宽通栏，首页特有） ===== */
+	/* ===== 英雄区（全宽通栏，首页特有） ===== */
 	.hero {
-		position: relative;
 		width: 100vw;
 		margin-left: calc(-50vw + 50%);
 		margin-top: -48px;
-		height: 50vh;
-		min-height: 340px;
+		min-height: calc(100vh - 112px);
 		background: #f9fafb;
 		border-bottom: 1px solid var(--line);
 		display: flex;
@@ -88,12 +83,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	.hero-avatar {
 		width: 60%;
-		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 16px;
+		gap: 12px;
+		padding: 24px 0;
 	}
 
 	.avatar-img {
@@ -102,45 +97,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		border-radius: 50%;
 	}
 
-	.hero-avatar p {
+	.hero-map {
+		opacity: 0.5;
+		line-height: 0;
+	}
+
+	.energy-chain {
 		font-size: 14px;
+		color: #333333;
+		letter-spacing: 0.05em;
+		margin: 0;
+	}
+
+	.energy-note {
+		font-size: 12px;
 		color: var(--muted);
+		margin: 0;
 	}
 
 	.hero-question {
 		width: 40%;
-		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		text-align: center;
 		padding: 0 24px;
 	}
 
-	.hero-question h2 {
-		font-size: 32px;
-		font-weight: 700;
-		color: #111111;
-		border-bottom: none;
-		padding-bottom: 0;
-	}
-
-	/* 时间与标题同一行 */
+	/* 时间与标题同一行，样式一致 */
 	.title-row {
 		display: flex;
 		align-items: center;
 		gap: 16px;
-		justify-content: center;
 		flex-wrap: wrap;
 	}
 
-	/* 时间样式与标题保持一致 */
+	.hero-question h2,
 	.hero-time {
 		font-size: 32px;
 		font-weight: 700;
 		color: #111111;
 		margin: 0;
+		border-bottom: none;
+		padding-bottom: 0;
 	}
 
 	/* 搜索输入框 */
@@ -188,31 +187,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		background: #333333;
 	}
 
-	/* ===== 站点引言：撑满 hero 以下剩余视口，居中成满屏构图 ===== */
-	.welcome {
-		position: relative;
-		min-height: calc(50vh - 64px); /* 视口高度 - hero半屏 - 导航64px */
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 40px 20px;
-		gap: 24px;
-	}
-
-	.welcome-map {
-		opacity: 0.5;
-	}
-
-	.welcome p {
-		font-size: 15px;
-		color: #333333;
-		letter-spacing: 0.05em;
-	}
-
 	@media (max-width: 900px) {
 		.hero {
-			height: auto;
 			min-height: 0;
 			flex-direction: column;
 			padding: 48px 20px;
@@ -222,7 +198,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		.hero-avatar,
 		.hero-question {
 			width: 100%;
-			height: auto;
 		}
 
 		.avatar-img {
@@ -230,53 +205,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			height: 140px;
 		}
 
+		.hero-map svg {
+			width: 240px;
+			height: 120px;
+		}
+
 		.hero-question h2,
 		.hero-time {
 			font-size: 24px;
-		}
-
-		.welcome {
-			min-height: auto;
-			padding: 48px 20px;
 		}
 	}
 </style>
 
 <script is:inline>
-		// 实时显示当前时间，每分钟更新
-		function updateTime() {
-			const el = document.getElementById('now-time');
-			if (!el) return;
-			const now = new Date();
-			const y = now.getFullYear();
-			const m = String(now.getMonth() + 1).padStart(2, '0');
-			const d = String(now.getDate()).padStart(2, '0');
-			const days = ['日', '一', '二', '三', '四', '五', '六'];
-			const w = days[now.getDay()];
-			const h = String(now.getHours()).padStart(2, '0');
-			const min = String(now.getMinutes()).padStart(2, '0');
-			el.textContent = `${y}-${m}-${d} 周${w} ${h}:${min}`;
+	// 实时显示当前时间，每分钟更新
+	function updateTime() {
+		const el = document.getElementById('now-time');
+		if (!el) return;
+		const now = new Date();
+		const y = now.getFullYear();
+		const m = String(now.getMonth() + 1).padStart(2, '0');
+		const d = String(now.getDate()).padStart(2, '0');
+		const days = ['日', '一', '二', '三', '四', '五', '六'];
+		const w = days[now.getDay()];
+		const h = String(now.getHours()).padStart(2, '0');
+		const min = String(now.getMinutes()).padStart(2, '0');
+		el.textContent = `${y}-${m}-${d} 周${w} ${h}:${min}`;
+	}
+
+	// 跳转 DeepSeek 搜索
+	function goDeepSeek() {
+		const input = document.getElementById('deepseek-input');
+		const q = input.value.trim();
+		if (!q) return;
+		window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
+		input.value = '';
+	}
+
+	window.addEventListener('DOMContentLoaded', () => {
+		updateTime();
+		setInterval(updateTime, 60000);
+
+		// 回车触发搜索
+		const input = document.getElementById('deepseek-input');
+		if (input) {
+			input.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter') goDeepSeek();
+			});
 		}
-
-		// 跳转 DeepSeek 搜索
-		function goDeepSeek() {
-			const input = document.getElementById('deepseek-input');
-			const q = input.value.trim();
-			if (!q) return;
-			window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
-			input.value = '';
-		}
-
-		window.addEventListener('DOMContentLoaded', () => {
-			updateTime();
-			setInterval(updateTime, 60000);
-
-			// 回车触发搜索
-			const input = document.getElementById('deepseek-input');
-			if (input) {
-				input.addEventListener('keydown', (e) => {
-					if (e.key === 'Enter') goDeepSeek();
-				});
-			}
-		});
-	</script>
+	});
+</script>

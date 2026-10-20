@@ -72,12 +72,55 @@ const categories = [
 	{
 		name: '收纳物品',
 		icon: '归整',
-		items: ['仓库物品1', '仓库物品2'],
+		zones: [
+			{ name: '白箱 1', items: [] },
+			{ name: '白箱 2', items: [] },
+			{ name: '白箱 3', items: [] },
+			{ name: '白箱 4', items: [] },
+			{ name: '白箱 5', items: [] },
+			{ name: '白箱 6', items: [] },
+			{ name: '白箱 7', items: [] },
+			{ name: '白箱 8', items: [] },
+			{ name: '黑箱 1', items: [] },
+			{ name: '黑箱 2', items: [] },
+			{ name: '黑箱 3', items: [] },
+			{ name: '黑箱 4', items: [] },
+			{ name: '黑箱 5', items: [] },
+			{ name: '黑箱 6', items: [] },
+			{ name: '黑箱 7', items: [] },
+			{ name: '黑箱 8', items: [] },
+		],
 	},
 	{
 		name: '家具物品',
 		icon: '居所',
-		items: ['床铺区', '阳台区', '书桌区', '厨房区', '厕所区'],
+		zones: [
+			{
+				name: '床铺区',
+				items: [
+					'枕头 ×2',
+					'玩偶抱枕 ×2',
+					'床单 ×2',
+					'竹席 ×1',
+					'眼罩 ×1',
+					'毛巾 ×4',
+					'春秋被 ×1',
+					'空调毯 ×1',
+				],
+			},
+			{
+				name: '阳台区',
+				items: [
+					'晾衣架：衣物、毛巾',
+					'排插1：小米智能音箱、小米台灯、手机充电器',
+					'排插2：电脑主机、显示器 ×2',
+					'排插3：路由器、热水壶、驱蚊器',
+					'折叠桌：主机、平板、备用手机',
+				],
+			},
+			{ name: '厨房区', items: [] },
+			{ name: '厕所区', items: [] },
+		],
 	},
 ];
 ---
@@ -186,12 +229,36 @@ const categories = [
 	<div class="categories">
 		{categories.map((cat) => (
 				<section class="category">
-					<h2 class="cat-title">{cat.name}<span class="cat-count">{cat.items.length}</span></h2>
-				<ul class="item-list">
-					{cat.items.map((item) => (
-						<li>{item}</li>
-					))}
-				</ul>
+					<h2 class="cat-title">{cat.name}<span class="cat-count">
+						{cat.zones
+							? cat.zones.reduce((s, z) => s + z.items.length, 0)
+							: cat.items.length}
+					</span></h2>
+
+				{cat.zones ? (
+					<div class="zone-list">
+						{cat.zones.map((zone) => (
+							<div class="zone">
+								<h3 class="zone-title">{zone.name}<span class="zone-count">{zone.items.length}</span></h3>
+								{zone.items.length > 0 ? (
+									<ul class="item-list">
+										{zone.items.map((item) => (
+											<li>{item}</li>
+										))}
+									</ul>
+								) : (
+									<p class="zone-empty">待补充</p>
+								)}
+							</div>
+						))}
+					</div>
+				) : (
+					<ul class="item-list">
+						{cat.items.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				)}
 			</section>
 		))}
 	</div>
@@ -523,6 +590,37 @@ const categories = [
 
 	.item-list li:last-child {
 		border-bottom: none;
+	}
+
+	/* 家具物品的两级结构：区域 → 物品 */
+	.zone-list {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.zone-title {
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0 0 8px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
+	}
+
+	.zone-count {
+		font-size: 12px;
+		font-weight: 400;
+		color: #555;
+		margin-left: 6px;
+	}
+
+	.zone-empty {
+		margin: 0;
+		font-size: 14px;
+		color: var(--muted);
+		padding-left: 8px;
 	}
 
 	@media (max-width: 700px) {
