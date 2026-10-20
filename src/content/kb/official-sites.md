@@ -72,6 +72,38 @@ tags: [收藏, 工具]
 </li>
 </ul>
 
+## 官方媒体与政策
+
+权威信息源，了解国家政策、时事新闻、军事动态、教育资讯的第一手渠道。
+
+<ul class="site-list">
+<li>
+<span class="site-name">中国政府网</span>
+<span class="site-note">国务院政策文件、新闻发布、政务服务</span>
+<a class="site-link" href="https://www.gov.cn" target="_blank" rel="noopener">gov.cn</a>
+</li>
+<li>
+<span class="site-name">人民日报</span>
+<span class="site-note">官方媒体，政策解读、时事评论</span>
+<a class="site-link" href="https://www.people.com.cn" target="_blank" rel="noopener">people.com.cn</a>
+</li>
+<li>
+<span class="site-name">央视网</span>
+<span class="site-note">央视新闻、视频内容、纪录片</span>
+<a class="site-link" href="https://www.cctv.com" target="_blank" rel="noopener">cctv.com</a>
+</li>
+<li>
+<span class="site-name">中国军网</span>
+<span class="site-note">军事新闻、国防信息、征兵政策</span>
+<a class="site-link" href="https://www.81.cn" target="_blank" rel="noopener">81.cn</a>
+</li>
+<li>
+<span class="site-name">教育部官网</span>
+<span class="site-note">教育政策、考试信息、学历认证</span>
+<a class="site-link" href="https://www.moe.gov.cn" target="_blank" rel="noopener">moe.gov.cn</a>
+</li>
+</ul>
+
 ## 一个安全习惯
 
 认准域名后缀 .gov.cn（中国政府网站专用）。任何让你输入身份证、银行卡的「官网」，先核对域名——仿冒网站往往在字母上做手脚。
