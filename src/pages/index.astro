@@ -25,9 +25,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	</section>
 
 	<!-- 极简欢迎页：hero 之下仅一句站点引言，其余交给导航 -->
-	<section class="welcome">
-		<p>从历史中借智，在当下解决问题。</p>
-	</section>
+		<section class="welcome">
+			<div class="welcome-map">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="700" height="350">
+					<g stroke="#9ca3af" stroke-width="1" fill="#e5e7eb" opacity="0.5">
+						<!-- 北美洲 -->
+						<path d="M 150 130 Q 200 90 260 100 Q 300 120 320 170 Q 300 230 260 250 Q 200 240 170 190 Z"/>
+						<!-- 格陵兰 -->
+						<path d="M 280 60 Q 320 50 340 80 Q 330 120 300 110 Z"/>
+						<!-- 南美洲 -->
+						<path d="M 240 290 Q 280 270 300 310 Q 320 380 280 430 Q 240 410 230 350 Z"/>
+						<!-- 非洲 -->
+						<path d="M 460 200 Q 520 180 560 220 Q 580 290 540 360 Q 480 380 440 320 Z"/>
+						<!-- 欧洲 -->
+						<path d="M 460 110 Q 510 90 550 120 Q 560 170 520 190 Q 470 180 450 150 Z"/>
+						<!-- 亚洲 -->
+						<path d="M 580 90 Q 680 60 800 80 Q 880 110 860 190 Q 830 260 730 240 Q 630 220 590 160 Z"/>
+						<!-- 大洋洲 -->
+						<path d="M 800 340 Q 860 320 900 360 Q 910 410 860 430 Q 810 410 800 360 Z"/>
+						<!-- 东南亚群岛 -->
+						<circle cx="780" cy="300" r="8"/>
+						<circle cx="810" cy="320" r="6"/>
+						<circle cx="760" cy="330" r="7"/>
+						<!-- 日本 -->
+						<path d="M 860 180 Q 870 200 860 220 Q 850 200 860 180 Z"/>
+						<!-- 英国 -->
+						<path d="M 460 100 Q 470 90 480 100 Q 475 115 465 110 Z"/>
+					</g>
+				</svg>
+			</div>
+			<p>从历史中借智，在当下解决问题。</p>
+		</section>
 </BaseLayout>
 
 <style>
@@ -146,29 +174,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		position: relative;
 		min-height: calc(50vh - 64px); /* 视口高度 - hero半屏 - 导航64px */
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		padding: 40px 20px;
+		gap: 24px;
 	}
 
-	.welcome::before {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 700px;
-		height: 350px;
-		background: url('/world-map.svg') no-repeat center;
-		background-size: contain;
-		opacity: 0.15;
-		pointer-events: none;
-		z-index: 0;
+	.welcome-map {
+		opacity: 0.5;
 	}
 
 	.welcome p {
-		position: relative;
-		z-index: 1;
 		font-size: 15px;
 		color: #333333;
 		letter-spacing: 0.05em;
