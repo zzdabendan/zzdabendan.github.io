@@ -7,9 +7,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	<section class="hero">
 		<div class="hero-avatar">
 			<img src="/avatar.svg" alt="个人头像" class="avatar-img" width="200" height="200" />
-			<p>这里是个人形象</p>
+			<div class="gear-icon">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="48" height="48">
+					<!-- 外层齿轮 -->
+					<g fill="#d1d5db">
+						<path d="M50 10 L55 10 L57 20 L65 22 L72 15 L76 18 L72 28 L78 34 L88 32 L90 36 L82 42 L84 50 L94 52 L94 58 L84 60 L82 68 L90 74 L88 78 L78 76 L72 82 L76 92 L72 95 L65 88 L57 90 L55 100 L50 100 L48 90 L40 88 L33 95 L29 92 L33 82 L27 76 L17 78 L15 74 L23 68 L21 60 L11 58 L11 52 L21 50 L23 42 L15 36 L17 32 L27 34 L33 28 L29 18 L33 15 L40 22 L48 20 Z"/>
+					</g>
+					<!-- 内层齿轮 -->
+					<g fill="#9ca3af">
+						<circle cx="50" cy="50" r="18"/>
+						<circle cx="50" cy="50" r="8" fill="#faf8f5"/>
+					</g>
+				</svg>
+			</div>
 		</div>
 		<div class="hero-question">
+			<p id="now-time" class="hero-time"></p>
 			<h2>今天想做什么？</h2>
 			<div class="search-box">
 				<input
@@ -20,7 +33,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				/>
 				<button class="search-btn" onclick="goDeepSeek()">提问</button>
 			</div>
-			<p id="now-time" class="hero-time"></p>
 		</div>
 	</section>
 
