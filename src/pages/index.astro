@@ -22,8 +22,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			</div>
 		</div>
 		<div class="hero-question">
-			<p id="now-time" class="hero-time"></p>
-			<h2>今天想做什么？</h2>
+			<div class="title-row">
+				<p id="now-time" class="hero-time"></p>
+				<h2>今天想做什么？</h2>
+			</div>
 			<div class="search-box">
 				<input
 					type="text"
@@ -130,10 +132,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		margin-top: 8px;
 	}
 
+	/* 时间与标题同一行 */
+	.title-row {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		justify-content: center;
+	}
+
 	.hero-time {
 		font-family: 'Courier New', monospace;
 		font-size: 15px;
 		color: #111111;
+		margin: 0;
 	}
 
 	/* 搜索输入框 */
