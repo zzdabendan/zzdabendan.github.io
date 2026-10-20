@@ -10,55 +10,6 @@ tags: [排版, 规范]
 
 页面布局决定文章在浏览器窗口中的位置和宽度，常见有三种。
 
-### 空白布局
-
-不设宽度限制，内容紧贴浏览器左上角依次向下排列。适合极简笔记、草稿，对读者视线引导弱，阅读长文时行宽会随屏幕拉伸，不太舒服。
-
-<div class="demo"><div class="demo-layout">
-	<div class="dl-row" style="width:100%">正文内容占满整行</div>
-	<div class="dl-row" style="width:100%">继续向下排列</div>
-</div></div>
-
-### 限宽居中布局
-
-给内容区设置最大宽度（例如 720px），然后水平居中。文章始终在屏幕中间，两边留白。大多数博客、文档都用的这个，阅读体验稳定，不随屏幕宽度变化。
-
-<div class="demo"><div class="demo-layout">
-	<div class="dl-row" style="width:50%;margin:0 auto">内容居中，两边留白</div>
-	<div class="dl-row" style="width:50%;margin:0 auto">宽度固定不随屏幕变</div>
-</div></div>
-
-### 页面标题与内容间距
-
-从上而下的限宽布局里，页面标题（一级标题）到下方内容的距离全站统一，不因页面不同而变化，标题后直接进入内容，中间不放引导语。
-
-无摘要的页面（关于、感悟、计划、物品、文章列表）：标题 28px，下方留 32px 进入内容。
-
-<div class="demo"><div class="demo-layout">
-	<div class="dl-row dl-dark">页面标题 28px</div>
-	<div class="dl-row" style="margin-top:32px">下方内容（距标题 32px）</div>
-</div></div>
-
-带摘要的页面（知识库文章、文章详情）：标题距摘要 8px，摘要用小字灰字，下方留 16px 内距加一条 1px 细灰线，再留 24px 进入正文。
-
-<div class="demo"><div class="demo-layout">
-	<div class="dl-row dl-dark">页面标题 28px</div>
-	<div class="dl-row" style="margin-top:8px">摘要行（距标题 8px）</div>
-	<div class="dl-row" style="margin-top:24px">正文（距摘要 24px）</div>
-</div></div>
-
-这两个数值在全站只写一次：BaseLayout 的全局 `h1` 规则负责 28px 和 32px，带摘要的页面用 `.article-h1` 之类改成 8px，页面里不再各自重复声明标题样式。
-
-### 多栏布局
-
-页面分成两栏或三栏，通常是左侧导航、中间正文、右侧目录。适合知识库、文档站。三栏需要更宽（例如 1100px），在小屏幕上改为单列堆叠。
-
-<div class="demo"><div class="demo-layout dl-flex">
-	<div class="dl-col" style="width:20%">导航</div>
-	<div class="dl-col" style="width:55%">正文内容区</div>
-	<div class="dl-col" style="width:20%">目录</div>
-</div></div>
-
 ### 基本结构
 
 一个网页最基础的骨架是四个语义标签：`<header>` 放标题和导航，`<nav>` 放菜单链接，`<main>` 放正文内容，`<footer>` 放版权和备案信息。所有页面都遵循这个骨架，只是 main 内部布局不同。
@@ -70,9 +21,37 @@ tags: [排版, 规范]
 	<div class="dl-row dl-dark">footer 版权备案</div>
 </div></div>
 
+### 空白布局
+
+不设宽度限制，内容紧贴浏览器左上角依次向下排列。适合极简笔记、草稿，对读者视线引导弱，阅读长文时行宽会随屏幕拉伸，不太舒服。
+
+<div class="demo"><div class="demo-layout">
+	<div class="dl-row" style="width:100%">正文内容占满整行</div>
+	<div class="dl-row" style="width:100%">继续向下排列</div>
+</div></div>
+
+### 单栏布局
+
+给内容区设置最大宽度（例如 720px），然后水平居中。文章始终在屏幕中间，两边留白。大多数博客、文档都用的这个，阅读体验稳定，不随屏幕宽度变化。
+
+<div class="demo"><div class="demo-layout">
+	<div class="dl-row" style="width:50%;margin:0 auto">内容居中，两边留白</div>
+	<div class="dl-row" style="width:50%;margin:0 auto">宽度固定不随屏幕变</div>
+</div></div>
+
+### 多栏布局
+
+页面分成两栏或三栏，通常是左侧导航、中间正文、右侧目录。适合知识库、文档站。三栏需要更宽（例如 1100px），在小屏幕上改为单列堆叠。
+
+<div class="demo"><div class="demo-layout dl-flex">
+	<div class="dl-col" style="width:20%">导航</div>
+	<div class="dl-col" style="width:55%">正文内容区</div>
+	<div class="dl-col" style="width:20%">目录</div>
+</div></div>
+
 ### 博客布局
 
-博客是限宽居中布局的典型应用：header 放博客名和菜单，main 中间是一条一条的文章卡片或文章列表，宽度 600-800px，footer 放版权。侧边栏可选，常见放标签云或最近文章。
+博客是单栏布局的典型应用：header 放博客名和菜单，main 中间是一条一条的文章卡片或文章列表，宽度 600-800px，footer 放版权。侧边栏可选，常见放标签云或最近文章。
 
 <div class="demo"><div class="demo-layout">
 	<div class="dl-row dl-dark">header</div>
