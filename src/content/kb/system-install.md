@@ -2,7 +2,7 @@
 title: 系统安装笔记
 category: 工作
 summary: 从 BIOS 设置到磁盘分区、系统安装的基础流程。
-order: 4
+order: 1
 ---
 
 ## BIOS 与 UEFI

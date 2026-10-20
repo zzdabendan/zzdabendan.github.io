@@ -2,7 +2,7 @@
 title: Astro 笔记
 category: 工作
 summary: Astro 是现代静态站点生成器，适合博客、文档和个人主页。
-order: 1
+order: 4
 video: BV1GJ411x7h7
 tags: [Astro, 教程]
 ---

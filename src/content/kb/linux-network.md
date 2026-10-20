@@ -2,7 +2,7 @@
 title: Linux 网络笔记
 category: 工作
 summary: Linux 网络配置常用命令，含 ping、ifconfig、网络排查思路。
-order: 3
+order: 2
 tags: [Linux, 网络]
 ---
 
