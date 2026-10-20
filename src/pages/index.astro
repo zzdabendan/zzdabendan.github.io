@@ -143,6 +143,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	/* ===== 站点引言：撑满 hero 以下剩余视口，居中成满屏构图 ===== */
 	.welcome {
+		position: relative;
 		min-height: calc(50vh - 64px); /* 视口高度 - hero半屏 - 导航64px */
 		display: flex;
 		align-items: center;
@@ -150,7 +151,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		padding: 40px 20px;
 	}
 
+	.welcome::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 700px;
+		height: 350px;
+		background: url('/world-map.svg') no-repeat center;
+		background-size: contain;
+		opacity: 0.15;
+		pointer-events: none;
+		z-index: 0;
+	}
+
 	.welcome p {
+		position: relative;
+		z-index: 1;
 		font-size: 15px;
 		color: #333333;
 		letter-spacing: 0.05em;
