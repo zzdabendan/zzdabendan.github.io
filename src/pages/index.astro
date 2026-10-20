@@ -126,23 +126,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		padding-bottom: 0;
 	}
 
-	.hero-question p {
-		font-size: 14px;
-		color: var(--muted);
-		margin-top: 8px;
-	}
-
 	/* 时间与标题同一行 */
 	.title-row {
 		display: flex;
 		align-items: center;
 		gap: 16px;
 		justify-content: center;
+		flex-wrap: wrap;
 	}
 
+	/* 时间样式与标题保持一致 */
 	.hero-time {
-		font-family: 'Courier New', monospace;
-		font-size: 15px;
+		font-size: 32px;
+		font-weight: 700;
 		color: #111111;
 		margin: 0;
 	}
@@ -234,7 +230,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			height: 140px;
 		}
 
-		.hero-question h2 {
+		.hero-question h2,
+		.hero-time {
 			font-size: 24px;
 		}
 
