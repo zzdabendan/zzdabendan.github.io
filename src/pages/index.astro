@@ -187,35 +187,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 </style>
 
-<script>
-	// 实时显示当前时间，每分钟更新
-	function updateTime() {
-		const el = document.getElementById('now-time');
-		if (!el) return;
-		const now = new Date();
-		const y = now.getFullYear();
-		const m = String(now.getMonth() + 1).padStart(2, '0');
-		const d = String(now.getDate()).padStart(2, '0');
-		const days = ['日', '一', '二', '三', '四', '五', '六'];
-		const w = days[now.getDay()];
-		const h = String(now.getHours()).padStart(2, '0');
-		const min = String(now.getMinutes()).padStart(2, '0');
-		el.textContent = `${y}-${m}-${d} 周${w} ${h}:${min}`;
-	}
-	updateTime();
-	setInterval(updateTime, 60000);
+<script is:inline>
+		// 实时显示当前时间，每分钟更新
+		function updateTime() {
+			const el = document.getElementById('now-time');
+			if (!el) return;
+			const now = new Date();
+			const y = now.getFullYear();
+			const m = String(now.getMonth() + 1).padStart(2, '0');
+			const d = String(now.getDate()).padStart(2, '0');
+			const days = ['日', '一', '二', '三', '四', '五', '六'];
+			const w = days[now.getDay()];
+			const h = String(now.getHours()).padStart(2, '0');
+			const min = String(now.getMinutes()).padStart(2, '0');
+			el.textContent = `${y}-${m}-${d} 周${w} ${h}:${min}`;
+		}
 
-	// 跳转 DeepSeek 搜索
-	function goDeepSeek() {
-		const input = document.getElementById('deepseek-input');
-		const q = input.value.trim();
-		if (!q) return;
-		window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
-		input.value = '';
-	}
+		// 跳转 DeepSeek 搜索
+		function goDeepSeek() {
+			const input = document.getElementById('deepseek-input');
+			const q = input.value.trim();
+			if (!q) return;
+			window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
+			input.value = '';
+		}
 
-	// 回车触发搜索
-	document.getElementById('deepseek-input').addEventListener('keydown', (e) => {
-		if (e.key === 'Enter') goDeepSeek();
-	});
-</script>
+		window.addEventListener('DOMContentLoaded', () => {
+			updateTime();
+			setInterval(updateTime, 60000);
+
+			// 回车触发搜索
+			const input = document.getElementById('deepseek-input');
+			if (input) {
+				input.addEventListener('keydown', (e) => {
+					if (e.key === 'Enter') goDeepSeek();
+				});
+			}
+		});
+	</script>
