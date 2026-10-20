@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="欢迎" description="邹兆廷的个人主页">
-	<!-- 英雄区：左头像+世界地图+能量链（自然界·国家·个人），右今日提问（首页特有） -->
+	<!-- 英雄区：左头像+世界地图，右今日提问+能量链（首页特有） -->
 	<section class="hero">
 		<div class="hero-avatar">
 			<img src="/avatar.svg" alt="个人头像" class="avatar-img" width="240" height="240" />
@@ -48,12 +48,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					</g>
 				</svg>
 			</div>
-			<p class="energy-chain">太阳能 → 植物固定 → 食草动物 → 食肉动物 → 顶级捕食者</p>
-			<p class="energy-note">每级损失 90%，残骸由分解者回收循环</p>
-			<p class="energy-chain energy-chain--group">徒手 → 石器 → 铁器 → 热武器 → 机械化 → 智能化</p>
-			<p class="energy-note">每跨一级近乎碾压，本质是能量投送 × 信息控制</p>
-			<p class="energy-chain energy-chain--group">自律 → 信任 → 职位 → 资本 → 传播 → 权力</p>
-			<p class="energy-note">每级换一种杠杆，本质是能调动多少人的时间与能量</p>
 		</div>
 		<div class="hero-question">
 			<div class="title-row">
@@ -68,6 +62,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 					placeholder="每一天，解决一个真实的生活问题"
 				/>
 				<button class="search-btn" onclick="goDeepSeek()">提问</button>
+			</div>
+			<div class="energy-list">
+				<p class="energy-chain">太阳能 → 植物固定 → 食草动物 → 食肉动物 → 顶级捕食者</p>
+				<p class="energy-note">每级损失 90%，残骸由分解者回收循环</p>
+				<p class="energy-chain energy-chain--group">徒手 → 石器 → 铁器 → 热武器 → 机械化 → 智能化</p>
+				<p class="energy-note">每跨一级近乎碾压，本质是能量投送 × 信息控制</p>
+				<p class="energy-chain energy-chain--group">自律 → 信任 → 职位 → 资本 → 传播 → 权力</p>
+				<p class="energy-note">每级换一种杠杆，本质是能调动多少人的时间与能量</p>
 			</div>
 		</div>
 	</section>
@@ -105,12 +107,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		line-height: 0;
 	}
 
+	.energy-list {
+		margin-top: 24px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
 	.energy-chain {
 		font-size: 14px;
 		color: #333333;
 		letter-spacing: 0.05em;
 		margin: 0;
-		text-align: center;
 	}
 
 	/* 后续链条与前一组拉开间距 */
