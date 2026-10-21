@@ -3,51 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="欢迎" description="邹兆廷的个人主页">
-	<!-- 英雄区三栏：左头像+齿轮+地图，中时间+提问，右能量链（首页特有） -->
+	<!-- 英雄区三栏：左头像，中时间+提问，右能量链（首页特有） -->
 	<section class="hero">
 		<div class="hero-avatar">
 			<img src="/avatar.svg" alt="个人头像" class="avatar-img" width="240" height="240" />
-			<div class="gear-icon">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="56" height="56">
-					<!-- 外层齿轮 -->
-					<g fill="#d1d5db">
-						<path d="M50 10 L55 10 L57 20 L65 22 L72 15 L76 18 L72 28 L78 34 L88 32 L90 36 L82 42 L84 50 L94 52 L94 58 L84 60 L82 68 L90 74 L88 78 L78 76 L72 82 L76 92 L72 95 L65 88 L57 90 L55 100 L50 100 L48 90 L40 88 L33 95 L29 92 L33 82 L27 76 L17 78 L15 74 L23 68 L21 60 L11 58 L11 52 L21 50 L23 42 L15 36 L17 32 L27 34 L33 28 L29 18 L33 15 L40 22 L48 20 Z"/>
-					</g>
-					<!-- 内层齿轮 -->
-					<g fill="#9ca3af">
-						<circle cx="50" cy="50" r="18"/>
-						<circle cx="50" cy="50" r="8" fill="#faf8f5"/>
-					</g>
-				</svg>
-			</div>
-			<div class="hero-map">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="340" height="170">
-					<g stroke="#9ca3af" stroke-width="1" fill="#e5e7eb" opacity="0.5">
-						<!-- 北美洲 -->
-						<path d="M 150 130 Q 200 90 260 100 Q 300 120 320 170 Q 300 230 260 250 Q 200 240 170 190 Z"/>
-						<!-- 格陵兰 -->
-						<path d="M 280 60 Q 320 50 340 80 Q 330 120 300 110 Z"/>
-						<!-- 南美洲 -->
-						<path d="M 240 290 Q 280 270 300 310 Q 320 380 280 430 Q 240 410 230 350 Z"/>
-						<!-- 非洲 -->
-						<path d="M 460 200 Q 520 180 560 220 Q 580 290 540 360 Q 480 380 440 320 Z"/>
-						<!-- 欧洲 -->
-						<path d="M 460 110 Q 510 90 550 120 Q 560 170 520 190 Q 470 180 450 150 Z"/>
-						<!-- 亚洲 -->
-						<path d="M 580 90 Q 680 60 800 80 Q 880 110 860 190 Q 830 260 730 240 Q 630 220 590 160 Z"/>
-						<!-- 大洋洲 -->
-						<path d="M 800 340 Q 860 320 900 360 Q 910 410 860 430 Q 810 410 800 360 Z"/>
-						<!-- 东南亚群岛 -->
-						<circle cx="780" cy="300" r="8"/>
-						<circle cx="810" cy="320" r="6"/>
-						<circle cx="760" cy="330" r="7"/>
-						<!-- 日本 -->
-						<path d="M 860 180 Q 870 200 860 220 Q 850 200 860 180 Z"/>
-						<!-- 英国 -->
-						<path d="M 460 100 Q 470 90 480 100 Q 475 115 465 110 Z"/>
-					</g>
-				</svg>
-			</div>
 		</div>
 		<div class="hero-question">
 			<div class="title-row">
@@ -107,7 +66,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 12px;
 		padding: 24px 0;
 	}
 
@@ -115,11 +73,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		width: 240px;
 		height: 240px;
 		border-radius: 50%;
-	}
-
-	.hero-map {
-		opacity: 0.5;
-		line-height: 0;
 	}
 
 	/* 能量链右栏：下低上高竖排，三栏文档流排列 */

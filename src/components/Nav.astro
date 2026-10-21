@@ -18,6 +18,19 @@ const isActive = (href: string) =>
 <header class="nav">
 	<div class="nav-inner">
 		<a href="/" class="brand">邹兆廷</a>
+		<a href="/" class="nav-logo" aria-label="回到首页">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="28" height="28">
+				<!-- 外层齿轮 -->
+				<g fill="#d1d5db">
+					<path d="M50 10 L55 10 L57 20 L65 22 L72 15 L76 18 L72 28 L78 34 L88 32 L90 36 L82 42 L84 50 L94 52 L94 58 L84 60 L82 68 L90 74 L88 78 L78 76 L72 82 L76 92 L72 95 L65 88 L57 90 L55 100 L50 100 L48 90 L40 88 L33 95 L29 92 L33 82 L27 76 L17 78 L15 74 L23 68 L21 60 L11 58 L11 52 L21 50 L23 42 L15 36 L17 32 L27 34 L33 28 L29 18 L33 15 L40 22 L48 20 Z"/>
+				</g>
+				<!-- 内层齿轮 -->
+				<g fill="#9ca3af">
+					<circle cx="50" cy="50" r="18"/>
+					<circle cx="50" cy="50" r="8" fill="#faf8f5"/>
+				</g>
+			</svg>
+		</a>
 		<input type="checkbox" id="nav-check" class="nav-check" />
 		<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
 		<nav>
@@ -57,6 +70,16 @@ const isActive = (href: string) =>
 		font-weight: 700;
 		font-size: 18px;
 		color: var(--text);
+	}
+
+	/* 居中齿轮 logo：锚定整个导航栏视口中心 */
+	.nav-logo {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		line-height: 0;
 	}
 
 	/* 桌面端：checkbox 隐藏，菜单直接横排 */
