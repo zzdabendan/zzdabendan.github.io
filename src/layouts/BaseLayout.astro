@@ -62,6 +62,11 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 		margin: 0;
 	}
 
+	/* 裁掉 100vw 通栏元素因滚动条宽度产生的横向溢出（clip 不产生滚动容器，不影响 sticky） */
+	html {
+		overflow-x: clip;
+	}
+
 	body {
 		font-family:
 			'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
