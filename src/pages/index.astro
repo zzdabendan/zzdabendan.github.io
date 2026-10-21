@@ -136,7 +136,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	.energy-group {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-items: flex-start;
 		gap: 8px;
 	}
 
@@ -145,7 +145,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		font-size: 11px;
 		color: #9ca3af;
 		letter-spacing: 0.3em;
-		text-indent: 0.3em; /* 抵消末字间距，保持视觉居中 */
 		margin: 0;
 	}
 
@@ -153,7 +152,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	.energy-chain {
 		display: flex;
 		flex-direction: column-reverse;
-		align-items: center;
+		align-items: flex-start;
 	}
 
 	.energy-chain span {
@@ -162,23 +161,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		line-height: 1.6;
 	}
 
-	/* 相邻层级之间的向上箭头，最高级不加 */
-	.energy-chain span:not(:last-child)::before {
+	/* 每层文字前的向上箭头 */
+	.energy-chain span::before {
 		content: "↑";
-		display: block;
-		font-size: 10px;
-		line-height: 1.2;
-		margin: 2px 0;
 		color: #c0c4cc;
+		margin-right: 6px;
 	}
 
 	.energy-note {
 		font-size: 12px;
 		line-height: 1.6;
 		color: var(--muted);
-		text-align: center;
 		margin: 0;
-		padding: 0 8px;
 	}
 
 	.hero-question {
@@ -267,23 +261,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			width: 100%;
 		}
 
-		/* 手机端：能量链改横向排列 */
+		/* 手机端：三栏改为上下堆叠，链条保持 PC 的竖排样式 */
 		.energy-rail {
-			gap: 12px;
+			gap: 24px;
 			padding: 0;
-		}
-
-		.energy-chain {
-			flex-direction: row;
-			flex-wrap: wrap;
-			justify-content: center;
-		}
-
-		.energy-chain span:not(:last-child)::before {
-			content: "→";
-			display: inline;
-			margin: 0 6px;
-			font-size: 12px;
 		}
 
 		.avatar-img {
