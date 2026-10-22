@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="欢迎" description="邹兆廷的个人主页">
-	<!-- 英雄区三栏：左头像，中时间+提问，右能量链（首页特有） -->
+	<!-- 英雄区两栏：左头像，中时间+提问（首页特有） -->
 	<section class="hero">
 		<div class="hero-avatar">
 			<img src="/avatar.svg" alt="个人头像" class="avatar-img" width="240" height="240" />
@@ -23,29 +23,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				<button class="search-btn" onclick="goDeepSeek()">提问</button>
 			</div>
 		</div>
-		<aside class="energy-rail">
-			<div class="energy-group">
-				<p class="energy-domain">个人</p>
-				<div class="energy-chain">
-					<span>自律</span><span>信任</span><span>职位</span><span>资本</span><span>传播</span><span>权力</span>
-				</div>
-				<p class="energy-note">每级换一种杠杆，本质是能调动多少人的时间与能量</p>
+	</section>
+
+	<!-- 能量链独立一栏：三条链横排并排 -->
+	<section class="energy-rail">
+		<div class="energy-group">
+			<p class="energy-domain">个人</p>
+			<div class="energy-chain">
+				<span>自律</span><span>信任</span><span>职位</span><span>资本</span><span>传播</span><span>权力</span>
 			</div>
-			<div class="energy-group">
-				<p class="energy-domain">国家间</p>
-				<div class="energy-chain">
-					<span>徒手</span><span>石器</span><span>铁器</span><span>热武器</span><span>机械化</span><span>智能化</span>
-				</div>
-				<p class="energy-note">每跨一级近乎碾压，本质是能量投送 × 信息控制</p>
+			<p class="energy-note">每级换一种杠杆，本质是能调动多少人的时间与能量</p>
+		</div>
+		<div class="energy-group">
+			<p class="energy-domain">国家间</p>
+			<div class="energy-chain">
+				<span>徒手</span><span>石器</span><span>铁器</span><span>热武器</span><span>机械化</span><span>智能化</span>
 			</div>
-			<div class="energy-group">
-				<p class="energy-domain">自然界</p>
-				<div class="energy-chain">
-					<span>太阳能</span><span>植物固定</span><span>食草动物</span><span>食肉动物</span><span>顶级捕食者</span>
-				</div>
-				<p class="energy-note">每级损失 90%，残骸由分解者回收循环</p>
+			<p class="energy-note">每跨一级近乎碾压，本质是能量投送 × 信息控制</p>
+		</div>
+		<div class="energy-group">
+			<p class="energy-domain">自然界</p>
+			<div class="energy-chain">
+				<span>太阳能</span><span>植物固定</span><span>食草动物</span><span>食肉动物</span><span>顶级捕食者</span>
 			</div>
-		</aside>
+			<p class="energy-note">每级损失 90%，残骸由分解者回收循环</p>
+		</div>
 	</section>
 </BaseLayout>
 
@@ -75,18 +77,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		border-radius: 50%;
 	}
 
-	/* 能量链右栏：下低上高竖排，三栏文档流排列 */
+	/* 能量链独立一栏：三条链横排并排，放在 hero 下方 */
 	.energy-rail {
-		width: 220px;
-		flex-shrink: 0;
 		display: flex;
-		flex-direction: column;
 		justify-content: center;
-		gap: 28px;
-		padding: 24px 0;
+		gap: 40px;
+		padding: 24px 0 48px;
+		flex-wrap: wrap;
 	}
 
 	.energy-group {
+		flex: 1;
+		min-width: 200px;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -101,11 +103,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		margin: 0;
 	}
 
-	/* DOM 从低到高书写，column-reverse 反转为下低上高 */
+	/* DOM 从低到高书写，row 保持左低右高 */
 	.energy-chain {
 		display: flex;
-		flex-direction: column-reverse;
-		align-items: flex-start;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 6px 0;
 	}
 
 	.energy-chain span {
@@ -114,9 +118,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		line-height: 1.6;
 	}
 
-	/* 每层文字前的向上箭头 */
+	/* 每层文字前的向右箭头 */
 	.energy-chain span::before {
-		content: "↑";
+		content: "→";
 		color: #c0c4cc;
 		margin-right: 6px;
 	}
@@ -209,25 +213,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		}
 
 		.hero-avatar,
-		.hero-question,
-		.energy-rail {
+		.hero-question {
 			width: 100%;
 		}
 
-		/* 手机端：三栏改为上下堆叠，链条保持 PC 的竖排样式 */
+		/* 手机端：三条能量链改为上下堆叠 */
 		.energy-rail {
+			flex-direction: column;
 			gap: 24px;
-			padding: 0;
+			padding: 0 20px 32px;
+		}
+
+		.energy-group {
+			min-width: 0;
 		}
 
 		.avatar-img {
 			width: 140px;
 			height: 140px;
-		}
-
-		.hero-map svg {
-			width: 240px;
-			height: 120px;
 		}
 
 		.hero-question h2,
