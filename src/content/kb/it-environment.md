@@ -160,6 +160,21 @@ order: 6
 - WPS 静默安装参数：https://www.bilibili.com/read/cv33291303/?opus_fallback=1
 - 未知命令：`start /wait wps.exe /S -agreelicense "/D=D:\WPS"`
 
+### Chrome 组策略模板
+
+Chrome 的组策略配置项不是独立软件，而是 ADMX/ADML 模板文件，导入 Windows 组策略编辑器后才会出现 Chrome 选项。
+
+- 下载：Google 官方策略模板压缩包 `policy_templates.zip`，或 Chrome 企业版捆绑包
+- 解压后进入 `windows\admx` 目录
+- 复制 `chrome.admx`、`google.admx` 到 `C:\Windows\PolicyDefinitions\`
+- 复制语言文件 `chrome.adml`（`zh-CN` 或 `en-US` 文件夹内）到 `C:\Windows\PolicyDefinitions\zh-CN\`
+- 生效：打开 `gpedit.msc`，「计算机配置」→「管理模板」→ Google / Google Chrome
+
+注意事项
+
+- 优先用 ADMX 模板（Win7 及以上、域环境），不要与旧的 ADM 模板同时混用
+- 域环境统一部署时，文件放入中央存储 `\\域名\SYSVOL\域名\Policies\PolicyDefinitions`
+
 ## 6-用户配置
 
 ### 我的文件
