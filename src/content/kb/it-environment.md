@@ -164,7 +164,9 @@ order: 6
 
 Chrome 的组策略配置项不是独立软件，而是 ADMX/ADML 模板文件，导入 Windows 组策略编辑器后才会出现 Chrome 选项。
 
-- 下载：Google 官方策略模板压缩包 `policy_templates.zip`，或 Chrome 企业版捆绑包
+- 下载：Google 官方策略模板直链 https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip
+- 版本验证：解压后查看包内 `VERSION` 文件，确认版本号与当前 Chrome 稳定版一致
+- 备用入口：直链失效时前往 Chrome 企业版下载页 https://chromeenterprise.google/browser/download/ ，文件类型选 Policy Templates
 - 解压后进入 `windows\admx` 目录
 - 复制 `chrome.admx`、`google.admx` 到 `C:\Windows\PolicyDefinitions\`
 - 复制语言文件 `chrome.adml`（`zh-CN` 或 `en-US` 文件夹内）到 `C:\Windows\PolicyDefinitions\zh-CN\`
