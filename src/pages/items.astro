@@ -126,108 +126,112 @@ const categories = [
 ---
 
 <BaseLayout title="物品 - 邹兆廷" description="我的财务状况与物品清单">
-	<h1>物品</h1>
+	<!-- 仪表盘通栏容器：突破 BaseLayout 的 720px -->
+	<div class="dashboard">
+		<h1>物品</h1>
 
-	<!-- 财务控制台 -->
-	<section class="console-card">
+		<!-- 财务控制台 -->
+		<section class="console-card">
 			<h2 class="block-title">财务</h2>
 
-		<!-- 左右两栏：左明细，右场景 -->
-		<div class="console-body">
-			<!-- 左：全部明细 -->
-			<div class="console-detail">
-				<h3 class="console-sub">明细</h3>
-				<div class="detail-group tone-spend">
-					<h4>固定花费（月 · {fixedCost.total}）</h4>
-					<ul>
-						{fixedCost.items.map((r) => (
-							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-						))}
-					</ul>
-				</div>
-				<div class="detail-group tone-income">
-					<h4>收入（月）</h4>
-					<ul>
-						{incomeRows.map((r) => (
-							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-						))}
-					</ul>
-				</div>
-				<div class="detail-group tone-deposit">
-					<h4>存款（存量）</h4>
-					<ul>
-						{depositRows.map((r) => (
-							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-						))}
-					</ul>
-				</div>
-				<div class="detail-group tone-debt">
-					<h4>欠款</h4>
-					<ul>
-						{debtRows.map((r) => (
-							<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-						))}
-					</ul>
-				</div>
-			</div>
-
-			<!-- 右：场景问答 -->
-			<div class="console-analysis">
-				<!-- 场景1：财务血条 -->
-				<section class="scene">
-					<h3 class="scene-q">我的钱是什么关系？</h3>
-
-					<!-- 血条积木：左=花费（灰底纯黑描边），右=月结余（深墨），轨道留内边距与空隙 -->
-					<div class="hp">
-						<div class="hp-track">
-							<span class="hp-block hp-block-spend" style={`width:calc(${shellPct}% - 2px)`}></span>
-							<span class="hp-block hp-block-rest" style={`width:calc(${restPct}% - 2px)`}></span>
+			<!-- 左右两栏：左明细，右场景 -->
+			<div class="console-body">
+				<!-- 左：全部明细 -->
+				<div class="console-detail">
+					<h3 class="console-sub">明细</h3>
+					<div class="detail-grid">
+						<div class="detail-group tone-spend">
+							<h4>固定花费（月 · {fixedCost.total}）</h4>
+							<ul>
+								{fixedCost.items.map((r) => (
+									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+								))}
+							</ul>
 						</div>
-						<div class="hp-legend">
-							<span class="lg-spend"><i class="box box-spend"></i>花费 {monthlySpend}</span>
-							<span class="lg-income"><i class="box box-income"></i>收入 {totalIncome}</span>
-							<span class="lg-deposit"><i class="box box-deposit"></i>月结余 {monthlyRest}</span>
+						<div class="detail-group tone-income">
+							<h4>收入（月）</h4>
+							<ul>
+								{incomeRows.map((r) => (
+									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+								))}
+							</ul>
+						</div>
+						<div class="detail-group tone-deposit">
+							<h4>存款（存量 · {totalDeposit}）</h4>
+							<ul>
+								{depositRows.map((r) => (
+									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+								))}
+							</ul>
+						</div>
+						<div class="detail-group tone-debt">
+							<h4>欠款（{totalDebt}）</h4>
+							<ul>
+								{debtRows.map((r) => (
+									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+								))}
+							</ul>
 						</div>
 					</div>
+				</div>
 
-					<ul class="scene-answers">
-						<li class="tone-spend">我有多少花费？<b>{monthlySpend}/月</b><small>（最省组合，全外卖则 2852）</small></li>
-						<li class="tone-income">我有多少收入？<b>{totalIncome}/月</b></li>
-						<li class="tone-deposit">我有多少存款？<b>{totalDeposit}</b><small>（存量，月增 {monthlyRest}）</small></li>
-						<li class="tone-debt">我有多少欠款？<b class={totalDebt === 0 ? 'zero' : ''}>{totalDebt}</b></li>
-					</ul>
-				</section>
+				<!-- 右：场景问答 -->
+				<div class="console-analysis">
+					<!-- 场景1：财务血条 -->
+					<section class="scene">
+						<h3 class="scene-q">我的钱是什么关系？</h3>
 
-				<!-- 场景2：三餐方案 -->
-				<section class="scene">
-					<h3 class="scene-q">三餐怎么吃最省？</h3>
-					<ul class="spend-bars">
-						{mealPlans.map((p) => (
-							<li class:list={['spend-bar-row', { best: p.best }]}>
-								<span class="spend-tag">{p.tag}</span>
-								<span class="spend-track">
-									<span class="spend-fill" style={`width:${Math.round((p.amount / 2852) * 100)}%`}></span>
-								</span>
-								<span class="spend-amount">{p.amount}</span>
-								{p.note && <span class="spend-note">{p.note}</span>}
-							</li>
-						))}
-					</ul>
+						<!-- 血条积木：左=花费（灰底纯黑描边），右=月结余（深墨），轨道留内边距与空隙 -->
+						<div class="hp">
+							<div class="hp-track">
+								<span class="hp-block hp-block-spend" style={`width:calc(${shellPct}% - 2px)`}></span>
+								<span class="hp-block hp-block-rest" style={`width:calc(${restPct}% - 2px)`}></span>
+							</div>
+							<div class="hp-legend">
+								<span class="lg-spend"><i class="box box-spend"></i>花费 {monthlySpend}</span>
+								<span class="lg-income"><i class="box box-income"></i>收入 {totalIncome}</span>
+								<span class="lg-deposit"><i class="box box-deposit"></i>月结余 {monthlyRest}</span>
+							</div>
+						</div>
 
-					<h4 class="spend-sub">怎么省</h4>
-					<ul class="spend-tips">
-						{savingTips.map((t) => (
-							<li class:list={{ strong: t.strong }}>{t.text}</li>
-						))}
-					</ul>
-				</section>
+						<ul class="scene-answers">
+							<li class="tone-spend">我有多少花费？<b>{monthlySpend}/月</b><small>（最省组合，全外卖则 2852）</small></li>
+							<li class="tone-income">我有多少收入？<b>{totalIncome}/月</b></li>
+							<li class="tone-deposit">我有多少存款？<b>{totalDeposit}</b><small>（存量，月增 {monthlyRest}）</small></li>
+							<li class="tone-debt">我有多少欠款？<b class={totalDebt === 0 ? 'zero' : ''}>{totalDebt}</b></li>
+						</ul>
+					</section>
+
+					<!-- 场景2：三餐方案 -->
+					<section class="scene">
+						<h3 class="scene-q">三餐怎么吃最省？</h3>
+						<ul class="spend-bars">
+							{mealPlans.map((p) => (
+								<li class:list={['spend-bar-row', { best: p.best }]}>
+									<span class="spend-tag">{p.tag}</span>
+									<span class="spend-track">
+										<span class="spend-fill" style={`width:${Math.round((p.amount / 2852) * 100)}%`}></span>
+									</span>
+									<span class="spend-amount">{p.amount}</span>
+									{p.note && <span class="spend-note">{p.note}</span>}
+								</li>
+							))}
+						</ul>
+
+						<h4 class="spend-sub">怎么省</h4>
+						<ul class="spend-tips">
+							{savingTips.map((t) => (
+								<li class:list={{ strong: t.strong }}>{t.text}</li>
+							))}
+						</ul>
+					</section>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<!-- 物品分类 -->
-	<div class="categories">
-		{categories.map((cat) => (
+		<!-- 物品分类：多栏网格 -->
+		<div class="categories">
+			{categories.map((cat) => (
 				<section class="category">
 					<h2 class="cat-title">{cat.name}<span class="cat-count">
 						{cat.zones
@@ -235,36 +239,45 @@ const categories = [
 							: cat.items.length}
 					</span></h2>
 
-				{cat.zones ? (
-					<div class="zone-list">
-						{cat.zones.map((zone) => (
-							<div class="zone">
-								<h3 class="zone-title">{zone.name}<span class="zone-count">{zone.items.length}</span></h3>
-								{zone.items.length > 0 ? (
-									<ul class="item-list">
-										{zone.items.map((item) => (
-											<li>{item}</li>
-										))}
-									</ul>
-								) : (
-									<p class="zone-empty">待补充</p>
-								)}
-							</div>
-						))}
-					</div>
-				) : (
-					<ul class="item-list">
-						{cat.items.map((item) => (
-							<li>{item}</li>
-						))}
-					</ul>
-				)}
-			</section>
-		))}
+					{cat.zones ? (
+						<div class="zone-list">
+							{cat.zones.map((zone) => (
+								<div class="zone">
+									<h3 class="zone-title">{zone.name}<span class="zone-count">{zone.items.length}</span></h3>
+									{zone.items.length > 0 ? (
+										<ul class="item-list">
+											{zone.items.map((item) => (
+												<li>{item}</li>
+											))}
+										</ul>
+									) : (
+										<p class="zone-empty">待补充</p>
+									)}
+								</div>
+							))}
+						</div>
+					) : (
+						<ul class="item-list">
+							{cat.items.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					)}
+				</section>
+			))}
+		</div>
 	</div>
 </BaseLayout>
 
 <style>
+	/* 覆盖 BaseLayout 的 --content-width，全屏无限制 */
+	:global(main.container) {
+		--content-width: 100vw;
+		max-width: none !important;
+		margin: 0;
+		padding: 48px 32px;
+	}
+
 	/* 二级标题：板块名，和知识库 h2 一致 */
 	.block-title {
 		font-size: 20px;
@@ -274,19 +287,26 @@ const categories = [
 		border-bottom: 2px solid #555555;
 	}
 
-	/* 财务控制台：文档流分区，无边框 */
+	/* 财务控制台 */
 	.console-card {
 		margin-bottom: 40px;
 	}
 
-	/* 左右两栏：明细 + 场景 */
+	/* 财务左右两栏：加宽后保持 1:1.4 比例 */
 	.console-body {
 		display: grid;
 		grid-template-columns: 1fr 1.4fr;
-		gap: 28px;
+		gap: 32px;
 	}
 
-	/* 三级标题：明细/场景名，和知识库 h3 一致 */
+	/* 明细区域的四个分组：2×2 网格平铺 */
+	.detail-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 16px;
+	}
+
+	/* 三级标题：明细/场景名 */
 	.console-sub {
 		font-size: 15px;
 		font-weight: 600;
@@ -320,7 +340,7 @@ const categories = [
 		display: inline-block;
 	}
 
-	/* ===== 4 级语义灰阶：花费纯黑 / 收入标准灰 / 存款深墨 / 欠款浅墨 ===== */
+	/* ===== 4 级语义灰阶 ===== */
 	:root {
 		--c-spend: #111111;
 		--c-income: #666666;
@@ -333,7 +353,6 @@ const categories = [
 		margin-bottom: 16px;
 	}
 
-	/* 轨道：浅灰槽，带内边距，积木与槽边、积木之间都有空隙 */
 	.hp-track {
 		display: flex;
 		gap: 4px;
@@ -342,7 +361,6 @@ const categories = [
 		border-radius: 6px;
 	}
 
-	/* 积木：统一高度与小圆角 */
 	.hp-block {
 		display: block;
 		height: 18px;
@@ -350,13 +368,11 @@ const categories = [
 		box-sizing: border-box;
 	}
 
-	/* 花费积木：收入灰底 + 纯黑描边壳 */
 	.hp-block-spend {
 		background: var(--c-income);
 		border: 2px solid var(--c-spend);
 	}
 
-	/* 结余积木：深墨实心（存款色） */
 	.hp-block-rest {
 		background: var(--c-deposit);
 	}
@@ -390,7 +406,6 @@ const categories = [
 	.box-income { background: var(--c-income); }
 	.box-deposit { background: var(--c-deposit); }
 
-	/* 四问四答：数字用对应语义色 */
 	.scene-answers {
 		list-style: none;
 		padding: 0;
@@ -427,7 +442,7 @@ const categories = [
 	}
 
 	.detail-group {
-		margin-bottom: 16px;
+		margin-bottom: 0;
 	}
 
 	.detail-group h4 {
@@ -553,14 +568,18 @@ const categories = [
 		font-weight: 600;
 	}
 
-	/* 物品分类 */
+	/* 物品分类：响应式多栏网格，4 个分类并排 */
 	.categories {
-		display: flex;
-		flex-direction: column;
-		gap: 32px;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 24px;
 	}
 
-	/* 二级标题：物品分类，和知识库 h2 一致 */
+	.category {
+		min-width: 0; /* 防止内容撑破网格 */
+	}
+
+	/* 二级标题：物品分类 */
 	.cat-title {
 		font-size: 20px;
 		font-weight: 700;
@@ -592,17 +611,21 @@ const categories = [
 		border-bottom: none;
 	}
 
-	/* 家具物品的两级结构：区域 → 物品 */
+	/* 区域列表：多栏网格平铺，避免 16 个箱子产生超长滚动 */
 	.zone-list {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 12px;
+	}
+
+	.zone {
+		min-width: 0;
 	}
 
 	.zone-title {
 		font-size: 15px;
 		font-weight: 600;
-		margin: 0 0 8px;
+		margin: 0 0 6px;
 		padding: 2px 8px;
 		background: #d1d5db;
 		border-radius: 4px;
@@ -623,9 +646,25 @@ const categories = [
 		padding-left: 8px;
 	}
 
-	@media (max-width: 700px) {
+	/* 响应式：平板以下财务变单列 */
+	@media (max-width: 900px) {
 		.console-body {
 			grid-template-columns: 1fr;
+		}
+	}
+
+	/* 响应式：手机端明细 grid 变单列，物品分类也单列 */
+	@media (max-width: 700px) {
+		.detail-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.categories {
+			grid-template-columns: 1fr;
+		}
+
+		.dashboard {
+			padding: 0 16px;
 		}
 	}
 </style>
