@@ -303,6 +303,41 @@ Windows 系统自带字体，无需加载网络字体，兼容性最好。
 
 <div class="demo"><p class="demo-p">链接<a href="https://example.com" target="_blank" rel="noopener">样式示例</a>：颜色同正文，浅灰细下划线。</p></div>
 
+## 代码
+
+正文里的代码分两种：句子中间的短片段用行内代码，独立成段的多行内容用代码块。两种都是 13px 等宽字体、浅灰底，靠底色和字体与正文区分。
+
+### 行内代码
+
+命令、文件名、路径、参数、变量名用一对反引号包裹，不跨行：
+
+- 命令：`npm run build`、`git push`
+- 路径：`src/pages/items.astro`、`C:\Windows\PolicyDefinitions\`
+- 参数：`--content-width`、`scp -r`
+
+行内代码只放片段，不放整句，也不放需要多行才能表达的内容。
+
+### 代码块
+
+多行命令、配置片段、完整示例用三个反引号围起来，开头必须写语言标记：
+
+```bash
+scp -r dist/* root@服务器IP:/var/www/html/
+```
+
+语言标记决定语法着色，常用有 `bash`、`css`、`js`、`markdown`、`json`。不写标记就按纯文本渲染，没有高亮。
+
+### 写法约定
+
+- 只有一行就能表达完的内容用行内代码，不用代码块
+- 代码块内保留原始缩进，不为排版改写
+- 命令行过长时用 `\` 折行，避免读者横向滚动
+- 代码块上方配一句话说明它做什么，下方可接要点列表解释关键参数
+
+<div class="demo">
+	<p class="demo-p">正文中的 <code>行内代码</code> 直接嵌在句子里。</p>
+</div>
+
 ## 图片
 
 图片文件统一放在 `public/images/kb/` 目录，命名为 `文章id-序号.jpg`，例如 `writing-style-1.jpg`。

@@ -211,3 +211,14 @@ Chrome 的组策略配置项不是独立软件，而是 ADMX/ADML 模板文件�
 - WordPress
 - Wiki.Js
 - Obsidian
+
+## 7-网站部署
+
+本地构建完成后，用 scp 把 `dist` 目录同步到云主机的网站根目录。
+
+```bash
+scp -r C:\Users\WORK2\Desktop\astro-homepage\dist\* root@服务器IP:/var/www/html/
+```
+
+- 本地侧为 Astro 构建输出目录 `dist`，远端侧为 Nginx 站点根目录 `/var/www/html/`
+- `-r` 递归传输，`*` 表示传输目录内的全部内容而非目录本身
