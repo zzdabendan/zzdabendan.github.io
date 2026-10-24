@@ -1,6 +1,36 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// 一日计划：24 小时逐小时安排，每小时三档优先级
+const priorityNames = ['首要安排', '次要安排', '其他安排'];
+
+const dailyPlan = [
+	{ time: '00:00–01:00', tasks: ['睡眠'] },
+	{ time: '01:00–02:00', tasks: ['睡眠'] },
+	{ time: '02:00–03:00', tasks: ['睡眠'] },
+	{ time: '03:00–04:00', tasks: ['睡眠'] },
+	{ time: '04:00–05:00', tasks: ['睡眠'] },
+	{ time: '05:00–06:00', tasks: ['睡眠'] },
+	{ time: '06:00–07:00', tasks: ['', '', '起床，洗漱'] },
+	{ time: '07:00–08:00', tasks: ['', '早餐', ''] },
+	{ time: '08:00–09:00', tasks: ['', '', '通勤'] },
+	{ time: '09:00–10:00', tasks: ['', '', '工作'] },
+	{ time: '10:00–11:00', tasks: ['', '', '工作'] },
+	{ time: '11:00–12:00', tasks: ['', '', '工作'] },
+	{ time: '12:00–13:00', tasks: ['', '午餐', '午休'] },
+	{ time: '13:00–14:00', tasks: ['', '', '工作'] },
+	{ time: '14:00–15:00', tasks: ['', '', '工作'] },
+	{ time: '15:00–16:00', tasks: ['', '', '工作'] },
+	{ time: '16:00–17:00', tasks: ['', '', '工作'] },
+	{ time: '17:00–18:00', tasks: ['', '', '工作'] },
+	{ time: '18:00–19:00', tasks: ['', '晚餐', '通勤'] },
+	{ time: '19:00–20:00', tasks: ['', '', '运动：俯卧撑、深蹲、引体向上'] },
+	{ time: '20:00–21:00', tasks: ['', '', '洗漱、休息'] },
+	{ time: '21:00–22:00', tasks: ['', '', '学习、阅读'] },
+	{ time: '22:00–23:00', tasks: ['', '', '自由安排'] },
+	{ time: '23:00–24:00', tasks: ['睡眠'] },
+];
+
 // 计划数据：5 个主题，每个主题含短/中/长三层
 const themes = [
 	{
@@ -80,6 +110,30 @@ const themes = [
 	<article>
 		<h1>计划</h1>
 
+		<section class="theme-block">
+			<h2 class="theme-title">一日计划</h2>
+			<table class="daily-table">
+				<thead>
+					<tr>
+						<th class="daily-time">时间</th>
+						{priorityNames.map((name) => (
+							<th>{name}</th>
+						))}
+					</tr>
+				</thead>
+				<tbody>
+					{dailyPlan.map((row) => (
+						<tr>
+							<td class="daily-time">{row.time}</td>
+							{priorityNames.map((_, i) => (
+								<td class:list={['daily-task', { 'is-primary': i === 0 }]}>{row.tasks[i] || '—'}</td>
+							))}
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</section>
+
 		{
 			themes.map((theme) => (
 				<section class="theme-block">
@@ -115,6 +169,59 @@ const themes = [
 		margin: 0 0 16px;
 		padding-bottom: 6px;
 		border-bottom: 2px solid #555555;
+	}
+
+	/* 一日计划表：细线分隔，纯文档流 */
+	.daily-table {
+		width: 100%;
+		border-collapse: collapse;
+		table-layout: fixed;
+		font-size: 14px;
+	}
+
+	.daily-table th {
+		text-align: left;
+		font-weight: 600;
+		padding: 8px 10px;
+		color: #111111;
+		background: #e8e4dc;
+		border-bottom: 1px solid #999999;
+		border-left: 1px solid #dddddd;
+	}
+
+	.daily-table th:first-child {
+		border-left: none;
+	}
+
+	.daily-table td {
+		padding: 6px 10px;
+		line-height: 1.7;
+		vertical-align: top;
+		color: #555555;
+		border-bottom: 1px solid #e5e5e5;
+		border-left: 1px solid #f0f0f0;
+	}
+
+	.daily-table td:first-child {
+		border-left: none;
+	}
+
+	.daily-table tbody tr:last-child td {
+		border-bottom: none;
+	}
+
+	.daily-time {
+		width: 110px;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+		color: #111111;
+		background: #f0ece5;
+	}
+
+	/* 首要安排：整列加重，其余层级弱化 */
+	.is-primary {
+		color: #111111;
+		font-weight: 500;
 	}
 
 	.phase {
