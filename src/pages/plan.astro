@@ -31,6 +31,26 @@ const dailyPlan = [
 	{ time: '23:00–24:00', tasks: ['睡眠'] },
 ];
 
+// 重复出现的内容追加序号：睡眠1、工作2……只出现一次的保持原样
+const taskCounts = new Map<string, number>();
+for (const row of dailyPlan) {
+	for (const task of row.tasks) {
+		if (task) taskCounts.set(task, (taskCounts.get(task) ?? 0) + 1);
+	}
+}
+
+const seen = new Map<string, number>();
+const dailyRows = dailyPlan.map((row) => ({
+	time: row.time,
+	tasks: row.tasks.map((task) => {
+		if (!task) return '';
+		if ((taskCounts.get(task) ?? 0) < 2) return task;
+		const n = (seen.get(task) ?? 0) + 1;
+		seen.set(task, n);
+		return `${task}${n}`;
+	}),
+}));
+
 // 计划数据：5 个主题，每个主题含短/中/长三层
 const themes = [
 	{
@@ -122,7 +142,7 @@ const themes = [
 					</tr>
 				</thead>
 				<tbody>
-					{dailyPlan.map((row) => (
+					{dailyRows.map((row) => (
 						<tr>
 							<td class="daily-time">{row.time}</td>
 							{priorityNames.map((_, i) => (
