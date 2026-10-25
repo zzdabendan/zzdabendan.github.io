@@ -29,6 +29,8 @@ const fixedCost = {
 		{ label: '水电', value: 224 },
 		{ label: '话费', value: 39 },
 		{ label: '宽带', value: 99 },
+		{ label: '三餐', value: 0 },
+		{ label: '出行', value: 0 },
 	],
 };
 
@@ -57,12 +59,30 @@ const savingTips = [
 	{ text: '宽带话费融合省 40~80', strong: false },
 ];
 
+// 场景3：出行方式对比（每公里成本，含折旧摊销估算）
+const travelPlans = [
+	{ tag: '步行', cost: 0, note: '零成本，3 公里内首选', best: true },
+	{ tag: '自行车', cost: 0.02, note: '车价 + 维修摊销' },
+	{ tag: '电动车', cost: 0.05, note: '电费 + 电池折旧' },
+	{ tag: '公交地铁', cost: 0.3, note: '2 元起步价折算' },
+	{ tag: '汽车', cost: 1.5, note: '油费 + 保险 + 停车 + 折旧' },
+	{ tag: '打车', cost: 2, note: '10 元起步价折算' },
+];
+const travelMax = 2;
+
+const travelTips = [
+	{ text: '3 公里内：步行或自行车，成本接近于零', strong: true },
+	{ text: '5 公里内：电动车最快最省，算上换电池摊销仍低于公交', strong: false },
+	{ text: '10 公里以上：公交地铁，比打车省八成以上', strong: false },
+	{ text: '打车与开车只在多人同行、带物或恶劣天气时划算', strong: false },
+];
+
 // 物品分类（装备→随身、出行→出行、仓库→收纳、家具→区域）
 const categories = [
 	{
 		name: '随身物品',
 		icon: '口袋',
-		items: ['装备物品1', '装备物品2', '装备物品3', '装备物品4', '装备物品5'],
+		items: ['头部', '面部', '颈部', '手部', '上身', '下身', '腿部'],
 	},
 	{
 		name: '出行物品',
@@ -221,6 +241,29 @@ const categories = [
 						<h4 class="spend-sub">怎么省</h4>
 						<ul class="spend-tips">
 							{savingTips.map((t) => (
+								<li class:list={{ strong: t.strong }}>{t.text}</li>
+							))}
+						</ul>
+					</section>
+					<!-- 场景3：出行方式对比 -->
+					<section class="scene">
+						<h3 class="scene-q">出行怎么最省？（元 / 公里）</h3>
+						<ul class="spend-bars">
+							{travelPlans.map((p) => (
+								<li class:list={['spend-bar-row', { best: p.best }]}>
+									<span class="spend-tag">{p.tag}</span>
+									<span class="spend-track">
+										<span class="spend-fill" style={`width:${Math.round((p.cost / travelMax) * 100)}%`}></span>
+									</span>
+									<span class="spend-amount">{p.cost}</span>
+									{p.note && <span class="spend-note">{p.note}</span>}
+								</li>
+							))}
+						</ul>
+
+						<h4 class="spend-sub">怎么省</h4>
+						<ul class="spend-tips">
+							{travelTips.map((t) => (
 								<li class:list={{ strong: t.strong }}>{t.text}</li>
 							))}
 						</ul>
