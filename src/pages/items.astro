@@ -11,11 +11,17 @@ const incomeRows = [
 	{ label: '兼职收入', value: 0 },
 ];
 const depositRows = [
-	{ label: '江西银行', value: 1500 },
-	{ label: '建设银行', value: 0 },
-	{ label: '工商银行', value: 0 },
-	{ label: '招商银行', value: 0 },
-	{ label: '农商银行', value: 0 },
+	{
+		label: '银行卡',
+		value: 1500,
+		sub: [
+			{ label: '江西银行', value: 1500 },
+			{ label: '建设银行', value: 0 },
+			{ label: '工商银行', value: 0 },
+			{ label: '招商银行', value: 0 },
+			{ label: '农商银行', value: 0 },
+		],
+	},
 	{ label: '支付宝', value: 0 },
 	{ label: '微信', value: 460 },
 	{ label: '定期', value: 5000 },
@@ -223,7 +229,18 @@ const categories = [
 							<h4>存款（存量 · {totalDeposit}）</h4>
 							<ul>
 								{depositRows.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<>
+										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+										{r.sub && (
+											<li class="sub">
+												<ul>
+													{r.sub.map((s) => (
+														<li><span>{s.label}</span><span class="num">{s.value}</span></li>
+													))}
+												</ul>
+											</li>
+										)}
+									</>
 								))}
 							</ul>
 						</div>
