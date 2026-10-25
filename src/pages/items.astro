@@ -30,7 +30,20 @@ const fixedCost = {
 		{ label: '话费', value: 39 },
 		{ label: '宽带', value: 99 },
 		{ label: '三餐', value: 0 },
-		{ label: '出行', value: 0 },
+		{
+			label: '出行',
+			value: 0,
+			sub: [
+				{ label: '购车车价', value: 0 },
+				{ label: '过户费', value: 0 },
+				{ label: '整备费', value: 0 },
+				{ label: '保险费', value: 0 },
+				{ label: '油费', value: 0 },
+				{ label: '保养费', value: 0 },
+				{ label: '停车费', value: 0 },
+				{ label: '洗车杂费', value: 0 },
+			],
+		},
 	],
 };
 
@@ -164,7 +177,18 @@ const categories = [
 							<h4>固定花费（月 · {fixedCost.total}）</h4>
 							<ul>
 								{fixedCost.items.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<>
+										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+										{r.sub && (
+											<li class="sub">
+												<ul>
+													{r.sub.map((s) => (
+														<li><span>{s.label}</span><span class="num">{s.value}</span></li>
+													))}
+												</ul>
+											</li>
+										)}
+									</>
 								))}
 							</ul>
 						</div>
@@ -516,6 +540,26 @@ const categories = [
 	.detail-group .num {
 		font-weight: 600;
 		font-variant-numeric: tabular-nums;
+	}
+
+	/* 二级子项：出行下的车辆相关花费 */
+	.detail-group li.sub {
+		display: block;
+		padding-left: 14px;
+	}
+
+	.detail-group li.sub ul {
+		border-left: 1px solid #e5e0d8;
+		padding-left: 10px;
+	}
+
+	.detail-group li.sub ul li {
+		font-size: 14px;
+		line-height: 1.9;
+	}
+
+	.detail-group li.sub ul li span:first-child {
+		color: #6b6b6b;
 	}
 
 	/* 花费分析 */
