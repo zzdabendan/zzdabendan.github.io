@@ -22,8 +22,11 @@ const depositRows = [
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
+// 出行：一次性费用（购车/过户/整备）与按月、按年费用分开计
+const carOneTime = 16888 + 1000 + 2000;
+const carMonthly = Math.round(3000 / 12 + 2000 / 12 + 5000 / 12 + 200 + 100);
+
 const fixedCost = {
-	total: 962,
 	items: [
 		{ label: '房租', value: 600 },
 		{ label: '水电', value: 224 },
@@ -32,20 +35,22 @@ const fixedCost = {
 		{ label: '三餐', value: 0 },
 		{
 			label: '出行',
-			value: 0,
+			value: carMonthly,
+			subNote: `一次性合计 ${carOneTime} · 月均 ${carMonthly}`,
 			sub: [
-				{ label: '购车车价', value: 0 },
-				{ label: '过户费', value: 0 },
-				{ label: '整备费', value: 0 },
-				{ label: '保险费', value: 0 },
-				{ label: '油费', value: 0 },
-				{ label: '保养费', value: 0 },
-				{ label: '停车费', value: 0 },
-				{ label: '洗车杂费', value: 0 },
+				{ label: '购车价格', value: 16888, unit: '一次性' },
+				{ label: '过户费', value: 1000, unit: '一次性' },
+				{ label: '整备费', value: 2000, unit: '一次性' },
+				{ label: '保险费', value: 3000, unit: '年' },
+				{ label: '保养费', value: 2000, unit: '年' },
+				{ label: '油费', value: 5000, unit: '年' },
+				{ label: '停车费', value: 200, unit: '月' },
+				{ label: '洗车杂费', value: 100, unit: '月' },
 			],
 		},
 	],
 };
+const fixedTotal = fixedCost.items.reduce((s, r) => s + r.value, 0);
 
 const mealPlans = [
 	{ tag: '最省', amount: 1892, note: '早包子·午外卖·晚自做', best: true },
@@ -174,7 +179,7 @@ const categories = [
 					<h3 class="console-sub">明细</h3>
 					<div class="detail-grid">
 						<div class="detail-group tone-spend">
-							<h4>固定花费（月 · {fixedCost.total}）</h4>
+							<h4>固定花费（月 · {fixedTotal}）</h4>
 							<ul>
 								{fixedCost.items.map((r) => (
 									<>
@@ -183,9 +188,13 @@ const categories = [
 											<li class="sub">
 												<ul>
 													{r.sub.map((s) => (
-														<li><span>{s.label}</span><span class="num">{s.value}</span></li>
+														<li>
+															<span>{s.label}<em class="unit">{s.unit}</em></span>
+															<span class="num">{s.value}</span>
+														</li>
 													))}
 												</ul>
+												{r.subNote && <p class="sub-note">{r.subNote}</p>}
 											</li>
 										)}
 									</>
@@ -560,6 +569,19 @@ const categories = [
 
 	.detail-group li.sub ul li span:first-child {
 		color: #6b6b6b;
+	}
+
+	.detail-group li.sub .unit {
+		font-style: normal;
+		font-size: 12px;
+		color: #9ca3af;
+		margin-left: 5px;
+	}
+
+	.detail-group li.sub .sub-note {
+		margin: 4px 0 2px;
+		font-size: 12px;
+		color: #8a8a8a;
 	}
 
 	/* 花费分析 */
