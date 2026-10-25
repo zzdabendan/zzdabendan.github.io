@@ -22,9 +22,12 @@ const depositRows = [
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
-// 出行：一次性费用（购车/过户/整备）与按月、按年费用分开计
+// 出行：一次性（购车/过户/整备）、按年（保险/保养/油费）、按月（停车/洗车）三类分开算
 const carOneTime = 16888 + 1000 + 2000;
-const carMonthly = Math.round(3000 / 12 + 2000 / 12 + 5000 / 12 + 200 + 100);
+const carAnnual = 3000 + 2000 + 5000;
+const carAnnualMonthly = Math.round(carAnnual / 12);
+const carMonthlyFixed = 200 + 100;
+const carMonthly = carAnnualMonthly + carMonthlyFixed;
 
 const fixedCost = {
 	items: [
@@ -36,7 +39,12 @@ const fixedCost = {
 		{
 			label: '出行',
 			value: carMonthly,
-			subNote: `一次性合计 ${carOneTime} · 月均 ${carMonthly}`,
+			subNote: [
+				`一次性合计 ${carOneTime}（不计入月均）`,
+				`年度合计 ${carAnnual}，折月 ${carAnnualMonthly}`,
+				`月度合计 ${carMonthlyFixed}（停车 200 + 洗车 100）`,
+				`出行月均 ${carMonthly} = ${carAnnualMonthly} + ${carMonthlyFixed}`,
+			],
 			sub: [
 				{ label: '购车价格', value: 16888, unit: '一次性' },
 				{ label: '过户费', value: 1000, unit: '一次性' },
@@ -194,7 +202,9 @@ const categories = [
 														</li>
 													))}
 												</ul>
-												{r.subNote && <p class="sub-note">{r.subNote}</p>}
+												{r.subNote && r.subNote.map((line) => (
+													<p class="sub-note">{line}</p>
+												))}
 											</li>
 										)}
 									</>
