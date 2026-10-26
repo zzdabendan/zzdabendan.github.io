@@ -480,9 +480,11 @@ const timeline = [
 			script.src = '/vendor/leaflet/leaflet.js';
 			script.onload = () => {
 				const points = JSON.parse(box.dataset.points || '[]');
+				box.classList.add('is-open');
 				box.replaceChildren();
 
 				const canvas = document.createElement('div');
+				canvas.style.width = '100%';
 				canvas.style.height = '420px';
 				canvas.style.borderRadius = '3px';
 				box.appendChild(canvas);
@@ -693,6 +695,15 @@ const timeline = [
 		border: 1px dashed #d1d5db;
 		border-radius: 3px;
 		background: #faf8f5;
+	}
+
+	/* 加载后改为块布局，避免 flex 居中把地图容器宽度压成 0 */
+	.map-facade.is-open {
+		display: block;
+		min-height: 0;
+		padding: 0;
+		border: none;
+		background: none;
 	}
 
 	.map-open {
