@@ -84,6 +84,35 @@
 		margin-bottom: 4px;
 	}
 
+	/* 表格：表头暖灰底 + 深灰底线，行间浅灰细线，无竖线 */
+	.article-body :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 12px 0 18px;
+		font-size: 14px;
+		line-height: 1.7;
+	}
+
+	.article-body :global(th) {
+		text-align: left;
+		font-weight: 600;
+		padding: 8px 10px;
+		background: #e8e4dc;
+		color: #111111;
+		border-bottom: 1px solid #999999;
+	}
+
+	.article-body :global(td) {
+		padding: 6px 10px;
+		color: #444444;
+		border-bottom: 1px solid #e5e5e5;
+		vertical-align: top;
+	}
+
+	.article-body :global(tbody tr:last-child td) {
+		border-bottom: none;
+	}
+
 	.article-body :global(a) {
 		color: var(--text);
 		text-decoration: underline;
