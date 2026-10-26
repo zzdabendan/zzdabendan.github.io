@@ -55,6 +55,14 @@ const socialLinks = [
 	},
 ];
 
+// 活动地图：常去地点，坐标为大致位置，按实际调整
+const mapPoints = [
+	{ name: '八一广场', lat: 28.6825, lng: 115.8917, desc: '市中心，常经停' },
+	{ name: '南昌理工学校', lat: 28.7425, lng: 115.8268, desc: '2026/10 网络管理员考试' },
+	{ name: '江西信息应用职业技术学院', lat: 28.6203, lng: 115.9002, desc: '母校' },
+	{ name: '亿安达城东一体化考场', lat: 28.6603, lng: 115.9602, desc: '科目三考试' },
+];
+
 // ⑤ 个人经历时间线（按人生阶段→年份→月份嵌套）
 const timeline = [
 	{
@@ -347,6 +355,15 @@ const timeline = [
 			</div>
 		</section>
 
+		<!-- 活动地图 -->
+		<section class="card">
+			<h2>活动地图</h2>
+			<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
+				<button class="map-open" type="button">点击加载活动地图</button>
+			</div>
+			<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
+		</section>
+
 		<!-- 我的技能 -->
 		<section class="card">
 			<h2>我的技能</h2>
@@ -409,6 +426,57 @@ const timeline = [
 		<p class="back-link"><a href="/">← 返回首页</a></p>
 	</article>
 </BaseLayout>
+
+<script is:inline>
+	// 点击后再加载 Leaflet，避免首屏加载第三方资源
+	document.querySelectorAll('.map-facade').forEach((box) => {
+		const trigger = box.querySelector('.map-open');
+		if (!trigger) return;
+
+		trigger.addEventListener('click', () => {
+			trigger.textContent = '地图加载中…';
+
+			const css = document.createElement('link');
+			css.rel = 'stylesheet';
+			css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+			document.head.appendChild(css);
+
+			const script = document.createElement('script');
+			script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+			script.onload = () => {
+				const points = JSON.parse(box.dataset.points || '[]');
+				box.replaceChildren();
+
+				const canvas = document.createElement('div');
+				canvas.style.height = '420px';
+				canvas.style.borderRadius = '3px';
+				box.appendChild(canvas);
+
+				const map = L.map(canvas, { scrollWheelZoom: false }).setView([28.6825, 115.8917], 11);
+				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					maxZoom: 18,
+					attribution: '© OpenStreetMap contributors',
+				}).addTo(map);
+
+				const bounds = [];
+				points.forEach((p) => {
+					L.marker([p.lat, p.lng])
+						.addTo(map)
+						.bindPopup(`<strong>${p.name}</strong><br>${p.desc}`);
+					bounds.push([p.lat, p.lng]);
+				});
+
+				if (bounds.length > 1) {
+					map.fitBounds(bounds, { padding: [30, 30] });
+				}
+			};
+			script.onerror = () => {
+				trigger.textContent = '地图加载失败，请检查网络后重试';
+			};
+			document.head.appendChild(script);
+		});
+	});
+</script>
 
 <style>
 	.card {
@@ -555,5 +623,40 @@ const timeline = [
 		text-align: center;
 		margin-top: 32px;
 		font-size: 15px;
+	}
+
+	/* 活动地图：默认占位，点击后加载 Leaflet */
+	.map-facade {
+		min-height: 420px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px dashed #d1d5db;
+		border-radius: 3px;
+		background: #faf8f5;
+	}
+
+	.map-open {
+		font: inherit;
+		font-size: 15px;
+		padding: 8px 12px;
+		color: #444444;
+		background: none;
+		border: none;
+		cursor: pointer;
+		text-decoration: underline;
+		text-decoration-color: #d1d5db;
+		text-underline-offset: 3px;
+	}
+
+	.map-open:hover {
+		color: #111111;
+		text-decoration-color: #555555;
+	}
+
+	.map-note {
+		font-size: 13px;
+		color: #6b7280;
+		margin-top: 8px;
 	}
 </style>
