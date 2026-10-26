@@ -1,5 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoBili from '../components/VideoBili.astro';
+
+// 运动示范视频：bv 留空时显示占位卡，补上 BV 号后自动变成可点击播放
+type Video = { title: string; bv?: string };
+type Phase = { phase: string; goal: string; items: string[]; videos?: Video[] };
 
 // 一日计划：24 小时逐小时安排，每小时三档优先级
 const priorityNames = ['首要安排', '次要安排', '其他安排'];
@@ -52,7 +57,7 @@ const dailyRows = dailyPlan.map((row) => ({
 }));
 
 // 计划数据：5 个主题，每个主题含短/中/长三层
-const themes = [
+const themes: { name: string; phases: Phase[] }[] = [
 	{
 		name: '运动',
 		phases: [
@@ -67,6 +72,12 @@ const themes = [
 					'俯卧撑：每天分组练习',
 					'深蹲：每天分组练习',
 					'引体向上：每天分组练习',
+				],
+				videos: [
+					{ title: '俯卧撑标准动作' },
+					{ title: '深蹲标准动作' },
+					{ title: '引体向上标准动作' },
+					{ title: '拉伸与放松' },
 				],
 			},
 			{
@@ -167,6 +178,20 @@ const themes = [
 									<li>{item}</li>
 								))}
 							</ul>
+							{plan.videos && (
+								<div class="video-grid">
+									{plan.videos.map((video) =>
+										video.bv ? (
+											<VideoBili bvid={video.bv} title={video.title} />
+										) : (
+											<div class="video-placeholder">
+												<span class="video-title">{video.title}</span>
+												<span class="video-note">待补充视频</span>
+											</div>
+										)
+									)}
+								</div>
+							)}
 						</div>
 					))}
 				</section>
@@ -272,10 +297,49 @@ const themes = [
 		margin-top: 40px;
 	}
 
+	/* 运动示范视频：两列 16:9，bv 为空时显示占位卡 */
+	.video-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+		margin-top: 16px;
+	}
+
+	.video-grid :global(.bili-facade) {
+		margin-bottom: 0;
+	}
+
+	.video-placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		aspect-ratio: 16 / 9;
+		border: 1px dashed #d1d5db;
+		border-radius: 4px;
+		background: #faf8f5;
+		text-align: center;
+	}
+
+	.video-title {
+		font-size: 14px;
+		color: #555555;
+	}
+
+	.video-note {
+		font-size: 12px;
+		color: #9ca3af;
+	}
+
 	@media (max-width: 600px) {
 		.phase-name {
 			flex-direction: column;
 			gap: 4px;
+		}
+
+		.video-grid {
+			grid-template-columns: 1fr;
 		}
 	}
 </style>
