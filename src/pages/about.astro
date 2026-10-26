@@ -473,11 +473,11 @@ const timeline = [
 
 			const css = document.createElement('link');
 			css.rel = 'stylesheet';
-			css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+			css.href = '/vendor/leaflet/leaflet.css';
 			document.head.appendChild(css);
 
 			const script = document.createElement('script');
-			script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+			script.src = '/vendor/leaflet/leaflet.js';
 			script.onload = () => {
 				const points = JSON.parse(box.dataset.points || '[]');
 				box.replaceChildren();
@@ -488,26 +488,46 @@ const timeline = [
 				box.appendChild(canvas);
 
 				const map = L.map(canvas, { scrollWheelZoom: false }).setView([28.6825, 115.8917], 11);
-				// 高德瓦片：国内访问稳定，坐标系为 GCJ-02
-				L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
-					subdomains: '1234',
-					maxZoom: 18,
-					attribution: '© 高德地图',
-				}).addTo(map);
+				const markerLayer = L.layerGroup().addTo(map);
+				let useGcj = true;
 
-				const bounds = [];
-				points.forEach((p) => {
-					// 点位按 WGS-84 记录，上高德瓦片前转成 GCJ-02
-					const [lat, lng] = wgs84ToGcj02(p.lat, p.lng);
-					L.marker([lat, lng])
-						.addTo(map)
-						.bindPopup(`<strong>${p.name}</strong><br>${p.desc}`);
-					bounds.push([lat, lng]);
+				const drawMarkers = () => {
+					markerLayer.clearLayers();
+					const bounds = [];
+					points.forEach((p) => {
+						// 点位按 WGS-84 记录，高德瓦片需转 GCJ-02
+						const [lat, lng] = useGcj ? wgs84ToGcj02(p.lat, p.lng) : [p.lat, p.lng];
+						L.marker([lat, lng])
+							.addTo(markerLayer)
+							.bindPopup(`<strong>${p.name}</strong><br>${p.desc}`);
+						bounds.push([lat, lng]);
+					});
+					if (bounds.length > 1) {
+						map.fitBounds(bounds, { padding: [30, 30] });
+					}
+				};
+
+				// 高德瓦片：国内访问稳定，坐标系为 GCJ-02
+				const tile = L.tileLayer(
+					'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+					{ subdomains: '1234', maxZoom: 18, attribution: '© 高德地图' }
+				).addTo(map);
+
+				// 高德瓦片若被拦截或返回空白，自动回退到 OSM（WGS-84 坐标）
+				let fallback = false;
+				tile.on('tileerror', () => {
+					if (fallback) return;
+					fallback = true;
+					map.removeLayer(tile);
+					useGcj = false;
+					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+						maxZoom: 18,
+						attribution: '© OpenStreetMap contributors',
+					}).addTo(map);
+					drawMarkers();
 				});
 
-				if (bounds.length > 1) {
-					map.fitBounds(bounds, { padding: [30, 30] });
-				}
+				drawMarkers();
 			};
 			script.onerror = () => {
 				trigger.textContent = '地图加载失败，请检查网络后重试';
