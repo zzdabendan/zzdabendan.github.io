@@ -49,6 +49,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<p class="energy-note">每级损失 90%，残骸由分解者回收循环</p>
 		</div>
 	</section>
+
+	<!-- 需求阶梯：按年龄段逐行排列，读法自低龄向高龄 -->
+	<section class="need-rail">
+		<div class="need-inner">
+			<p class="energy-domain">需求</p>
+			<ul class="need-list">
+				<li>10 岁以内的孩子，需要有人理解</li>
+				<li>10-20 岁的孩子，需要认同</li>
+				<li>20-30 岁的孩子，需要机会</li>
+				<li>30-40 岁的人，需要肯定和赞美</li>
+				<li>40-50 岁的人，需要尊敬</li>
+				<li>50-60 岁的人，需要晚辈的敬佩</li>
+				<li>60 岁以上的人，需要晚辈的崇拜</li>
+			</ul>
+		</div>
+	</section>
 </BaseLayout>
 
 <style>
@@ -133,6 +149,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		line-height: 1.6;
 		color: var(--muted);
 		margin: 0;
+	}
+
+	/* 需求阶梯：与能量链同宽对齐，逐行读 */
+	.need-rail {
+		width: 100vw;
+		margin-left: calc(-50vw + 50%);
+		display: flex;
+		justify-content: center;
+		padding: 0 40px 64px;
+	}
+
+	.need-inner {
+		width: 100%;
+		max-width: 720px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.need-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.need-list li {
+		font-size: 14px;
+		line-height: 1.7;
+		color: #333333;
+		padding: 8px 0;
+		border-bottom: 1px dashed var(--line);
+	}
+
+	.need-list li:last-child {
+		border-bottom: none;
 	}
 
 	.hero-question {
@@ -230,6 +283,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		.energy-group {
 			min-width: 0;
 			max-width: none;
+		}
+
+		.need-rail {
+			padding: 0 20px 48px;
 		}
 
 		.avatar-img {
