@@ -28,11 +28,11 @@ const depositRows = [
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
-// 出行：一次性（购车/过户/整备）、按年（保险/保养/油费）、按月（停车/洗车）三类分开算
+// 出行：一次性（购车/过户/整备）、按年（保险/保养/油费/审车）、按月（停车/洗车）三类分开算
 const carOneTime = 16888 + 1000 + 2000;
-const carAnnual = 3000 + 2000 + 5000;
+const carAnnual = 3000 + 2000 + 5000 + 200;
 const carAnnualMonthly = Math.round(carAnnual / 12);
-const carMonthlyFixed = 200 + 100;
+const carMonthlyFixed = 60 + 100;
 const carMonthly = carAnnualMonthly + carMonthlyFixed;
 
 const fixedCost = {
@@ -48,7 +48,7 @@ const fixedCost = {
 			subNote: [
 				`一次性合计 ${carOneTime}（不计入月均）`,
 				`年度合计 ${carAnnual}，折月 ${carAnnualMonthly}`,
-				`月度合计 ${carMonthlyFixed}（停车 200 + 洗车 100）`,
+				`月度合计 ${carMonthlyFixed}（停车 60 + 洗车 100）`,
 				`出行月均 ${carMonthly} = ${carAnnualMonthly} + ${carMonthlyFixed}`,
 			],
 			sub: [
@@ -58,7 +58,8 @@ const fixedCost = {
 				{ label: '保险费', value: 3000, unit: '年' },
 				{ label: '保养费', value: 2000, unit: '年' },
 				{ label: '油费', value: 5000, unit: '年' },
-				{ label: '停车费', value: 200, unit: '月' },
+				{ label: '审车费', value: 200, unit: '年' },
+				{ label: '停车费', value: 60, unit: '月' },
 				{ label: '洗车杂费', value: 100, unit: '月' },
 			],
 		},
