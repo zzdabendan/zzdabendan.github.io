@@ -17,15 +17,19 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 
-// 左栏：全部文章按分组列出，当前篇高亮
+// 左栏：全部文章按分组列出，当前篇高亮，组内序号从 1 开始
 const all = await getCollection('kb');
 const sidebarGroups = ['生活', '学校', '工作'].map((category) => ({
 	category,
 	items: all
 		.filter((a) => a.data.category === category)
 		.sort((a, b) => a.data.order - b.data.order)
-		.map((a) => ({ id: a.id, title: a.data.title })),
+		.map((a, i) => ({ id: a.id, title: a.data.title, no: i + 1 })),
 }));
+
+// 当前文章在所属分组中的序号
+const currentGroup = sidebarGroups.find((g) => g.category === entry.data.category);
+const entryNo = currentGroup?.items.find((a) => a.id === entry.id)?.no ?? 1;
 
 // 右栏目录：构建时从 Markdown 标题生成，只取二三四级
 const toc = headings
@@ -45,7 +49,7 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 		<!-- 中栏：文章内容 -->
 		<main class="kb-content">
 			{entry.data.video && <VideoBili bvid={entry.data.video} title={entry.data.title} cover={entry.data.cover} />}
-			<h1 class="article-h1">{entry.data.title}</h1>
+			<h1 class="article-h1">{entryNo}. {entry.data.title}</h1>
 			<p class="article-summary">{entry.data.summary}</p>
 				<p class="article-meta">约 {readMinutes} 分钟</p>
 				<ArticleBody>

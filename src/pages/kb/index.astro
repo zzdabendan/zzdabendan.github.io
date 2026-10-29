@@ -16,10 +16,10 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 		.sort((a, b) => a.data.order - b.data.order),
 }));
 
-// 左栏组件数据：只取 id 与标题
+// 左栏组件数据：取 id、标题与组内序号
 const sidebarGroups = groups.map((g) => ({
 	category: g.category,
-	items: g.items.map((a) => ({ id: a.id, title: a.data.title })),
+	items: g.items.map((a, i) => ({ id: a.id, title: a.data.title, no: i + 1 })),
 }));
 
 // 右栏目录
@@ -66,12 +66,13 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 						<section data-group={group.category}>
 							<h2 id={group.category}>{group.category}</h2>
 							<div class="card-grid">
-								{group.items.map((article) => (
+								{group.items.map((article, i) => (
 									<a
 										href={`/kb/${article.id}/`}
 										class="card-item"
 										data-tags={JSON.stringify(article.data.tags ?? [])}
 									>
+										<span class="card-no">{i + 1}</span>
 										<span class="card-title">{article.data.title}</span>
 									</a>
 								))}
@@ -182,12 +183,19 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 	.card-item {
 		display: flex;
 		align-items: center;
+		gap: 8px;
 		padding: 16px;
 		border: 1px solid var(--line);
 		border-radius: 6px;
 		background: #ffffff;
 		text-decoration: none;
 		transition: border-color 0.15s, box-shadow 0.15s;
+	}
+
+	.card-no {
+		font-size: 13px;
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.card-item:hover {
