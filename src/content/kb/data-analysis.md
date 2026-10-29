@@ -2,7 +2,7 @@
 title: 数据分析
 category: 生活
 summary: 人口与社会常用统计指标的口径、参考数值与分母差异。
-order: 7
+order: 11
 ---
 
 ## 指标总览

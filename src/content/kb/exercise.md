@@ -2,7 +2,7 @@
 title: 运动
 category: 生活
 summary: 运动知识笔记：身体现状与 BMI、饮食结构、热身方法、动作要领、锻炼步骤与工具清单。
-order: 1
+order: 7
 ---
 
 ## 锻炼公式

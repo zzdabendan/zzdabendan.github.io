@@ -16,10 +16,14 @@ const groups = ['生活', '学校', '工作'].map((category) => ({
 		.sort((a, b) => a.data.order - b.data.order),
 }));
 
-// 左栏组件数据：取 id、标题与组内序号
+// 左栏组件数据：取 id、标题与组内序号（补零到两位，1 → 01）
 const sidebarGroups = groups.map((g) => ({
 	category: g.category,
-	items: g.items.map((a, i) => ({ id: a.id, title: a.data.title, no: i + 1 })),
+	items: g.items.map((a, i) => ({
+		id: a.id,
+		title: a.data.title,
+		no: String(i + 1).padStart(2, '0'),
+	})),
 }));
 
 // 右栏目录
@@ -72,7 +76,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 										class="card-item"
 										data-tags={JSON.stringify(article.data.tags ?? [])}
 									>
-										<span class="card-no">{i + 1}</span>
+										<span class="card-no">{String(i + 1).padStart(2, '0')}</span>
 										<span class="card-title">{article.data.title}</span>
 									</a>
 								))}

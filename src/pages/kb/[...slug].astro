@@ -24,12 +24,12 @@ const sidebarGroups = ['生活', '学校', '工作'].map((category) => ({
 	items: all
 		.filter((a) => a.data.category === category)
 		.sort((a, b) => a.data.order - b.data.order)
-		.map((a, i) => ({ id: a.id, title: a.data.title, no: i + 1 })),
+		.map((a, i) => ({ id: a.id, title: a.data.title, no: String(i + 1).padStart(2, '0') })),
 }));
 
 // 当前文章在所属分组中的序号
 const currentGroup = sidebarGroups.find((g) => g.category === entry.data.category);
-const entryNo = currentGroup?.items.find((a) => a.id === entry.id)?.no ?? 1;
+const entryNo = currentGroup?.items.find((a) => a.id === entry.id)?.no ?? '01';
 
 // 右栏目录：构建时从 Markdown 标题生成，只取二三四级
 const toc = headings
