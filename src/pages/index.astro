@@ -13,15 +13,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 				<p id="now-time" class="hero-time"></p>
 				<h2>是否存在一件事，让所有人都开心</h2>
 			</div>
-			<div class="search-box">
-				<input
-					type="text"
-					id="deepseek-input"
-					class="search-input"
-					placeholder="每一天，解决一个真实的生活问题"
-				/>
-				<button class="search-btn" onclick="goDeepSeek()">提问</button>
-			</div>
 		</div>
 	</section>
 
@@ -162,51 +153,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		padding-bottom: 0;
 	}
 
-	/* 搜索输入框 */
-	.search-box {
-		display: flex;
-		gap: 8px;
-		margin-top: 16px;
-		width: 100%;
-		max-width: 320px;
-	}
-
-	.search-input {
-		flex: 1;
-		padding: 10px 14px;
-		font-size: 14px;
-		border: 1px solid var(--line);
-		border-radius: 6px;
-		background: #ffffff;
-		outline: none;
-		transition: border-color 0.15s;
-	}
-
-	.search-input:focus {
-		border-color: #9ca3af;
-	}
-
-	.search-input::placeholder {
-		color: #9ca3af;
-	}
-
-	.search-btn {
-		padding: 10px 20px;
-		font-size: 14px;
-		font-weight: 500;
-		color: #ffffff;
-		background: #111111;
-		border: none;
-		border-radius: 6px;
-		cursor: pointer;
-		transition: background 0.15s;
-		white-space: nowrap;
-	}
-
-	.search-btn:hover {
-		background: #333333;
-	}
-
 	/* 桌面端：整页恰好一屏，hero 弹性占据剩余空间 */
 	@media (min-width: 901px) {
 		:global(body) {
@@ -282,25 +228,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		el.textContent = `${y}-${m}-${d} 周${w} ${h}:${min}`;
 	}
 
-	// 跳转 DeepSeek 搜索
-	function goDeepSeek() {
-		const input = document.getElementById('deepseek-input');
-		const q = input.value.trim();
-		if (!q) return;
-		window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
-		input.value = '';
-	}
-
 	window.addEventListener('DOMContentLoaded', () => {
 		updateTime();
 		setInterval(updateTime, 60000);
-
-		// 回车触发搜索
-		const input = document.getElementById('deepseek-input');
-		if (input) {
-			input.addEventListener('keydown', (e) => {
-				if (e.key === 'Enter') goDeepSeek();
-			});
-		}
 	});
 </script>

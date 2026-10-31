@@ -31,6 +31,15 @@ const isActive = (href: string) =>
 			</svg>
 			<span>邹兆廷</span>
 		</a>
+		<div class="nav-search">
+			<input
+				type="text"
+				id="deepseek-input"
+				class="search-input"
+				placeholder="每一天，解决一个真实的生活问题"
+			/>
+			<button class="search-btn" onclick="goDeepSeek()">提问</button>
+		</div>
 		<input type="checkbox" id="nav-check" class="nav-check" />
 		<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
 		<nav>
@@ -58,12 +67,60 @@ const isActive = (href: string) =>
 	}
 
 	.nav-inner {
-		max-width: 720px;
+		max-width: 1100px;
 		margin: 0 auto;
 		padding: 14px 20px;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 24px;
+		flex-wrap: wrap;
+	}
+
+	/* 提问框：夹在品牌与菜单之间 */
+	.nav-search {
+		display: flex;
+		gap: 8px;
+		flex: 1;
+		max-width: 340px;
+		min-width: 200px;
+	}
+
+	.search-input {
+		flex: 1;
+		min-width: 0;
+		padding: 8px 12px;
+		font-size: 14px;
+		border: 1px solid var(--line);
+		border-radius: 6px;
+		background: #ffffff;
+		outline: none;
+		transition: border-color 0.15s;
+	}
+
+	.search-input:focus {
+		border-color: #9ca3af;
+	}
+
+	.search-input::placeholder {
+		color: #9ca3af;
+	}
+
+	.search-btn {
+		padding: 8px 16px;
+		font-size: 14px;
+		font-weight: 500;
+		color: #ffffff;
+		background: #111111;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: background 0.15s;
+		white-space: nowrap;
+	}
+
+	.search-btn:hover {
+		background: #333333;
 	}
 
 	/* 齿轮 + 姓名：齿轮在前，姓名在后 */
@@ -109,6 +166,16 @@ const isActive = (href: string) =>
 	.nav-link.active {
 		color: #000000;
 		border-bottom-color: #000000;
+	}
+
+	/* 窄屏：提问框独占一行，排在品牌与菜单下方 */
+	@media (max-width: 900px) {
+		.nav-search {
+			order: 3;
+			flex: 1 1 100%;
+			max-width: none;
+			min-width: 0;
+		}
 	}
 
 	/* 移动端：折叠为汉堡菜单，点击 ≡ 展开 */
@@ -158,3 +225,24 @@ const isActive = (href: string) =>
 		}
 	}
 </style>
+
+<script is:inline>
+	// 跳转 DeepSeek 搜索
+	function goDeepSeek() {
+		const input = document.getElementById('deepseek-input');
+		if (!input) return;
+		const q = input.value.trim();
+		if (!q) return;
+		window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
+		input.value = '';
+	}
+
+	// 回车触发搜索
+	document.addEventListener('DOMContentLoaded', () => {
+		const input = document.getElementById('deepseek-input');
+		if (!input) return;
+		input.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') goDeepSeek();
+		});
+	});
+</script>
