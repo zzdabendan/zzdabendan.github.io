@@ -425,8 +425,8 @@ const timeline = [
 		<section class="card">
 			<h2>我的经历</h2>
 			{
-				timeline.map((group) => (
-					<div class="timeline-group">
+				timeline.map((group, i) => (
+					<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
 						<h3 class="stage-title">{group.stage}</h3>
 						{group.years.map((y) => (
 							<div class="year-block">
@@ -643,9 +643,16 @@ const timeline = [
 		color: #6b7280;
 	}
 
-	/* 个人经历 */
+	/* 个人经历：阶段层通栏色带，奇偶交替深浅，正文仍居中在内容宽度内 */
 	.timeline-group {
-		margin-bottom: 24px;
+		width: 100vw;
+		margin-left: calc(-50vw + 50%);
+		padding: 20px max(20px, calc((100vw - var(--content-width, 720px)) / 2 + 20px));
+	}
+
+	/* 偶数阶段（大学、小学初中等）加深一档暖灰，与工作阶段形成深浅交替 */
+	.timeline-group.tinted {
+		background: #f3efe8;
 	}
 
 	/* 三级标题：人生阶段，和知识库 h3 一致 */
