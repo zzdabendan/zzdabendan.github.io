@@ -207,6 +207,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		background: #333333;
 	}
 
+	/* 桌面端：整页恰好一屏，hero 弹性占据剩余空间 */
+	@media (min-width: 901px) {
+		:global(body) {
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		/* 覆盖 BaseLayout 的 min-height，让内容区吃掉剩余高度 */
+		:global(main.container) {
+			flex: 1;
+			min-height: 0 !important;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.hero {
+			flex: 1;
+			min-height: 0;
+		}
+	}
+
 	@media (max-width: 900px) {
 		.hero {
 			min-height: 0;
