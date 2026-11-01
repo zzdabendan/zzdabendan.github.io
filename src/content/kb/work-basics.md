@@ -1,7 +1,7 @@
 ---
 title: 工作基础概念
 category: 工作
-summary: 与工作相关的基础概念与名词解释，包括产业分类、职业分类等。
+summary: 与工作相关的基础概念与名词解释，包括产业分类、职业分类，以及职业发展与招聘信息。
 order: -1
 tags: [工作, 经济, 概念]
 ---
@@ -40,3 +40,39 @@ tags: [工作, 经济, 概念]
 8. 其他从业人员
 
 每个大类下再划分中类、小类和细类（职业），构成完整的职业分类体系。
+
+## 职业发展
+
+### 招聘信息
+
+#### AI / 新兴科技公司
+
+- [DeepSeek 运维工程师（社会招聘）](https://app.mokahr.com/social-recruitment/high-flyer/140576#/job/27f0675d-5ffd-48d9-a36c-f340a443dc8b) — 全球知名 AI 公司，与当前运维岗位直接相关，收藏备用。
+- [OpenAI Careers](https://openai.com/careers) — 官方招聘入口，搜索 SRE / Operations / Infrastructure 相关岗位。
+
+#### 一线互联网大厂
+
+- [腾讯招聘](https://careers.tencent.com) — 搜索「运维工程师」「SRE」「系统工程师」。
+- [字节跳动招聘](https://jobs.bytedance.com) — 抖音/今日头条母公司，搜索「运维」「SRE」「基础架构」。
+- [美团招聘](https://zhaopin.meituan.com) — 搜索「运维工程师」「系统运维」。
+- [滴滴招聘](https://campus.didiglobal.com) — 搜索「运维」「SRE」「基础设施」。
+- [百度招聘](https://talent.baidu.com) — 搜索「运维工程师」「系统工程师」。
+- [网易招聘](https://hr.163.com) — 搜索「运维」「系统运维」「游戏运维」。
+- [京东招聘](https://zhaopin.jd.com) — 搜索「运维工程师」「SRE」。
+
+#### 硬件 / 通信 / 综合科技
+
+- [华为招聘](https://career.huawei.com) — 搜索「运维」「网络工程师」「系统工程师」。
+- [小米招聘](https://hr.xiaomi.com) — 搜索「运维工程师」「SRE」「系统运维」。
+
+#### 外企 / 全球化公司
+
+- [微软招聘](https://careers.microsoft.com) — 搜索「Site Reliability Engineer」「Operations」「Infrastructure」。
+
+### 求职技巧
+
+待补充。
+
+## 技术笔记
+
+待补充。
