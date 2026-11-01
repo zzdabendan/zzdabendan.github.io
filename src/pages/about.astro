@@ -323,7 +323,7 @@ const timeline = [
 		<h1>关于</h1>
 
 		<div class="cols">
-			<!-- 主栏：自我介绍 → 个人经历 → 我的技能 -->
+			<!-- 主栏：自我介绍 → 我的技能 → 个人经历 -->
 			<div class="col-main">
 				<section class="card intro">
 					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
@@ -333,30 +333,6 @@ const timeline = [
 					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。</p>
 					<p class="intro-text">工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。</p>
 					<p class="intro-text">长期目标是坚持锻炼健身，保持健康的身体。</p>
-				</section>
-
-				<section class="card main-timeline">
-					<h2>我的经历</h2>
-					{
-						timeline.map((group, i) => (
-							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
-								<h3 class="stage-title">{group.stage}</h3>
-								{group.years.map((y) => (
-									<div class="year-block">
-										<h4 class="year-title">{y.year}</h4>
-										<ul class="month-list">
-											{y.months.map((m) => (
-												<li>
-													{m.month && <span class="month-label">{m.month}</span>}
-													{m.events && <span class="month-events">{m.events}</span>}
-												</li>
-											))}
-										</ul>
-									</div>
-								))}
-							</div>
-						))
-					}
 				</section>
 
 				<section class="card main-skills">
@@ -390,6 +366,30 @@ const timeline = [
 						<span class="skill-tag">演讲</span>
 						<span class="skill-tag">客户服务</span>
 					</div>
+				</section>
+
+				<section class="card main-timeline">
+					<h2>我的经历</h2>
+					{
+						timeline.map((group, i) => (
+							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
+								<h3 class="stage-title">{group.stage}</h3>
+								{group.years.map((y) => (
+									<div class="year-block">
+										<h4 class="year-title">{y.year}</h4>
+										<ul class="month-list">
+											{y.months.map((m) => (
+												<li>
+													{m.month && <span class="month-label">{m.month}</span>}
+													{m.events && <span class="month-events">{m.events}</span>}
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
+						))
+					}
 				</section>
 			</div>
 
