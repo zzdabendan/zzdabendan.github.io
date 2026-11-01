@@ -23,9 +23,10 @@ const { items } = Astro.props;
 <style>
 	.kb-toc {
 		position: sticky;
-		top: 80px;
+		top: 70px; /* 与导航高度对齐，避免滚动起始时出现位移 */
 		align-self: start;
-		max-height: calc(100vh - 104px);
+		/* 高度上限预留页脚（约 109px）与底部留白（20px），滚到页尾时侧栏无需上移 */
+		max-height: calc(100vh - 199px);
 		overflow-y: auto;
 		scrollbar-width: none;
 	}

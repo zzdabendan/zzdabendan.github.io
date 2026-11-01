@@ -66,7 +66,9 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 
 <style is:global>
 	/* 三栏容器：侧栏 220 + 目录 200 + 中栏正文 680px，与子页面文字行宽一致 */
-	.container { --content-width: 1200px; padding-top: 20px; }
+	/* 取消容器上下留白：侧栏 sticky 从导航下沿直接开始，滚动到顶部不再位移 */
+	/* 双 class 提高优先级，覆盖 BaseLayout 中带作用域的 .container[data-astro-cid-*] 的 padding */
+	.container.container { --content-width: 1200px; padding: 0 20px; }
 
 	html {
 		scroll-behavior: smooth;
@@ -79,8 +81,7 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 		grid-template-columns: 220px 1fr 200px;
 		gap: 30px;
 		margin: 0 auto;
-		padding: 0 0 32px;
-		min-height: calc(100vh - 166px); /* 撑满一屏：100vh - 导航 70px - 容器上下 padding 96px */
+		min-height: calc(100vh - 180px); /* 撑满一屏：100vh - 导航约 71px - 页脚约 109px */
 	}
 
 	/* 中栏 */
