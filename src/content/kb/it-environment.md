@@ -1,8 +1,8 @@
 ---
 title: IT 环境搭建笔记
-category: 工作
+category: 生活
 summary: 个人电脑硬件、驱动、系统、软件、用户配置的搭建记录与设备清单。
-order: 6
+order: 14
 ---
 
 ## 1-硬件安装

@@ -1,8 +1,8 @@
 ---
 title: 地图嵌入网站
-category: 工作
+category: 生活
 summary: 静态地图、iframe 嵌入、Leaflet 交互地图三种做法，含可直接复制的代码样例与选型对比。
-order: 7
+order: 15
 tags: ['地图', '前端']
 ---
 

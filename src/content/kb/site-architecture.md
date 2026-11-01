@@ -1,8 +1,8 @@
 ---
 title: 网站架构总结
-category: 工作
+category: 生活
 summary: 个人网站的技术选型、文件结构、布局系统、组件设计与部署流程的完整记录。
-order: 5
+order: 13
 ---
 
 ## 技术选型
