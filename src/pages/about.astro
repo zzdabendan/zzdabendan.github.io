@@ -326,6 +326,7 @@ const timeline = [
 			<!-- 主栏：自我介绍 → 个人经历 → 我的技能 -->
 			<div class="col-main">
 				<section class="card intro">
+					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
 					<h2>自我介绍</h2>
 					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
 					<p class="intro-text">毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
@@ -668,6 +669,15 @@ const timeline = [
 		font-size: 15px;
 		line-height: 1.9;
 		margin-bottom: 12px;
+	}
+
+	/* 关于页顶部头像，与首页共用同一张图 */
+	.intro-avatar {
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		display: block;
+		margin-bottom: 16px;
 	}
 
 	/* 联系方式 / 社交与站点：渠道标签列 + 账号逐行排列 */
