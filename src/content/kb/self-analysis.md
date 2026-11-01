@@ -1,5 +1,5 @@
 ---
-title: 草稿
+title: 个人需求和能力
 category: 生活
 summary: 自我分析存档：我的需求、我的能力、优点缺点。
 order: 0
