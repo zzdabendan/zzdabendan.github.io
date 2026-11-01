@@ -322,132 +322,138 @@ const timeline = [
 	<article>
 		<h1>关于</h1>
 
-		<!-- 自我介绍（文档式） -->
-		<section class="card">
-			<h2>自我介绍</h2>
-			<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
-			<p class="intro-text">毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
-			<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。</p>
-			<p class="intro-text">工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。</p>
-			<p class="intro-text">长期目标是坚持锻炼健身，保持健康的身体。</p>
+		<div class="cols">
+			<!-- 主栏：自我介绍 → 个人经历 → 我的技能 -->
+			<div class="col-main">
+				<section class="card intro">
+					<h2>自我介绍</h2>
+					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
+					<p class="intro-text">毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
+					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。</p>
+					<p class="intro-text">工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。</p>
+					<p class="intro-text">长期目标是坚持锻炼健身，保持健康的身体。</p>
+				</section>
 
-			<h3 class="sub-title">联系方式</h3>
-			<div class="contact-list">
-				{
-					contacts.map((c) => (
-						<div class="contact-row">
-							<span class="contact-label">{c.label}</span>
-							<div class="contact-values">
-								{c.items.map((item) => (
-									<span>
-										{item.url ? (
-											<a href={item.url} target="_blank" rel="noopener">
-												{item.value}
-											</a>
-										) : (
-											item.value
-										)}
-										{item.note && <span class="contact-note">（{item.note}）</span>}
-									</span>
+				<section class="card main-timeline">
+					<h2>我的经历</h2>
+					{
+						timeline.map((group, i) => (
+							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
+								<h3 class="stage-title">{group.stage}</h3>
+								{group.years.map((y) => (
+									<div class="year-block">
+										<h4 class="year-title">{y.year}</h4>
+										<ul class="month-list">
+											{y.months.map((m) => (
+												<li>
+													{m.month && <span class="month-label">{m.month}</span>}
+													{m.events && <span class="month-events">{m.events}</span>}
+												</li>
+											))}
+										</ul>
+									</div>
 								))}
 							</div>
-						</div>
-					))
-				}
-				{
-					socialLinks.map((c) => (
-						<div class="contact-row">
-							<span class="contact-label">{c.label}</span>
-							<div class="contact-values">
-								{c.items.map((item) => (
-									<span>
-										{item.url ? (
-											<a href={item.url} target="_blank" rel="noopener">
-												{item.value}
-											</a>
-										) : (
-											item.value
-										)}
-										{item.note && <span class="contact-note">（{item.note}）</span>}
-									</span>
-								))}
-							</div>
-						</div>
-					))
-				}
-			</div>
-		</section>
+						))
+					}
+				</section>
 
-		<!-- 活动地图 -->
-		<section class="card">
-			<h2>活动地图</h2>
-			<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
-				<button class="map-open" type="button">点击加载活动地图</button>
-			</div>
-			<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
-		</section>
-
-		<!-- 我的技能 -->
-		<section class="card">
-			<h2>我的技能</h2>
-			<h3 class="sub-title">技术运维</h3>
-			<div class="tag-cloud">
-				<span class="skill-tag">网络技术</span>
-				<span class="skill-tag">Linux 系统</span>
-				<span class="skill-tag">Windows 系统</span>
-				<span class="skill-tag">无线技术</span>
-				<span class="skill-tag">综合布线</span>
-				<span class="skill-tag">装机维护</span>
-				<span class="skill-tag">设备维修</span>
-			</div>
-			<h3 class="sub-title">办公与制作</h3>
-			<div class="tag-cloud">
-				<span class="skill-tag">表格</span>
-				<span class="skill-tag">文档</span>
-				<span class="skill-tag">演示</span>
-				<span class="skill-tag">函数</span>
-				<span class="skill-tag">视频剪辑</span>
-				<span class="skill-tag">修图</span>
-				<span class="skill-tag">设计</span>
-				<span class="skill-tag">制图</span>
-			</div>
-			<h3 class="sub-title">表达与协作</h3>
-			<div class="tag-cloud">
-				<span class="skill-tag">编程</span>
-				<span class="skill-tag">教学</span>
-				<span class="skill-tag">翻译</span>
-				<span class="skill-tag">演讲</span>
-				<span class="skill-tag">客户服务</span>
-			</div>
-		</section>
-
-		<!-- 我的经历时间线 -->
-		<section class="card">
-			<h2>我的经历</h2>
-			{
-				timeline.map((group, i) => (
-					<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
-						<h3 class="stage-title">{group.stage}</h3>
-						{group.years.map((y) => (
-							<div class="year-block">
-								<h4 class="year-title">{y.year}</h4>
-								<ul class="month-list">
-									{y.months.map((m) => (
-										<li>
-											{m.month && <span class="month-label">{m.month}</span>}
-											{m.events && <span class="month-events">{m.events}</span>}
-										</li>
-									))}
-								</ul>
-							</div>
-						))}
+				<section class="card main-skills">
+					<h2>我的技能</h2>
+					<h3 class="sub-title">技术运维</h3>
+					<div class="tag-cloud">
+						<span class="skill-tag">网络技术</span>
+						<span class="skill-tag">Linux 系统</span>
+						<span class="skill-tag">Windows 系统</span>
+						<span class="skill-tag">无线技术</span>
+						<span class="skill-tag">综合布线</span>
+						<span class="skill-tag">装机维护</span>
+						<span class="skill-tag">设备维修</span>
 					</div>
-				))
-			}
-		</section>
+					<h3 class="sub-title">办公与制作</h3>
+					<div class="tag-cloud">
+						<span class="skill-tag">表格</span>
+						<span class="skill-tag">文档</span>
+						<span class="skill-tag">演示</span>
+						<span class="skill-tag">函数</span>
+						<span class="skill-tag">视频剪辑</span>
+						<span class="skill-tag">修图</span>
+						<span class="skill-tag">设计</span>
+						<span class="skill-tag">制图</span>
+					</div>
+					<h3 class="sub-title">表达与协作</h3>
+					<div class="tag-cloud">
+						<span class="skill-tag">编程</span>
+						<span class="skill-tag">教学</span>
+						<span class="skill-tag">翻译</span>
+						<span class="skill-tag">演讲</span>
+						<span class="skill-tag">客户服务</span>
+					</div>
+				</section>
+			</div>
 
-		<p class="back-link"><a href="/">← 返回首页</a></p>
+			<!-- 侧栏：活动地图 + 联系方式 -->
+			<aside class="col-side">
+				<section class="card side-map">
+					<h2>活动地图</h2>
+					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
+						<button class="map-open" type="button">点击加载活动地图</button>
+					</div>
+					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
+				</section>
+
+				<section class="card side-contact">
+					<h2>联系方式</h2>
+					<div class="contact-list">
+						{
+							contacts.map((c) => (
+								<div class="contact-row">
+									<span class="contact-label">{c.label}</span>
+									<div class="contact-values">
+										{c.items.map((item) => (
+											<span>
+												{item.url ? (
+													<a href={item.url} target="_blank" rel="noopener">
+														{item.value}
+													</a>
+												) : (
+													item.value
+												)}
+												{item.note && <span class="contact-note">（{item.note}）</span>}
+											</span>
+										))}
+									</div>
+								</div>
+							))
+						}
+						{
+							socialLinks.map((c) => (
+								<div class="contact-row">
+									<span class="contact-label">{c.label}</span>
+									<div class="contact-values">
+										{c.items.map((item) => (
+											<span>
+												{item.url ? (
+													<a href={item.url} target="_blank" rel="noopener">
+														{item.value}
+													</a>
+												) : (
+													item.value
+												)}
+												{item.note && <span class="contact-note">（{item.note}）</span>}
+											</span>
+										))}
+									</div>
+								</div>
+							))
+						}
+					</div>
+				</section>
+			</aside>
+		</div>
 	</article>
+
+	<p class="back-link"><a href="/">← 返回首页</a></p>
 </BaseLayout>
 
 <script is:inline>
@@ -508,7 +514,7 @@ const timeline = [
 
 				const canvas = document.createElement('div');
 				canvas.style.width = '100%';
-				canvas.style.height = '420px';
+				canvas.style.height = '260px';
 				canvas.style.borderRadius = '3px';
 				box.appendChild(canvas);
 
@@ -565,6 +571,58 @@ const timeline = [
 <style>
 	.card {
 		margin-bottom: 40px;
+	}
+
+	/* 关于页布局：主栏 + 侧栏，容器加宽以容纳两栏 */
+	:global(.container) {
+		max-width: 1080px;
+	}
+
+	.cols {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 300px;
+		column-gap: 48px;
+		align-items: start;
+	}
+
+	.col-side {
+		position: sticky;
+		top: 88px;
+	}
+
+	/* 侧栏标题小一号，分隔线改为细线 */
+	.card.side-map h2,
+	.card.side-contact h2 {
+		font-size: 15px;
+		border-bottom-width: 1px;
+		border-bottom-color: #bbbbbb;
+	}
+
+	.side-contact .contact-list {
+		font-size: 13px;
+		line-height: 1.8;
+	}
+
+	@media (max-width: 900px) {
+		.cols {
+			grid-template-columns: 1fr;
+		}
+
+		.col-side {
+			position: static;
+		}
+
+		.card.side-map h2,
+		.card.side-contact h2 {
+			font-size: 20px;
+			border-bottom-width: 2px;
+			border-bottom-color: #555555;
+		}
+
+		.side-contact .contact-list {
+			font-size: 15px;
+			line-height: 1.9;
+		}
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
@@ -643,11 +701,10 @@ const timeline = [
 		color: #6b7280;
 	}
 
-	/* 个人经历：阶段层通栏色带，奇偶交替深浅，正文仍居中在内容宽度内 */
+	/* 个人经历：阶段层色带，限制在主栏宽度内，奇偶交替深浅 */
 	.timeline-group {
-		width: 100vw;
-		margin-left: calc(-50vw + 50%);
-		padding: 20px max(20px, calc((100vw - var(--content-width, 720px)) / 2 + 20px));
+		margin: 0 -16px;
+		padding: 20px 16px;
 	}
 
 	/* 偶数阶段（大学、小学初中等）加深一档暖灰，与工作阶段形成深浅交替 */
@@ -718,7 +775,7 @@ const timeline = [
 
 	/* 活动地图：默认占位，点击后加载 Leaflet */
 	.map-facade {
-		min-height: 420px;
+		min-height: 260px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
