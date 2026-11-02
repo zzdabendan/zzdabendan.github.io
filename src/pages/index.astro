@@ -33,6 +33,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<p class="energy-chain">太阳能 → 植物固定 → 食草动物 → 食肉动物 → 顶级捕食者</p>
 			<p>每级损失 90%，残骸由分解者回收循环</p>
 		</div>
+		<div class="energy-group">
+			<p>随机数</p>
+			<p id="random-number" class="random-value">—</p>
+		</div>
 	</section>
 
 	<!-- 黄帝内经人体阶段：男八女七，男左女右两栏 -->
@@ -116,6 +120,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	.energy-chain {
 		white-space: nowrap;
+	}
+
+	/* 随机数：等宽数字，避免刷新时宽度跳动 */
+	.random-value {
+		font-variant-numeric: tabular-nums;
 	}
 
 	/* 黄帝内经人体阶段：男左女右两栏，沿用能量链的正文样式 */
@@ -253,5 +262,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	window.addEventListener('DOMContentLoaded', () => {
 		updateTime();
 		setInterval(updateTime, 1000);
+
+		// 随机数 1–100，每次刷新重新生成
+		const rand = document.getElementById('random-number');
+		if (rand) rand.textContent = String(Math.floor(Math.random() * 100) + 1);
 	});
 </script>
