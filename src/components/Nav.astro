@@ -31,15 +31,6 @@ const isActive = (href: string) =>
 			</svg>
 			<span>邹兆廷</span>
 		</a>
-		<div class="nav-search">
-			<input
-				type="text"
-				id="deepseek-input"
-				class="search-input"
-				placeholder="每一天，解决一个真实的生活问题"
-			/>
-			<button class="search-btn" onclick="goDeepSeek()">提问</button>
-		</div>
 		<input type="checkbox" id="nav-check" class="nav-check" />
 		<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
 		<nav>
@@ -54,6 +45,15 @@ const isActive = (href: string) =>
 					))
 				}
 			</nav>
+		<div class="nav-search">
+			<input
+				type="text"
+				id="deepseek-input"
+				class="search-input"
+				placeholder="每一天，解决一个真实的生活问题"
+			/>
+			<button class="search-btn" onclick="goDeepSeek()">提问</button>
+		</div>
 	</div>
 </header>
 
