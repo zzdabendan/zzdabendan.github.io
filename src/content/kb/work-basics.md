@@ -1,9 +1,9 @@
 ---
 title: 工作基础概念
 category: 工作
-summary: 与工作相关的基础概念与名词解释，包括产业分类、职业分类，以及职业发展与招聘信息。
+summary: 与工作相关的基础概念与实践笔记，包括产业与职业分类、职业发展、招聘信息，以及系统安装、Linux 网络、Git、Astro 等技术内容。
 order: -1
-tags: [工作, 经济, 概念]
+tags: [工作, 经济, 概念, 系统, 网络, Git, Astro]
 ---
 
 ## 经济与产业
@@ -75,4 +75,116 @@ tags: [工作, 经济, 概念]
 
 ## 技术笔记
 
-待补充。
+### 系统安装
+
+#### BIOS 与 UEFI
+
+BIOS 是传统固件接口，UEFI 是新一代替代方案，支持更大磁盘、图形界面、安全启动。
+
+开机按 Delete/F2 进入 BIOS，在 Boot 菜单设置启动顺序，选择 U 盘或光驱优先。
+
+#### 磁盘分区
+
+MBR 最大支持 2TB 磁盘、4 个主分区；GPT 支持更大磁盘、更多分区，推荐使用。
+
+常见方案：系统盘(C:)、数据盘(D:)，Linux 下分 /、/home、swap。
+
+#### 准备启动盘
+
+用 Rufus 或 Ventoy 将 ISO 镜像写入 U 盘。
+
+#### 安装系统
+
+从 U 盘启动，按向导选择分区、设置用户名密码、等待安装完成。
+
+#### 驱动安装
+
+安装完成后检查设备管理器，安装显卡、网卡、声卡等驱动。
+
+### Linux 网络
+
+#### 查看 IP 地址
+
+`ifconfig` 或 `ip addr` 查看网卡 IP 地址信息。
+
+#### 查看路由
+
+`route -n` 或 `ip route` 查看路由表。
+
+#### ping 测试连通性
+
+`ping 目标IP` 测试与目标主机的网络连通性。
+
+#### 端口测试
+
+`telnet 目标IP 端口` 或 `nc -zv 目标IP 端口` 测试端口是否开放。
+
+#### 查看 DNS
+
+`nslookup 域名` 或 `dig 域名` 查询域名解析结果。
+
+#### 修改 DNS
+
+编辑 `/etc/resolv.conf` 添加 `nameserver 8.8.8.8`。
+
+#### 防火墙
+
+`iptables -L -n` 查看当前防火墙规则。
+
+`iptables -A INPUT -p tcp --dport 80 -j ACCEPT` 开放 80 端口。
+
+### Git
+
+Git 是一个分布式版本控制系统，用于跟踪文件变更、协作开发、回滚历史版本。
+
+#### 初始化仓库
+
+`git init` 在当前目录创建一个 Git 仓库。
+
+#### 添加文件
+
+`git add 文件名` 将文件加入暂存区，`git add .` 添加所有变更。
+
+#### 提交变更
+
+`git commit -m "描述信息"` 将暂存区的变更提交到仓库。
+
+#### 分支管理
+
+`git branch` 列出所有本地分支。
+
+`git checkout 分支名` 切换到指定分支。
+
+`git merge 分支名` 将指定分支合并到当前分支。
+
+#### 远程仓库
+
+`git clone 仓库地址` 从远程克隆仓库到本地。
+
+`git push origin 分支名` 将本地提交推送到远程。
+
+`git pull` 从远程拉取最新变更并合并。
+
+### Astro
+
+Astro 是一个面向内容的静态站点生成器，核心特点是"零 JavaScript 默认"——页面只加载必要的 HTML 和 CSS，交互按需引入。
+
+#### 组件
+
+`.astro` 文件是 Astro 的基本单元，由三部分组成：frontmatter（代码栅栏）、HTML 模板、style 标签。
+
+#### 路由
+
+`src/pages/` 目录下的文件自动成为路由：`index.astro` → `/`，`about.astro` → `/about`。
+
+#### 布局
+
+布局组件放在 `src/layouts/` 下，通过 `<slot />` 接收页面内容，实现多页面共用外壳。
+
+#### 常用命令
+
+`npm run dev` 启动开发服务器，支持热更新。
+
+`npm run build` 生成静态文件到 `dist/` 目录。
+
+`npm run preview` 本地预览构建产物。
