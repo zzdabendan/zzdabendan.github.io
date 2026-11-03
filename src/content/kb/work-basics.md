@@ -2,7 +2,7 @@
 title: 工作基础概念
 category: 工作
 summary: 与工作相关的基础概念与实践笔记，包括产业与职业分类、职业发展、招聘信息，以及系统安装、Linux 网络、Git、Astro 等技术内容。
-order: -1
+order: -3
 tags: [工作, 经济, 概念, 系统, 网络, Git, Astro]
 ---
 
