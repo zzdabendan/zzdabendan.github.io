@@ -1,9 +1,13 @@
 ---
-// 导航组件：所有页面共用。想加新链接，只改 links 数组即可
-const links = [
+// 导航组件：所有页面共用
+// 一级链接直接列出，二级链接收在「做事」下拉里
+const primary = [
 	{ href: '/sleep', label: '睡觉' },
 	{ href: '/eat', label: '吃饭' },
 	{ href: '/do', label: '做事' },
+];
+
+const secondary = [
 	{ href: '/about', label: '关于' },
 	{ href: '/reflections', label: '感悟' },
 	{ href: '/plan', label: '计划' },
@@ -16,6 +20,7 @@ const links = [
 const pathname = Astro.url.pathname;
 const isActive = (href: string) =>
 	href === '/' ? pathname === '/' : pathname.startsWith(href);
+const groupActive = secondary.some((link) => isActive(link.href));
 ---
 
 <header class="nav">
@@ -38,14 +43,36 @@ const isActive = (href: string) =>
 		<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
 		<nav>
 				{
-					links.map((link) => (
-						<a
-							href={link.href}
-							class:list={['nav-link', { active: isActive(link.href) }]}
-						>
-							{link.label}
-						</a>
-					))
+					primary.map((link) =>
+						link.href === '/do' ? (
+							<div class="nav-group">
+								<a
+									href={link.href}
+									class:list={['nav-link', 'nav-parent', { active: isActive(link.href) || groupActive }]}
+								>
+									{link.label}
+									<span class="caret">▾</span>
+								</a>
+								<div class="nav-sub">
+									{secondary.map((sub) => (
+										<a
+											href={sub.href}
+											class:list={['nav-link', { active: isActive(sub.href) }]}
+										>
+											{sub.label}
+										</a>
+									))}
+								</div>
+							</div>
+						) : (
+							<a
+								href={link.href}
+								class:list={['nav-link', { active: isActive(link.href) }]}
+							>
+								{link.label}
+							</a>
+						)
+					)
 				}
 			</nav>
 		<div class="nav-search">
@@ -171,6 +198,55 @@ const isActive = (href: string) =>
 		border-bottom-color: #000000;
 	}
 
+	/* 桌面端：二级导航收在「做事」下拉里，悬停或键盘聚焦时展开 */
+	@media (min-width: 701px) {
+		.nav-group {
+			position: relative;
+		}
+
+		.nav-parent {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.caret {
+			font-size: 11px;
+			line-height: 1;
+			color: #9ca3af;
+		}
+
+		.nav-sub {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			min-width: 120px;
+			padding: 6px 0;
+			background: #ffffff;
+			border: 1px solid var(--line);
+			border-radius: 4px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+		}
+
+		.nav-group:hover .nav-sub,
+		.nav-group:focus-within .nav-sub {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.nav-sub .nav-link {
+			padding: 8px 16px;
+			white-space: nowrap;
+			border-bottom: none;
+		}
+
+		.nav-sub .nav-link.active {
+			font-weight: 600;
+		}
+	}
+
 	/* 窄屏：提问框独占一行，排在品牌与菜单下方 */
 	@media (max-width: 900px) {
 		.nav-search {
@@ -202,7 +278,7 @@ const isActive = (href: string) =>
 			position: absolute;
 			top: 100%;
 			right: 0;
-			min-width: 140px;
+			min-width: 180px;
 			flex-direction: column;
 			gap: 0;
 			padding: 6px 0;
@@ -225,6 +301,23 @@ const isActive = (href: string) =>
 		.nav-link.active {
 			font-weight: 600;
 			border-bottom: none;
+		}
+
+		/* 移动端：二级菜单直接展开，缩进在「做事」下方 */
+		.nav-sub {
+			display: flex;
+			flex-direction: column;
+			margin: 2px 0 4px 12px;
+			padding-left: 10px;
+			border-left: 2px solid var(--line);
+		}
+
+		.nav-parent .caret {
+			display: none;
+		}
+
+		.nav-sub .nav-link {
+			padding: 8px 10px;
 		}
 	}
 </style>
