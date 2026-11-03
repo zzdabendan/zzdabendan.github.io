@@ -43,20 +43,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <style>
 	/* ===== 英雄区（全宽通栏，首页特有） ===== */
 	.hero {
+		position: relative;
 		width: 100vw;
 		margin-left: calc(-50vw + 50%);
 		margin-top: -48px;
-		margin-bottom: -48px;
-		min-height: calc(100vh - 112px);
+		height: calc(100svh - 78px);
+		min-height: 520px;
+		overflow: hidden;
 		display: flex;
 	}
 
-	.hero-avatar {
-		flex: 0 0 40%;
-		overflow: hidden;
+	/* 压在图片上的暗色蒙层，保证白字可读 */
+	.hero::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.6));
+		z-index: 1;
 	}
 
-	/* 头像铺满左侧整列高度，直角裁切，像封面竖幅 */
+	/* 头像铺满整个英雄区，作为全屏背景 */
+	.hero-avatar {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
 	.avatar-img {
 		display: block;
 		width: 100%;
@@ -102,7 +115,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	.hero-question {
-		flex: 1;
+		position: relative;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -116,13 +132,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		align-items: center;
 		gap: 16px;
 		flex-wrap: wrap;
+		justify-content: center;
 	}
 
 	.hero-question h2,
 	.hero-time {
 		font-size: 32px;
 		font-weight: 700;
-		color: #111111;
+		color: #ffffff;
+		text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
 		margin: 0;
 		border-bottom: none;
 		padding-bottom: 0;
@@ -143,31 +161,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			display: flex;
 			flex-direction: column;
 		}
-
-		.hero {
-			flex: 1;
-			min-height: 0;
-		}
 	}
 
 	@media (max-width: 900px) {
 		.hero {
-			min-height: 0;
-			flex-direction: column;
-			padding: 0;
-			gap: 0;
-		}
-
-		.hero-avatar,
-		.hero-question {
-			width: 100%;
-		}
-
-		/* 手机端头像改为横向通栏，高度约 36vh */
-		.hero-avatar {
-			flex: 0 0 auto;
-			height: 36vh;
-			min-height: 240px;
+			height: calc(100svh - 120px);
+			min-height: 420px;
 		}
 
 		/* 手机端：三条能量链改为上下堆叠，链条允许换行 */
@@ -183,7 +182,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 		.hero-question h2,
 		.hero-time {
-			font-size: 24px;
+			width: 100%;
+			font-size: 22px;
+			line-height: 1.5;
+			text-align: center;
+			overflow-wrap: anywhere;
+		}
+
+		/* 手机端文字改为上下两行，避免横向溢出 */
+		.title-row {
+			width: 100%;
+			max-width: 100%;
+			flex-direction: column;
+			gap: 8px;
 		}
 	}
 </style>
