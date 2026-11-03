@@ -1,7 +1,7 @@
 ---
 title: IT 环境搭建笔记
 category: 生活
-summary: 个人电脑硬件、驱动、系统、软件、用户配置的搭建记录与设备清单。
+summary: 个人电脑硬件、驱动、系统、软件、用户配置与环境搭建记录，含网站架构和地图嵌入方案。
 order: 14
 ---
 
@@ -222,3 +222,299 @@ scp -r C:\Users\WORK2\Desktop\astro-homepage\dist\* root@服务器IP:/var/www/ht
 
 - 本地侧为 Astro 构建输出目录 `dist`，远端侧为 Nginx 站点根目录 `/var/www/html/`
 - `-r` 递归传输，`*` 表示传输目录内的全部内容而非目录本身
+
+### 手动同步流程
+
+目前没有接入自动部署，线上阿里云 ECS 的站点文件靠手动四步同步。顺序不要打乱：先确认源码，再构建，再清空旧文件，最后上传并修正权限。
+
+**1. 确认源码完整**
+
+在虚拟机 work2 上打开项目文件夹，确认本次要展示的内容都已经写进源码：
+
+- 页面与组件：`src/pages/`、`src/components/`
+- 文章数据：`src/content/`
+- 静态资源：`public/`
+- 配置：`astro.config.mjs`、`src/content.config.ts`
+
+改完先本地预览，确认页面、导航、文章链接都正常，再进入构建。源码没确认就构建，等于把问题直接推到线上。
+
+**2. 用 astro 构建 dist**
+
+打开 cmd，进入项目文件夹后执行构建：
+
+```bat
+cd /d C:\Users\WORK2\Desktop\astro-homepage
+npx astro build
+```
+
+构建成功后项目根目录会生成 `dist`，里面是可直接部署的静态文件。构建报错时不要继续后面的步骤，先修错误。
+
+**3. SSH 登录 ECS 并删除旧文件**
+
+用 SSH 工具登录阿里云 ECS，进入网站根目录，清掉上一次的旧产物，避免旧文章和旧资源残留：
+
+```bash
+ssh root@121.199.57.184
+cd /var/www/html
+ls
+rm -rf ./*
+```
+
+删除前一定先 `ls` 确认当前目录确实是 `/var/www/html`。不要在根目录或其他目录执行 `rm -rf`。如果只想清空内容但保留目录本身，用 `rm -rf ./*`；不要删除 `/var/www/html` 这个目录。
+
+**4. 上传 dist 并修正权限**
+
+回到 Windows，在 cmd 里把本地产物上传到网站根目录：
+
+```bat
+scp -r C:\Users\WORK2\Desktop\astro-homepage\dist\* root@121.199.57.184:/var/www/html/
+```
+
+上传完成后浏览器访问 `http://121.199.57.184` 验证。如果出现 403、白屏或样式缺失，多半是权限或属主不对，登录服务器执行：
+
+```bash
+chown -R www-data:www-data /var/www/html
+find /var/www/html -type d -exec chmod 755 {} \;
+find /var/www/html -type f -exec chmod 644 {} \;
+```
+
+- `chown` 的用户按实际 Web 服务决定：Debian/Ubuntu 常见 `www-data`，CentOS 常见 `nginx` 或 `apache`
+- 目录必须是可进入权限（755），文件只需可读（644）
+- 若系统启用了 SELinux，还需执行 `restorecon -Rv /var/www/html`
+
+最后刷新页面确认首页、文章页和静态资源都能正常加载，这一轮同步才算完成。
+
+## 8-网站架构
+
+### 技术选型
+
+- **框架**：Astro 6（静态站点生成器，零 JS 运行时，构建后纯 HTML/CSS）
+- **内容管理**：Astro Content Collections（`src/content.config.ts` 定义集合结构）
+- **部署**：GitHub Pages + GitHub Actions（自动构建部署）
+- **样式**：原生 CSS（无 Tailwind/UnoCSS，保持极简）
+- **字体**：思源黑体（Noto Sans SC）为主，思源宋体、微软雅黑备选
+
+### 文件结构
+
+```
+src/
+├── layouts/
+│   └── BaseLayout.astro      # 唯一页面骨架（html/head/body）
+├── components/
+│   ├── Nav.astro             # 顶部导航（两级菜单 + 移动端折叠）
+│   ├── ArticleBody.astro     # 文章正文容器（Markdown 渲染样式）
+│   ├── ArticleList.astro     # 知识库左栏：文章列表（按分组）
+│   ├── Toc.astro             # 知识库右栏：目录（从 headings 生成）
+│   └── VideoBili.astro       # B 站视频 Facade 组件（点击加载）
+├── pages/
+│   ├── index.astro           # 首页（极简欢迎页）
+│   ├── about.astro           # 关于（自我介绍/经历/技能）
+│   ├── reflections.astro     # 感悟（日记式记录）
+│   ├── plan.astro            # 计划（短期/中期/长期）
+│   ├── items.astro           # 物品（财务看板+物品清单）
+│   ├── kb/
+│   │   ├── index.astro       # 知识库首页（三栏：列表/导读/目录）
+│   │   └── [...slug].astro   # 知识库文章详情（三栏：列表/正文/目录）
+│   └── posts/
+│       ├── index.astro       # 文章首页（博客列表）
+│       └── [...slug].astro   # 文章详情
+└── content/
+    ├── kb/                   # 知识库 Markdown（生活/学校/工作三个分组）
+    └── posts/                # 文章 Markdown（博客模式，按日期排序）
+```
+
+### 布局系统
+
+全站只有一个 `BaseLayout.astro`，负责：
+
+- `<html><head><body>` 骨架
+- 全局 CSS 变量（`--text`、`--muted`、`--line`、`--content-width`）
+- 全局字体、h1 基线样式
+- 导航栏 + 页脚渲染
+
+**单栏 vs 三栏**：不单独抽离布局文件，只在内容区通过 CSS 实现差异。
+
+- 单栏页面：`.container` 默认 `max-width: 720px`（正文阅读宽度）
+- 三栏知识库：页面内覆盖 `--content-width: 1200px`，`.kb-layout` 用 `grid-template-columns: 220px 1fr 200px`
+
+### 组件设计
+
+| 组件 | 职责 | 样式特点 |
+|------|------|----------|
+| Nav | 导航链接渲染、当前页高亮、移动端折叠 | 纯白背景、sticky 顶部 |
+| ArticleBody | Markdown 正文样式（标题层级、段落、列表、代码块） | `:global()` 作用域，命中动态渲染 DOM |
+| ArticleList | 按分组列出全部知识库文章，当前篇高亮 | 浅灰背景 `#f2f2f2`、细滚动条 |
+| Toc | 从 Markdown headings 生成目录，支持二三四级缩进 | 透明背景、隐藏滚动条 |
+| VideoBili | B 站视频 Facade 模式：封面占位，点击加载 iframe | 避免页面初始加载第三方资源 |
+
+### 内容管理
+
+**知识库**（`src/content/kb/`）：
+
+- 每篇文章一个 `.md` 文件
+- frontmatter 必填：`title`、`category`（生活/学校/工作）、`summary`、`order`（分组内排序）
+- 可选：`video`（B 站 BV 号）、`cover`（自定义封面）
+
+**文章**（`src/content/posts/`）：
+
+- 博客模式，按 `date` 倒序排列
+- frontmatter 必填：`title`、`summary`、`date`
+
+### 部署流程
+
+1. 本地 `git push` 到 `main` 分支
+2. GitHub Actions 自动触发（`.github/workflows/deploy.yml`）
+3. 构建：`npm run build` → 生成 `dist/` 静态文件
+4. 部署：推送 `dist/` 到 GitHub Pages
+5. 特性：npm 依赖缓存、新推送自动取消旧任务
+
+阿里云 ECS 不在这条自动链路里，仍按上一节的手动同步流程更新。
+
+### 设计规范
+
+- **配色**：内容区纯白 `#ffffff`，页脚/侧栏浅灰 `#f2f2f2`，导航纯白，整体黑白灰
+- **宽度**：正文子页面 720px，首页 1100px，知识库 1200px（中栏 680px 对齐子页面行宽）
+- **标题层级**：h1 28px / h2 20px / h3 15px / h4 14px，全站统一
+- **间距**：h1 下间距 32px（无摘要）或 8px→摘要→24px（带摘要），数值只在 BaseLayout 声明一次
+
+### 后续扩展方向
+
+- 搜索：接入 `pagefind` 静态搜索（零后端）
+- RSS：`@astrojs/rss` 生成订阅源
+- 阅读时间：正文字数 ÷ 400 估算
+- 标签：frontmatter 加 `tags` 字段，支持筛选
+
+## 9-地图嵌入
+
+### 1-静态地图图片
+
+向地图服务商请求一张带标记的图片，前端只用一个 `<img>` 展示，零 JavaScript。
+
+**请求规则**
+
+高德静态地图接口的参数拼在 URL 上：
+
+| 参数 | 含义 | 示例 |
+|------|------|------|
+| location | 中心点经纬度 | 115.858200,28.682800 |
+| zoom | 缩放级别 3~17 | 14 |
+| size | 图片尺寸，宽\*高 | 600\*400 |
+| markers | 标记点，格式 样式,,编号:经纬度 | mid,,A:115.858200,28.682800 |
+| key | 控制台申请的 Web 服务 Key | 你的Key |
+
+**代码样例**
+
+```html
+<img
+  src="https://restapi.amap.com/v3/staticmap?location=115.858200,28.682800&zoom=14&size=600*400&markers=mid,,A:115.858200,28.682800&key=你的Key"
+  alt="南昌位置"
+  width="600"
+  height="400"
+  loading="lazy"
+/>
+```
+
+图片外包一层链接，点击可跳到高德网页版看详情：
+
+```markdown
+[![南昌位置](地图URL)](https://uri.amap.com/marker?position=115.858200,28.682800&name=南昌)
+```
+
+**适用场景**
+
+- 只要「看一眼位置」，不需要拖拽缩放
+- 追求首屏速度，不想加载任何第三方脚本
+- 缺点：每次换位置要改 URL，缩放也只能改参数
+
+### 2-iframe 嵌入
+
+把地图服务商的网页整页嵌进来，不需要申请 Key。
+
+**代码样例**
+
+```html
+<iframe
+  src="https://uri.amap.com/marker?position=115.858200,28.682800&name=南昌&src=mypage&coordinate=gaode&callnative=0"
+  width="600"
+  height="400"
+  style="border:0"
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"
+></iframe>
+```
+
+**懒加载改造**
+
+iframe 会加载对方完整的页面资源，直接用会拖慢首屏。可以先渲染占位块，点击后再插入 iframe：
+
+```html
+<div class="map-facade" data-src="https://uri.amap.com/marker?position=115.858200,28.682800&name=南昌">
+  <button type="button">点击加载地图</button>
+</div>
+
+<script is:inline>
+  document.querySelectorAll('.map-facade').forEach((box) => {
+    box.querySelector('button').addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.src = box.dataset.src;
+      frame.width = '600';
+      frame.height = '400';
+      frame.style.border = '0';
+      frame.loading = 'lazy';
+      box.replaceChildren(frame);
+    });
+  });
+</script>
+```
+
+注意在 Astro 里内联脚本必须加 `is:inline`，否则会被打包成模块导致作用域隔离、点击无响应。
+
+**适用场景**
+
+- 不想申请 Key，复制粘贴就能用
+- 能接受样式不可定制（对方页面自带边框、按钮、底栏）
+
+### 3-Leaflet 交互地图
+
+开源库 + 开放地图数据，可拖拽缩放、加多个标记、画路线，不需要商业 Key。
+
+**代码样例**
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div id="map" style="height:400px;border:1px solid #e5e7eb;border-radius:3px"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script is:inline>
+  const map = L.map('map').setView([28.6828, 115.8582], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+  }).addTo(map);
+  L.marker([28.6828, 115.8582]).addTo(map).bindPopup('南昌');
+</script>
+```
+
+多个标记依次 `L.marker([纬度, 经度]).addTo(map).bindPopup('名称')` 追加即可；连线用 `L.polyline([...])`。
+
+**适用场景**
+
+- 需要标记若干地点、显示路线、点击交互
+- 体积约 40KB，比高德 JS SDK 轻
+- 缺点：OSM 瓦片服务器在国外，国内首屏偏慢；换天地图瓦片需另申请 Key
+
+### 4-三种方法对比
+
+| 方法 | 是否需要 Key | 交互能力 | 首屏成本 | 样式可控 |
+|------|-------------|---------|---------|---------|
+| 静态图片 | 需要（Web 服务 Key） | 无，只能看 | 最低，一张图 | 只能选图片尺寸 |
+| iframe 嵌入 | 不需要 | 有，但受对方页面限制 | 较高，加载整页 | 低 |
+| Leaflet | 不需要（OSM）/ 需要（天地图） | 完整 | 中等，40KB 脚本 | 完全可控 |
+
+### 5-注意事项
+
+- **坐标系**：高德、腾讯用 GCJ-02，OSM、Leaflet 默认 WGS-84。把手机 GPS 拿到的坐标直接喂给高德会偏移几百米，反之亦然。混用前先做坐标转换。
+- **Key 保管**：前端暴露的 Key 请在高德控制台限制域名白名单，否则容易被盗刷配额。
+- **懒加载**：除静态图片外，其余两种都建议加 `loading="lazy"` 或 Facade 点击加载。
+- **备案**：iframe 引入境内地图服务本身不需要额外备案，但自建瓦片服务需要。
+
