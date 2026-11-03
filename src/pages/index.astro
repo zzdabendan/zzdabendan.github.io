@@ -53,15 +53,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: flex;
 	}
 
-	/* 压在图片上的暗色蒙层，保证白字可读 */
-	.hero::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.6));
-		z-index: 1;
-	}
-
 	/* 头像铺满整个英雄区，作为全屏背景 */
 	.hero-avatar {
 		position: absolute;
@@ -76,6 +67,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		height: 100%;
 		object-fit: cover;
 		border-radius: 0;
+		/* 人物整体向左偏一小段，避免正中构图 */
+		transform: translateX(-5%);
 	}
 
 	/* 能量链独立一栏：三条链横排并排，放在 hero 下方；通栏突破 720px 容器 */
@@ -139,8 +132,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	.hero-time {
 		font-size: 32px;
 		font-weight: 700;
-		color: #ffffff;
-		text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+		color: #111111;
 		margin: 0;
 		border-bottom: none;
 		padding-bottom: 0;
