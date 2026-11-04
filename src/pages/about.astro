@@ -747,11 +747,15 @@ const timeline = [
 		border-bottom: 1px solid #9ca3af;
 	}
 
-	/* 月份列表 */
+	/* 月份列表：无序列表样式，每月前带圆点 */
 	.month-list {
-		list-style: none;
-		padding-left: 0;
+		list-style: disc;
+		padding-left: 22px;
 		margin: 0;
+	}
+
+	.month-list li::marker {
+		color: #6b7280;
 	}
 
 	.month-list li {
