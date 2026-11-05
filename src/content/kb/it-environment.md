@@ -310,7 +310,7 @@ src/
 │   ├── index.astro           # 首页（极简欢迎页）
 │   ├── about.astro           # 关于（自我介绍/经历/技能）
 │   ├── reflections.astro     # 感悟（日记式记录）
-│   ├── plan.astro            # 计划（短期/中期/长期）
+│   ├── plan.astro            # 谋划（短期/中期/长期）
 │   ├── items.astro           # 物品（财务看板+物品清单）
 │   ├── kb/
 │   │   ├── index.astro       # 知识库首页（三栏：列表/导读/目录）
