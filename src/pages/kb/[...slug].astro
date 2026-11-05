@@ -75,6 +75,17 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 	html {
 		scroll-behavior: smooth;
 	}
+
+	/* 正文内视频容器：MDX 文章里用 <div class="kb-videos"> 包裹 VideoBili */
+	.kb-videos {
+		display: grid;
+		gap: 16px;
+		margin-bottom: 12px;
+	}
+
+	.kb-videos .bili-facade {
+		margin-bottom: 0;
+	}
 </style>
 
 <style>

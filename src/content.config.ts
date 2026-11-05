@@ -1,9 +1,9 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// 知识库：一篇文章 = src/content/kb/ 下的一个 .md 文件
+// 知识库：一篇文章 = src/content/kb/ 下的一个 .md 或 .mdx 文件（mdx 可在正文嵌入视频组件）
 const kb = defineCollection({
-	loader: glob({ pattern: '**/*.md', base: './src/content/kb' }),
+	loader: glob({ pattern: ['**/*.md', '**/*.mdx'], base: './src/content/kb' }),
 	schema: z.object({
 		title: z.string(),
 		category: z.enum(['生活', '学校', '工作']),
