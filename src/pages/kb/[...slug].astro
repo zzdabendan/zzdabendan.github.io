@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import VideoBili from '../../components/VideoBili.astro';
+import AudioPlayer from '../../components/AudioPlayer.astro';
 import ArticleBody from '../../components/ArticleBody.astro';
 import ArticleList from '../../components/ArticleList.astro';
 import Toc from '../../components/Toc.astro';
@@ -52,6 +53,7 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 			<h1 class="article-h1">{entryNo}. {entry.data.title}</h1>
 			<p class="article-summary">{entry.data.summary}</p>
 				<p class="article-meta">约 {readMinutes} 分钟</p>
+				{entry.data.audio && <AudioPlayer src={entry.data.audio} title={entry.data.audioTitle} />}
 				<ArticleBody>
 					<div data-pagefind-body>
 						<Content />

@@ -14,6 +14,10 @@ const kb = defineCollection({
 		video: z.string().optional(),
 		// 可选：视频自定义封面
 		cover: z.string().optional(),
+		// 可选：文章音频地址（放在 public/audio/），填写后文章顶部显示音频播放器
+		audio: z.string().optional(),
+		// 可选：音频标题
+		audioTitle: z.string().optional(),
 		// 可选：文章标签，用于筛选
 		tags: z.array(z.string()).optional(),
 	}),

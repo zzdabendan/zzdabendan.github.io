@@ -1,0 +1,160 @@
+---
+interface Props {
+	src: string;
+	title?: string;
+}
+
+const { src, title } = Astro.props;
+---
+
+<div class="audio-player" data-audio data-src={src}>
+	<audio preload="metadata" src={src}></audio>
+	<button class="ap-btn" type="button" aria-label="播放">
+		<span class="ap-icon">▶</span>
+	</button>
+	<div class="ap-body">
+		{title && <p class="ap-title">{title}</p>}
+		<div class="ap-bar">
+			<div class="ap-fill"></div>
+		</div>
+	</div>
+	<span class="ap-time">00:00</span>
+</div>
+
+<script is:inline>
+	document.querySelectorAll('[data-audio]').forEach((box) => {
+		const audio = box.querySelector('audio');
+		const btn = box.querySelector('.ap-btn');
+		const icon = box.querySelector('.ap-icon');
+		const fill = box.querySelector('.ap-fill');
+		const bar = box.querySelector('.ap-bar');
+		const time = box.querySelector('.ap-time');
+
+		const fmt = (s) => {
+			if (!Number.isFinite(s)) return '00:00';
+			const m = Math.floor(s / 60);
+			const sec = Math.floor(s % 60);
+			return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+		};
+
+		btn.addEventListener('click', () => {
+			if (audio.paused) {
+				audio.play();
+			} else {
+				audio.pause();
+			}
+		});
+
+		audio.addEventListener('play', () => {
+			icon.textContent = '❚❚';
+			btn.setAttribute('aria-label', '暂停');
+			box.classList.add('playing');
+		});
+
+		const stop = () => {
+			icon.textContent = '▶';
+			btn.setAttribute('aria-label', '播放');
+			box.classList.remove('playing');
+		};
+
+		audio.addEventListener('pause', stop);
+		audio.addEventListener('ended', stop);
+
+		audio.addEventListener('timeupdate', () => {
+			const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+			fill.style.width = `${pct}%`;
+			time.textContent = fmt(audio.currentTime);
+		});
+
+		audio.addEventListener('loadedmetadata', () => {
+			time.textContent = fmt(audio.duration ? audio.currentTime : 0);
+		});
+
+		bar.addEventListener('click', (e) => {
+			if (!audio.duration) return;
+			const rect = bar.getBoundingClientRect();
+			audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+		});
+	});
+</script>
+
+<style>
+	.audio-player {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 10px 14px;
+		margin-bottom: 24px;
+		border: 1px solid #e5e7eb;
+		border-radius: 6px;
+		background: #fafafa;
+	}
+
+	/* 隐藏原生播放器，只用自定义控件 */
+	.audio-player audio {
+		display: none;
+	}
+
+	.ap-btn {
+		flex: 0 0 auto;
+		width: 32px;
+		height: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #111;
+		border-radius: 50%;
+		background: #fff;
+		color: #111;
+		font-size: 11px;
+		line-height: 1;
+		cursor: pointer;
+		transition:
+			background 0.15s,
+			color 0.15s;
+	}
+
+	.ap-btn:hover {
+		background: #111;
+		color: #fff;
+	}
+
+	.audio-player.playing .ap-btn {
+		background: #111;
+		color: #fff;
+	}
+
+	.ap-body {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.ap-title {
+		font-size: 13px;
+		color: #111;
+		margin: 0 0 6px;
+	}
+
+	.ap-bar {
+		position: relative;
+		height: 3px;
+		border-radius: 2px;
+		background: #e5e7eb;
+		cursor: pointer;
+	}
+
+	.ap-fill {
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 0;
+		border-radius: 2px;
+		background: #111;
+	}
+
+	.ap-time {
+		flex: 0 0 auto;
+		font-size: 12px;
+		color: #6b7280;
+		font-variant-numeric: tabular-nums;
+	}
+</style>
