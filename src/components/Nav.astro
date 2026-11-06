@@ -192,20 +192,20 @@ const groupActive = secondary.some((link) => isActive(link.href));
 	}
 
 	.nav-link {
-		color: #555555;
-		font-size: 15px;
+		color: var(--text);
+		font-size: 18px;
+		font-weight: 700;
 		padding: 4px 2px;
 		border-bottom: 2px solid transparent;
 	}
 
 	.nav-link:hover {
-		color: #000000;
+		color: var(--text);
 	}
 
 	/* 当前页对应的链接：高亮显示 */
 	.nav-link.active {
-		color: #000000;
-		border-bottom-color: #000000;
+		border-bottom-color: var(--text);
 	}
 
 	/* 桌面端：二级导航收在「做事」下拉里，悬停或键盘聚焦时展开 */
