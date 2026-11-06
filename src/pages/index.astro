@@ -64,10 +64,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: block;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
 		border-radius: 0;
-		/* 人物整体向左偏一小段，避免正中构图 */
-		transform: translateX(-5%);
+		/* 缩小整体，避免人形过大 */
+		transform: translateX(-5%) scale(0.72);
+		transform-origin: center center;
 	}
 
 	/* 能量链独立一栏：三条链横排并排，放在 hero 下方；通栏突破 720px 容器 */
@@ -191,23 +192,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </style>
 
 <script is:inline>
-	// 实时把时间写到浏览器标签页标题，每秒更新
-	function updateTime() {
-		const now = new Date();
-		const y = now.getFullYear();
-		const m = String(now.getMonth() + 1).padStart(2, '0');
-		const d = String(now.getDate()).padStart(2, '0');
-		const h = String(now.getHours()).padStart(2, '0');
-		const min = String(now.getMinutes()).padStart(2, '0');
-		const s = String(now.getSeconds()).padStart(2, '0');
-		document.title = `邹兆廷 · ${y}-${m}-${d} ${h}:${min}:${s}`;
-	}
-
+	// 随机数 1–100，每次刷新重新生成
 	window.addEventListener('DOMContentLoaded', () => {
-		updateTime();
-		setInterval(updateTime, 1000);
-
-		// 随机数 1–100，每次刷新重新生成
 		const rand = document.getElementById('random-number');
 		if (rand) rand.textContent = String(Math.floor(Math.random() * 100) + 1);
 	});
