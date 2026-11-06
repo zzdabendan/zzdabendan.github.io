@@ -35,6 +35,21 @@ const carAnnualMonthly = Math.round(carAnnual / 12);
 const carMonthlyFixed = 60 + 100;
 const carMonthly = carAnnualMonthly + carMonthlyFixed;
 
+// 婚姻：一次性支出，按常规办（南昌等中部省会）参考行情，不含婚房与装修
+const marriageItems = [
+	{ label: '彩礼', value: 120000, unit: '一次性' },
+	{ label: '三金/五金', value: 20000, unit: '一次性' },
+	{ label: '婚纱照', value: 6000, unit: '一次性' },
+	{ label: '婚庆策划（司仪/布置/跟拍）', value: 12000, unit: '一次性' },
+	{ label: '婚宴（20 桌 × 1500）', value: 30000, unit: '一次性' },
+	{ label: '婚纱礼服', value: 4000, unit: '一次性' },
+	{ label: '烟酒糖', value: 8000, unit: '一次性' },
+	{ label: '蜜月', value: 10000, unit: '一次性' },
+	{ label: '婚车/接亲', value: 3000, unit: '一次性' },
+	{ label: '杂项（请柬/喜糖/红包）', value: 5000, unit: '一次性' },
+];
+const marriageTotal = marriageItems.reduce((s, r) => s + r.value, 0);
+
 const fixedCost = {
 	items: [
 		{ label: '房租', value: 600 },
@@ -63,9 +78,20 @@ const fixedCost = {
 				{ label: '洗车杂费', value: 100, unit: '月' },
 			],
 		},
+		{
+			label: '婚姻（一次性）',
+			value: marriageTotal,
+			oneTime: true,
+			subNote: [
+				`一次性合计 ${marriageTotal}（不计入月均）`,
+				'按常规办参考行情，不含婚房与装修',
+				'婚宴礼金通常可抵掉大部分婚宴成本，彩礼多会以嫁妆形式回流一部分',
+			],
+			sub: marriageItems,
+		},
 	],
 };
-const fixedTotal = fixedCost.items.reduce((s, r) => s + r.value, 0);
+const fixedTotal = fixedCost.items.reduce((s, r) => s + (r.oneTime ? 0 : r.value), 0);
 
 const mealPlans = [
 	{ tag: '最省', amount: 1892, note: '早包子·午外卖·晚自做', best: true },
