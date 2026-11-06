@@ -50,6 +50,16 @@ const marriageItems = [
 ];
 const marriageTotal = marriageItems.reduce((s, r) => s + r.value, 0);
 
+// 养老：父母退休后预计支出，按南昌退休职工医保自付口径，不含已领养老金抵扣
+const elderlyItems = [
+	{ label: '医疗自付（60~70 岁）', value: 4000, unit: '年' },
+	{ label: '医疗自付（70~80 岁）', value: 8000, unit: '年' },
+	{ label: '医疗自付（80+ 岁）', value: 15000, unit: '年' },
+	{ label: '失能护理（居家请护工，自付）', value: 3500, unit: '月' },
+	{ label: '失能护理（普通护理院，自付）', value: 3500, unit: '月' },
+];
+const elderlyMonthlyMedical = Math.round((4000 + 8000 + 15000) / 3 / 12); // 三个阶段均值折月
+
 const fixedCost = {
 	items: [
 		{ label: '房租', value: 600 },
@@ -88,6 +98,19 @@ const fixedCost = {
 				'婚宴礼金通常可抵掉大部分婚宴成本，彩礼多会以嫁妆形式回流一部分',
 			],
 			sub: marriageItems,
+		},
+		{
+			label: '养老（未来预计）',
+			value: elderlyMonthlyMedical,
+			oneTime: true,
+			subNote: [
+				`医疗自付均值折月 ${elderlyMonthlyMedical}，按 60~80+ 三阶段年均 4000 / 8000 / 15000 取均值`,
+				'失能护理自付约 3500/月（长护险试点可减 1500~2500）',
+				'以上为医保自付口径，不含子女直接补贴的额外生活费',
+				'退休职工月领约 2800~3500，通常能覆盖日常生活，但医疗自付与护理费需子女补',
+				'80+ 失能期约 5~8 年，总自付 30 万 ~ 80 万（当前物价）',
+			],
+			sub: elderlyItems,
 		},
 	],
 };
