@@ -46,8 +46,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		width: 100vw;
 		margin-left: calc(-50vw + 50%);
 		margin-top: -48px;
-		height: calc(100svh - 78px);
-		min-height: 520px;
+		height: min(58svh, 640px);
+		min-height: 420px;
 		overflow: hidden;
 		display: flex;
 	}
@@ -78,8 +78,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: flex;
 		justify-content: center;
 		align-items: flex-start;
-		gap: 48px;
-		padding: 24px 40px 48px;
+		gap: 36px;
+		padding: 14px 40px 20px;
 		flex-wrap: wrap;
 	}
 
@@ -87,13 +87,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		flex: 0 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 4px;
+		gap: 2px;
 	}
 
 	/* 领域、链条、注释统一为同一套正文样式 */
 	.energy-group p {
 		font-size: 13px;
-		line-height: 1.8;
+		line-height: 1.5;
 		color: #333333;
 		margin: 0;
 	}
