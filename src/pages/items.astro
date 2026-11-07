@@ -50,6 +50,19 @@ const marriageItems = [
 ];
 const marriageTotal = marriageItems.reduce((s, r) => s + r.value, 0);
 
+// 育儿：0~22 岁持续支出，按南昌城镇常规档（公办 + 适度补习），不含婚房首付
+const parentingItems = [
+	{ label: '婴幼儿（0~3 岁）', value: 20000, unit: '年' },
+	{ label: '幼儿园（3~6 岁）', value: 20000, unit: '年' },
+	{ label: '小学（6~12 岁）', value: 18000, unit: '年' },
+	{ label: '初中（12~15 岁）', value: 20000, unit: '年' },
+	{ label: '高中（15~18 岁）', value: 25000, unit: '年' },
+	{ label: '大学（18~22 岁）', value: 30000, unit: '年' },
+];
+const parentingYears = [3, 3, 6, 3, 3, 4];
+const parentingTotal = parentingItems.reduce((s, r, i) => s + r.value * parentingYears[i], 0);
+const parentingMonthly = Math.round(parentingTotal / 22 / 12);
+
 // 养老：父母退休后预计支出，按南昌退休职工医保自付口径，不含已领养老金抵扣
 const elderlyItems = [
 	{ label: '医疗自付（60~70 岁）', value: 4000, unit: '年' },
@@ -98,6 +111,19 @@ const fixedCost = {
 				'婚宴礼金通常可抵掉大部分婚宴成本，彩礼多会以嫁妆形式回流一部分',
 			],
 			sub: marriageItems,
+		},
+		{
+			label: '育儿（22 年持续）',
+			value: parentingMonthly,
+			oneTime: true,
+			subNote: [
+				`0~22 岁累计约 ${parentingTotal}（不计入月均）`,
+				`年均约 ${Math.round(parentingTotal / 22)}，折月约 ${parentingMonthly}`,
+				'按南昌城镇常规档：公办学校 + 适度补习，不含婚房首付',
+				'极简档 20 万~30 万，常规档 40 万~60 万，讲究档 80 万以上',
+				'三大变量：公办/私立、补习强度、是否含婚房首付',
+			],
+			sub: parentingItems,
 		},
 		{
 			label: '养老（未来预计）',
