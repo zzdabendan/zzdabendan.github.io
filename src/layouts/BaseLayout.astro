@@ -5,10 +5,12 @@ import Nav from '../components/Nav.astro';
 interface Props {
 	title?: string;
 	description?: string;
+	/** 首页等通栏页面：不加纸张卡片，保持白底整屏 */
+	bare?: boolean;
 }
 
 // 给 title 和 description 设置默认值
-const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主页，基于 Astro 构建。' } = Astro.props;
+const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主页，基于 Astro 构建。', bare = false } = Astro.props;
 ---
 
 <!-- ② HTML 模板：每个页面共用的“外壳” -->
@@ -28,11 +30,11 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 		/>
 		<title>{title}</title>
 	</head>
-	<body>
+	<body class:list={[{ bare }]}>
 		<Nav />
 		<!-- slot 是“占位符”：各页面的内容会被放到这里 -->
-		<main class="container">
-			<slot />
+		<main class:list={['container', { bare }]}>
+			{bare ? <slot /> : <div class="paper"><slot /></div>}
 		</main>
 		<footer class="site-footer">
 			<div class="footer-map" aria-hidden="true">
@@ -81,7 +83,7 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 		--accent: #111111; /* 朴素纸张风：主色为墨黑 */
 		--text: #333333;
 		--muted: #888888;
-		--line: #eeeeee; /* 细分隔线 */
+		--line: #e6e6e6; /* 细分隔线 */
 		--content-width: 720px; /* 正文阅读宽度，宽布局页面自行覆盖 */
 	}
 
@@ -100,7 +102,12 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 			'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
 		color: var(--text);
 		line-height: 1.7;
-		background: #ffffff; /* 纯白内容区，黑白灰体系 */
+		background: #f0f0f0; /* 淡灰底：子页面内容像白纸浮在上面 */
+	}
+
+	/* 首页等通栏页面：保持纯白整屏，不受纸张风影响 */
+	body.bare {
+		background: #ffffff;
 	}
 
 	h1, h2, h3, h4, h5, h6,
@@ -126,8 +133,24 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 	.container {
 		max-width: var(--content-width, 720px);
 		margin: 0 auto;
-		padding: 48px 20px;
+		padding: 28px 20px 56px;
 		min-height: calc(100vh - 120px);
+	}
+
+	/* 首页等通栏页面沿用原来的上下留白 */
+	.container.bare {
+		padding: 48px 20px;
+	}
+
+	/* 纸张卡片：淡灰背景上的一张白纸，内容全部在纸内 */
+	.paper {
+		background: #ffffff;
+		border: 1px solid #e4e4e4;
+		border-radius: 3px;
+		box-shadow:
+			0 1px 2px rgba(0, 0, 0, 0.04),
+			0 10px 28px rgba(0, 0, 0, 0.05);
+		padding: 44px 48px;
 	}
 
 	.site-footer {
@@ -137,7 +160,7 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 		color: var(--muted);
 		font-size: 13px;
 		padding: 28px 20px;
-		background: #f2f2f2; /* 页脚浅灰，与内容区形成上浅下深对比 */
+		background: #f0f0f0; /* 页脚与页面底色一致，让白纸更突出 */
 		border-top: 1px solid var(--line);
 	}
 
@@ -177,5 +200,16 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 
 	.beian a:hover {
 		color: var(--accent);
+	}
+
+	/* 手机端：纸张铺满两侧，内边距收紧 */
+	@media (max-width: 700px) {
+		.container {
+			padding: 12px 10px 32px;
+		}
+
+		.paper {
+			padding: 24px 18px;
+		}
 	}
 </style>

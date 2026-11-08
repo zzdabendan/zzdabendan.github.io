@@ -462,12 +462,10 @@ const categories = [
 </BaseLayout>
 
 <style>
-	/* 覆盖 BaseLayout 的 --content-width，全屏无限制 */
+	/* 物品页布局较宽，但收在纸张卡片内 */
 	:global(main.container) {
-		--content-width: 100vw;
-		max-width: none !important;
-		margin: 0;
-		padding: 48px 32px;
+		--content-width: 1240px;
+		padding: 28px 20px 56px;
 	}
 
 	/* 二级标题：板块名，和知识库 h2 一致 */
