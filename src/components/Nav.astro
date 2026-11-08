@@ -270,6 +270,22 @@ const groupActive = secondary.some((link) => isActive(link.href));
 
 	/* 移动端：折叠为汉堡菜单，点击 ≡ 展开 */
 	@media (max-width: 700px) {
+		/* 手机端标题缩小字号，保证姓名+日期时间一行显示 */
+		.brand {
+			font-size: 12px;
+			gap: 6px;
+			white-space: nowrap;
+		}
+
+		.brand svg {
+			width: 18px;
+			height: 18px;
+		}
+
+		.brand-text {
+			gap: 2px;
+		}
+
 		.nav-toggle {
 			display: flex;
 			align-items: center;
@@ -329,6 +345,13 @@ const groupActive = secondary.some((link) => isActive(link.href));
 
 		.nav-sub .nav-link {
 			padding: 8px 10px;
+		}
+	}
+
+	/* 超窄屏：再小一档，防止换行 */
+	@media (max-width: 400px) {
+		.brand {
+			font-size: 11px;
 		}
 	}
 </style>
