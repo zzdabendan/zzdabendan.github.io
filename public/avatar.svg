@@ -38,6 +38,14 @@
     <path d="M95 285 Q125 289 155 285 C157 300 157 315 154 330 L82 330 C85 315 90 300 95 285 Z" fill="url(#g4)"/>
     <path d="M161 285 Q200 289 239 285 C241 300 241 315 239 330 L161 330 C159 315 159 300 161 285 Z" fill="url(#g2)"/>
     <path d="M305 285 Q275 289 245 285 C243 300 243 315 246 330 L317 330 C314 315 310 300 305 285 Z" fill="url(#g3)"/>
+    <!-- 碎片上的阶段词语：按阅读顺序对应时间线 -->
+    <g font-family="sans-serif" font-size="20" font-weight="500" fill="#5f666e" text-anchor="middle" dominant-baseline="central">
+      <text x="125" y="252">小学</text>
+      <text x="200" y="251">初中</text>
+      <text x="275" y="252">高中</text>
+      <text x="118" y="308">大学</text>
+      <text x="200" y="308">工作</text>
+    </g>
   </g>
 
   <!-- 外轮廓描边：保持人形边缘清晰 -->
