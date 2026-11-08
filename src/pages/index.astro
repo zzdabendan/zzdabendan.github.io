@@ -33,8 +33,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			<p>每级损失 90%，残骸由分解者回收循环</p>
 		</div>
 		<div class="energy-group">
-			<p>随机数</p>
-			<p id="random-number" class="random-value">—</p>
+			<p>随机能量</p>
+			<div class="energy-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+				<div class="energy-bar-fill" id="energy-fill"></div>
+			</div>
+			<p><span id="random-number" class="random-value">—</span>%</p>
 		</div>
 	</section>
 </BaseLayout>
@@ -105,6 +108,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	/* 随机数：等宽数字，避免刷新时宽度跳动 */
 	.random-value {
 		font-variant-numeric: tabular-nums;
+	}
+
+	/* 随机能量条：黑白灰极简，与站点风格一致 */
+	.energy-bar {
+		width: 180px;
+		height: 8px;
+		border: 1px solid #9ca3af;
+		border-radius: 999px;
+		background: #ffffff;
+		overflow: hidden;
+		margin: 4px 0;
+	}
+
+	.energy-bar-fill {
+		width: 0;
+		height: 100%;
+		background: #111111;
+		border-radius: 999px;
+		transition: width 0.6s ease;
 	}
 
 	.hero-question {
@@ -192,9 +214,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </style>
 
 <script is:inline>
-	// 随机数 1–100，每次刷新重新生成
+	// 随机能量 1–100：数字 + 能量条，每次刷新重新生成
 	window.addEventListener('DOMContentLoaded', () => {
+		const value = Math.floor(Math.random() * 100) + 1;
 		const rand = document.getElementById('random-number');
-		if (rand) rand.textContent = String(Math.floor(Math.random() * 100) + 1);
+		const fill = document.getElementById('energy-fill');
+		const bar = fill ? fill.parentElement : null;
+		if (rand) rand.textContent = String(value);
+		if (fill) fill.style.width = value + '%';
+		if (bar) bar.setAttribute('aria-valuenow', String(value));
 	});
 </script>
