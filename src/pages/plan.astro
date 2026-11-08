@@ -141,6 +141,8 @@ const themes: { name: string; phases: Phase[] }[] = [
 	<article>
 		<h1>谋划</h1>
 
+		<p class="summary">我在每天夜晚安全安静地睡着，补充满体力的时光度过。在新的清晨起来，开始过上秩序化的生活。首先会整理我的床铺。然后再。整理好我的。其他物品。然后再整理好自身的。身体情况，衣着打扮，卫生情况。补充。身体所需要的水分和。采购每天早上所需要补充的早餐。将没来得及处理的垃圾一同清扫出门。如果时间足够，会进行简单的身体锻炼。然后，把小区门口的电动车充电器收整好，骑电动车进入公司，完成公司当天的岗位任务。中午补充好能量，完成下午的任务。晚上。结束完当天的任务之后。骑电动车离开公司，然后。回到家中，之前去商店采购明日或今日所需的物品。到达家中之后。我会。杨。继续锻炼身体。然后恢复到去兼职。的准备状态。完成兼职工作后回到家，将电动车充满电后清理身体，检查各物品状态后休息，恢复体力，等待新的一天</p>
+
 		<section class="theme-block">
 			<h2 class="theme-title">一日谋划</h2>
 			<table class="daily-table">
@@ -203,6 +205,14 @@ const themes: { name: string; phases: Phase[] }[] = [
 </BaseLayout>
 
 <style>
+	/* 谋划摘要：标题下第一段，稍作区分 */
+	.summary {
+		font-size: 15px;
+		line-height: 1.9;
+		color: #444444;
+		margin: 0 0 32px;
+	}
+
 	/* 二级标题：主题名，和知识库 h2 一致 */
 	.theme-block + .theme-block {
 		margin-top: 32px;
