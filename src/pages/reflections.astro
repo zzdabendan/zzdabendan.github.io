@@ -1,6 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+// 出生 2001-09-23：把每篇日期换算成「生活第 N 天」
+const BIRTH = Date.UTC(2001, 8, 23);
+const dayNum = (date: string) => {
+	const [y, m, d] = date.split('/').map(Number);
+	return Math.round((Date.UTC(y, m - 1, d) - BIRTH) / 86400000);
+};
+
 // 感悟数据：每条包含日期、星期、城市、天气、分类记录和今日感悟
 const reflections = [
 	{
@@ -374,7 +381,7 @@ const reflections = [
 						</div>
 					)}
 
-					<h3 class="insight-label">今日感悟</h3>
+					<h3 class="insight-label">今日感悟（第 {dayNum(entry.date)} 天）</h3>
 					<p class="insight-text">{entry.insight}</p>
 				</section>
 			))
