@@ -143,74 +143,94 @@ const themes: { name: string; phases: Phase[] }[] = [
 
 		<p class="summary">我在每天夜晚安全安静地睡着，补充满体力的时光度过。在新的清晨起来，开始过上秩序化的生活。首先会整理我的床铺。然后再。整理好我的。其他物品。然后再整理好自身的。身体情况，衣着打扮，卫生情况。补充。身体所需要的水分和。采购每天早上所需要补充的早餐。将没来得及处理的垃圾一同清扫出门。如果时间足够，会进行简单的身体锻炼。然后，把小区门口的电动车充电器收整好，骑电动车进入公司，完成公司当天的岗位任务。中午补充好能量，完成下午的任务。晚上。结束完当天的任务之后。骑电动车离开公司，然后。回到家中，之前去商店采购明日或今日所需的物品。到达家中之后。我会。杨。继续锻炼身体。然后恢复到去兼职。的准备状态。完成兼职工作后回到家，将电动车充满电后清理身体，检查各物品状态后休息，恢复体力，等待新的一天</p>
 
-		<section class="theme-block">
-			<h2 class="theme-title">一日谋划</h2>
-			<table class="daily-table">
-				<thead>
-					<tr>
-						<th class="daily-time">时间</th>
-						{priorityNames.map((name) => (
-							<th>{name}</th>
-						))}
-					</tr>
-				</thead>
-				<tbody>
-					{dailyRows.map((row) => (
-						<tr>
-							<td class="daily-time">{row.time}</td>
-							{priorityNames.map((_, i) => (
-								<td class:list={['daily-task', { 'is-primary': i === 0 }]}>{row.tasks[i] || '—'}</td>
-							))}
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</section>
-
-		{
-			themes.map((theme) => (
-				<section class="theme-block">
-					<h2 class="theme-title">{theme.name}</h2>
-					{theme.phases.map((plan) => (
-						<div class="phase">
-							<h3 class="phase-name">{plan.phase}</h3>
-							<p class="phase-goal">{plan.goal}</p>
-							<ul>
-								{plan.items.map((item) => (
-									<li>{item}</li>
-								))}
-							</ul>
-							{plan.videos && (
-								<div class="video-grid">
-									{plan.videos.map((video) =>
-										video.bv ? (
-											<VideoBili bvid={video.bv} title={video.title} />
-										) : (
-											<div class="video-placeholder">
-												<span class="video-title">{video.title}</span>
-												<span class="video-note">待补充视频</span>
-											</div>
-										)
+		<div class="cols">
+			<!-- 主栏：五大主题谋划 -->
+			<div class="col-main">
+				{
+					themes.map((theme) => (
+						<section class="theme-block">
+							<h2 class="theme-title">{theme.name}</h2>
+							{theme.phases.map((plan) => (
+								<div class="phase">
+									<h3 class="phase-name">{plan.phase}</h3>
+									<p class="phase-goal">{plan.goal}</p>
+									<ul>
+										{plan.items.map((item) => (
+											<li>{item}</li>
+										))}
+									</ul>
+									{plan.videos && (
+										<div class="video-grid">
+											{plan.videos.map((video) =>
+												video.bv ? (
+													<VideoBili bvid={video.bv} title={video.title} />
+												) : (
+													<div class="video-placeholder">
+														<span class="video-title">{video.title}</span>
+														<span class="video-note">待补充视频</span>
+													</div>
+												)
+											)}
+										</div>
 									)}
 								</div>
-							)}
-						</div>
-					))}
+							))}
+						</section>
+					))
+				}
+			</div>
+
+			<!-- 侧栏：一日谋划（24 小时逐时安排） -->
+			<aside class="col-side">
+				<section class="side-daily">
+					<h2 class="theme-title">一日谋划</h2>
+					<table class="daily-table">
+						<thead>
+							<tr>
+								<th class="daily-time">时间</th>
+								{priorityNames.map((name) => (
+									<th>{name}</th>
+								))}
+							</tr>
+						</thead>
+						<tbody>
+							{dailyRows.map((row) => (
+								<tr>
+									<td class="daily-time">{row.time}</td>
+									{priorityNames.map((_, i) => (
+										<td class:list={['daily-task', { 'is-primary': i === 0 }]}>{row.tasks[i] || '—'}</td>
+									))}
+								</tr>
+							))}
+						</tbody>
+					</table>
 				</section>
-			))
-		}
+			</aside>
+		</div>
 
 		<p class="back"><a href="/">← 返回首页</a></p>
 	</article>
 </BaseLayout>
 
 <style>
-	/* 谋划摘要：标题下第一段，稍作区分 */
+	/* 谋划摘要：标题下第一段，通栏放在两栏布局上方 */
 	.summary {
 		font-size: 15px;
 		line-height: 1.9;
 		color: #444444;
 		margin: 0 0 32px;
+	}
+
+	/* 两栏布局：主栏（主题谋划）+ 侧栏（一日谋划），与关于页一致 */
+	:global(.container) {
+		max-width: 1080px;
+	}
+
+	.cols {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 300px;
+		column-gap: 48px;
+		align-items: start;
 	}
 
 	/* 二级标题：主题名，和知识库 h2 一致 */
@@ -224,6 +244,32 @@ const themes: { name: string; phases: Phase[] }[] = [
 		margin: 0 0 16px;
 		padding-bottom: 6px;
 		border-bottom: 2px solid #555555;
+	}
+
+	/* 侧栏标题小一号，分隔线改细线（与关于页侧栏一致） */
+	.col-side .theme-title {
+		font-size: 15px;
+		border-bottom-width: 1px;
+		border-bottom-color: #bbbbbb;
+	}
+
+	/* 侧栏一日计划表：缩窄以适应 300px 栏宽 */
+	.side-daily .daily-table {
+		font-size: 12px;
+	}
+
+	.side-daily .daily-table th {
+		padding: 6px 6px;
+	}
+
+	.side-daily .daily-table td {
+		padding: 5px 6px;
+		line-height: 1.6;
+	}
+
+	.side-daily .daily-time {
+		width: 88px;
+		font-size: 11px;
 	}
 
 	/* 一日计划表：细线分隔，纯文档流 */
@@ -340,6 +386,41 @@ const themes: { name: string; phases: Phase[] }[] = [
 	.video-note {
 		font-size: 12px;
 		color: #9ca3af;
+	}
+
+	/* 窄屏：收成单栏，一日谋划排回主题谋划之前，表格恢复原字号 */
+	@media (max-width: 900px) {
+		.cols {
+			grid-template-columns: 1fr;
+		}
+
+		.col-side {
+			order: -1;
+		}
+
+		.col-side .theme-title {
+			font-size: 20px;
+			border-bottom-width: 2px;
+			border-bottom-color: #555555;
+		}
+
+		.side-daily .daily-table {
+			font-size: 14px;
+		}
+
+		.side-daily .daily-table th {
+			padding: 8px 10px;
+		}
+
+		.side-daily .daily-table td {
+			padding: 6px 10px;
+			line-height: 1.7;
+		}
+
+		.side-daily .daily-time {
+			width: 110px;
+			font-size: 14px;
+		}
 	}
 
 	@media (max-width: 600px) {
