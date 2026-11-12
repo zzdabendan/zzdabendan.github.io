@@ -360,8 +360,8 @@ const reflections = [
 		<h1>感悟</h1>
 
 		{
-			reflections.map((entry) => (
-				<section class="entry">
+			reflections.map((entry, i) => (
+				<section class:list={['entry', { tinted: i % 2 === 1 }]}>
 					<h2 class="entry-title">{entry.date} {entry.day} · {entry.city} · {entry.weather}</h2>
 
 					{entry.records.length > 0 && (
@@ -385,8 +385,17 @@ const reflections = [
 </BaseLayout>
 
 <style>
+	/* 每篇感悟：色带铺满内容宽度，奇偶两种底色交替，均区别于白色纸面 */
 	.entry {
-		margin-bottom: 40px;
+		margin: 0 -16px 40px;
+		padding: 20px 16px;
+		/* 奇数篇：暖调米灰 */
+		background: #f6f3ec;
+	}
+
+	/* 偶数篇：冷调浅灰，与奇数篇冷暖交替 */
+	.entry.tinted {
+		background: #e9edf1;
 	}
 
 	/* 二级标题：日期行，和知识库 h2 一致 */
