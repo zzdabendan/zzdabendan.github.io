@@ -37,7 +37,7 @@ const groupActive = secondary.some((link) => isActive(link.href));
 					<circle cx="50" cy="50" r="8" fill="#ffffff"/>
 				</g>
 			</svg>
-			<span class="brand-text">邹兆廷<span class="nav-birth">（2001-09-23~<span id="nav-time" class="nav-time"></span>）</span></span>
+			<span class="brand-text">邹兆廷<span class="nav-birth">（2001-09-23<span class="nav-energy" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="nav-energy-fill" class="nav-energy-fill"></span></span><span id="nav-time" class="nav-time"></span>）</span></span>
 		</a>
 		<input type="checkbox" id="nav-check" class="nav-check" />
 		<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
@@ -176,6 +176,28 @@ const groupActive = secondary.some((link) => isActive(link.href));
 	.nav-time,
 	.nav-birth {
 		font-variant-numeric: tabular-nums;
+	}
+
+	/* 出生日期与当前时间之间的随机能量条 */
+	.nav-energy {
+		display: inline-block;
+		width: 46px;
+		height: 6px;
+		margin: 0 5px;
+		border: 1px solid #9ca3af;
+		border-radius: 999px;
+		background: #ffffff;
+		overflow: hidden;
+		vertical-align: middle;
+	}
+
+	.nav-energy-fill {
+		display: block;
+		width: 0;
+		height: 100%;
+		background: #111111;
+		border-radius: 999px;
+		transition: width 0.6s ease;
 	}
 
 	/* 桌面端：checkbox 隐藏，菜单直接横排 */
@@ -374,6 +396,15 @@ const groupActive = secondary.some((link) => isActive(link.href));
 	document.addEventListener('DOMContentLoaded', () => {
 		updateNavTime();
 		setInterval(updateNavTime, 1000);
+
+		// 随机能量条：每次加载随机 1-100，填充条宽
+		const fill = document.getElementById('nav-energy-fill');
+		const bar = fill ? fill.parentElement : null;
+		if (fill) {
+			const value = Math.floor(Math.random() * 100) + 1;
+			fill.style.width = value + '%';
+			if (bar) bar.setAttribute('aria-valuenow', String(value));
+		}
 	});
 
 	// 跳转 DeepSeek 搜索
