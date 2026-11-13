@@ -595,8 +595,8 @@ const categories = [
 		</nav>
 
 		<div class="cols">
-			<!-- 主栏：我的经历 -->
-			<div class="col-main">
+			<!-- 窄栏：我的经历 -->
+			<div class="col-side">
 				<section class="card main-timeline" id="timeline">
 					<h2>我的经历</h2>
 					{
@@ -622,8 +622,8 @@ const categories = [
 				</section>
 			</div>
 
-			<!-- 侧栏：自我介绍 + 活动地图 + 联系方式 + 我的技能 + 财务 + 物品 -->
-			<aside class="col-side">
+			<!-- 宽栏：自我介绍 + 活动地图 + 联系方式 + 我的技能 + 财务 + 物品 -->
+			<aside class="col-main">
 				<!-- 自我介绍 -->
 				<section class="card intro" id="intro">
 					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
@@ -1068,14 +1068,23 @@ const categories = [
 		align-items: start;
 	}
 
-	.col-side {
-		/* 侧栏内容已超过一屏，取消吸顶以免底部被裁掉 */
-		position: static;
+	/* 宽栏在左、窄栏在右 */
+	.col-main {
+		grid-column: 1;
+		grid-row: 1;
+		/* 内容依次纵向排列 */
 		display: flex;
 		flex-direction: column;
 	}
 
-	/* 侧栏顺序：自我介绍 → 活动地图 → 联系方式 → 我的技能 → 财务 → 物品 */
+	.col-side {
+		grid-column: 2;
+		grid-row: 1;
+		/* 窄栏内容已超过一屏，取消吸顶以免底部被裁掉 */
+		position: static;
+	}
+
+	/* 宽栏顺序：自我介绍 → 活动地图 → 联系方式 → 我的技能 → 财务 → 物品 */
 	.card.intro { order: 1; }
 	.card.side-map { order: 2; }
 	.card.side-contact { order: 3; }
@@ -1083,31 +1092,11 @@ const categories = [
 	.card.finance { order: 5; }
 	.card.belongings { order: 6; }
 
-	/* 侧栏标题小一号，分隔线改为细线 */
+	/* 窄栏标题小一号，分隔线改为细线 */
 	.col-side .card h2 {
 		font-size: 15px;
 		border-bottom-width: 1px;
 		border-bottom-color: #bbbbbb;
-	}
-
-	.side-contact .contact-list {
-		font-size: 13px;
-		line-height: 1.8;
-	}
-
-	/* 侧栏技能：标签与子标题整体缩小，适应 300px 宽 */
-	.side-skills .sub-title {
-		font-size: 13px;
-		margin: 14px 0 8px;
-	}
-
-	.side-skills .tag-cloud {
-		gap: 5px;
-	}
-
-	.side-skills .skill-tag {
-		font-size: 12px;
-		padding: 4px 8px;
 	}
 
 	@media (max-width: 900px) {
@@ -1115,43 +1104,24 @@ const categories = [
 			grid-template-columns: 1fr;
 		}
 
-		/* 单列时拆开两栏，让财务、物品排在自我介绍之后、经历之前 */
+		/* 单列时拆开两栏，顺序与宽栏一致，经历放最后 */
 		.col-main,
 		.col-side {
 			display: contents;
 		}
 
 		#intro { order: 1; }
-		#finance { order: 2; }
-		#belongings { order: 3; }
-		#timeline { order: 4; }
-		.card.side-map { order: 5; }
-		.card.side-contact { order: 6; }
-		.card.side-skills { order: 7; }
-
-		.col-side {
-			position: static;
-		}
+		.card.side-map { order: 2; }
+		.card.side-contact { order: 3; }
+		.card.side-skills { order: 4; }
+		#finance { order: 5; }
+		#belongings { order: 6; }
+		#timeline { order: 7; }
 
 		.col-side .card h2 {
 			font-size: 20px;
 			border-bottom-width: 2px;
 			border-bottom-color: #555555;
-		}
-
-		.side-contact .contact-list {
-			font-size: 15px;
-			line-height: 1.9;
-		}
-
-		.side-skills .sub-title {
-			font-size: 15px;
-			margin: 20px 0 12px;
-		}
-
-		.side-skills .skill-tag {
-			font-size: 13px;
-			padding: 5px 10px;
 		}
 	}
 
@@ -1261,12 +1231,12 @@ const categories = [
 		display: inline-block;
 	}
 
-	/* 明细区域的四个分组：侧栏较窄，纵向依次排列 */
+	/* 明细区域的四个分组：宽栏内 2×2 网格平铺 */
 	.detail-grid {
 		display: grid;
-		grid-template-columns: 1fr;
+		grid-template-columns: 1fr 1fr;
 		gap: 16px;
-		margin-bottom: 28px;
+		margin-bottom: 32px;
 	}
 
 	.detail-group h4 {
@@ -1286,8 +1256,7 @@ const categories = [
 	.detail-group li {
 		display: flex;
 		justify-content: space-between;
-		gap: 8px;
-		font-size: 14px;
+		font-size: 15px;
 		line-height: 2;
 	}
 
@@ -1523,10 +1492,10 @@ const categories = [
 	}
 
 	/* ===== 物品 ===== */
-	/* 物品分类：侧栏内纵向排列 */
+	/* 物品分类：响应式多栏网格 */
 	.categories {
 		display: grid;
-		grid-template-columns: 1fr;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 		gap: 24px;
 	}
 
