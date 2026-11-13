@@ -595,8 +595,16 @@ const categories = [
 		</nav>
 
 		<div class="cols">
-			<!-- 窄栏：我的经历 -->
+			<!-- 窄栏：活动地图 + 我的经历 -->
 			<div class="col-side">
+				<section class="card side-map">
+					<h2>活动地图</h2>
+					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
+						<button class="map-open" type="button">点击加载活动地图</button>
+					</div>
+					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
+				</section>
+
 				<section class="card main-timeline" id="timeline">
 					<h2>我的经历</h2>
 					{
@@ -622,7 +630,7 @@ const categories = [
 				</section>
 			</div>
 
-			<!-- 宽栏：自我介绍 + 活动地图 + 联系方式 + 我的技能 + 财务 + 物品 -->
+			<!-- 宽栏：自我介绍 + 联系方式 + 我的技能 + 财务 + 物品 -->
 			<aside class="col-main">
 				<!-- 自我介绍 -->
 				<section class="card intro" id="intro">
@@ -814,14 +822,6 @@ const categories = [
 							</div>
 						))}
 					</div>
-				</section>
-
-				<section class="card side-map">
-					<h2>活动地图</h2>
-					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
-						<button class="map-open" type="button">点击加载活动地图</button>
-					</div>
-					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
 				</section>
 
 				<section class="card side-contact">
@@ -1084,13 +1084,12 @@ const categories = [
 		position: static;
 	}
 
-	/* 宽栏顺序：自我介绍 → 活动地图 → 联系方式 → 我的技能 → 财务 → 物品 */
+	/* 宽栏顺序：自我介绍 → 联系方式 → 我的技能 → 财务 → 物品 */
 	.card.intro { order: 1; }
-	.card.side-map { order: 2; }
-	.card.side-contact { order: 3; }
-	.card.side-skills { order: 4; }
-	.card.finance { order: 5; }
-	.card.belongings { order: 6; }
+	.card.side-contact { order: 2; }
+	.card.side-skills { order: 3; }
+	.card.finance { order: 4; }
+	.card.belongings { order: 5; }
 
 	/* 窄栏标题小一号，分隔线改为细线 */
 	.col-side .card h2 {
