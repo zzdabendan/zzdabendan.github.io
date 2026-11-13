@@ -387,7 +387,6 @@ const categories = [
 							))}
 						</ul>
 
-						<h4 class="spend-sub">怎么省</h4>
 						<ul class="spend-tips">
 							{savingTips.map((t) => (
 								<li class:list={{ strong: t.strong }}>{t.text}</li>
@@ -410,7 +409,6 @@ const categories = [
 							))}
 						</ul>
 
-						<h4 class="spend-sub">怎么省</h4>
 						<ul class="spend-tips">
 							{travelTips.map((t) => (
 								<li class:list={{ strong: t.strong }}>{t.text}</li>
@@ -699,20 +697,10 @@ const categories = [
 	}
 
 	/* 花费分析 */
-	.spend-sub {
-		font-size: 15px;
-		font-weight: 600;
-		margin: 0 0 10px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		display: inline-block;
-	}
-
 	.spend-bars {
 		list-style: none;
 		padding: 0;
-		margin: 0 0 20px;
+		margin: 0 0 12px;
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
