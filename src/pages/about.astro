@@ -649,8 +649,8 @@ const categories = [
 
 					<h3 class="console-sub">明细</h3>
 					<div class="detail-grid">
-						<div class="detail-group tone-spend">
-							<h4>固定花费（月 · {fixedTotal}）</h4>
+						<details class="detail-group tone-spend">
+							<summary>固定花费（月 · {fixedTotal}）</summary>
 							<ul>
 								{fixedCost.items.map((r) => (
 									<>
@@ -673,17 +673,17 @@ const categories = [
 									</>
 								))}
 							</ul>
-						</div>
-						<div class="detail-group tone-income">
-							<h4>收入（月）</h4>
+						</details>
+						<details class="detail-group tone-income">
+							<summary>收入（月）</summary>
 							<ul>
 								{incomeRows.map((r) => (
 									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
-						</div>
-						<div class="detail-group tone-deposit">
-							<h4>存款（存量 · {totalDeposit}）</h4>
+						</details>
+						<details class="detail-group tone-deposit">
+							<summary>存款（存量 · {totalDeposit}）</summary>
 							<ul>
 								{depositRows.map((r) => (
 									<>
@@ -700,15 +700,15 @@ const categories = [
 									</>
 								))}
 							</ul>
-						</div>
-						<div class="detail-group tone-debt">
-							<h4>欠款（{totalDebt}）</h4>
+						</details>
+						<details class="detail-group tone-debt">
+							<summary>欠款（{totalDebt}）</summary>
 							<ul>
 								{debtRows.map((r) => (
 									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
-						</div>
+						</details>
 					</div>
 
 					<!-- 场景1：财务血条 -->
@@ -1225,12 +1225,18 @@ const categories = [
 		margin-bottom: 32px;
 	}
 
-	.detail-group h4 {
+	/* 明细分组默认折叠：标题兼作展开开关 */
+	.detail-group summary {
 		font-size: 14px;
 		font-weight: 600;
 		margin-bottom: 8px;
 		padding-bottom: 4px;
 		border-bottom: 1px solid #9ca3af;
+		cursor: pointer;
+	}
+
+	.detail-group summary::marker {
+		color: #6b7280;
 	}
 
 	.detail-group ul {
