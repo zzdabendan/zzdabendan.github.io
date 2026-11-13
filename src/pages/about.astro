@@ -1502,20 +1502,22 @@ const categories = [
 		min-width: 0; /* 防止内容撑破网格 */
 	}
 
-	/* 分类小标题：细线区分，弱于板块标题 */
+	/* 分类标题：三级标题，浅灰圆角背景 */
 	.cat-title {
-		font-size: 16px;
+		font-size: 15px;
 		font-weight: 600;
-		margin: 0 0 8px;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #9ca3af;
+		margin: 0 0 12px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
 	.cat-count {
-		font-size: 13px;
+		font-size: 12px;
 		font-weight: 400;
-		color: var(--muted);
-		margin-left: 8px;
+		color: #555;
+		margin-left: 6px;
 	}
 
 	.item-list {
@@ -1545,14 +1547,13 @@ const categories = [
 		min-width: 0;
 	}
 
+	/* 区域标题：四级标题，下方一条细灰线 */
 	.zone-title {
-		font-size: 15px;
+		font-size: 14px;
 		font-weight: 600;
-		margin: 0 0 6px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		display: inline-block;
+		margin: 0 0 8px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
 	}
 
 	.zone-count {
