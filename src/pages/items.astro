@@ -275,9 +275,9 @@ const categories = [
 		<section class="console-card">
 			<h2 class="block-title">财务</h2>
 
-			<!-- 左右两栏：左明细，右场景 -->
+			<!-- 财务内容按明细、场景问答依次排列 -->
 			<div class="console-body">
-				<!-- 左：全部明细 -->
+				<!-- 全部明细 -->
 				<div class="console-detail">
 					<h3 class="console-sub">明细</h3>
 					<div class="detail-grid">
@@ -344,7 +344,7 @@ const categories = [
 					</div>
 				</div>
 
-				<!-- 右：场景问答 -->
+				<!-- 场景问答 -->
 				<div class="console-analysis">
 					<!-- 场景1：财务血条 -->
 					<section class="scene">
@@ -482,10 +482,10 @@ const categories = [
 		margin-bottom: 40px;
 	}
 
-	/* 财务左右两栏：加宽后保持 1:1.4 比例 */
+	/* 财务内容单列排列：明细在前，场景问答在后 */
 	.console-body {
 		display: grid;
-		grid-template-columns: 1fr 1.4fr;
+		grid-template-columns: 1fr;
 		gap: 32px;
 	}
 
@@ -867,13 +867,6 @@ const categories = [
 		font-size: 14px;
 		color: var(--muted);
 		padding-left: 8px;
-	}
-
-	/* 响应式：平板以下财务变单列 */
-	@media (max-width: 900px) {
-		.console-body {
-			grid-template-columns: 1fr;
-		}
 	}
 
 	/* 响应式：手机端明细 grid 变单列，物品分类也单列 */
