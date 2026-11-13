@@ -1091,13 +1091,6 @@ const categories = [
 	.card.finance { order: 4; }
 	.card.belongings { order: 5; }
 
-	/* 窄栏标题小一号，分隔线改为细线 */
-	.col-side .card h2 {
-		font-size: 15px;
-		border-bottom-width: 1px;
-		border-bottom-color: #bbbbbb;
-	}
-
 	@media (max-width: 900px) {
 		.cols {
 			grid-template-columns: 1fr;
@@ -1116,12 +1109,6 @@ const categories = [
 		#finance { order: 5; }
 		#belongings { order: 6; }
 		#timeline { order: 7; }
-
-		.col-side .card h2 {
-			font-size: 20px;
-			border-bottom-width: 2px;
-			border-bottom-color: #555555;
-		}
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
