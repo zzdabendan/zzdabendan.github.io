@@ -588,25 +588,42 @@ const categories = [
 
 		<!-- 页内锚点：长页面快速跳转 -->
 		<nav class="page-toc" aria-label="页内导航">
-			<a href="#intro">自我介绍</a>
 			<a href="#finance">财务</a>
 			<a href="#belongings">物品</a>
+			<a href="#intro">自我介绍</a>
 			<a href="#timeline">我的经历</a>
 		</nav>
 
 		<div class="cols">
-			<!-- 主栏：自我介绍 → 财务 → 物品 → 我的经历 -->
+			<!-- 主栏：我的经历 -->
 			<div class="col-main">
-				<section class="card intro" id="intro">
-					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
-					<h2>自我介绍</h2>
-					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
-					<p class="intro-text">毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
-					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。</p>
-					<p class="intro-text">工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。</p>
-					<p class="intro-text">长期目标是坚持锻炼健身，保持健康的身体。</p>
+				<section class="card main-timeline" id="timeline">
+					<h2>我的经历</h2>
+					{
+						timeline.map((group, i) => (
+							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
+								<h3 class="stage-title">{group.stage}</h3>
+								{group.years.map((y) => (
+									<div class="year-block">
+										<h4 class="year-title">{y.year}</h4>
+										<ul class="month-list">
+											{y.months.map((m) => (
+												<li>
+													{m.month && <span class="month-label">{m.month}</span>}
+													{m.events && <span class="month-events">{m.events}</span>}
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
+						))
+					}
 				</section>
+			</div>
 
+			<!-- 侧栏：财务 + 物品 + 活动地图 + 联系方式 + 我的技能 -->
+			<aside class="col-side">
 				<!-- 财务：明细 + 场景问答 -->
 				<section class="card finance" id="finance">
 					<h2>财务</h2>
@@ -788,33 +805,17 @@ const categories = [
 					</div>
 				</section>
 
-				<section class="card main-timeline" id="timeline">
-					<h2>我的经历</h2>
-					{
-						timeline.map((group, i) => (
-							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
-								<h3 class="stage-title">{group.stage}</h3>
-								{group.years.map((y) => (
-									<div class="year-block">
-										<h4 class="year-title">{y.year}</h4>
-										<ul class="month-list">
-											{y.months.map((m) => (
-												<li>
-													{m.month && <span class="month-label">{m.month}</span>}
-													{m.events && <span class="month-events">{m.events}</span>}
-												</li>
-											))}
-										</ul>
-									</div>
-								))}
-							</div>
-						))
-					}
+				<!-- 自我介绍 -->
+				<section class="card intro" id="intro">
+					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
+					<h2>自我介绍</h2>
+					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。</p>
+					<p class="intro-text">毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
+					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。</p>
+					<p class="intro-text">工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。</p>
+					<p class="intro-text">长期目标是坚持锻炼健身，保持健康的身体。</p>
 				</section>
-			</div>
 
-			<!-- 侧栏：活动地图 + 联系方式 + 我的技能 -->
-			<aside class="col-side">
 				<section class="card side-map">
 					<h2>活动地图</h2>
 					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
@@ -1062,8 +1063,8 @@ const categories = [
 
 	.cols {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) 300px;
-		column-gap: 48px;
+		grid-template-columns: minmax(0, 1fr) 400px;
+		column-gap: 40px;
 		align-items: start;
 	}
 
@@ -1073,9 +1074,7 @@ const categories = [
 	}
 
 	/* 侧栏标题小一号，分隔线改为细线 */
-	.card.side-map h2,
-	.card.side-contact h2,
-	.card.side-skills h2 {
+	.col-side .card h2 {
 		font-size: 15px;
 		border-bottom-width: 1px;
 		border-bottom-color: #bbbbbb;
@@ -1106,13 +1105,25 @@ const categories = [
 			grid-template-columns: 1fr;
 		}
 
+		/* 单列时拆开两栏，让财务、物品排在自我介绍之后、经历之前 */
+		.col-main,
+		.col-side {
+			display: contents;
+		}
+
+		#intro { order: 1; }
+		#finance { order: 2; }
+		#belongings { order: 3; }
+		#timeline { order: 4; }
+		.card.side-map { order: 5; }
+		.card.side-contact { order: 6; }
+		.card.side-skills { order: 7; }
+
 		.col-side {
 			position: static;
 		}
 
-		.card.side-map h2,
-		.card.side-contact h2,
-		.card.side-skills h2 {
+		.col-side .card h2 {
 			font-size: 20px;
 			border-bottom-width: 2px;
 			border-bottom-color: #555555;
@@ -1240,12 +1251,12 @@ const categories = [
 		display: inline-block;
 	}
 
-	/* 明细区域的四个分组：2×2 网格平铺 */
+	/* 明细区域的四个分组：侧栏较窄，纵向依次排列 */
 	.detail-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 16px;
-		margin-bottom: 32px;
+		margin-bottom: 28px;
 	}
 
 	.detail-group h4 {
@@ -1265,7 +1276,8 @@ const categories = [
 	.detail-group li {
 		display: flex;
 		justify-content: space-between;
-		font-size: 15px;
+		gap: 8px;
+		font-size: 14px;
 		line-height: 2;
 	}
 
@@ -1501,10 +1513,10 @@ const categories = [
 	}
 
 	/* ===== 物品 ===== */
-	/* 物品分类：响应式多栏网格 */
+	/* 物品分类：侧栏内纵向排列 */
 	.categories {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		grid-template-columns: 1fr;
 		gap: 24px;
 	}
 
