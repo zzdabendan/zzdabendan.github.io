@@ -661,6 +661,37 @@ const categories = [
 							})
 						)}
 					</div>
+
+					<h3 class="sub-title">我的技能</h3>
+					<h4 class="skill-group">技术运维</h4>
+					<div class="tag-cloud">
+						<span class="skill-tag">网络技术</span>
+						<span class="skill-tag">Linux 系统</span>
+						<span class="skill-tag">Windows 系统</span>
+						<span class="skill-tag">无线技术</span>
+						<span class="skill-tag">综合布线</span>
+						<span class="skill-tag">装机维护</span>
+						<span class="skill-tag">设备维修</span>
+					</div>
+					<h4 class="skill-group">办公与制作</h4>
+					<div class="tag-cloud">
+						<span class="skill-tag">表格</span>
+						<span class="skill-tag">文档</span>
+						<span class="skill-tag">演示</span>
+						<span class="skill-tag">函数</span>
+						<span class="skill-tag">视频剪辑</span>
+						<span class="skill-tag">修图</span>
+						<span class="skill-tag">设计</span>
+						<span class="skill-tag">制图</span>
+					</div>
+					<h4 class="skill-group">表达与协作</h4>
+					<div class="tag-cloud">
+						<span class="skill-tag">编程</span>
+						<span class="skill-tag">教学</span>
+						<span class="skill-tag">翻译</span>
+						<span class="skill-tag">演讲</span>
+						<span class="skill-tag">客户服务</span>
+					</div>
 				</section>
 
 				<!-- 财务：明细 + 场景问答 -->
@@ -852,38 +883,6 @@ const categories = [
 					</div>
 				</section>
 
-				<section class="card side-skills">
-					<h2>我的技能</h2>
-					<h3 class="sub-title">技术运维</h3>
-					<div class="tag-cloud">
-						<span class="skill-tag">网络技术</span>
-						<span class="skill-tag">Linux 系统</span>
-						<span class="skill-tag">Windows 系统</span>
-						<span class="skill-tag">无线技术</span>
-						<span class="skill-tag">综合布线</span>
-						<span class="skill-tag">装机维护</span>
-						<span class="skill-tag">设备维修</span>
-					</div>
-					<h3 class="sub-title">办公与制作</h3>
-					<div class="tag-cloud">
-						<span class="skill-tag">表格</span>
-						<span class="skill-tag">文档</span>
-						<span class="skill-tag">演示</span>
-						<span class="skill-tag">函数</span>
-						<span class="skill-tag">视频剪辑</span>
-						<span class="skill-tag">修图</span>
-						<span class="skill-tag">设计</span>
-						<span class="skill-tag">制图</span>
-					</div>
-					<h3 class="sub-title">表达与协作</h3>
-					<div class="tag-cloud">
-						<span class="skill-tag">编程</span>
-						<span class="skill-tag">教学</span>
-						<span class="skill-tag">翻译</span>
-						<span class="skill-tag">演讲</span>
-						<span class="skill-tag">客户服务</span>
-					</div>
-				</section>
 			</aside>
 		</div>
 	</article>
@@ -1064,11 +1063,10 @@ const categories = [
 		position: static;
 	}
 
-	/* 宽栏顺序：自我介绍 → 我的技能 → 财务 → 物品 */
+	/* 宽栏顺序：自我介绍 → 财务 → 物品 */
 	.card.intro { order: 1; }
-	.card.side-skills { order: 2; }
-	.card.finance { order: 3; }
-	.card.belongings { order: 4; }
+	.card.finance { order: 2; }
+	.card.belongings { order: 3; }
 
 	@media (max-width: 900px) {
 		.cols {
@@ -1083,10 +1081,9 @@ const categories = [
 
 		#intro { order: 1; }
 		.card.side-map { order: 2; }
-		.card.side-skills { order: 3; }
-		#finance { order: 4; }
-		#belongings { order: 5; }
-		#timeline { order: 6; }
+		#finance { order: 3; }
+		#belongings { order: 4; }
+		#timeline { order: 5; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
@@ -1107,6 +1104,15 @@ const categories = [
 		background: #d1d5db;
 		border-radius: 4px;
 		display: inline-block;
+	}
+
+	/* 技能分组标题：四级标题，细线分隔 */
+	.skill-group {
+		font-size: 14px;
+		font-weight: 600;
+		margin: 16px 0 8px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #d1d5db;
 	}
 
 	.tag-cloud {
