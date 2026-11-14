@@ -327,14 +327,14 @@ const incomeRows = [
 	{ label: '兼职收入', value: 0 },
 ];
 const depositRows = [
-	{ label: '江西银行', value: 710, tone: 'bank' },
-	{ label: '建设银行', value: 0, tone: 'bank' },
-	{ label: '工商银行', value: 0, tone: 'bank' },
-	{ label: '招商银行', value: 0, tone: 'bank' },
-	{ label: '农商银行', value: 0, tone: 'bank' },
-	{ label: '支付宝', value: 0, tone: 'alipay' },
-	{ label: '微信', value: 260, tone: 'wechat' },
-	{ label: '定期', value: 6000, tone: 'fixed' },
+	{ label: '江西银行', value: 710, tone: 'tone-bank' },
+	{ label: '建设银行', value: 0, tone: 'tone-bank' },
+	{ label: '工商银行', value: 0, tone: 'tone-bank' },
+	{ label: '招商银行', value: 0, tone: 'tone-bank' },
+	{ label: '农商银行', value: 0, tone: 'tone-bank' },
+	{ label: '支付宝', value: 0, tone: 'tone-alipay' },
+	{ label: '微信', value: 260, tone: 'tone-wechat' },
+	{ label: '定期', value: 6000, tone: 'tone-fixed' },
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
@@ -461,11 +461,13 @@ const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 const categories = [
 	{
 		name: '随身物品',
+		tone: 'tone-sky',
 		icon: '口袋',
 		items: ['头部（000）', '面部（000）', '颈部（000）', '手部（000）', '上身（000）', '下身（000）', '腿部（000）'],
 	},
 	{
 		name: '楼内存放',
+		tone: 'tone-violet',
 		icon: '归整',
 		zones: [
 			{ name: '白箱 1（49）', items: ['短袖上衣（000）'] },
@@ -488,6 +490,7 @@ const categories = [
 	},
 	{
 		name: '楼内使用',
+		tone: 'tone-teal',
 		icon: '居所',
 		zones: [
 			{
@@ -532,6 +535,7 @@ const categories = [
 	},
 	{
 		name: '楼外物品',
+		tone: 'tone-amber',
 		icon: '路途',
 		items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
 	},
@@ -660,7 +664,7 @@ const splitItem = (raw) => {
 
 						<div class="categories">
 						{categories.map((cat) => (
-							<details class="category-details">
+							<details class={`category-details ${cat.tone}`}>
 								<summary class="cat-title">{cat.name}<span class="cat-count">
 									{cat.zones
 										? cat.zones.reduce((s, z) => s + z.items.length, 0)
@@ -1308,8 +1312,8 @@ const splitItem = (raw) => {
 		align-items: baseline;
 		gap: 10px;
 		padding: 8px 10px;
-		background: #fafafa;
-		border: 1px solid #e5e7eb;
+		background: var(--tone-bg, #fafafa);
+		border: 1px solid var(--tone-bd, #e5e7eb);
 		border-radius: 6px;
 		font-size: 14px;
 		line-height: 1.6;
@@ -1319,26 +1323,20 @@ const splitItem = (raw) => {
 		color: #555555;
 	}
 
-	/* 按分类着色：银行 / 支付宝 / 微信 / 定期 */
-	.item-list li.bank {
-		background: #eef3fb;
-		border-color: #d8e2f2;
-	}
+	/* 分类色板：按分类着色，底色统一加深一档 */
+	.tone-bank { --tone-bg: #c7dcf4; --tone-bd: #9ac0e6; }
+	.tone-alipay { --tone-bg: #c2e0f8; --tone-bd: #8cc4e9; }
+	.tone-wechat { --tone-bg: #c3e8cb; --tone-bd: #92cba1; }
+	.tone-fixed { --tone-bg: #f7dba4; --tone-bd: #e2bb70; }
 
-	.item-list li.alipay {
-		background: #eaf3fd;
-		border-color: #d2e3f7;
-	}
+	.tone-sky { --tone-bg: #c1e2f8; --tone-bd: #8cc7e9; --tone-hd: #a9d8f3; }
+	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
+	.tone-teal { --tone-bg: #bbe6db; --tone-bd: #84cdbe; --tone-hd: #a3dcd0; }
+	.tone-amber { --tone-bg: #f7d2a9; --tone-bd: #e5ae76; --tone-hd: #f0c393; }
 
-	.item-list li.wechat {
-		background: #ecf8ee;
-		border-color: #d5ebd9;
-	}
-
-	.item-list li.fixed {
-		background: #fdf7ea;
-		border-color: #efe2c8;
-	}
+	.tone-spend { --tone-bg: #f8cfb8; --tone-bd: #e8a986; }
+	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
+	.tone-debt { --tone-bg: #f3c8ca; --tone-bd: #dd8e93; }
 
 	/* 跨整行的二级明细（如出行下的车辆花费） */
 	.item-list li.sub {
@@ -1386,8 +1384,8 @@ const splitItem = (raw) => {
 	.zone {
 		min-width: 0;
 		overflow: hidden;
-		background: #fafafa;
-		border: 1px solid #e5e7eb;
+		background: var(--tone-bg, #fafafa);
+		border: 1px solid var(--tone-bd, #e5e7eb);
 		border-radius: 6px;
 	}
 
@@ -1412,8 +1410,8 @@ const splitItem = (raw) => {
 		color: #333333;
 		margin: 0;
 		padding: 6px 10px;
-		background: #dfe3e8;
-		border-bottom: 1px solid #e5e7eb;
+		background: var(--tone-hd, #dfe3e8);
+		border-bottom: 1px solid var(--tone-bd, #e5e7eb);
 	}
 
 	.zone-count {
