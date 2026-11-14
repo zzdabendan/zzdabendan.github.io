@@ -1198,10 +1198,10 @@ const splitItem = (raw) => {
 		color: #6b7280;
 	}
 
-	/* 明细区域的四个分组：宽栏内 2×2 网格平铺 */
+	/* 明细区域的分组：每个分组独占一行 */
 	.detail-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1fr;
 		gap: 16px;
 		margin-bottom: 32px;
 	}
@@ -1272,11 +1272,11 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 物品 ===== */
-	/* 物品分类：响应式多栏网格 */
+	/* 物品分类：每个分类独占一行 */
 	.categories {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-		gap: 24px;
+		grid-template-columns: 1fr;
+		gap: 16px;
 	}
 
 	.category {
