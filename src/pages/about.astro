@@ -657,13 +657,13 @@ const splitItem = (raw) => {
 
 						<details class="detail-group tone-deposit">
 							<summary>现存存款（{totalDeposit}）</summary>
-							<ul>
+							<ul class="item-list">
 								{depositRows.map((r) => (
 									<>
 										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 										{r.sub && (
-											<li class="sub">
-												<ul>
+											<li class="wide">
+												<ul class="sub-list">
 													{r.sub.map((s) => (
 														<li><span>{s.label}</span><span class="num">{s.value}</span></li>
 													))}
@@ -1308,41 +1308,93 @@ const splitItem = (raw) => {
 		color: #6b7280;
 	}
 
+	/* 统一网格：五个分类下的条目都用同一套网格与卡片 */
 	.item-list {
 		list-style: none;
 		padding: 0;
 		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 8px;
 	}
 
-	/* 物品条目：与存款行完全同一套排版（名称靠左、数值靠右、发丝线分隔） */
 	.item-list li {
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		gap: 12px;
-		padding: 8px 0;
-		border-bottom: 1px solid #f3f4f6;
-		font-size: 15px;
-		line-height: 1.9;
-	}
-
-	.item-list li:last-child {
-		border-bottom: none;
+		gap: 10px;
+		padding: 8px 10px;
+		background: #fafafa;
+		border: 1px solid #e5e7eb;
+		border-radius: 6px;
+		font-size: 14px;
+		line-height: 1.6;
 	}
 
 	.item-list li span:first-child {
 		color: #555555;
 	}
 
-	/* 区域列表：多栏网格平铺，避免 16 个箱子产生超长滚动 */
+	/* 跨整行的二级明细（如银行卡下的各银行） */
+	.item-list li.wide {
+		grid-column: 1 / -1;
+		display: block;
+		padding: 0;
+		background: none;
+		border: none;
+	}
+
+	.sub-list {
+		list-style: none;
+		padding: 0 0 0 10px;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+		gap: 4px 12px;
+		border-left: 1px solid #e5e7eb;
+	}
+
+	.sub-list li {
+		display: flex;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 0;
+		background: none;
+		border: none;
+		font-size: 13px;
+		line-height: 1.6;
+	}
+
+	.sub-list li span:first-child {
+		color: #6b7280;
+	}
+
+	/* 区域列表：与条目同一套网格与卡片 */
 	.zone-list {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-		gap: 12px;
+		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		gap: 8px;
 	}
 
 	.zone {
 		min-width: 0;
+		padding: 8px 10px;
+		background: #fafafa;
+		border: 1px solid #e5e7eb;
+		border-radius: 6px;
+	}
+
+	/* 卡片内部的条目退化为普通行，避免嵌套卡片 */
+	.zone .item-list {
+		display: block;
+	}
+
+	.zone .item-list li {
+		padding: 2px 0;
+		background: none;
+		border: none;
+		border-radius: 0;
+		font-size: 13px;
 	}
 
 	/* 区域标题：六级标题，13px 弱化，无分隔线 */
