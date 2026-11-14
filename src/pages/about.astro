@@ -1182,32 +1182,6 @@ const splitItem = (raw) => {
 		margin-bottom: 32px;
 	}
 
-	/* 流水分组：与物品区域同一套「深色表头 + 浅色内容」卡片 */
-	.detail-grid .detail-group {
-		overflow: hidden;
-		background: #fafafa;
-		border: 1px solid #e5e7eb;
-		border-radius: 6px;
-	}
-
-	.detail-grid .detail-group summary {
-		margin: 0;
-		padding: 6px 10px;
-		background: #dfe3e8;
-		border-bottom: 1px solid #e5e7eb;
-	}
-
-	.detail-grid .detail-group ul {
-		padding: 8px 10px;
-	}
-
-	.detail-grid .detail-group li {
-		padding: 4px 0;
-		border-bottom: none;
-		font-size: 13px;
-		line-height: 1.6;
-	}
-
 	.detail-group ul {
 		list-style: none;
 		padding: 8px 0 0;
@@ -1290,17 +1264,15 @@ const splitItem = (raw) => {
 		min-width: 0; /* 防止内容撑破网格 */
 	}
 
-	/* 分类标题：与流水的深色表头保持一致 */
+	/* 分类标题：与流水的分组标题同为四级标题（14px + 细线） */
 	.cat-title,
 	.asset-stock .detail-group summary {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-		margin: 0 0 8px;
-		padding: 6px 10px;
-		background: #dfe3e8;
-		border: 1px solid #e5e7eb;
-		border-radius: 4px;
+		margin: 0;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
 		display: block;
 	}
 
