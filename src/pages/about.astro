@@ -957,13 +957,14 @@ const categories = [
 	.asset-stock { order: 1; }
 	.asset-flow { order: 2; }
 
-	/* 存量 / 流水的二级分组标题（钱、物、收入…） */
+	/* 四级标题：钱 / 物，与年份、区域同为 14px 细线 */
 	.group-title {
 		font-size: 14px;
 		font-weight: 600;
+		color: #333333;
 		margin: 18px 0 10px;
 		padding-bottom: 4px;
-		border-bottom: 1px solid #d1d5db;
+		border-bottom: 1px solid #9ca3af;
 	}
 
 	.group-title:first-of-type {
@@ -1182,15 +1183,15 @@ const categories = [
 		display: inline-block;
 	}
 
-	/* 财务数据分组标题：h3 灰色圆角块（花费/收入/存款/欠款） */
+	/* 财务分组：四级标题，与「钱 / 物」同为 14px 细线 */
 	.detail-group summary {
-		font-size: 15px;
+		font-size: 14px;
 		font-weight: 600;
-		margin: 0 0 12px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		display: inline-block;
+		color: #333333;
+		margin: 0 0 8px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
+		display: block;
 		cursor: pointer;
 	}
 
@@ -1273,14 +1274,14 @@ const categories = [
 		min-width: 0; /* 防止内容撑破网格 */
 	}
 
-	/* 分类标题：三级标题，浅灰圆角背景 */
+	/* 分类标题：五级标题，左侧短竖线，无底色 */
 	.cat-title {
-		font-size: 15px;
+		font-size: 14px;
 		font-weight: 600;
-		margin: 0 0 12px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
+		color: #333333;
+		margin: 0 0 10px;
+		padding: 0 0 0 8px;
+		border-left: 2px solid #d1d5db;
 		display: inline-block;
 	}
 
@@ -1327,13 +1328,12 @@ const categories = [
 		min-width: 0;
 	}
 
-	/* 区域标题：四级标题，下方一条细灰线 */
+	/* 区域标题：六级标题，13px 弱化，无分隔线 */
 	.zone-title {
-		font-size: 14px;
+		font-size: 13px;
 		font-weight: 600;
-		margin: 0 0 8px;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #9ca3af;
+		color: #555555;
+		margin: 0 0 6px;
 	}
 
 	.zone-count {
@@ -1383,7 +1383,7 @@ const categories = [
 	.year-title {
 		font-size: 14px;
 		font-weight: 600;
-		color: var(--text);
+		color: #333333;
 		margin: 0 0 8px;
 		padding-bottom: 4px;
 		border-bottom: 1px solid #9ca3af;
