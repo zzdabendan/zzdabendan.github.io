@@ -1187,7 +1187,7 @@ const splitItem = (raw) => {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-		margin: 0 0 8px;
+		margin: 0;
 		padding-bottom: 4px;
 		border-bottom: 1px solid #9ca3af;
 		display: block;
@@ -1208,7 +1208,7 @@ const splitItem = (raw) => {
 
 	.detail-group ul {
 		list-style: none;
-		padding: 0;
+		padding: 8px 0 0;
 		margin: 0;
 	}
 
@@ -1272,11 +1272,16 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 物品 ===== */
-	/* 物品分类：每个分类独占一行 */
+	/* 物品分类：每个分类独占一行，行距与存款一致 */
 	.categories {
-		display: grid;
-		grid-template-columns: 1fr;
+		display: flex;
+		flex-direction: column;
 		gap: 16px;
+	}
+
+	/* 存款与后续分类之间的行距 */
+	.asset-stock > .detail-group {
+		margin-bottom: 16px;
 	}
 
 	.category {
@@ -1288,7 +1293,7 @@ const splitItem = (raw) => {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-		margin: 0 0 8px;
+		margin: 0;
 		padding-bottom: 4px;
 		border-bottom: 1px solid #9ca3af;
 		display: block;
