@@ -466,12 +466,12 @@ const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 // 物品分类（装备→随身、出行→出行、仓库→收纳、家具→区域）
 const categories = [
 	{
-		name: '随身',
+		name: '随身物品',
 		icon: '口袋',
 		items: ['头部（000）', '面部（000）', '颈部（000）', '手部（000）', '上身（000）', '下身（000）', '腿部（000）'],
 	},
 	{
-		name: '楼内 · 存放',
+		name: '楼内存放',
 		icon: '归整',
 		zones: [
 			{ name: '白箱 1（49）', items: ['短袖上衣（000）'] },
@@ -493,7 +493,7 @@ const categories = [
 		],
 	},
 	{
-		name: '楼内 · 使用',
+		name: '楼内使用',
 		icon: '居所',
 		zones: [
 			{
@@ -537,7 +537,7 @@ const categories = [
 		],
 	},
 	{
-		name: '楼外',
+		name: '楼外物品',
 		icon: '路途',
 		items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
 	},
@@ -656,7 +656,7 @@ const splitItem = (raw) => {
 						<h3 class="sub-title">存量</h3>
 
 						<details class="detail-group tone-deposit">
-							<summary>存款（{totalDeposit}）</summary>
+							<summary>现存存款（{totalDeposit}）</summary>
 							<ul>
 								{depositRows.map((r) => (
 									<>
