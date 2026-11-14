@@ -647,7 +647,6 @@ const categories = [
 					<div class="asset-block asset-stock">
 						<h3 class="sub-title">存量</h3>
 
-						<h4 class="group-title">钱 · 按账户</h4>
 						<details class="detail-group tone-deposit">
 							<summary>存款（{totalDeposit}）</summary>
 							<ul>
@@ -668,7 +667,6 @@ const categories = [
 							</ul>
 						</details>
 
-						<h4 class="group-title">物 · 按空间</h4>
 						<div class="categories">
 						{categories.map((cat) => (
 							<details class="category-details">
@@ -956,20 +954,6 @@ const categories = [
 
 	.asset-stock { order: 1; }
 	.asset-flow { order: 2; }
-
-	/* 四级标题：钱 / 物，与年份、区域同为 14px 细线 */
-	.group-title {
-		font-size: 14px;
-		font-weight: 600;
-		color: #333333;
-		margin: 18px 0 10px;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #9ca3af;
-	}
-
-	.group-title:first-of-type {
-		margin-top: 4px;
-	}
 
 	.assets-note {
 		font-size: 14px;
@@ -1274,15 +1258,15 @@ const categories = [
 		min-width: 0; /* 防止内容撑破网格 */
 	}
 
-	/* 分类标题：五级标题，左侧短竖线，无底色 */
+	/* 分类标题：存量下的第一级条目，与存款同为 14px 细线 */
 	.cat-title {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
 		margin: 0 0 10px;
-		padding: 0 0 0 8px;
-		border-left: 2px solid #d1d5db;
-		display: inline-block;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
+		display: block;
 	}
 
 	.cat-count {
