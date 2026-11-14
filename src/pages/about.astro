@@ -1290,14 +1290,17 @@ const splitItem = (raw) => {
 		min-width: 0; /* 防止内容撑破网格 */
 	}
 
-	/* 分类标题：存量下的第一级条目，与存款完全同一套样式 */
-	.cat-title {
+	/* 分类标题：与流水的深色表头保持一致 */
+	.cat-title,
+	.asset-stock .detail-group summary {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-		margin: 0;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #9ca3af;
+		margin: 0 0 8px;
+		padding: 6px 10px;
+		background: #dfe3e8;
+		border: 1px solid #e5e7eb;
+		border-radius: 4px;
 		display: block;
 	}
 
