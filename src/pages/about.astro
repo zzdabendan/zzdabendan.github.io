@@ -55,8 +55,7 @@ const socialLinks = [
 	},
 ];
 
-// 联系方式与技能标签按调色板轮换配色
-const tagTones = ['tone-sky', 'tone-violet', 'tone-teal', 'tone-amber', 'tone-bank', 'tone-wechat', 'tone-alipay', 'tone-fixed'];
+// 联系方式与技能标签
 const contactList = [...contacts, ...socialLinks].flatMap((c) =>
 	c.items.map((item) => ({ label: c.label, item }))
 );
@@ -630,8 +629,8 @@ const splitItem = (raw) => {
 
 					<h3 class="sub-title">联系方式</h3>
 					<div class="contact-icons">
-						{contactList.map(({ label, item }, i) => (
-							<span class={`contact-icon ${tagTones[i % tagTones.length]}`}>
+						{contactList.map(({ label, item }) => (
+							<span class="contact-icon">
 								{item.url ? (
 									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
 								) : (
@@ -649,8 +648,8 @@ const splitItem = (raw) => {
 
 					<h3 class="sub-title">我的技能</h3>
 					<div class="tag-cloud">
-						{skillTags.map((tag, i) => (
-							<span class={`skill-tag ${tagTones[i % tagTones.length]}`}>{tag}</span>
+						{skillTags.map((tag) => (
+							<span class="skill-tag">{tag}</span>
 						))}
 					</div>
 				</section>
@@ -1025,10 +1024,10 @@ const splitItem = (raw) => {
 		justify-content: center;
 		height: 32px;
 		padding: 0 12px;
-		border: 1px solid var(--tone-bd, #d1d5db);
+		border: 1px solid #333333;
 		border-radius: 6px;
-		background: var(--tone-bg, #ffffff);
-		color: #333333;
+		background: #333333;
+		color: #ffffff;
 		font-size: 14px;
 		line-height: 1;
 		white-space: nowrap;
@@ -1071,26 +1070,28 @@ const splitItem = (raw) => {
 		min-width: 44px;
 		height: 32px;
 		padding: 0 12px;
-		border: 1px solid var(--tone-bd, #d1d5db);
+		border: 1px solid #333333;
 		border-radius: 6px;
-		background: var(--tone-bg, #ffffff);
-		color: #333333;
+		background: #333333;
+		color: #ffffff;
 		font-size: 14px;
 		line-height: 1;
 		text-decoration: none;
 		cursor: pointer;
-		transition: filter 0.15s, color 0.15s;
+		transition: background 0.15s, color 0.15s;
 	}
 
 	.contact-icon > a:hover,
 	.contact-icon > button:hover {
-		filter: brightness(0.94);
-		color: #111111;
+		background: #555555;
+		border-color: #555555;
+		color: #ffffff;
 	}
 
 	.contact-icon > button.copied {
-		background: #333333;
-		color: #ffffff;
+		background: #ffffff;
+		border-color: #333333;
+		color: #333333;
 	}
 
 	/* 悬停弹出层 */
