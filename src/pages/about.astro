@@ -1007,7 +1007,9 @@ const splitItem = (raw) => {
 		padding: 2px 8px;
 		background: #d1d5db;
 		border-radius: 4px;
-		display: inline-block;
+		/* 用 block + fit-content 代替 inline-block，避免行盒带来的额外间距 */
+		display: block;
+		width: fit-content;
 	}
 
 	.tag-cloud {
@@ -1207,8 +1209,9 @@ const splitItem = (raw) => {
 
 	.detail-group ul {
 		list-style: none;
-		padding: 8px 0 0;
-		margin: 0;
+		padding: 0;
+		/* 与分类列表一致：标题与内容之间 8px */
+		margin: 8px 0 0;
 	}
 
 	.detail-group li {
@@ -1285,7 +1288,8 @@ const splitItem = (raw) => {
 	.item-list {
 		list-style: none;
 		padding: 0;
-		margin: 0;
+		/* 标题与内容之间统一 8px */
+		margin: 8px 0 0;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 		gap: 8px;
@@ -1356,6 +1360,7 @@ const splitItem = (raw) => {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
 		gap: 8px;
+		margin-top: 8px;
 	}
 
 	.zone {
@@ -1370,6 +1375,7 @@ const splitItem = (raw) => {
 	.zone .item-list {
 		display: block;
 		padding: 8px 10px;
+		margin: 0;
 	}
 
 	.zone .item-list li {
