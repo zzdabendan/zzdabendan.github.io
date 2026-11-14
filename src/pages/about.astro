@@ -1278,8 +1278,19 @@ const categories = [
 		display: inline-block;
 	}
 
-	/* 财务下所有可折叠标题统一为四级细线样式：数据分组 + 场景问答同级 */
-	.detail-group summary,
+	/* 财务数据分组标题：h3 灰色圆角块（固定花费/收入/存款/欠款） */
+	.detail-group summary {
+		font-size: 15px;
+		font-weight: 600;
+		margin: 0 0 12px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	/* 场景问答标题：h4 细线样式 */
 	.scene-details > summary.scene-q {
 		font-size: 14px;
 		font-weight: 600;
