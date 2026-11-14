@@ -58,9 +58,9 @@ const isActive = (href: string) =>
 		z-index: 100;
 	}
 
-	/* 两行布局：第一行品牌 + 提问框，第二行导航链接居中 */
+	/* 两行布局：第一行品牌居左、导航链接居右，第二行提问框居右 */
 	.nav-inner {
-		max-width: 1100px;
+		max-width: 1320px;
 		margin: 0 auto;
 		padding: 12px 20px 8px;
 		display: flex;
@@ -176,14 +176,15 @@ const isActive = (href: string) =>
 
 	nav {
 		display: flex;
-		gap: 20px;
+		gap: 16px;
 		justify-content: flex-end;
 		padding-bottom: 2px;
+		white-space: nowrap;
 	}
 
 	.nav-link {
 		color: var(--text);
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: 700;
 		padding: 4px 2px;
 		border-bottom: 2px solid transparent;
