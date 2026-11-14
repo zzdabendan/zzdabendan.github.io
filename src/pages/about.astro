@@ -694,6 +694,49 @@ const categories = [
 					</div>
 				</section>
 
+				<!-- 物品清单：按分类多栏平铺 -->
+				<section class="card belongings" id="belongings">
+					<h2>物品</h2>
+					<div class="categories">
+						{categories.map((cat) => (
+							<details class="category-details">
+								<summary class="cat-title">{cat.name}<span class="cat-count">
+									{cat.zones
+										? cat.zones.reduce((s, z) => s + z.items.length, 0)
+										: cat.items.length}
+								</span></summary>
+								<div class="category">
+
+								{cat.zones ? (
+									<div class="zone-list">
+										{cat.zones.map((zone) => (
+											<div class="zone">
+												<h4 class="zone-title">{zone.name}<span class="zone-count">{zone.items.length}</span></h4>
+												{zone.items.length > 0 ? (
+													<ul class="item-list">
+														{zone.items.map((item) => (
+															<li>{item}</li>
+														))}
+													</ul>
+												) : (
+													<p class="zone-empty">待补充</p>
+												)}
+											</div>
+										))}
+									</div>
+								) : (
+									<ul class="item-list">
+										{cat.items.map((item) => (
+											<li>{item}</li>
+										))}
+									</ul>
+								)}
+								</div>
+							</details>
+						))}
+					</div>
+				</section>
+
 				<!-- 财务：明细 + 场景问答 -->
 				<section class="card finance" id="finance">
 					<h2>财务</h2>
@@ -837,49 +880,6 @@ const categories = [
 						</ul>
 					</section>
 					</details>
-				</section>
-
-				<!-- 物品清单：按分类多栏平铺 -->
-				<section class="card belongings" id="belongings">
-					<h2>物品</h2>
-					<div class="categories">
-						{categories.map((cat) => (
-							<details class="category-details">
-								<summary class="cat-title">{cat.name}<span class="cat-count">
-									{cat.zones
-										? cat.zones.reduce((s, z) => s + z.items.length, 0)
-										: cat.items.length}
-								</span></summary>
-								<div class="category">
-
-								{cat.zones ? (
-									<div class="zone-list">
-										{cat.zones.map((zone) => (
-											<div class="zone">
-												<h4 class="zone-title">{zone.name}<span class="zone-count">{zone.items.length}</span></h4>
-												{zone.items.length > 0 ? (
-													<ul class="item-list">
-														{zone.items.map((item) => (
-															<li>{item}</li>
-														))}
-													</ul>
-												) : (
-													<p class="zone-empty">待补充</p>
-												)}
-											</div>
-										))}
-									</div>
-								) : (
-									<ul class="item-list">
-										{cat.items.map((item) => (
-											<li>{item}</li>
-										))}
-									</ul>
-								)}
-								</div>
-							</details>
-						))}
-					</div>
 				</section>
 
 			</aside>
@@ -1062,10 +1062,10 @@ const categories = [
 		position: static;
 	}
 
-	/* 宽栏顺序：自我介绍 → 财务 → 物品 */
+	/* 宽栏顺序：自我介绍 → 物品 → 财务 */
 	.card.intro { order: 1; }
-	.card.finance { order: 2; }
-	.card.belongings { order: 3; }
+	.card.belongings { order: 2; }
+	.card.finance { order: 3; }
 
 	@media (max-width: 900px) {
 		.cols {
@@ -1080,8 +1080,8 @@ const categories = [
 
 		#intro { order: 1; }
 		.card.side-map { order: 2; }
-		#finance { order: 3; }
-		#belongings { order: 4; }
+		#belongings { order: 3; }
+		#finance { order: 4; }
 		#timeline { order: 5; }
 	}
 
