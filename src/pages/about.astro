@@ -1327,7 +1327,7 @@ const splitItem = (raw) => {
 
 	.zone {
 		min-width: 0;
-		padding: 8px 10px;
+		overflow: hidden;
 		background: #fafafa;
 		border: 1px solid #e5e7eb;
 		border-radius: 6px;
@@ -1336,6 +1336,7 @@ const splitItem = (raw) => {
 	/* 卡片内部的条目退化为普通行，避免嵌套卡片 */
 	.zone .item-list {
 		display: block;
+		padding: 8px 10px;
 	}
 
 	.zone .item-list li {
@@ -1346,12 +1347,15 @@ const splitItem = (raw) => {
 		font-size: 13px;
 	}
 
-	/* 区域标题：六级标题，13px 弱化，无分隔线 */
+	/* 区域标题：表头样式，深色底区分内容 */
 	.zone-title {
 		font-size: 13px;
 		font-weight: 600;
-		color: #555555;
-		margin: 0 0 6px;
+		color: #333333;
+		margin: 0;
+		padding: 6px 10px;
+		background: #dfe3e8;
+		border-bottom: 1px solid #e5e7eb;
 	}
 
 	.zone-count {
@@ -1363,9 +1367,9 @@ const splitItem = (raw) => {
 
 	.zone-empty {
 		margin: 0;
-		font-size: 14px;
+		font-size: 13px;
 		color: var(--muted);
-		padding-left: 8px;
+		padding: 8px 10px;
 	}
 
 	/* ===== 我的经历 ===== */
