@@ -542,6 +542,15 @@ const categories = [
 		items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
 	},
 ];
+
+// 物品条目形如「名称（数值）」，拆成名称与数值两段，与存款行统一为左右两栏
+const splitItem = (raw) => {
+	const end = raw.lastIndexOf('（');
+	if (end > 0 && raw.endsWith('）')) {
+		return { name: raw.slice(0, end), value: raw.slice(end + 1, -1) };
+	}
+	return { name: raw, value: '' };
+};
 ---
 
 <BaseLayout title="关于 - 邹兆廷" description="自我介绍、财务状况、物品清单与我的经历">
@@ -684,9 +693,12 @@ const categories = [
 												<h4 class="zone-title">{zone.name}<span class="zone-count">{zone.items.length}</span></h4>
 												{zone.items.length > 0 ? (
 													<ul class="item-list">
-														{zone.items.map((item) => (
-															<li>{item}</li>
-														))}
+														{zone.items.map((item) => {
+															const { name, value } = splitItem(item);
+															return (
+																<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+															);
+														})}
 													</ul>
 												) : (
 													<p class="zone-empty">待补充</p>
@@ -696,9 +708,12 @@ const categories = [
 									</div>
 								) : (
 									<ul class="item-list">
-										{cat.items.map((item) => (
-											<li>{item}</li>
-										))}
+										{cat.items.map((item) => {
+											const { name, value } = splitItem(item);
+											return (
+												<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+											);
+										})}
 									</ul>
 								)}
 								</div>
@@ -1183,11 +1198,6 @@ const categories = [
 		color: #6b7280;
 	}
 
-	/* 存量下的条目标题：13px */
-	.asset-stock .detail-group summary {
-		font-size: 13px;
-	}
-
 	/* 明细区域的四个分组：宽栏内 2×2 网格平铺 */
 	.detail-grid {
 		display: grid;
@@ -1205,8 +1215,16 @@ const categories = [
 	.detail-group li {
 		display: flex;
 		justify-content: space-between;
+		align-items: baseline;
+		gap: 12px;
 		font-size: 15px;
-		line-height: 2;
+		line-height: 1.9;
+		padding: 8px 0;
+		border-bottom: 1px solid #f3f4f6;
+	}
+
+	.detail-group li:last-child {
+		border-bottom: none;
 	}
 
 	.detail-group li span:first-child {
@@ -1216,12 +1234,14 @@ const categories = [
 	.detail-group .num {
 		font-weight: 600;
 		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
 	}
 
 	/* 二级子项：出行下的车辆相关花费 */
 	.detail-group li.sub {
 		display: block;
 		padding-left: 14px;
+		border-bottom: none;
 	}
 
 	.detail-group li.sub ul {
@@ -1263,12 +1283,12 @@ const categories = [
 		min-width: 0; /* 防止内容撑破网格 */
 	}
 
-	/* 分类标题：存量下的第一级条目，与存款同为 13px 细线 */
+	/* 分类标题：存量下的第一级条目，与存款完全同一套样式 */
 	.cat-title {
-		font-size: 13px;
+		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-		margin: 0 0 10px;
+		margin: 0 0 8px;
 		padding-bottom: 4px;
 		border-bottom: 1px solid #9ca3af;
 		display: block;
@@ -1296,14 +1316,24 @@ const categories = [
 		margin: 0;
 	}
 
+	/* 物品条目：与存款行完全同一套排版（名称靠左、数值靠右、发丝线分隔） */
 	.item-list li {
-		padding: 10px 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 12px;
+		padding: 8px 0;
 		border-bottom: 1px solid #f3f4f6;
 		font-size: 15px;
+		line-height: 1.9;
 	}
 
 	.item-list li:last-child {
 		border-bottom: none;
+	}
+
+	.item-list li span:first-child {
+		color: #555555;
 	}
 
 	/* 区域列表：多栏网格平铺，避免 16 个箱子产生超长滚动 */
