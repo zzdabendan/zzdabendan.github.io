@@ -55,6 +55,25 @@ const socialLinks = [
 	},
 ];
 
+// 联系方式与技能标签按调色板轮换配色
+const tagTones = ['tone-sky', 'tone-violet', 'tone-teal', 'tone-amber', 'tone-bank', 'tone-wechat', 'tone-alipay', 'tone-fixed'];
+const contactList = [...contacts, ...socialLinks].flatMap((c) =>
+	c.items.map((item) => ({ label: c.label, item }))
+);
+const skillTags = [
+	'组网与无线',
+	'Linux / Windows',
+	'综合布线',
+	'设备维护',
+	'表格文档',
+	'演示制作',
+	'视频剪辑',
+	'修图设计',
+	'编程',
+	'教学',
+	'客户服务',
+];
+
 // 活动地图：常去地点，坐标为大致位置，按实际调整
 const mapPoints = [
 	{ name: '八一广场', lat: 28.6825, lng: 115.8917, desc: '市中心，常经停' },
@@ -611,40 +630,28 @@ const splitItem = (raw) => {
 
 					<h3 class="sub-title">联系方式</h3>
 					<div class="contact-icons">
-						{[...contacts, ...socialLinks].flatMap((c) =>
-							c.items.map((item) => {
-								return (
-									<span class="contact-icon">
-										{item.url ? (
-											<a href={item.url} target="_blank" rel="noopener" title={c.label}>{c.label}</a>
-										) : (
-											<button type="button" title={c.label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{c.label}</button>
-										)}
-										<span class="contact-popover">
-											<span class="contact-popover-label">{c.label}</span>
-											<span class="contact-popover-value">{item.value}</span>
-											{item.note && <span class="contact-popover-note">{item.note}</span>}
-											<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
-										</span>
-									</span>
-								);
-							})
-						)}
+						{contactList.map(({ label, item }, i) => (
+							<span class={`contact-icon ${tagTones[i % tagTones.length]}`}>
+								{item.url ? (
+									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
+								) : (
+									<button type="button" title={label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{label}</button>
+								)}
+								<span class="contact-popover">
+									<span class="contact-popover-label">{label}</span>
+									<span class="contact-popover-value">{item.value}</span>
+									{item.note && <span class="contact-popover-note">{item.note}</span>}
+									<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
+								</span>
+							</span>
+						))}
 					</div>
 
 					<h3 class="sub-title">我的技能</h3>
 					<div class="tag-cloud">
-						<span class="skill-tag">组网与无线</span>
-						<span class="skill-tag">Linux / Windows</span>
-						<span class="skill-tag">综合布线</span>
-						<span class="skill-tag">设备维护</span>
-						<span class="skill-tag">表格文档</span>
-						<span class="skill-tag">演示制作</span>
-						<span class="skill-tag">视频剪辑</span>
-						<span class="skill-tag">修图设计</span>
-						<span class="skill-tag">编程</span>
-						<span class="skill-tag">教学</span>
-						<span class="skill-tag">客户服务</span>
+						{skillTags.map((tag, i) => (
+							<span class={`skill-tag ${tagTones[i % tagTones.length]}`}>{tag}</span>
+						))}
 					</div>
 				</section>
 
@@ -1018,9 +1025,9 @@ const splitItem = (raw) => {
 		justify-content: center;
 		height: 32px;
 		padding: 0 12px;
-		border: 1px solid #d1d5db;
+		border: 1px solid var(--tone-bd, #d1d5db);
 		border-radius: 6px;
-		background: #ffffff;
+		background: var(--tone-bg, #ffffff);
 		color: #333333;
 		font-size: 14px;
 		line-height: 1;
@@ -1064,20 +1071,20 @@ const splitItem = (raw) => {
 		min-width: 44px;
 		height: 32px;
 		padding: 0 12px;
-		border: 1px solid #d1d5db;
+		border: 1px solid var(--tone-bd, #d1d5db);
 		border-radius: 6px;
-		background: #ffffff;
+		background: var(--tone-bg, #ffffff);
 		color: #333333;
 		font-size: 14px;
 		line-height: 1;
 		text-decoration: none;
 		cursor: pointer;
-		transition: background 0.15s, color 0.15s;
+		transition: filter 0.15s, color 0.15s;
 	}
 
 	.contact-icon > a:hover,
 	.contact-icon > button:hover {
-		background: #f3f4f6;
+		filter: brightness(0.94);
 		color: #111111;
 	}
 
