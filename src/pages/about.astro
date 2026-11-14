@@ -451,6 +451,8 @@ const fixedCost = {
 	],
 };
 const fixedTotal = fixedCost.items.reduce((s, r) => s + (r.oneTime ? 0 : r.value), 0);
+const fixedSimple = fixedCost.items.filter((r) => !r.sub);
+const fixedGroups = fixedCost.items.filter((r) => r.sub);
 
 // 汇总：收入、存款、欠款（详情区展示用）
 const totalDebt = debtRows.reduce((s, r) => s + r.value, 0);
@@ -715,37 +717,36 @@ const splitItem = (raw) => {
 						<details class="detail-group tone-spend" open>
 							<summary>花费（月 · {fixedTotal}）</summary>
 							<ul class="item-list">
-								{fixedCost.items.map((r) =>
-									r.sub ? (
-										<li class="sub">
-											<div class="zone sub-card">
-												<h4 class="zone-title">
-													{r.label}
-													<span class="zone-count">{r.sub.length} 项</span>
-													<span class="zone-value">{r.value}</span>
-												</h4>
-												<ul class="item-list">
-													{r.sub.map((s) => (
-														<li>
-															<span>{s.label}<em class="unit">{s.unit}</em></span>
-															<span class="num">{s.value}</span>
-														</li>
-													))}
-												</ul>
-												{r.subNote && (
-													<div class="sub-notes">
-														{r.subNote.map((line) => (
-															<p class="sub-note">{line}</p>
-														))}
-													</div>
-												)}
-											</div>
-										</li>
-									) : (
-										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-									)
-								)}
+								{fixedSimple.map((r) => (
+									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+								))}
 							</ul>
+							<div class="sub-grid">
+								{fixedGroups.map((r) => (
+									<div class="zone sub-card">
+										<h4 class="zone-title">
+											{r.label}
+											<span class="zone-count">{r.sub.length} 项</span>
+											<span class="zone-value">{r.value}</span>
+										</h4>
+										<ul class="item-list">
+											{r.sub.map((s) => (
+												<li>
+													<span>{s.label}<em class="unit">{s.unit}</em></span>
+													<span class="num">{s.value}</span>
+												</li>
+											))}
+										</ul>
+										{r.subNote && (
+											<div class="sub-notes">
+												{r.subNote.map((line) => (
+													<p class="sub-note">{line}</p>
+												))}
+											</div>
+										)}
+									</div>
+								))}
+							</div>
 						</details>
 						<details class="detail-group tone-income" open>
 							<summary>收入（月）</summary>
@@ -1227,12 +1228,6 @@ const splitItem = (raw) => {
 		white-space: nowrap;
 	}
 
-	/* 二级子项：整块按区域卡片展示 */
-	.detail-group li.sub {
-		display: block;
-		border-bottom: none;
-	}
-
 	/* ===== 物品 ===== */
 	/* 物品分类：每个分类独占一行，行距与存款一致 */
 	.categories {
@@ -1320,19 +1315,13 @@ const splitItem = (raw) => {
 	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
 	.tone-debt { --tone-bg: #f3c8ca; --tone-bd: #dd8e93; }
 
-	/* 跨整行的二级明细（如出行下的车辆花费）：整块作为一张区域卡片 */
-	.item-list li.sub {
-		grid-column: 1 / -1;
-		display: block;
-		padding: 4px 0 0;
-		background: none;
-		border: none;
-		border-radius: 0;
-	}
-
-	/* 区域卡片不铺满整行，限制在便于阅读的宽度 */
-	.sub-card {
-		max-width: 720px;
+	/* 区域卡片并列排布，减少纵向高度 */
+	.sub-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 8px;
+		margin-top: 8px;
+		align-items: start;
 	}
 
 	.sub-card .unit {
