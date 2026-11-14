@@ -25,18 +25,8 @@ const isActive = (href: string) =>
 			<a href="/" class="brand" aria-label="回到首页">
 			<span class="brand-text">邹兆廷<span class="nav-birth">（2001-09-23<span class="nav-energy" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="nav-energy-fill" class="nav-energy-fill"></span></span><span id="nav-time" class="nav-time"></span>）</span></span>
 		</a>
-		<div class="nav-search">
-			<input
-				type="text"
-				id="deepseek-input"
-				class="search-input"
-				placeholder="是否存在一件事，让所有人都开心"
-			/>
-			<button class="search-btn" onclick="goDeepSeek()">提问</button>
-		</div>
-		<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
-	</div>
-	<nav>
+			<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
+			<nav>
 				{links.map((link) => (
 					<a
 						href={link.href}
@@ -46,6 +36,16 @@ const isActive = (href: string) =>
 					</a>
 				))}
 			</nav>
+		</div>
+		<div class="nav-search">
+			<input
+				type="text"
+				id="deepseek-input"
+				class="search-input"
+				placeholder="是否存在一件事，让所有人都开心"
+			/>
+			<button class="search-btn" onclick="goDeepSeek()">提问</button>
+		</div>
 	</div>
 </header>
 
@@ -76,14 +76,13 @@ const isActive = (href: string) =>
 		flex-wrap: wrap;
 	}
 
-	/* 提问框：第一行右侧 */
+	/* 提问框：第二行，靠右 */
 	.nav-search {
 		display: flex;
 		gap: 8px;
-		flex: 1;
-		max-width: 340px;
-		min-width: 200px;
-		margin-left: auto;
+		width: 340px;
+		max-width: 100%;
+		align-self: flex-end;
 	}
 
 	.search-input {
@@ -178,7 +177,7 @@ const isActive = (href: string) =>
 	nav {
 		display: flex;
 		gap: 20px;
-		justify-content: flex-start;
+		justify-content: flex-end;
 		padding-bottom: 2px;
 	}
 
@@ -199,12 +198,11 @@ const isActive = (href: string) =>
 		border-bottom-color: var(--text);
 	}
 
-	/* 窄屏：提问框单独占一行，排在品牌下方 */
+	/* 窄屏：提问框占满整行宽度 */
 	@media (max-width: 900px) {
 		.nav-search {
-			flex: 1 1 100%;
-			max-width: none;
-			min-width: 0;
+			width: 100%;
+			max-width: 100%;
 		}
 	}
 
@@ -238,7 +236,8 @@ const isActive = (href: string) =>
 		}
 
 		.nav-search {
-			order: 3;
+			width: 100%;
+			max-width: 100%;
 		}
 
 		nav {
