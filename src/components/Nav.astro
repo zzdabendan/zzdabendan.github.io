@@ -186,12 +186,15 @@ const isActive = (href: string) =>
 		color: var(--text);
 		font-size: 16px;
 		font-weight: 700;
-		padding: 4px 2px;
+		padding: 4px 10px;
+		border-radius: 6px;
 		border-bottom: 2px solid transparent;
+		transition: background 0.15s;
 	}
 
 	.nav-link:hover {
 		color: var(--text);
+		background: #f3f4f6;
 	}
 
 	/* 当前页对应的链接：高亮显示 */
