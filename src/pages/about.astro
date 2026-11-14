@@ -709,8 +709,9 @@ const categories = [
 					</div>
 
 					<!-- 场景1：财务血条 -->
-					<section class="scene">
-						<h3 class="scene-q">我的钱是什么关系？</h3>
+					<details class="scene-details">
+						<summary class="scene-q">我的钱是什么关系？</summary>
+						<section class="scene">
 
 						<!-- 血条积木：左=花费（灰底纯黑描边），右=月结余（深墨），轨道留内边距与空隙 -->
 						<div class="hp">
@@ -732,10 +733,12 @@ const categories = [
 							<li class="tone-debt">我有多少欠款？<b class={totalDebt === 0 ? 'zero' : ''}>{totalDebt}</b></li>
 						</ul>
 					</section>
+					</details>
 
 					<!-- 场景2：三餐方案 -->
-					<section class="scene">
-						<h3 class="scene-q">三餐怎么吃最省？</h3>
+					<details class="scene-details">
+						<summary class="scene-q">三餐怎么吃最省？</summary>
+						<section class="scene">
 						<ul class="spend-bars">
 							{mealPlans.map((p) => (
 								<li class:list={['spend-bar-row', { best: p.best }]}>
@@ -755,10 +758,12 @@ const categories = [
 							))}
 						</ul>
 					</section>
+					</details>
 
 					<!-- 场景3：出行方式对比 -->
-					<section class="scene">
-						<h3 class="scene-q">出行怎么最省？（元 / 公里）</h3>
+					<details class="scene-details">
+						<summary class="scene-q">出行怎么最省？（元 / 公里）</summary>
+						<section class="scene">
 						<ul class="spend-bars">
 							{travelPlans.map((p) => (
 								<li class:list={['spend-bar-row', { best: p.best }]}>
@@ -778,6 +783,7 @@ const categories = [
 							))}
 						</ul>
 					</section>
+					</details>
 				</section>
 
 				<!-- 物品清单：按分类多栏平铺 -->
@@ -1214,6 +1220,32 @@ const categories = [
 		display: inline-block;
 	}
 
+	/* 场景问答可折叠 */
+	.scene-details > summary.scene-q {
+		cursor: pointer;
+		margin-bottom: 12px;
+	}
+
+	.scene-details > summary.scene-q::marker {
+		color: #6b7280;
+	}
+
+	.scene-details[open] > summary.scene-q {
+		margin-bottom: 12px;
+	}
+
+	.scene-details .scene {
+		padding-bottom: 20px;
+		margin-bottom: 20px;
+		border-bottom: 1px dashed #e5e7eb;
+	}
+
+	.scene-details:last-of-type .scene {
+		border-bottom: none;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+
 	/* 明细区域的四个分组：宽栏内 2×2 网格平铺 */
 	.detail-grid {
 		display: grid;
@@ -1291,18 +1323,7 @@ const categories = [
 		color: #8a8a8a;
 	}
 
-	/* 场景问答 */
-	.scene {
-		padding-bottom: 20px;
-		margin-bottom: 20px;
-		border-bottom: 1px dashed #e5e7eb;
-	}
-
-	.scene:last-child {
-		border-bottom: none;
-		margin-bottom: 0;
-		padding-bottom: 0;
-	}
+	/* 场景问答（折叠样式见上方 .scene-details） */
 
 	/* 财务血条 */
 	.hp {
