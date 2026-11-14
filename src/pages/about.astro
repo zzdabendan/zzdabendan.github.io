@@ -1267,9 +1267,8 @@ const categories = [
 		--c-debt: #999999;
 	}
 
-	/* 三级标题：明细/场景名 */
-	.console-sub,
-	.scene-q {
+	/* 三级标题：子板块（灰色圆角块），明细标题已移除 */
+	.console-sub {
 		font-size: 15px;
 		font-weight: 600;
 		margin: 0 0 12px;
@@ -1279,18 +1278,24 @@ const categories = [
 		display: inline-block;
 	}
 
-	/* 场景问答可折叠 */
+	/* 财务下所有可折叠标题统一为四级细线样式：数据分组 + 场景问答同级 */
+	.detail-group summary,
 	.scene-details > summary.scene-q {
+		font-size: 14px;
+		font-weight: 600;
+		margin-bottom: 8px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #9ca3af;
 		cursor: pointer;
-		margin-bottom: 12px;
 	}
 
+	.detail-group summary::marker,
 	.scene-details > summary.scene-q::marker {
 		color: #6b7280;
 	}
 
 	.scene-details[open] > summary.scene-q {
-		margin-bottom: 12px;
+		margin-bottom: 8px;
 	}
 
 	.scene-details .scene {
@@ -1311,20 +1316,6 @@ const categories = [
 		grid-template-columns: 1fr 1fr;
 		gap: 16px;
 		margin-bottom: 32px;
-	}
-
-	/* 明细分组默认折叠：标题兼作展开开关 */
-	.detail-group summary {
-		font-size: 14px;
-		font-weight: 600;
-		margin-bottom: 8px;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #9ca3af;
-		cursor: pointer;
-	}
-
-	.detail-group summary::marker {
-		color: #6b7280;
 	}
 
 	.detail-group ul {
