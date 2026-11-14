@@ -791,12 +791,13 @@ const categories = [
 					<h2>物品</h2>
 					<div class="categories">
 						{categories.map((cat) => (
-							<div class="category">
-								<h3 class="cat-title">{cat.name}<span class="cat-count">
+							<details class="category-details">
+								<summary class="cat-title">{cat.name}<span class="cat-count">
 									{cat.zones
 										? cat.zones.reduce((s, z) => s + z.items.length, 0)
 										: cat.items.length}
-								</span></h3>
+								</span></summary>
+								<div class="category">
 
 								{cat.zones ? (
 									<div class="zone-list">
@@ -822,7 +823,8 @@ const categories = [
 										))}
 									</ul>
 								)}
-							</div>
+								</div>
+							</details>
 						))}
 					</div>
 				</section>
@@ -1529,6 +1531,15 @@ const categories = [
 		font-weight: 400;
 		color: #555;
 		margin-left: 6px;
+	}
+
+	/* 分类可折叠 */
+	.category-details > summary.cat-title {
+		cursor: pointer;
+	}
+
+	.category-details > summary.cat-title::marker {
+		color: #6b7280;
 	}
 
 	.item-list {
