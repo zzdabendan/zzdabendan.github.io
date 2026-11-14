@@ -1098,18 +1098,23 @@ const categories = [
 	.tag-cloud {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 6px;
+		gap: 10px 14px;
 		flex: 1;
 	}
 
+	/* 技能标签：与联系方式按钮保持同一套样式 */
 	.skill-tag {
-		font-size: 13px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: 32px;
+		padding: 0 12px;
+		border: 1px solid #d1d5db;
+		border-radius: 6px;
+		background: #ffffff;
+		color: #333333;
+		font-size: 14px;
 		line-height: 1;
-		padding: 5px 10px;
-		border-radius: 2px;
-		border: 1px solid #dddddd;
-		background: #fafafa;
-		color: #444444;
 		white-space: nowrap;
 	}
 
