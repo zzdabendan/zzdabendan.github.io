@@ -466,17 +466,12 @@ const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 // 物品分类（装备→随身、出行→出行、仓库→收纳、家具→区域）
 const categories = [
 	{
-		name: '随身物品',
+		name: '随身',
 		icon: '口袋',
 		items: ['头部（000）', '面部（000）', '颈部（000）', '手部（000）', '上身（000）', '下身（000）', '腿部（000）'],
 	},
 	{
-		name: '出行物品',
-		icon: '路途',
-		items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
-	},
-	{
-		name: '收纳物品',
+		name: '楼内 · 存放',
 		icon: '归整',
 		zones: [
 			{ name: '白箱 1（49）', items: ['短袖上衣（000）'] },
@@ -498,7 +493,7 @@ const categories = [
 		],
 	},
 	{
-		name: '家具物品',
+		name: '楼内 · 使用',
 		icon: '居所',
 		zones: [
 			{
@@ -540,6 +535,11 @@ const categories = [
 			{ name: '厨房区', items: [] },
 			{ name: '厕所区', items: [] },
 		],
+	},
+	{
+		name: '楼外',
+		icon: '路途',
+		items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
 	},
 ];
 ---
@@ -639,13 +639,36 @@ const categories = [
 					</div>
 				</section>
 
-				<!-- 资产：货币（财务）与实物（物品），按流动性排列 -->
+				<!-- 资产：存量（钱 / 物）+ 流水（收入 / 花费 / 欠款） -->
 				<section class="card assets" id="assets">
 					<h2>资产</h2>
-					<p class="assets-note">同样是我的东西，区别只在能多快换成钱：越靠前越容易变现。</p>
+					<p class="assets-note">分两层看：存量是我现在拥有的，流水是钱的进出。</p>
 
-					<div class="asset-block asset-physical">
-						<h3 class="sub-title">实物</h3>
+					<div class="asset-block asset-stock">
+						<h3 class="sub-title">存量</h3>
+
+						<h4 class="group-title">钱 · 按账户</h4>
+						<details class="detail-group tone-deposit">
+							<summary>存款（{totalDeposit}）</summary>
+							<ul>
+								{depositRows.map((r) => (
+									<>
+										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+										{r.sub && (
+											<li class="sub">
+												<ul>
+													{r.sub.map((s) => (
+														<li><span>{s.label}</span><span class="num">{s.value}</span></li>
+													))}
+												</ul>
+											</li>
+										)}
+									</>
+								))}
+							</ul>
+						</details>
+
+						<h4 class="group-title">物 · 按空间</h4>
 						<div class="categories">
 						{categories.map((cat) => (
 							<details class="category-details">
@@ -686,8 +709,8 @@ const categories = [
 						</div>
 					</div>
 
-					<div class="asset-block asset-money finance">
-						<h3 class="sub-title">货币</h3>
+					<div class="asset-block asset-flow finance">
+						<h3 class="sub-title">流水</h3>
 
 					<div class="detail-grid">
 						<details class="detail-group tone-spend">
@@ -720,25 +743,6 @@ const categories = [
 							<ul>
 								{incomeRows.map((r) => (
 									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-								))}
-							</ul>
-						</details>
-						<details class="detail-group tone-deposit">
-							<summary>存款（存量 · {totalDeposit}）</summary>
-							<ul>
-								{depositRows.map((r) => (
-									<>
-										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-										{r.sub && (
-											<li class="sub">
-												<ul>
-													{r.sub.map((s) => (
-														<li><span>{s.label}</span><span class="num">{s.value}</span></li>
-													))}
-												</ul>
-											</li>
-										)}
-									</>
 								))}
 							</ul>
 						</details>
@@ -944,14 +948,27 @@ const categories = [
 	.card.intro { order: 1; }
 	.card.assets { order: 2; }
 
-	/* 资产内部按流动性排列：货币在前，实物在后 */
+	/* 资产内部：存量在前，流水在后 */
 	.card.assets {
 		display: flex;
 		flex-direction: column;
 	}
 
-	.asset-money { order: 1; }
-	.asset-physical { order: 2; }
+	.asset-stock { order: 1; }
+	.asset-flow { order: 2; }
+
+	/* 存量 / 流水的二级分组标题（钱、物、收入…） */
+	.group-title {
+		font-size: 14px;
+		font-weight: 600;
+		margin: 18px 0 10px;
+		padding-bottom: 4px;
+		border-bottom: 1px solid #d1d5db;
+	}
+
+	.group-title:first-of-type {
+		margin-top: 4px;
+	}
 
 	.assets-note {
 		font-size: 14px;
