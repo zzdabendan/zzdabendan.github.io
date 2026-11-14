@@ -33,18 +33,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 	<!-- 手上的牌：个人资本的三张牌 -->
 	<section class="hand-rail">
-		<p class="hand-label">手上的牌</p>
 		<div class="hand-grid">
 			<div class="hand-card">
-				<p class="hand-head"><span class="hand-rank rank-silver">银牌</span>能力</p>
+				<p class="hand-head">银牌 · 能力</p>
 				<p class="hand-desc">能独立交付出来的东西：手艺、经验、拿得出手的产出。</p>
 			</div>
 			<div class="hand-card">
-				<p class="hand-head"><span class="hand-rank rank-gold">金牌</span>人脉</p>
+				<p class="hand-head">金牌 · 人脉</p>
 				<p class="hand-desc">能调动的人：不是认识多少，而是多少人愿意为你出手。</p>
 			</div>
 			<div class="hand-card">
-				<p class="hand-head"><span class="hand-rank rank-ace">王牌</span>思维</p>
+				<p class="hand-head">王牌 · 思维</p>
 				<p class="hand-desc">看清一件事的方式：同样一副牌，决定怎么打、先出哪张。</p>
 			</div>
 		</div>
@@ -114,78 +113,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		white-space: nowrap;
 	}
 
-	/* 手上的牌：与能量链同一栏宽，三张牌并排 */
+	/* 手上的牌：与能量链同一栏宽，基本字体 */
 	.hand-rail {
 		width: 100vw;
 		margin-left: calc(-50vw + 50%);
 		padding: 4px 40px 28px;
 	}
 
-	.hand-label {
-		font-size: 13px;
-		font-weight: 600;
-		color: #6b7280;
-		text-align: center;
-		margin: 0 0 10px;
-	}
-
 	.hand-grid {
 		display: flex;
 		justify-content: center;
-		align-items: stretch;
-		gap: 16px;
-		flex-wrap: wrap;
-	}
-
-	.hand-card {
-		flex: 1 1 240px;
-		max-width: 340px;
-		padding: 10px 14px;
-		background: #fafafa;
-		border: 1px solid #e5e7eb;
-		border-radius: 8px;
+		gap: 36px;
 	}
 
 	.hand-head {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		font-size: 14px;
+		font-size: 13px;
 		font-weight: 600;
 		color: #111111;
 		margin: 0 0 4px;
 	}
 
-	.hand-rank {
-		font-size: 12px;
-		font-weight: 600;
-		line-height: 1.6;
-		padding: 0 6px;
-		border-radius: 4px;
-	}
-
-	.rank-silver {
-		background: #eef0f3;
-		border: 1px solid #dcdfe4;
-		color: #6b7280;
-	}
-
-	.rank-gold {
-		background: #fbf1d8;
-		border: 1px solid #eddcb4;
-		color: #96702a;
-	}
-
-	.rank-ace {
-		background: #eae4fb;
-		border: 1px solid #d8cdf3;
-		color: #6b4fbb;
-	}
-
 	.hand-desc {
 		font-size: 13px;
 		line-height: 1.6;
-		color: #4b5563;
+		color: #6b7280;
 		margin: 0;
 	}
 
@@ -259,9 +210,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			padding: 0 20px 32px;
 		}
 
-		.hand-card {
-			flex: 1 1 100%;
-			max-width: none;
+		.hand-grid {
+			flex-direction: column;
+			gap: 12px;
 		}
 
 		.hero-question h2,
