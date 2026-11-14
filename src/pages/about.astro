@@ -720,7 +720,7 @@ const splitItem = (raw) => {
 						<h3 class="sub-title">流水</h3>
 
 					<div class="detail-grid">
-						<details class="detail-group tone-spend" open>
+						<details class="detail-group tone-spend">
 							<summary>花费（月 · {fixedTotal}）</summary>
 							<ul class="item-list">
 								{fixedSimple.map((r) => (
@@ -754,7 +754,7 @@ const splitItem = (raw) => {
 								))}
 							</div>
 						</details>
-						<details class="detail-group tone-income" open>
+						<details class="detail-group tone-income">
 							<summary>收入（月）</summary>
 							<ul class="item-list">
 								{incomeRows.map((r) => (
@@ -762,7 +762,7 @@ const splitItem = (raw) => {
 								))}
 							</ul>
 						</details>
-						<details class="detail-group tone-debt" open>
+						<details class="detail-group tone-debt">
 							<summary>欠款（{totalDebt}）</summary>
 							<ul class="item-list">
 								{debtRows.map((r) => (
