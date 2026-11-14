@@ -589,8 +589,7 @@ const categories = [
 		<!-- 页内锚点：长页面快速跳转 -->
 		<nav class="page-toc" aria-label="页内导航">
 			<a href="#intro">自我介绍</a>
-			<a href="#finance">财务</a>
-			<a href="#belongings">物品</a>
+			<a href="#assets">资产</a>
 			<a href="#timeline">我的经历</a>
 		</nav>
 
@@ -678,10 +677,14 @@ const categories = [
 					</div>
 				</section>
 
-				<!-- 物品清单：按分类多栏平铺 -->
-				<section class="card belongings" id="belongings">
-					<h2>物品</h2>
-					<div class="categories">
+				<!-- 资产：货币（财务）与实物（物品），按流动性排列 -->
+				<section class="card assets" id="assets">
+					<h2>资产</h2>
+					<p class="assets-note">同样是我的东西，区别只在能多快换成钱：越靠前越容易变现。</p>
+
+					<div class="asset-block asset-physical">
+						<h3 class="sub-title">实物</h3>
+						<div class="categories">
 						{categories.map((cat) => (
 							<details class="category-details">
 								<summary class="cat-title">{cat.name}<span class="cat-count">
@@ -718,12 +721,11 @@ const categories = [
 								</div>
 							</details>
 						))}
+						</div>
 					</div>
-				</section>
 
-				<!-- 财务：明细 + 场景问答 -->
-				<section class="card finance" id="finance">
-					<h2>财务</h2>
+					<div class="asset-block asset-money finance">
+						<h3 class="sub-title">货币</h3>
 
 					<div class="detail-grid">
 						<details class="detail-group tone-spend">
@@ -864,6 +866,7 @@ const categories = [
 						</ul>
 					</section>
 					</details>
+					</div>
 				</section>
 
 			</aside>
@@ -998,8 +1001,7 @@ const categories = [
 
 	/* 页内锚点：跳到板块时避开吸顶导航 */
 	#intro,
-	#finance,
-	#belongings,
+	#assets,
 	#timeline {
 		scroll-margin-top: 120px;
 	}
@@ -1052,10 +1054,24 @@ const categories = [
 		border-radius: 6px;
 	}
 
-	/* 宽栏顺序：自我介绍 → 物品 → 财务 */
+	/* 宽栏顺序：自我介绍 → 资产 */
 	.card.intro { order: 1; }
-	.card.belongings { order: 2; }
-	.card.finance { order: 3; }
+	.card.assets { order: 2; }
+
+	/* 资产内部按流动性排列：货币在前，实物在后 */
+	.card.assets {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.asset-money { order: 1; }
+	.asset-physical { order: 2; }
+
+	.assets-note {
+		font-size: 14px;
+		color: #666666;
+		margin: -8px 0 16px;
+	}
 
 	@media (max-width: 900px) {
 		.cols {
@@ -1070,9 +1086,8 @@ const categories = [
 
 		#intro { order: 1; }
 		.card.side-map { order: 2; }
-		#belongings { order: 3; }
-		#finance { order: 4; }
-		#timeline { order: 5; }
+		#assets { order: 3; }
+		#timeline { order: 4; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
