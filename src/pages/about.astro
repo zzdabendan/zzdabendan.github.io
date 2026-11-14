@@ -327,14 +327,14 @@ const incomeRows = [
 	{ label: '兼职收入', value: 0 },
 ];
 const depositRows = [
-	{ label: '江西银行', value: 710 },
-	{ label: '建设银行', value: 0 },
-	{ label: '工商银行', value: 0 },
-	{ label: '招商银行', value: 0 },
-	{ label: '农商银行', value: 0 },
-	{ label: '支付宝', value: 0 },
-	{ label: '微信', value: 260 },
-	{ label: '定期', value: 6000 },
+	{ label: '江西银行', value: 710, tone: 'bank' },
+	{ label: '建设银行', value: 0, tone: 'bank' },
+	{ label: '工商银行', value: 0, tone: 'bank' },
+	{ label: '招商银行', value: 0, tone: 'bank' },
+	{ label: '农商银行', value: 0, tone: 'bank' },
+	{ label: '支付宝', value: 0, tone: 'alipay' },
+	{ label: '微信', value: 260, tone: 'wechat' },
+	{ label: '定期', value: 6000, tone: 'fixed' },
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
@@ -653,7 +653,7 @@ const splitItem = (raw) => {
 							<summary>现存存款（{totalDeposit}）</summary>
 							<ul class="item-list">
 								{depositRows.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class={r.tone}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 						</details>
@@ -1317,6 +1317,27 @@ const splitItem = (raw) => {
 
 	.item-list li span:first-child {
 		color: #555555;
+	}
+
+	/* 按分类着色：银行 / 支付宝 / 微信 / 定期 */
+	.item-list li.bank {
+		background: #eef3fb;
+		border-color: #d8e2f2;
+	}
+
+	.item-list li.alipay {
+		background: #eaf3fd;
+		border-color: #d2e3f7;
+	}
+
+	.item-list li.wechat {
+		background: #ecf8ee;
+		border-color: #d5ebd9;
+	}
+
+	.item-list li.fixed {
+		background: #fdf7ea;
+		border-color: #efe2c8;
 	}
 
 	/* 跨整行的二级明细（如出行下的车辆花费） */
