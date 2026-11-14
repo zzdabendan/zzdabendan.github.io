@@ -715,12 +715,16 @@ const splitItem = (raw) => {
 						<details class="detail-group tone-spend" open>
 							<summary>花费（月 · {fixedTotal}）</summary>
 							<ul class="item-list">
-								{fixedCost.items.map((r) => (
-									<>
-										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-										{r.sub && (
-											<li class="sub">
-												<ul>
+								{fixedCost.items.map((r) =>
+									r.sub ? (
+										<li class="sub">
+											<div class="zone sub-card">
+												<h4 class="zone-title">
+													{r.label}
+													<span class="zone-count">{r.sub.length} 项</span>
+													<span class="zone-value">{r.value}</span>
+												</h4>
+												<ul class="item-list">
 													{r.sub.map((s) => (
 														<li>
 															<span>{s.label}<em class="unit">{s.unit}</em></span>
@@ -728,13 +732,19 @@ const splitItem = (raw) => {
 														</li>
 													))}
 												</ul>
-												{r.subNote && r.subNote.map((line) => (
-													<p class="sub-note">{line}</p>
-												))}
-											</li>
-										)}
-									</>
-								))}
+												{r.subNote && (
+													<div class="sub-notes">
+														{r.subNote.map((line) => (
+															<p class="sub-note">{line}</p>
+														))}
+													</div>
+												)}
+											</div>
+										</li>
+									) : (
+										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									)
+								)}
 							</ul>
 						</details>
 						<details class="detail-group tone-income" open>
@@ -1217,38 +1227,10 @@ const splitItem = (raw) => {
 		white-space: nowrap;
 	}
 
-	/* 二级子项：出行下的车辆相关花费 */
+	/* 二级子项：整块按区域卡片展示 */
 	.detail-group li.sub {
 		display: block;
-		padding-left: 14px;
 		border-bottom: none;
-	}
-
-	.detail-group li.sub ul {
-		border-left: 1px solid #e0e0e0;
-		padding-left: 10px;
-	}
-
-	.detail-group li.sub ul li {
-		font-size: 14px;
-		line-height: 1.9;
-	}
-
-	.detail-group li.sub ul li span:first-child {
-		color: #6b6b6b;
-	}
-
-	.detail-group li.sub .unit {
-		font-style: normal;
-		font-size: 12px;
-		color: #9ca3af;
-		margin-left: 5px;
-	}
-
-	.detail-group li.sub .sub-note {
-		margin: 4px 0 2px;
-		font-size: 12px;
-		color: #8a8a8a;
 	}
 
 	/* ===== 物品 ===== */
@@ -1334,11 +1316,11 @@ const splitItem = (raw) => {
 	.tone-teal { --tone-bg: #bbe6db; --tone-bd: #84cdbe; --tone-hd: #a3dcd0; }
 	.tone-amber { --tone-bg: #f7d2a9; --tone-bd: #e5ae76; --tone-hd: #f0c393; }
 
-	.tone-spend { --tone-bg: #f8cfb8; --tone-bd: #e8a986; }
+	.tone-spend { --tone-bg: #f8cfb8; --tone-bd: #e8a986; --tone-hd: #f1bda1; }
 	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
 	.tone-debt { --tone-bg: #f3c8ca; --tone-bd: #dd8e93; }
 
-	/* 跨整行的二级明细（如出行下的车辆花费） */
+	/* 跨整行的二级明细（如出行下的车辆花费）：整块作为一张区域卡片 */
 	.item-list li.sub {
 		grid-column: 1 / -1;
 		display: block;
@@ -1348,29 +1330,22 @@ const splitItem = (raw) => {
 		border-radius: 0;
 	}
 
-	.item-list li.sub ul {
-		list-style: none;
-		padding: 0 0 0 10px;
-		margin: 0;
-		border-left: 1px solid #e5e7eb;
-	}
-
-	.item-list li.sub ul li {
-		display: flex;
-		justify-content: space-between;
-		gap: 10px;
-		padding: 2px 0;
-		background: none;
-		border: none;
-		border-radius: 0;
-		font-size: 13px;
-	}
-
-	.item-list .sub-note {
-		margin: 2px 0 0;
-		padding-left: 10px;
+	.sub-card .unit {
+		font-style: normal;
 		font-size: 12px;
-		color: #8a8a8a;
+		color: #9ca3af;
+		margin-left: 5px;
+	}
+
+	.sub-notes {
+		padding: 6px 10px 8px;
+		border-top: 1px solid var(--tone-bd, #e5e7eb);
+	}
+
+	.sub-notes .sub-note {
+		margin: 2px 0 0;
+		font-size: 12px;
+		color: #6b7280;
 		line-height: 1.7;
 	}
 
@@ -1405,6 +1380,9 @@ const splitItem = (raw) => {
 
 	/* 区域标题：表头样式，深色底区分内容 */
 	.zone-title {
+		display: flex;
+		align-items: baseline;
+		gap: 6px;
 		font-size: 13px;
 		font-weight: 600;
 		color: #333333;
@@ -1412,6 +1390,15 @@ const splitItem = (raw) => {
 		padding: 6px 10px;
 		background: var(--tone-hd, #dfe3e8);
 		border-bottom: 1px solid var(--tone-bd, #e5e7eb);
+	}
+
+	.zone-title .zone-count {
+		margin-left: 0;
+	}
+
+	.zone-title .zone-value {
+		margin-left: auto;
+		font-variant-numeric: tabular-nums;
 	}
 
 	.zone-count {
