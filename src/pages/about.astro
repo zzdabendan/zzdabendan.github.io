@@ -327,17 +327,11 @@ const incomeRows = [
 	{ label: '兼职收入', value: 0 },
 ];
 const depositRows = [
-	{
-		label: '银行卡',
-		value: 710,
-		sub: [
-			{ label: '江西银行', value: 710 },
-			{ label: '建设银行', value: 0 },
-			{ label: '工商银行', value: 0 },
-			{ label: '招商银行', value: 0 },
-			{ label: '农商银行', value: 0 },
-		],
-	},
+	{ label: '江西银行', value: 710 },
+	{ label: '建设银行', value: 0 },
+	{ label: '工商银行', value: 0 },
+	{ label: '招商银行', value: 0 },
+	{ label: '农商银行', value: 0 },
 	{ label: '支付宝', value: 0 },
 	{ label: '微信', value: 260 },
 	{ label: '定期', value: 6000 },
@@ -659,18 +653,7 @@ const splitItem = (raw) => {
 							<summary>现存存款（{totalDeposit}）</summary>
 							<ul class="item-list">
 								{depositRows.map((r) => (
-									<>
-										<li><span>{r.label}</span><span class="num">{r.value}</span></li>
-										{r.sub && (
-											<li class="wide">
-												<ul class="sub-list">
-													{r.sub.map((s) => (
-														<li><span>{s.label}</span><span class="num">{s.value}</span></li>
-													))}
-												</ul>
-											</li>
-										)}
-									</>
+									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 						</details>
@@ -1333,40 +1316,6 @@ const splitItem = (raw) => {
 
 	.item-list li span:first-child {
 		color: #555555;
-	}
-
-	/* 跨整行的二级明细（如银行卡下的各银行） */
-	.item-list li.wide {
-		grid-column: 1 / -1;
-		display: block;
-		padding: 0;
-		background: none;
-		border: none;
-	}
-
-	.sub-list {
-		list-style: none;
-		padding: 0 0 0 10px;
-		margin: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-		gap: 4px 12px;
-		border-left: 1px solid #e5e7eb;
-	}
-
-	.sub-list li {
-		display: flex;
-		justify-content: space-between;
-		gap: 8px;
-		padding: 0;
-		background: none;
-		border: none;
-		font-size: 13px;
-		line-height: 1.6;
-	}
-
-	.sub-list li span:first-child {
-		color: #6b7280;
 	}
 
 	/* 区域列表：与条目同一套网格与卡片 */
