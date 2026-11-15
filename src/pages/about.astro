@@ -583,8 +583,37 @@ const splitItem = (raw) => {
 		</nav>
 
 		<div class="cols">
-			<!-- 窄栏：活动地图 + 资产 -->
+			<!-- 窄栏：联系方式 + 我的技能 + 活动地图 + 资产 -->
 			<div class="col-side">
+				<!-- 联系方式 + 我的技能 -->
+				<section class="card contact-skill">
+					<h2>联系方式</h2>
+					<div class="contact-icons">
+						{contactList.map(({ label, item }) => (
+							<span class="contact-icon">
+								{item.url ? (
+									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
+								) : (
+									<button type="button" title={label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{label}</button>
+								)}
+								<span class="contact-popover">
+									<span class="contact-popover-label">{label}</span>
+									<span class="contact-popover-value">{item.value}</span>
+									{item.note && <span class="contact-popover-note">{item.note}</span>}
+									<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
+								</span>
+							</span>
+						))}
+					</div>
+
+					<h2>我的技能</h2>
+					<div class="tag-cloud">
+						{skillTags.map((tag) => (
+							<span class="skill-tag">{tag}</span>
+						))}
+					</div>
+				</section>
+
 				<section class="card side-map">
 					<h2>活动地图</h2>
 					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
@@ -723,32 +752,6 @@ const splitItem = (raw) => {
 					<h2>自我介绍</h2>
 					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
 					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。长期目标是坚持锻炼健身，保持健康的身体。</p>
-
-					<h3 class="sub-title">联系方式</h3>
-					<div class="contact-icons">
-						{contactList.map(({ label, item }) => (
-							<span class="contact-icon">
-								{item.url ? (
-									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
-								) : (
-									<button type="button" title={label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{label}</button>
-								)}
-								<span class="contact-popover">
-									<span class="contact-popover-label">{label}</span>
-									<span class="contact-popover-value">{item.value}</span>
-									{item.note && <span class="contact-popover-note">{item.note}</span>}
-									<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
-								</span>
-							</span>
-						))}
-					</div>
-
-					<h3 class="sub-title">我的技能</h3>
-					<div class="tag-cloud">
-						{skillTags.map((tag) => (
-							<span class="skill-tag">{tag}</span>
-						))}
-					</div>
 				</section>
 
 				<section class="card main-timeline" id="timeline">
@@ -985,9 +988,10 @@ const splitItem = (raw) => {
 		}
 
 		#intro { order: 1; }
-		.card.side-map { order: 2; }
-		#timeline { order: 3; }
-		#assets { order: 4; }
+		.card.contact-skill { order: 2; }
+		.card.side-map { order: 3; }
+		#timeline { order: 4; }
+		#assets { order: 5; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
@@ -997,6 +1001,11 @@ const splitItem = (raw) => {
 		margin: 0 0 16px;
 		padding-bottom: 6px;
 		border-bottom: 2px solid #555555;
+	}
+
+	/* 侧栏顶部卡片内第二个标题（我的技能）与上方内容留白 */
+	.contact-skill h2:not(:first-child) {
+		margin-top: 28px;
 	}
 
 	/* 三级标题：子板块，和知识库 h3 一致 */
