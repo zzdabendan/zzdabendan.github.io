@@ -86,6 +86,34 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 	.kb-videos .bili-facade {
 		margin-bottom: 0;
 	}
+
+	/* 四栏并列：人员组织 / 配置文档 / 物品清单 / 安全检查 */
+	.kb-four-cols {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 24px;
+		margin: 16px 0;
+	}
+
+	.kb-four-cols > div {
+		min-width: 0;
+	}
+
+	.kb-four-cols h3 {
+		margin-top: 0;
+	}
+
+	@media (max-width: 1100px) {
+		.kb-four-cols {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 600px) {
+		.kb-four-cols {
+			grid-template-columns: 1fr;
+		}
+	}
 </style>
 
 <style>
