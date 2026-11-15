@@ -583,8 +583,16 @@ const splitItem = (raw) => {
 		</nav>
 
 		<div class="cols">
-			<!-- 窄栏：联系方式 + 我的技能 + 活动地图 + 资产 -->
+			<!-- 窄栏：活动地图 + 联系方式 + 我的技能 + 资产 -->
 			<div class="col-side">
+				<section class="card side-map">
+					<h2>活动地图</h2>
+					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
+						<button class="map-open" type="button">点击加载活动地图</button>
+					</div>
+					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
+				</section>
+
 				<!-- 联系方式 + 我的技能 -->
 				<section class="card contact-skill">
 					<h2>联系方式</h2>
@@ -612,14 +620,6 @@ const splitItem = (raw) => {
 							<span class="skill-tag">{tag}</span>
 						))}
 					</div>
-				</section>
-
-				<section class="card side-map">
-					<h2>活动地图</h2>
-					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
-						<button class="map-open" type="button">点击加载活动地图</button>
-					</div>
-					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
 				</section>
 
 				<!-- 资产：存量（钱 / 物）+ 流水（收入 / 花费 / 欠款） -->
@@ -988,8 +988,8 @@ const splitItem = (raw) => {
 		}
 
 		#intro { order: 1; }
-		.card.contact-skill { order: 2; }
-		.card.side-map { order: 3; }
+		.card.side-map { order: 2; }
+		.card.contact-skill { order: 3; }
 		#timeline { order: 4; }
 		#assets { order: 5; }
 	}
