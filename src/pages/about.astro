@@ -583,7 +583,7 @@ const splitItem = (raw) => {
 		</nav>
 
 		<div class="cols">
-			<!-- 窄栏：活动地图 + 我的经历 -->
+			<!-- 窄栏：活动地图 + 资产 -->
 			<div class="col-side">
 				<section class="card side-map">
 					<h2>活动地图</h2>
@@ -591,67 +591,6 @@ const splitItem = (raw) => {
 						<button class="map-open" type="button">点击加载活动地图</button>
 					</div>
 					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
-				</section>
-
-				<section class="card main-timeline" id="timeline">
-					<h2>我的经历</h2>
-					{
-						timeline.map((group, i) => (
-							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
-								<h3 class="stage-title">{group.stage}</h3>
-								{group.years.map((y) => (
-									<div class="year-block">
-										<h4 class="year-title">{y.year}</h4>
-										<ul class="month-list">
-											{y.months.map((m) => (
-												<li>
-													{m.month && <span class="month-label">{m.month}</span>}
-													{m.events && <span class="month-events">{m.events}</span>}
-												</li>
-											))}
-										</ul>
-									</div>
-								))}
-							</div>
-						))
-					}
-				</section>
-			</div>
-
-			<!-- 宽栏：自我介绍 + 联系方式 + 我的技能 + 财务 + 物品 -->
-			<aside class="col-main">
-				<!-- 自我介绍 -->
-				<section class="card intro" id="intro">
-					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
-					<h2>自我介绍</h2>
-					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
-					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。长期目标是坚持锻炼健身，保持健康的身体。</p>
-
-					<h3 class="sub-title">联系方式</h3>
-					<div class="contact-icons">
-						{contactList.map(({ label, item }) => (
-							<span class="contact-icon">
-								{item.url ? (
-									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
-								) : (
-									<button type="button" title={label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{label}</button>
-								)}
-								<span class="contact-popover">
-									<span class="contact-popover-label">{label}</span>
-									<span class="contact-popover-value">{item.value}</span>
-									{item.note && <span class="contact-popover-note">{item.note}</span>}
-									<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
-								</span>
-							</span>
-						))}
-					</div>
-
-					<h3 class="sub-title">我的技能</h3>
-					<div class="tag-cloud">
-						{skillTags.map((tag) => (
-							<span class="skill-tag">{tag}</span>
-						))}
-					</div>
 				</section>
 
 				<!-- 资产：存量（钱 / 物）+ 流水（收入 / 花费 / 欠款） -->
@@ -773,6 +712,67 @@ const splitItem = (raw) => {
 					</div>
 
 					</div>
+				</section>
+			</div>
+
+			<!-- 宽栏：自我介绍 + 联系方式 + 我的技能 + 我的经历 -->
+			<aside class="col-main">
+				<!-- 自我介绍 -->
+				<section class="card intro" id="intro">
+					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
+					<h2>自我介绍</h2>
+					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
+					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。长期目标是坚持锻炼健身，保持健康的身体。</p>
+
+					<h3 class="sub-title">联系方式</h3>
+					<div class="contact-icons">
+						{contactList.map(({ label, item }) => (
+							<span class="contact-icon">
+								{item.url ? (
+									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
+								) : (
+									<button type="button" title={label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{label}</button>
+								)}
+								<span class="contact-popover">
+									<span class="contact-popover-label">{label}</span>
+									<span class="contact-popover-value">{item.value}</span>
+									{item.note && <span class="contact-popover-note">{item.note}</span>}
+									<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
+								</span>
+							</span>
+						))}
+					</div>
+
+					<h3 class="sub-title">我的技能</h3>
+					<div class="tag-cloud">
+						{skillTags.map((tag) => (
+							<span class="skill-tag">{tag}</span>
+						))}
+					</div>
+				</section>
+
+				<section class="card main-timeline" id="timeline">
+					<h2>我的经历</h2>
+					{
+						timeline.map((group, i) => (
+							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
+								<h3 class="stage-title">{group.stage}</h3>
+								{group.years.map((y) => (
+									<div class="year-block">
+										<h4 class="year-title">{y.year}</h4>
+										<ul class="month-list">
+											{y.months.map((m) => (
+												<li>
+													{m.month && <span class="month-label">{m.month}</span>}
+													{m.events && <span class="month-events">{m.events}</span>}
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
+						))
+					}
 				</section>
 
 			</aside>
@@ -960,9 +960,9 @@ const splitItem = (raw) => {
 		border-radius: 6px;
 	}
 
-	/* 宽栏顺序：自我介绍 → 资产 */
+	/* 宽栏顺序：自我介绍 → 我的经历 */
 	.card.intro { order: 1; }
-	.card.assets { order: 2; }
+	.card.main-timeline { order: 2; }
 
 	/* 资产内部：存量在前，流水在后 */
 	.card.assets {
@@ -986,8 +986,8 @@ const splitItem = (raw) => {
 
 		#intro { order: 1; }
 		.card.side-map { order: 2; }
-		#assets { order: 3; }
-		#timeline { order: 4; }
+		#timeline { order: 3; }
+		#assets { order: 4; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
