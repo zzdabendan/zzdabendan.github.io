@@ -490,22 +490,22 @@ const categories = [
 		tone: 'tone-violet',
 		icon: '归整',
 		zones: [
-			{ name: '白箱 1（49）', items: ['短袖上衣（000）'] },
-			{ name: '白箱 2（49）', items: ['长袖外套（000）'] },
-			{ name: '白箱 3（49）', items: ['裤子（000）'] },
-			{ name: '白箱 4（49）', items: ['被子（240）'] },
-			{ name: '白箱 5（49）', items: ['食物（000）'] },
-			{ name: '白箱 6（49）', items: ['厨具（000）'] },
-			{ name: '白箱 7（49）', items: ['书籍（000）'] },
-			{ name: '白箱 8（49）', items: ['工具（000）'] },
-			{ name: '黑箱 1（41）', sup: '内含 2、3、4', items: ['旧鞋子（000）'] },
-			{ name: '黑箱 2（41）', items: ['挡风被（000）'] },
-			{ name: '黑箱 3（41）', items: ['健身器材（000）'] },
-			{ name: '黑箱 4（41）', items: ['清洁工具（000）'] },
-			{ name: '黑箱 5（41）', sup: '内含 6', items: [] },
-			{ name: '黑箱 6（41）', items: [] },
-			{ name: '黑箱 7（41）', items: [] },
-			{ name: '黑箱 8（41）', items: [] },
+			{ name: '白箱 1（49）', tone: 'tone-white-box', items: ['短袖上衣（000）'] },
+			{ name: '白箱 2（49）', tone: 'tone-white-box', items: ['长袖外套（000）'] },
+			{ name: '白箱 3（49）', tone: 'tone-white-box', items: ['裤子（000）'] },
+			{ name: '白箱 4（49）', tone: 'tone-white-box', items: ['被子（240）'] },
+			{ name: '白箱 5（49）', tone: 'tone-white-box', items: ['食物（000）'] },
+			{ name: '白箱 6（49）', tone: 'tone-white-box', items: ['厨具（000）'] },
+			{ name: '白箱 7（49）', tone: 'tone-white-box', items: ['书籍（000）'] },
+			{ name: '白箱 8（49）', tone: 'tone-white-box', items: ['工具（000）'] },
+			{ name: '黑箱 1（41）', tone: 'tone-black-box', sup: '内含 2、3、4', items: ['旧鞋子（000）'] },
+			{ name: '黑箱 2（41）', tone: 'tone-black-box', items: ['挡风被（000）'] },
+			{ name: '黑箱 3（41）', tone: 'tone-black-box', items: ['健身器材（000）'] },
+			{ name: '黑箱 4（41）', tone: 'tone-black-box', items: ['清洁工具（000）'] },
+			{ name: '黑箱 5（41）', tone: 'tone-black-box', sup: '内含 6', items: [] },
+			{ name: '黑箱 6（41）', tone: 'tone-black-box', items: [] },
+			{ name: '黑箱 7（41）', tone: 'tone-black-box', items: [] },
+			{ name: '黑箱 8（41）', tone: 'tone-black-box', items: [] },
 		],
 	},
 	{
@@ -651,7 +651,7 @@ const splitItem = (raw) => {
 								{cat.zones ? (
 									<div class="zone-list">
 										{cat.zones.map((zone) => (
-											<div class="zone">
+											<div class={`zone ${zone.tone || ''}`}>
 												<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
 												{zone.items.length > 0 ? (
 													<ul class="item-list">
@@ -1334,6 +1334,17 @@ const splitItem = (raw) => {
 
 	.tone-spend { --tone-bg: #f8cfb8; --tone-bd: #e8a986; --tone-hd: #f1bda1; }
 	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
+
+	/* 收纳箱：白箱灰白、黑箱灰黑，深浅对比 */
+	.tone-white-box { --tone-bg: #f7f7f7; --tone-bd: #dcdcdc; --tone-hd: #ececec; }
+	.tone-white-box.zone { background: #f3f3f3; }
+	.tone-black-box { --tone-bg: #4a4a4a; --tone-bd: #1f1f1f; --tone-hd: #2d2d2d; }
+	.tone-black-box.zone { background: #3a3a3a; }
+	.tone-black-box .zone-title { color: #f0f0f0; border-bottom-color: #1f1f1f; }
+	.tone-black-box .zone-title .zone-sup { color: #b0b0b0; }
+	.tone-black-box .zone-count { color: #cccccc; }
+	.tone-black-box .item-list li { color: #e8e8e8; }
+	.tone-black-box .zone-empty { color: #aaaaaa; }
 	.tone-debt { --tone-bg: #f3c8ca; --tone-bd: #dd8e93; }
 
 	/* 区域卡片并列排布，减少纵向高度 */
