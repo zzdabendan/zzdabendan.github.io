@@ -498,11 +498,11 @@ const categories = [
 			{ name: '白箱 6（49）', items: ['厨具（000）'] },
 			{ name: '白箱 7（49）', items: ['书籍（000）'] },
 			{ name: '白箱 8（49）', items: ['工具（000）'] },
-			{ name: '黑箱 1（41）', items: ['旧鞋子（000）'] },
+			{ name: '黑箱 1（41）', sup: '内含 2、3、4', items: ['旧鞋子（000）'] },
 			{ name: '黑箱 2（41）', items: ['挡风被（000）'] },
 			{ name: '黑箱 3（41）', items: ['健身器材（000）'] },
 			{ name: '黑箱 4（41）', items: ['清洁工具（000）'] },
-			{ name: '黑箱 5（41）', items: [] },
+			{ name: '黑箱 5（41）', sup: '内含 6', items: [] },
 			{ name: '黑箱 6（41）', items: [] },
 			{ name: '黑箱 7（41）', items: [] },
 			{ name: '黑箱 8（41）', items: [] },
@@ -652,7 +652,7 @@ const splitItem = (raw) => {
 									<div class="zone-list">
 										{cat.zones.map((zone) => (
 											<div class="zone">
-												<h4 class="zone-title">{zone.name}<span class="zone-count">{zone.items.length}</span></h4>
+												<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
 												{zone.items.length > 0 ? (
 													<ul class="item-list">
 														{zone.items.map((item) => {
@@ -1411,6 +1411,12 @@ const splitItem = (raw) => {
 
 	.zone-title .zone-count {
 		margin-left: 0;
+	}
+
+	.zone-title .zone-sup {
+		font-size: 11px;
+		font-weight: 500;
+		color: #8b8f96;
 	}
 
 	.zone-title .zone-value {
