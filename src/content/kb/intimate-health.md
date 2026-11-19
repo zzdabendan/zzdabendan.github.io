@@ -2,7 +2,7 @@
 title: 亲密
 category: 生活
 summary: 性需求的生理基础、卫生安全、同意与边界、法律责任的常识整理。
-order: 2.5
+order: 8
 tags: [健康, 亲密关系]
 ---
 

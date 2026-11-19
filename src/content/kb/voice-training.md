@@ -2,7 +2,7 @@
 title: 声音
 category: 生活
 summary: 播音发声的基础训练方法：呼吸控制、口腔状态、吐字归音、共鸣调节与日常练习。
-order: 5.5
+order: 12
 ---
 
 [← 返回关于页](/about)
