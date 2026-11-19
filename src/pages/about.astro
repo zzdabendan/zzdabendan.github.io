@@ -341,14 +341,14 @@ const incomeRows = [
 	{ label: '兼职收入', value: 0 },
 ];
 const depositRows = [
-	{ label: '江西银行', value: 710, tone: 'tone-bank' },
-	{ label: '建设银行', value: 0, tone: 'tone-bank' },
-	{ label: '工商银行', value: 0, tone: 'tone-bank' },
-	{ label: '招商银行', value: 0, tone: 'tone-bank' },
-	{ label: '农商银行', value: 0, tone: 'tone-bank' },
-	{ label: '支付宝', value: 0, tone: 'tone-alipay' },
-	{ label: '微信', value: 260, tone: 'tone-wechat' },
-	{ label: '定期', value: 6000, tone: 'tone-fixed' },
+	{ label: '江西银行', value: 710, tone: 'tone-rmb' },
+	{ label: '建设银行', value: 0, tone: 'tone-rmb' },
+	{ label: '工商银行', value: 0, tone: 'tone-rmb' },
+	{ label: '招商银行', value: 0, tone: 'tone-rmb' },
+	{ label: '农商银行', value: 0, tone: 'tone-rmb' },
+	{ label: '支付宝', value: 0, tone: 'tone-rmb' },
+	{ label: '微信', value: 260, tone: 'tone-rmb' },
+	{ label: '定期', value: 6000, tone: 'tone-rmb' },
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
@@ -1326,10 +1326,8 @@ const splitItem = (raw) => {
 	}
 
 	/* 分类色板：按分类着色，底色统一加深一档 */
-	.tone-bank { --tone-bg: #c7dcf4; --tone-bd: #9ac0e6; }
-	.tone-alipay { --tone-bg: #c2e0f8; --tone-bd: #8cc4e9; }
-	.tone-wechat { --tone-bg: #c3e8cb; --tone-bd: #92cba1; }
-	.tone-fixed { --tone-bg: #f7dba4; --tone-bd: #e2bb70; }
+	/* 存款统一用人民币的淡红底色 */
+	.tone-rmb { --tone-bg: #f9d9d9; --tone-bd: #e6a8a8; }
 
 	.tone-sky { --tone-bg: #c1e2f8; --tone-bd: #8cc7e9; --tone-hd: #a9d8f3; }
 	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
