@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // 联系方式：按渠道分组，每个账号一行，备注统一括注
@@ -59,20 +60,14 @@ const socialLinks = [
 const contactList = [...contacts, ...socialLinks].flatMap((c) =>
 	c.items.map((item) => ({ label: c.label, item }))
 );
-// 可跳转的技能关联到知识库对应文章；暂无笔记的技能只渲染为纯标签
-const skillTags = [
-	{ label: '组网与无线', href: '/kb/job-customer-service-ops/' },
-	{ label: 'Linux / Windows', href: '/kb/work-basics/' },
-	{ label: '综合布线', href: '/kb/job-customer-service-ops/' },
-	{ label: '设备维护', href: '/kb/job-customer-service-ops/' },
-	{ label: '表格文档' },
-	{ label: '演示制作' },
-	{ label: '视频剪辑', href: '/kb/job-video-editing/' },
-	{ label: '修图设计' },
-	{ label: '编程', href: '/kb/it-environment/' },
-	{ label: '教学', href: '/kb/learning/' },
-	{ label: '客户服务', href: '/kb/job-customer-service-ops/' },
-];
+// 技能标签：直接取知识库目录，按「生活 → 学校 → 工作」分组、组内按 order 排序
+const kbEntries = await getCollection('kb');
+const skillTags = ['生活', '学校', '工作'].flatMap((category) =>
+	kbEntries
+		.filter((entry) => entry.data.category === category)
+		.sort((a, b) => a.data.order - b.data.order)
+		.map((entry) => ({ label: entry.data.title, href: `/kb/${entry.id}/` }))
+);
 
 // 活动地图：常去地点，坐标为大致位置，按实际调整
 const mapPoints = [
@@ -613,13 +608,9 @@ const splitItem = (raw) => {
 
 					<h2>我的技能</h2>
 					<div class="tag-cloud">
-						{skillTags.map((tag) =>
-							tag.href ? (
-								<a class="skill-tag skill-tag-link" href={tag.href} title={`查看笔记：${tag.label}`}>{tag.label}</a>
-							) : (
-								<span class="skill-tag">{tag.label}</span>
-							)
-						)}
+						{skillTags.map((tag) => (
+							<a class="skill-tag skill-tag-link" href={tag.href}>{tag.label}</a>
+						))}
 					</div>
 				</section>
 
