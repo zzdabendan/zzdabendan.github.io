@@ -507,7 +507,7 @@ const categories = [
 		zones: [
 			{
 				name: '床铺区',
-				tone: 'tone-gray',
+				tone: 'tone-violet',
 				items: [
 					'枕头 ×2（130）',
 					'玩偶抱枕 ×2（000）',
@@ -521,7 +521,7 @@ const categories = [
 			},
 			{
 				name: '阳台区',
-				tone: 'tone-gray',
+				tone: 'tone-violet',
 				items: [
 					'晾衣架（000）',
 					'衣物（000）',
@@ -543,8 +543,8 @@ const categories = [
 					'备用手机（000）',
 				],
 			},
-			{ name: '厨房区', tone: 'tone-gray', items: [] },
-			{ name: '厕所区', tone: 'tone-gray', items: [] },
+			{ name: '厨房区', tone: 'tone-violet', items: [] },
+			{ name: '厕所区', tone: 'tone-violet', items: [] },
 		],
 	},
 	{
@@ -1330,8 +1330,6 @@ const splitItem = (raw) => {
 	/* 分类色板：按分类着色，底色统一加深一档 */
 	/* 存款统一用人民币的淡红底色 */
 	.tone-rmb { --tone-bg: #f9d9d9; --tone-bd: #e6a8a8; }
-	/* 楼内使用下的各区域用淡灰 */
-	.tone-gray { --tone-bg: #f5f5f5; --tone-bd: #dcdcdc; --tone-hd: #ececec; }
 
 	.tone-sky { --tone-bg: #c1e2f8; --tone-bd: #8cc7e9; --tone-hd: #a9d8f3; }
 	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
