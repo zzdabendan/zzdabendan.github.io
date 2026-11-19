@@ -616,67 +616,9 @@ const splitItem = (raw) => {
 					</div>
 				</section>
 
-				<!-- 资产：存量（钱 / 物）+ 流水（收入 / 花费 / 欠款） -->
+				<!-- 资产：流水（收入 / 花费 / 欠款）+ 存量（钱 / 物） -->
 				<section class="card assets" id="assets">
 					<h2>资产</h2>
-
-					<div class="asset-block asset-stock">
-						<h3 class="sub-title">存量</h3>
-
-						<details class="detail-group tone-deposit" open>
-							<summary>现存存款（{totalDeposit}）</summary>
-							<ul class="item-list">
-								{depositRows.map((r) => (
-									<li class={r.tone}><span>{r.label}</span><span class="num">{r.value}</span></li>
-								))}
-							</ul>
-						</details>
-
-						<div class="categories">
-						{categories.map((cat) => (
-							<details class={`category-details ${cat.tone}`} open>
-								<summary class="cat-title">{cat.name}<span class="cat-count">
-									{cat.zones
-										? cat.zones.reduce((s, z) => s + z.items.length, 0)
-										: cat.items.length}
-								</span></summary>
-								<div class="category">
-
-								{cat.zones ? (
-									<div class="zone-list">
-										{cat.zones.map((zone) => (
-											<div class={`zone ${zone.tone || ''}`}>
-												<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
-												{zone.items.length > 0 ? (
-													<ul class="item-list">
-														{zone.items.map((item) => {
-															const { name, value } = splitItem(item);
-															return (
-																<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-															);
-														})}
-													</ul>
-												) : (
-													<p class="zone-empty">待补充</p>
-												)}
-											</div>
-										))}
-									</div>
-								) : (
-									<ul class="item-list">
-										{cat.items.map((item) => {
-											const { name, value } = splitItem(item);
-											return (
-												<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-											);
-										})}
-									</ul>
-								)}
-								</div>
-							</details>
-						))}
-						</div>
-					</div>
 
 					<div class="asset-block asset-flow finance">
 						<h3 class="sub-title">流水</h3>
@@ -734,6 +676,64 @@ const splitItem = (raw) => {
 						</details>
 					</div>
 
+					</div>
+
+					<div class="asset-block asset-stock">
+						<h3 class="sub-title">存量</h3>
+
+						<details class="detail-group tone-deposit" open>
+							<summary>现存存款（{totalDeposit}）</summary>
+							<ul class="item-list">
+								{depositRows.map((r) => (
+									<li class={r.tone}><span>{r.label}</span><span class="num">{r.value}</span></li>
+								))}
+							</ul>
+						</details>
+
+						<div class="categories">
+						{categories.map((cat) => (
+							<details class={`category-details ${cat.tone}`} open>
+								<summary class="cat-title">{cat.name}<span class="cat-count">
+									{cat.zones
+										? cat.zones.reduce((s, z) => s + z.items.length, 0)
+										: cat.items.length}
+								</span></summary>
+								<div class="category">
+
+								{cat.zones ? (
+									<div class="zone-list">
+										{cat.zones.map((zone) => (
+											<div class={`zone ${zone.tone || ''}`}>
+												<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
+												{zone.items.length > 0 ? (
+													<ul class="item-list">
+														{zone.items.map((item) => {
+															const { name, value } = splitItem(item);
+															return (
+																<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+															);
+														})}
+													</ul>
+												) : (
+													<p class="zone-empty">待补充</p>
+												)}
+											</div>
+										))}
+									</div>
+								) : (
+									<ul class="item-list">
+										{cat.items.map((item) => {
+											const { name, value } = splitItem(item);
+											return (
+												<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+											);
+										})}
+									</ul>
+								)}
+								</div>
+							</details>
+						))}
+						</div>
 					</div>
 				</section>
 			</div>
