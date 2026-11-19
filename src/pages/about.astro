@@ -961,14 +961,14 @@ const splitItem = (raw) => {
 	.card.intro { order: 1; }
 	.card.main-timeline { order: 2; }
 
-	/* 资产内部：存量在前，流水在后 */
+	/* 资产内部：流水在前，存量在后 */
 	.card.assets {
 		display: flex;
 		flex-direction: column;
 	}
 
-	.asset-stock { order: 1; }
-	.asset-flow { order: 2; }
+	.asset-flow { order: 1; }
+	.asset-stock { order: 2; }
 
 	@media (max-width: 900px) {
 		.cols {
@@ -1219,7 +1219,6 @@ const splitItem = (raw) => {
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 16px;
-		margin-bottom: 32px;
 	}
 
 	.detail-group ul {
