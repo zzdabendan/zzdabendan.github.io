@@ -59,18 +59,19 @@ const socialLinks = [
 const contactList = [...contacts, ...socialLinks].flatMap((c) =>
 	c.items.map((item) => ({ label: c.label, item }))
 );
+// 可跳转的技能关联到知识库对应文章；暂无笔记的技能只渲染为纯标签
 const skillTags = [
-	'组网与无线',
-	'Linux / Windows',
-	'综合布线',
-	'设备维护',
-	'表格文档',
-	'演示制作',
-	'视频剪辑',
-	'修图设计',
-	'编程',
-	'教学',
-	'客户服务',
+	{ label: '组网与无线', href: '/kb/job-customer-service-ops/' },
+	{ label: 'Linux / Windows', href: '/kb/work-basics/' },
+	{ label: '综合布线', href: '/kb/job-customer-service-ops/' },
+	{ label: '设备维护', href: '/kb/job-customer-service-ops/' },
+	{ label: '表格文档' },
+	{ label: '演示制作' },
+	{ label: '视频剪辑', href: '/kb/job-video-editing/' },
+	{ label: '修图设计' },
+	{ label: '编程', href: '/kb/it-environment/' },
+	{ label: '教学', href: '/kb/learning/' },
+	{ label: '客户服务', href: '/kb/job-customer-service-ops/' },
 ];
 
 // 活动地图：常去地点，坐标为大致位置，按实际调整
@@ -612,9 +613,13 @@ const splitItem = (raw) => {
 
 					<h2>我的技能</h2>
 					<div class="tag-cloud">
-						{skillTags.map((tag) => (
-							<span class="skill-tag">{tag}</span>
-						))}
+						{skillTags.map((tag) =>
+							tag.href ? (
+								<a class="skill-tag skill-tag-link" href={tag.href} title={`查看笔记：${tag.label}`}>{tag.label}</a>
+							) : (
+								<span class="skill-tag">{tag.label}</span>
+							)
+						)}
 					</div>
 				</section>
 
@@ -1038,6 +1043,18 @@ const splitItem = (raw) => {
 		font-size: 14px;
 		line-height: 1;
 		white-space: nowrap;
+	}
+
+	/* 可跳转到知识库的技能标签：样式不变，只加悬停反馈 */
+	.skill-tag-link {
+		text-decoration: none;
+		transition: background-color 0.15s, border-color 0.15s;
+	}
+
+	.skill-tag-link:hover {
+		background: #4b5563;
+		border-color: #4b5563;
+		color: #ffffff;
 	}
 
 	/* 文档式介绍段落 */
