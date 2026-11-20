@@ -10,7 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		</div>
 		<div class="hero-question">
 			<div class="title-row">
-				<h2>你好 ^_^</h2>
+				<h1>你好 ^_^</h1>
 			</div>
 		</div>
 	</section>
@@ -109,14 +109,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		gap: 2px;
+		gap: 4px;
 	}
 
-	/* 领域、链条、注释统一为同一套正文样式 */
+	/* 段落正文：15px / 行高 1.9（全站正文规范） */
 	.energy-group p {
-		font-size: 13px;
-		line-height: 1.5;
-		color: #333333;
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
 		margin: 0;
 	}
 
@@ -143,15 +143,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	.hand-head {
-		font-size: 13px;
+		font-size: 15px;
 		font-weight: 600;
+		line-height: 1.9;
 		color: #111111;
-		margin: 0 0 4px;
+		margin: 0 0 6px;
 	}
 
 	.hand-desc {
-		font-size: 13px;
-		line-height: 1.6;
+		font-size: 15px;
+		line-height: 1.9;
 		color: #6b7280;
 		margin: 0;
 	}
@@ -194,7 +195,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		padding: 0 24px;
 	}
 
-	/* 时间与标题同一行，样式一致 */
+	/* 标题行：水平居中 */
 	.title-row {
 		display: flex;
 		align-items: center;
@@ -203,10 +204,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		justify-content: center;
 	}
 
-	.hero-question h2,
-	.hero-time {
-		font-size: 32px;
+	/* 页面标题：一级标题 28px（全站规范） */
+	.hero-question h1 {
+		font-size: 28px;
 		font-weight: 700;
+		line-height: 1.5;
 		color: #111111;
 		margin: 0;
 		border-bottom: none;
@@ -253,10 +255,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			gap: 12px;
 		}
 
-		.hero-question h2,
-		.hero-time {
+		.hero-question h1 {
 			width: 100%;
-			font-size: 22px;
+			font-size: 28px;
 			line-height: 1.5;
 			text-align: center;
 			overflow-wrap: anywhere;
