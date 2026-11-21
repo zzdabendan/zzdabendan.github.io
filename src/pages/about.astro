@@ -1444,17 +1444,10 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 我的经历 ===== */
-	/* 个人经历：去掉整组底色，改用左侧竖线区分阶段，奇偶用两种深浅灰交替 */
+	/* 个人经历：阶段之间无底色、无边框，仅靠标题与年份层级区分 */
 	.timeline-group {
 		margin: 0 -16px;
-		padding: 20px 16px 20px 13px;
-		/* 奇数阶段：较深的灰线 */
-		border-left: 3px solid #9ca3af;
-	}
-
-	/* 偶数阶段：较浅的灰线，与奇数形成深浅交替 */
-	.timeline-group.tinted {
-		border-left-color: #c4c8ce;
+		padding: 20px 16px;
 	}
 
 	/* 三级标题：人生阶段，和知识库 h3 一致 */
