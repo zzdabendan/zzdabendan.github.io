@@ -616,7 +616,7 @@ const splitItem = (raw) => {
 					</div>
 				</section>
 
-				<!-- 资产：流水（收入 / 花费 / 欠款）+ 存量（钱 / 物） -->
+				<!-- 资产：流水（每月花费 / 每月收入 / 每月欠款）+ 存量（钱 / 物） -->
 				<section class="card assets" id="assets">
 					<h2>资产</h2>
 
@@ -625,7 +625,7 @@ const splitItem = (raw) => {
 
 					<div class="detail-grid">
 						<details class="detail-group tone-spend">
-							<summary>花费（月 · {fixedTotal}）</summary>
+							<summary>每月花费（{fixedTotal}）</summary>
 							<ul class="item-list">
 								{fixedSimple.map((r) => (
 									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
@@ -659,7 +659,7 @@ const splitItem = (raw) => {
 							</div>
 						</details>
 						<details class="detail-group tone-income">
-							<summary>收入（月）</summary>
+							<summary>每月收入</summary>
 							<ul class="item-list">
 								{incomeRows.map((r) => (
 									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
@@ -667,7 +667,7 @@ const splitItem = (raw) => {
 							</ul>
 						</details>
 						<details class="detail-group tone-debt">
-							<summary>欠款（{totalDebt}）</summary>
+							<summary>每月欠款（{totalDebt}）</summary>
 							<ul class="item-list">
 								{debtRows.map((r) => (
 									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
