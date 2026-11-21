@@ -1015,39 +1015,27 @@ const splitItem = (raw) => {
 		width: fit-content;
 	}
 
+	/* 我的技能：普通正文文本 + 链接样式，标签之间用顿号分隔 */
 	.tag-cloud {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px 14px;
-		flex: 1;
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
+		margin-top: 4px;
 	}
 
-	/* 技能标签：与联系方式按钮保持同一套样式 */
 	.skill-tag {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		height: 32px;
-		padding: 0 12px;
-		border: 1px solid #333333;
-		border-radius: 6px;
-		background: #333333;
-		color: #ffffff;
-		font-size: 14px;
-		line-height: 1;
-		white-space: nowrap;
-	}
-
-	/* 可跳转到知识库的技能标签：样式不变，只加悬停反馈 */
-	.skill-tag-link {
+		color: #2563eb;
 		text-decoration: none;
-		transition: background-color 0.15s, border-color 0.15s;
 	}
 
-	.skill-tag-link:hover {
-		background: #4b5563;
-		border-color: #4b5563;
-		color: #ffffff;
+	.skill-tag:hover {
+		text-decoration: underline;
+	}
+
+	/* 标签之间用顿号分隔 */
+	.skill-tag:not(:last-child)::after {
+		content: '、';
+		color: var(--text);
 	}
 
 	/* 文档式介绍段落 */
@@ -1066,49 +1054,46 @@ const splitItem = (raw) => {
 		margin-bottom: 16px;
 	}
 
-	/* 联系方式：图标行 + 悬停弹出账号 */
+	/* 联系方式：普通正文文本 + 链接样式，悬停弹出账号 */
 	.contact-icons {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px 14px;
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
 		margin-top: 4px;
 	}
 
 	.contact-icon {
 		position: relative;
-		display: inline-flex;
+		display: inline;
 	}
 
 	.contact-icon > a,
 	.contact-icon > button {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 44px;
-		height: 32px;
-		padding: 0 12px;
-		border: 1px solid #333333;
-		border-radius: 6px;
-		background: #333333;
-		color: #ffffff;
-		font-size: 14px;
-		line-height: 1;
+		display: inline;
+		padding: 0;
+		border: none;
+		background: none;
+		color: #2563eb;
+		font-size: 15px;
+		line-height: 1.9;
 		text-decoration: none;
 		cursor: pointer;
-		transition: background 0.15s, color 0.15s;
+		font-family: inherit;
 	}
 
 	.contact-icon > a:hover,
 	.contact-icon > button:hover {
-		background: #555555;
-		border-color: #555555;
-		color: #ffffff;
+		text-decoration: underline;
 	}
 
 	.contact-icon > button.copied {
-		background: #ffffff;
-		border-color: #333333;
-		color: #333333;
+		color: #059669;
+	}
+
+	/* 联系方式之间用顿号分隔 */
+	.contact-icon:not(:last-child)::after {
+		content: '、';
+		color: var(--text);
 	}
 
 	/* 悬停弹出层 */
