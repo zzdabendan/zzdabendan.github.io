@@ -1444,17 +1444,17 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 我的经历 ===== */
-	/* 个人经历：阶段层色带，限制在主栏宽度内，奇偶交替两种底色 */
+	/* 个人经历：去掉整组底色，改用左侧竖线区分阶段，奇偶用两种深浅灰交替 */
 	.timeline-group {
 		margin: 0 -16px;
-		padding: 20px 16px;
-		/* 奇数阶段：暖调米灰，和纸面白拉开层次 */
-		background: #f6f3ec;
+		padding: 20px 16px 20px 13px;
+		/* 奇数阶段：较深的灰线 */
+		border-left: 3px solid #9ca3af;
 	}
 
-	/* 偶数阶段（大学、小学初中等）用冷调浅灰，与奇数阶段形成冷暖交替 */
+	/* 偶数阶段：较浅的灰线，与奇数形成深浅交替 */
 	.timeline-group.tinted {
-		background: #e9edf1;
+		border-left-color: #c4c8ce;
 	}
 
 	/* 三级标题：人生阶段，和知识库 h3 一致 */
