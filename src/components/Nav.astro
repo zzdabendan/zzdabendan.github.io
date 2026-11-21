@@ -37,15 +37,6 @@ const isActive = (href: string) =>
 				))}
 			</nav>
 		</div>
-		<div class="nav-search">
-			<input
-				type="text"
-				id="deepseek-input"
-				class="search-input"
-				placeholder="是否存在一件事，让所有人都开心"
-			/>
-			<button class="search-btn" onclick="goDeepSeek()">提问</button>
-		</div>
 	</div>
 </header>
 
@@ -58,7 +49,7 @@ const isActive = (href: string) =>
 		z-index: 100;
 	}
 
-	/* 两行布局：第一行品牌居左、导航链接居右，第二行提问框居右 */
+	/* 单行布局：品牌居左、导航链接居右 */
 	.nav-inner {
 		max-width: 1320px;
 		margin: 0 auto;
@@ -74,52 +65,6 @@ const isActive = (href: string) =>
 		justify-content: space-between;
 		gap: 24px;
 		flex-wrap: wrap;
-	}
-
-	/* 提问框：第二行，靠右 */
-	.nav-search {
-		display: flex;
-		gap: 8px;
-		width: 340px;
-		max-width: 100%;
-		align-self: flex-end;
-	}
-
-	.search-input {
-		flex: 1;
-		min-width: 0;
-		padding: 8px 12px;
-		font-size: 14px;
-		border: 1px solid var(--line);
-		border-radius: 6px;
-		background: #ffffff;
-		outline: none;
-		transition: border-color 0.15s;
-	}
-
-	.search-input:focus {
-		border-color: #9ca3af;
-	}
-
-	.search-input::placeholder {
-		color: #9ca3af;
-	}
-
-	.search-btn {
-		padding: 8px 16px;
-		font-size: 14px;
-		font-weight: 500;
-		color: #ffffff;
-		background: #111111;
-		border: none;
-		border-radius: 6px;
-		cursor: pointer;
-		transition: background 0.15s;
-		white-space: nowrap;
-	}
-
-	.search-btn:hover {
-		background: #333333;
 	}
 
 	/* 网站标题 */
@@ -202,17 +147,9 @@ const isActive = (href: string) =>
 		border-bottom-color: var(--text);
 	}
 
-	/* 窄屏：提问框占满整行宽度 */
-	@media (max-width: 900px) {
-		.nav-search {
-			width: 100%;
-			max-width: 100%;
-		}
-	}
-
 	/* 移动端：折叠为汉堡菜单，点击 ≡ 展开 */
 	@media (max-width: 700px) {
-		/* 手机端第一行：品牌在左、汉堡在右，提问框换到下一行 */
+		/* 手机端第一行：品牌在左、汉堡在右 */
 		.brand {
 			order: 1;
 			font-size: 12px;
@@ -237,11 +174,6 @@ const isActive = (href: string) =>
 			color: #555555;
 			cursor: pointer;
 			user-select: none;
-		}
-
-		.nav-search {
-			width: 100%;
-			max-width: 100%;
 		}
 
 		nav {
@@ -310,24 +242,5 @@ const isActive = (href: string) =>
 			fill.style.width = value + '%';
 			if (bar) bar.setAttribute('aria-valuenow', String(value));
 		}
-	});
-
-	// 跳转 DeepSeek 搜索
-	function goDeepSeek() {
-		const input = document.getElementById('deepseek-input');
-		if (!input) return;
-		const q = input.value.trim();
-		if (!q) return;
-		window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
-		input.value = '';
-	}
-
-	// 回车触发搜索
-	document.addEventListener('DOMContentLoaded', () => {
-		const input = document.getElementById('deepseek-input');
-		if (!input) return;
-		input.addEventListener('keydown', (e) => {
-			if (e.key === 'Enter') goDeepSeek();
-		});
 	});
 </script>
