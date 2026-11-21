@@ -37,7 +37,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		if (!input) return;
 		const q = input.value.trim();
 		if (!q) return;
-		window.open(`https://www.deepseek.com/search?q=${encodeURIComponent(q)}`, '_blank');
+		window.open(`https://chat.deepseek.com/?q=${encodeURIComponent(q)}`, '_blank');
 		input.value = '';
 	}
 
