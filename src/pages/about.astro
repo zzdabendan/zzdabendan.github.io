@@ -746,6 +746,16 @@ const splitItem = (raw) => {
 					<p class="note-text">今天看到了熟悉的同事，吃到了往常一样的早中晚饭，睡到平常一样的时间，开心。同事的笔记本坏了，我看了半天，重装系统后发现可能是某品牌通病的虚焊。</p>
 					<a class="note-more" href="/reflections">查看全部 →</a>
 				</section>
+
+				<section class="card note">
+					<h2>谋划</h2>
+					<ul class="plan-list">
+						<li><span class="plan-key">身体</span>把锻炼变成日常，体重和体能回到稳定区间</li>
+						<li><span class="plan-key">钱</span>存到 1 万元，先让每月收支转正</li>
+						<li><span class="plan-key">能力</span>把岗位经验沉淀成能复用的文档和方法</li>
+					</ul>
+					<a class="note-more" href="/plan">查看全部 →</a>
+				</section>
 			</aside>
 
 			<!-- 宽栏：自我介绍 + 联系方式 + 我的技能 + 我的经历 -->
@@ -967,10 +977,13 @@ const splitItem = (raw) => {
 		border-radius: 6px;
 	}
 
-	/* 第三栏：感悟节选，位于主栏与侧栏之间 */
+	/* 中栏：感悟与谋划上下排列 */
 	.col-note {
 		grid-column: 2;
 		grid-row: 1;
+		display: grid;
+		gap: 24px;
+		align-content: start;
 	}
 
 	.card.note {
@@ -1001,6 +1014,31 @@ const splitItem = (raw) => {
 
 	.note-more:hover {
 		text-decoration: underline;
+	}
+
+	/* 谋划摘要：三条战略目标 */
+	.plan-list {
+		list-style: none;
+		margin: 0 0 14px;
+		padding: 0;
+	}
+
+	.plan-list li {
+		font-size: 14px;
+		line-height: 1.9;
+		color: #333333;
+		padding: 5px 0;
+		border-bottom: 1px solid #ececec;
+	}
+
+	.plan-list li:last-child {
+		border-bottom: none;
+	}
+
+	.plan-key {
+		color: #9ca3af;
+		font-size: 13px;
+		margin-right: 8px;
 	}
 
 	/* 宽栏顺序：自我介绍 → 我的经历 */
