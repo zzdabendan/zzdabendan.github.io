@@ -473,13 +473,27 @@ const totalDebt = debtRows.reduce((s, r) => s + r.value, 0);
 const totalIncome = incomeRows.reduce((s, r) => s + r.value, 0);
 const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 
-// 物品分类（装备→随身、出行→出行、仓库→收纳、家具→区域）
+// 物品分类（出行→随身与楼外、仓库→楼内收纳、家具→楼内区域）
 const categories = [
 	{
-		name: '随身物品',
-		tone: 'tone-sky',
-		icon: '口袋',
-		items: ['头部（000）', '面部（000）', '颈部（000）', '手部（000）', '上身（000）', '下身（000）', '腿部（000）'],
+		name: '出行物品',
+		tone: 'tone-amber',
+		icon: '出行',
+		items: [
+			'头部（000）',
+			'面部（000）',
+			'颈部（000）',
+			'手部（000）',
+			'上身（000）',
+			'下身（000）',
+			'腿部（000）',
+			'背包（150）',
+			'手提袋（000）',
+			'电动车（2999）',
+			'电动车钥匙（000）',
+			'电动车充电器（80）',
+			'电动车头盔 ×3（000）',
+		],
 	},
 	{
 		name: '楼内使用',
@@ -546,12 +560,6 @@ const categories = [
 			{ name: '黑箱 7（41）', tone: 'tone-black-box', items: ['清洁工具（000）'] },
 			{ name: '黑箱 8（41）', tone: 'tone-black-box', items: [] },
 		],
-	},
-	{
-		name: '楼外物品',
-		tone: 'tone-amber',
-		icon: '路途',
-		items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
 	},
 ];
 
@@ -1376,10 +1384,9 @@ const splitItem = (raw) => {
 	/* 存款统一用人民币的淡红底色 */
 	.tone-rmb { --tone-bg: #f9d9d9; --tone-bd: #e6a8a8; }
 
-	.tone-sky { --tone-bg: #c1e2f8; --tone-bd: #8cc7e9; --tone-hd: #a9d8f3; }
 	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
 	.tone-teal { --tone-bg: #bbe6db; --tone-bd: #84cdbe; --tone-hd: #a3dcd0; }
-	/* 楼外物品：雅迪品牌橙加深一档，保证白字可读 */
+	/* 出行物品：雅迪品牌橙加深一档，保证白字可读 */
 	.tone-amber { --tone-bg: #c2410c; --tone-bd: #9a3412; --tone-hd: #ea580c; }
 	.tone-amber .item-list li { color: #ffffff; }
 	.tone-amber .item-list li span:first-child { color: #ffffff; }
