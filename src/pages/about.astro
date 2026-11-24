@@ -476,7 +476,7 @@ const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 // 物品分类（出行→随身与楼外、仓库→楼内收纳、家具→楼内区域）
 const categories = [
 	{
-		name: '出行物品',
+		name: '随行物品',
 		tone: 'tone-amber',
 		icon: '出行',
 		items: [
@@ -1386,7 +1386,7 @@ const splitItem = (raw) => {
 
 	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
 	.tone-teal { --tone-bg: #bbe6db; --tone-bd: #84cdbe; --tone-hd: #a3dcd0; }
-	/* 出行物品：雅迪品牌橙加深一档，保证白字可读 */
+	/* 随行物品：雅迪品牌橙加深一档，保证白字可读 */
 	.tone-amber { --tone-bg: #c2410c; --tone-bd: #9a3412; --tone-hd: #ea580c; }
 	.tone-amber .item-list li { color: #ffffff; }
 	.tone-amber .item-list li span:first-child { color: #ffffff; }
