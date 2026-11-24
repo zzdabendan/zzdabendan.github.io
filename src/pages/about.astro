@@ -588,8 +588,8 @@ const splitItem = (raw) => {
 				<section class="card main-timeline" id="timeline">
 					<h2>我的经历</h2>
 					{
-						timeline.map((group, i) => (
-							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
+						timeline.map((group) => (
+							<div class="timeline-group">
 								<h3 class="stage-title">{group.stage}</h3>
 								{group.years.map((y) => (
 									<div class="year-block">
@@ -665,7 +665,7 @@ const splitItem = (raw) => {
 				<section class="card assets" id="assets">
 					<h2>我的资产</h2>
 
-					<div class="asset-block asset-flow finance">
+					<div class="asset-block asset-flow">
 
 					<div class="detail-grid">
 						<details class="detail-group tone-spend">
@@ -724,7 +724,7 @@ const splitItem = (raw) => {
 
 					<div class="asset-block asset-stock">
 
-						<details class="detail-group tone-deposit" open>
+						<details class="detail-group" open>
 							<summary>当月存款（{totalDeposit}）</summary>
 							<ul class="item-list">
 								{depositRows.map((r) => (
@@ -1230,25 +1230,6 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 财务 ===== */
-	/* 4 级语义灰阶，作用范围收在本板块内 */
-	.finance {
-		--c-spend: #111111;
-		--c-income: #666666;
-		--c-deposit: #333333;
-		--c-debt: #999999;
-	}
-
-	/* 三级标题：子板块（灰色圆角块），明细标题已移除 */
-	.console-sub {
-		font-size: 15px;
-		font-weight: 600;
-		margin: 0 0 12px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		display: inline-block;
-	}
-
 	/* 财务分组：四级标题，与「钱 / 物」同为 14px 细线 */
 	.detail-group summary {
 		font-size: 14px;
