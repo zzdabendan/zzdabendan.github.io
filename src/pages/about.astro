@@ -650,16 +650,11 @@ const splitItem = (raw) => {
 							</span>
 						))}
 					</p>
-				</section>
-
-				<!-- 我的技能 -->
-				<section class="card contact-skill">
-					<h2>我的技能</h2>
-					<div class="tag-cloud">
+					<p class="intro-text tag-cloud">我的技能：
 						{skillTags.map((tag) => (
 							<a class="skill-tag skill-tag-link" href={tag.href}>{tag.label}</a>
 						))}
-					</div>
+					</p>
 				</section>
 
 				<!-- 资产：流水（每月花费 / 每月收入 / 每月欠款）+ 存量（钱 / 物） -->
@@ -1002,10 +997,9 @@ const splitItem = (raw) => {
 		margin-right: 8px;
 	}
 
-	/* 宽栏顺序：自我介绍 → 我的技能 → 我的资产 */
+	/* 宽栏顺序：自我介绍 → 我的资产 */
 	.card.intro { order: 1; }
-	.card.contact-skill { order: 2; }
-	.card.assets { order: 3; }
+	.card.assets { order: 2; }
 
 	/* 资产内部：流水在前，存量在后 */
 	.card.assets {
@@ -1044,7 +1038,7 @@ const splitItem = (raw) => {
 			grid-template-columns: 1fr;
 		}
 
-		/* 单列时拆开各栏：自我介绍 → 技能 → 资产 → 经历 → 感悟 → 地图 */
+		/* 单列时拆开各栏：自我介绍 → 资产 → 经历 → 感悟 → 地图 */
 		.col-main,
 		.col-side,
 		.col-note {
@@ -1052,15 +1046,14 @@ const splitItem = (raw) => {
 		}
 
 		#intro { order: 1; }
-		.card.contact-skill { order: 2; }
-		#assets { order: 3; }
-		#timeline { order: 4; }
+		#assets { order: 2; }
+		#timeline { order: 3; }
 		.card.note {
-			order: 5;
+			order: 4;
 			margin-top: 0;
 			margin-bottom: 40px;
 		}
-		.card.side-map { order: 6; }
+		.card.side-map { order: 5; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
