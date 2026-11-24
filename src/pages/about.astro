@@ -477,22 +477,19 @@ const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 const categories = [
 	{
 		name: '随行物品',
-		tone: 'tone-amber',
+		tone: '',
 		icon: '出行',
-		items: [
-			'头部（000）',
-			'面部（000）',
-			'颈部（000）',
-			'手部（000）',
-			'上身（000）',
-			'下身（000）',
-			'腿部（000）',
-			'背包（150）',
-			'手提袋（000）',
-			'电动车（2999）',
-			'电动车钥匙（000）',
-			'电动车充电器（80）',
-			'电动车头盔 ×3（000）',
+		zones: [
+			{
+				name: '身体物品',
+				tone: 'tone-amber-soft',
+				items: ['头部（000）', '面部（000）', '颈部（000）', '手部（000）', '上身（000）', '下身（000）', '腿部（000）'],
+			},
+			{
+				name: '出行物品',
+				tone: 'tone-amber',
+				items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
+			},
 		],
 	},
 	{
@@ -1386,8 +1383,11 @@ const splitItem = (raw) => {
 
 	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
 	.tone-teal { --tone-bg: #bbe6db; --tone-bd: #84cdbe; --tone-hd: #a3dcd0; }
-	/* 随行物品：雅迪品牌橙加深一档，保证白字可读 */
-	.tone-amber { --tone-bg: #c2410c; --tone-bd: #9a3412; --tone-hd: #ea580c; }
+	/* 随行物品：身体物品用浅橙，出行物品用雅迪品牌橙（白字可读） */
+	.tone-amber-soft { --tone-bg: #fde8d7; --tone-bd: #f0b98a; --tone-hd: #fbd6b8; }
+	.tone-amber { --tone-bg: #c2410c; --tone-bd: #9a3412; --tone-hd: #9a3412; }
+	.tone-amber .zone-title { color: #ffffff; border-bottom-color: #7c2d12; }
+	.tone-amber .zone-title .zone-count { color: #ffe6d5; }
 	.tone-amber .item-list li { color: #ffffff; }
 	.tone-amber .item-list li span:first-child { color: #ffffff; }
 	.tone-amber .item-list .num { color: #ffffff; }
