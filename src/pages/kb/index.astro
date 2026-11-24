@@ -68,17 +68,17 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					groups.map((group) => (
 						<section data-group={group.category}>
 							<h2 id={group.category}>{group.category}</h2>
-							<div class="card-grid">
+							<p class="kb-links">
 								{group.items.map((article) => (
 									<a
 										href={`/kb/${article.id}/`}
-										class="card-item"
+										class="kb-link"
 										data-tags={JSON.stringify(article.data.tags ?? [])}
 									>
-										<span class="card-title">{article.data.title}</span>
+										{article.data.title}
 									</a>
 								))}
-							</div>
+							</p>
 						</section>
 					))
 				}
@@ -110,7 +110,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		// 标签筛选：点击标签显示对应文章，点击"全部"恢复
 		document.addEventListener('DOMContentLoaded', () => {
 			const btns = document.querySelectorAll('.tag-btn');
-			const cards = document.querySelectorAll('.card-item');
+			const links = document.querySelectorAll('.kb-link');
 			const sections = document.querySelectorAll('section[data-group]');
 
 			btns.forEach((btn) => {
@@ -119,17 +119,18 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					btns.forEach((b) => b.classList.remove('active'));
 					btn.classList.add('active');
 
-					cards.forEach((card) => {
-						const tags = JSON.parse(card.dataset.tags || '[]');
-						card.style.display = !tag || tags.includes(tag) ? '' : 'none';
+					links.forEach((link) => {
+						const tags = JSON.parse(link.dataset.tags || '[]');
+						link.style.display = !tag || tags.includes(tag) ? '' : 'none';
 					});
 
-					// 隐藏空分组
+					// 隐藏空分组，并让每组最后一条不显示顿号
 					sections.forEach((sec) => {
-						const hasVisible = [...sec.querySelectorAll('.card-item')].some(
-							(c) => c.style.display !== 'none'
+						const visible = [...sec.querySelectorAll('.kb-link')].filter(
+							(el) => el.style.display !== 'none'
 						);
-						sec.style.display = hasVisible ? '' : 'none';
+						visible.forEach((el, i) => el.classList.toggle('is-last', i === visible.length - 1));
+						sec.style.display = visible.length ? '' : 'none';
 					});
 				});
 			});
@@ -175,34 +176,31 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		border-bottom: 1px solid #e5e7eb;
 	}
 
-	/* 卡片网格 */
-	.card-grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 12px;
+	/* 段落式文章列表：与关于页技能标签一致 */
+	.kb-links {
 		margin: 8px 0 24px;
-	}
-
-	.card-item {
-		display: flex;
-		align-items: center;
-		padding: 16px;
-		border: 1px solid var(--line);
-		border-radius: 6px;
-		background: #fcfcfc;
-		text-decoration: none;
-		transition: border-color 0.15s, box-shadow 0.15s;
-	}
-
-	.card-item:hover {
-		border-color: #9ca3af;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-	}
-
-	.card-title {
 		font-size: 15px;
-		font-weight: 600;
+		line-height: 1.9;
+	}
+
+	.kb-link {
+		color: #2563eb;
+		text-decoration: none;
+	}
+
+	.kb-link:hover {
+		text-decoration: underline;
+	}
+
+	/* 条目之间用顿号分隔 */
+	.kb-link:not(:last-child)::after {
+		content: '、';
 		color: var(--text);
+	}
+
+	/* 标签筛选后，每组最后一条不显示顿号 */
+	.kb-link.is-last::after {
+		content: '';
 	}
 
 	/* 标签栏 */
