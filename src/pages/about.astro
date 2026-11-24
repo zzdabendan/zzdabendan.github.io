@@ -570,7 +570,7 @@ const splitItem = (raw) => {
 		<h1>关于</h1>
 
 		<div class="cols">
-			<!-- 窄栏：活动地图 + 联系方式 + 我的技能 + 资产 -->
+			<!-- 窄栏：活动地图 + 我的经历 -->
 			<div class="col-side">
 				<section class="card side-map">
 					<h2>活动地图</h2>
@@ -578,6 +578,78 @@ const splitItem = (raw) => {
 						<button class="map-open" type="button">点击加载活动地图</button>
 					</div>
 					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
+				</section>
+
+				<section class="card main-timeline" id="timeline">
+					<h2>我的经历</h2>
+					{
+						timeline.map((group, i) => (
+							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
+								<h3 class="stage-title">{group.stage}</h3>
+								{group.years.map((y) => (
+									<div class="year-block">
+										<h4 class="year-title">{y.year}</h4>
+										<ul class="month-list">
+											{y.months.map((m) => (
+												<li>
+													{m.month && <span class="month-label">{m.month}</span>}
+													{m.events && <span class="month-events">{m.events}</span>}
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
+						))
+					}
+				</section>
+			</div>
+
+			<!-- 第三栏：最新感悟节选（静态，需要时手动更新） -->
+			<aside class="col-note">
+				<section class="card note">
+					<h2>我的感悟</h2>
+					<p class="note-meta">2026/11/22 · 周日 · 南昌 · 晴</p>
+					<p class="note-text">今天看到了熟悉的同事，吃到了往常一样的早中晚饭，睡到平常一样的时间，开心。同事的笔记本坏了，我看了半天，重装系统后发现可能是某品牌通病的虚焊。</p>
+					<a class="note-more" href="/reflections">查看全部 →</a>
+				</section>
+
+				<section class="card note">
+					<h2>我的谋划</h2>
+					<ul class="plan-list">
+						<li><span class="plan-key">身体</span>把锻炼变成日常，体重和体能回到稳定区间</li>
+						<li><span class="plan-key">钱</span>存到 1 万元，先让每月收支转正</li>
+						<li><span class="plan-key">能力</span>把岗位经验沉淀成能复用的文档和方法</li>
+					</ul>
+					<a class="note-more" href="/plan">查看全部 →</a>
+				</section>
+			</aside>
+
+			<!-- 宽栏：自我介绍 + 我的技能 + 我的资产 -->
+			<aside class="col-main">
+				<!-- 自我介绍 -->
+				<section class="card intro" id="intro">
+					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
+					<h2>自我介绍</h2>
+					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
+					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。长期目标是坚持锻炼健身，保持健康的身体。</p>
+					<p class="intro-text contact-icons">联系方式：
+						{contactList.map(({ label, item }) => (
+							<span class="contact-icon">
+								{item.url ? (
+									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
+								) : (
+									<button type="button" title={label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{label}</button>
+								)}
+								<span class="contact-popover">
+									<span class="contact-popover-label">{label}</span>
+									<span class="contact-popover-value">{item.value}</span>
+									{item.note && <span class="contact-popover-note">{item.note}</span>}
+									<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
+								</span>
+							</span>
+						))}
+					</p>
 				</section>
 
 				<!-- 我的技能 -->
@@ -710,79 +782,6 @@ const splitItem = (raw) => {
 						</div>
 					</div>
 				</section>
-			</div>
-
-			<!-- 第三栏：最新感悟节选（静态，需要时手动更新） -->
-			<aside class="col-note">
-				<section class="card note">
-					<h2>我的感悟</h2>
-					<p class="note-meta">2026/11/22 · 周日 · 南昌 · 晴</p>
-					<p class="note-text">今天看到了熟悉的同事，吃到了往常一样的早中晚饭，睡到平常一样的时间，开心。同事的笔记本坏了，我看了半天，重装系统后发现可能是某品牌通病的虚焊。</p>
-					<a class="note-more" href="/reflections">查看全部 →</a>
-				</section>
-
-				<section class="card note">
-					<h2>我的谋划</h2>
-					<ul class="plan-list">
-						<li><span class="plan-key">身体</span>把锻炼变成日常，体重和体能回到稳定区间</li>
-						<li><span class="plan-key">钱</span>存到 1 万元，先让每月收支转正</li>
-						<li><span class="plan-key">能力</span>把岗位经验沉淀成能复用的文档和方法</li>
-					</ul>
-					<a class="note-more" href="/plan">查看全部 →</a>
-				</section>
-			</aside>
-
-			<!-- 宽栏：自我介绍 + 我的经历 -->
-			<aside class="col-main">
-				<!-- 自我介绍 -->
-				<section class="card intro" id="intro">
-					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
-					<h2>自我介绍</h2>
-					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
-					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。长期目标是坚持锻炼健身，保持健康的身体。</p>
-					<p class="intro-text contact-icons">联系方式：
-						{contactList.map(({ label, item }) => (
-							<span class="contact-icon">
-								{item.url ? (
-									<a href={item.url} target="_blank" rel="noopener" title={label}>{label}</a>
-								) : (
-									<button type="button" title={label} data-value={item.value} onclick="navigator.clipboard.writeText(this.dataset.value);this.classList.add('copied');setTimeout(()=>this.classList.remove('copied'),1200)">{label}</button>
-								)}
-								<span class="contact-popover">
-									<span class="contact-popover-label">{label}</span>
-									<span class="contact-popover-value">{item.value}</span>
-									{item.note && <span class="contact-popover-note">{item.note}</span>}
-									<span class="contact-popover-tip">{item.url ? '点击跳转' : '点击复制'}</span>
-								</span>
-							</span>
-						))}
-					</p>
-				</section>
-
-				<section class="card main-timeline" id="timeline">
-					<h2>我的经历</h2>
-					{
-						timeline.map((group, i) => (
-							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
-								<h3 class="stage-title">{group.stage}</h3>
-								{group.years.map((y) => (
-									<div class="year-block">
-										<h4 class="year-title">{y.year}</h4>
-										<ul class="month-list">
-											{y.months.map((m) => (
-												<li>
-													{m.month && <span class="month-label">{m.month}</span>}
-													{m.events && <span class="month-events">{m.events}</span>}
-												</li>
-											))}
-										</ul>
-									</div>
-								))}
-							</div>
-						))
-					}
-				</section>
-
 			</aside>
 		</div>
 	</article>
@@ -1003,9 +1002,10 @@ const splitItem = (raw) => {
 		margin-right: 8px;
 	}
 
-	/* 宽栏顺序：自我介绍 → 我的经历 */
+	/* 宽栏顺序：自我介绍 → 我的技能 → 我的资产 */
 	.card.intro { order: 1; }
-	.card.main-timeline { order: 2; }
+	.card.contact-skill { order: 2; }
+	.card.assets { order: 3; }
 
 	/* 资产内部：流水在前，存量在后 */
 	.card.assets {
@@ -1044,7 +1044,7 @@ const splitItem = (raw) => {
 			grid-template-columns: 1fr;
 		}
 
-		/* 单列时拆开各栏：自我介绍 → 经历 → 感悟 → 侧栏内容 */
+		/* 单列时拆开各栏：自我介绍 → 技能 → 资产 → 经历 → 感悟 → 地图 */
 		.col-main,
 		.col-side,
 		.col-note {
@@ -1052,15 +1052,15 @@ const splitItem = (raw) => {
 		}
 
 		#intro { order: 1; }
-		#timeline { order: 2; }
+		.card.contact-skill { order: 2; }
+		#assets { order: 3; }
+		#timeline { order: 4; }
 		.card.note {
-			order: 3;
+			order: 5;
 			margin-top: 0;
 			margin-bottom: 40px;
 		}
-		.card.side-map { order: 4; }
-		.card.contact-skill { order: 5; }
-		#assets { order: 6; }
+		.card.side-map { order: 6; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
