@@ -575,7 +575,7 @@ const splitItem = (raw) => {
 				<section class="card side-map">
 					<h2>活动地图</h2>
 					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
-						<button class="map-open" type="button">点击加载活动地图</button>
+						<button class="map-open" type="button">正在准备地图…</button>
 					</div>
 					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
 				</section>
@@ -820,12 +820,15 @@ const splitItem = (raw) => {
 		return [lat + dLat, lng + dLng];
 	}
 
-	// 点击后再加载 Leaflet，避免首屏加载第三方资源
+	// 默认自动加载 Leaflet：进入视口时加载，手机端滚到地图附近才开始
 	document.querySelectorAll('.map-facade').forEach((box) => {
 		const trigger = box.querySelector('.map-open');
 		if (!trigger) return;
 
-		trigger.addEventListener('click', () => {
+		let started = false;
+		const load = () => {
+			if (started) return;
+			started = true;
 			trigger.textContent = '地图加载中…';
 
 			const css = document.createElement('link');
@@ -889,10 +892,28 @@ const splitItem = (raw) => {
 				drawMarkers();
 			};
 			script.onerror = () => {
-				trigger.textContent = '地图加载失败，请检查网络后重试';
+				started = false;
+				trigger.textContent = '地图加载失败，点击重试';
 			};
 			document.head.appendChild(script);
-		});
+		};
+
+		// 点击可手动触发；进入视口附近时自动加载
+		trigger.addEventListener('click', load);
+		if ('IntersectionObserver' in window) {
+			const io = new IntersectionObserver(
+				(entries) => {
+					if (entries.some((entry) => entry.isIntersecting)) {
+						io.disconnect();
+						load();
+					}
+				},
+				{ rootMargin: '200px' }
+			);
+			io.observe(box);
+		} else {
+			load();
+		}
 	});
 </script>
 
