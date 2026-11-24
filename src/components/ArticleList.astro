@@ -1,32 +1,39 @@
 ---
-// 知识库左栏：按分组列出全部文章，传入 activeId 时高亮当前篇
+// 知识库左栏：按分组列出全部文章，传入 activeId 时高亮当前篇并只展开所在分组
 interface Props {
 	groups: { category: string; items: { id: string; title: string }[] }[];
 	activeId?: string;
 }
 
 const { groups, activeId } = Astro.props;
+
+// 当前文章所在分组：默认展开它，其余分组折叠
+const activeGroup = groups.find((g) => g.items.some((a) => a.id === activeId))?.category;
 ---
 
-<aside class="kb-sidebar">
-	<h2 class="kb-sidebar-title"><a href="/kb/">文章列表</a></h2>
+<aside class="kb-sidebar" aria-label="文章列表">
 	<ul class="article-list">
 		{
 			groups.map((group) => (
 				<li class="article-group">
-					<p class="article-group-title">{group.category}</p>
-					<ul class="article-sublist">
-						{group.items.map((article) => (
-							<li>
-								<a
-									href={`/kb/${article.id}/`}
-									class:list={['article-link', { active: article.id === activeId }]}
-								>
-									<span class="article-title">{article.title}</span>
-								</a>
-							</li>
-						))}
-					</ul>
+					<details open={!activeId || group.category === activeGroup}>
+						<summary class="article-group-title">
+							<span class="group-name">{group.category}</span>
+							<span class="group-count">{group.items.length}</span>
+						</summary>
+						<ul class="article-sublist">
+							{group.items.map((article) => (
+								<li>
+									<a
+										href={`/kb/${article.id}/`}
+										class:list={['article-link', { active: article.id === activeId }]}
+									>
+										{article.title}
+									</a>
+								</li>
+							))}
+						</ul>
+					</details>
 				</li>
 			))
 		}
@@ -38,12 +45,12 @@ const { groups, activeId } = Astro.props;
 		position: sticky;
 		top: 70px; /* 与导航高度对齐，避免滚动起始时出现位移 */
 		align-self: start;
-		/* 高度上限预留页脚（约 109px）与底部留白（20px），滚到页尾时侧栏无需上移 */
+		/* 高度上限预留页脚（约 109px）与底部留白（20px） */
 		max-height: calc(100vh - 199px);
 		overflow-y: auto;
-		background: #f2f2f2; /* 与页脚统一的浅灰 */
+		background: #f2f2f2;
 		border-radius: 6px;
-		padding: 12px 8px;
+		padding: 8px;
 		scrollbar-width: thin;
 		scrollbar-color: #d1d5db transparent;
 	}
@@ -62,88 +69,102 @@ const { groups, activeId } = Astro.props;
 		background: transparent;
 	}
 
-	.kb-sidebar-title {
-		font-size: 15px;
-		margin-bottom: 12px;
-		color: #666666;
-	}
-
-	.kb-sidebar-title a:hover {
-		color: var(--text);
-	}
-
 	.article-list {
 		list-style: none;
+		margin: 0;
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 16px;
+		gap: 2px;
 	}
 
+	/* 分组：无底色小标题，点击折叠 */
 	.article-group-title {
-		display: inline-block;
-		font-size: 12px;
+		display: flex;
+		align-items: baseline;
+		gap: 6px;
+		padding: 10px 6px 6px;
+		font-size: 13px;
 		font-weight: 600;
-		color: var(--text);
-		background: #d1d5db;
-		border-radius: 4px;
-		padding: 2px 8px;
-		margin: 0 0 6px 12px;
+		color: #6b7280;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.article-group-title::-webkit-details-marker {
+		display: none;
+	}
+
+	/* 折叠指示：收起时向右，展开时向下 */
+	.article-group-title::before {
+		content: '▸';
+		font-size: 10px;
+		color: #9ca3af;
+		transition: transform 0.15s;
+	}
+
+	details[open] > .article-group-title::before {
+		transform: rotate(90deg);
+	}
+
+	.group-count {
+		font-size: 12px;
+		font-weight: 400;
+		color: #9ca3af;
+		font-variant-numeric: tabular-nums;
 	}
 
 	.article-sublist {
 		list-style: none;
+		margin: 0 0 4px;
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 4px;
+		gap: 1px;
 	}
 
+	/* 条目：相对分组缩进，形成父子层级 */
 	.article-link {
-		display: flex;
-		flex-direction: row;
-		align-items: baseline;
-		width: 100%;
-		text-align: left;
-		padding: 8px 12px;
-		border-radius: 8px;
+		position: relative;
+		display: block;
+		padding: 7px 12px 7px 24px;
+		border-radius: 6px;
+		font-size: 15px;
+		line-height: 1.4;
+		color: var(--text);
 		transition: background 0.15s;
 	}
 
 	.article-link:hover {
-		background: #f3f4f6;
+		background: #ececec;
 	}
 
+	/* 当前篇：左侧黑条 + 加粗，比底色更明确 */
 	.article-link.active {
-		background: #f3f3f3;
-	}
-
-	.article-title {
-		font-size: 15px;
-		color: var(--text);
-		line-height: 1.4;
-	}
-
-	.article-link.active .article-title {
+		background: #e8e8e8;
 		font-weight: 600;
 	}
 
-	/* 窄屏：回到文档流，横向排布 */
+	.article-link.active::before {
+		content: '';
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 2px;
+		height: 14px;
+		border-radius: 1px;
+		background: #111111;
+	}
+
+	/* 窄屏：回到文档流，取消内部滚动 */
 	@media (max-width: 900px) {
 		.kb-sidebar {
 			position: static;
 			max-height: none;
 			overflow-y: visible;
 			order: 1;
-		}
-
-		.article-list {
-			flex-direction: row;
-			flex-wrap: wrap;
-		}
-
-		.article-link {
-			width: auto;
 		}
 	}
 </style>
