@@ -569,13 +569,6 @@ const splitItem = (raw) => {
 	<article class="about">
 		<h1>关于</h1>
 
-		<!-- 页内锚点：长页面快速跳转 -->
-		<nav class="page-toc" aria-label="页内导航">
-			<a href="#intro">自我介绍</a>
-			<a href="#assets">资产</a>
-			<a href="#timeline">我的经历</a>
-		</nav>
-
 		<div class="cols">
 			<!-- 窄栏：活动地图 + 联系方式 + 我的技能 + 资产 -->
 			<div class="col-side">
@@ -920,32 +913,6 @@ const splitItem = (raw) => {
 	:global(main.container) {
 		--content-width: 1600px;
 		max-width: 1600px;
-	}
-
-	/* 页内锚点：跳到板块时避开吸顶导航 */
-	#intro,
-	#assets,
-	#timeline {
-		scroll-margin-top: 120px;
-	}
-
-	.page-toc {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px 20px;
-		margin: -16px 0 28px;
-		font-size: 14px;
-	}
-
-	.page-toc a {
-		color: #555555;
-		border-bottom: 1px solid #d1d5db;
-		padding-bottom: 1px;
-	}
-
-	.page-toc a:hover {
-		color: #111111;
-		border-bottom-color: #555555;
 	}
 
 	.cols {
