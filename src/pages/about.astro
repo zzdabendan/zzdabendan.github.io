@@ -672,7 +672,7 @@ const splitItem = (raw) => {
 							<summary>每月花费（{fixedTotal}）</summary>
 							<ul class="item-list">
 								{fixedSimple.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 							<div class="sub-grid">
@@ -706,7 +706,7 @@ const splitItem = (raw) => {
 							<summary>每月收入</summary>
 							<ul class="item-list">
 								{incomeRows.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 						</details>
@@ -714,7 +714,7 @@ const splitItem = (raw) => {
 							<summary>每月欠款（{totalDebt}）</summary>
 							<ul class="item-list">
 								{debtRows.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 						</details>
@@ -728,7 +728,7 @@ const splitItem = (raw) => {
 							<summary>当月存款（{totalDeposit}）</summary>
 							<ul class="item-list">
 								{depositRows.map((r) => (
-									<li class={r.tone}><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class:list={[r.tone, { 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 						</details>
@@ -744,11 +744,11 @@ const splitItem = (raw) => {
 								<div class="category">
 
 								{cat.zones ? (
-									<div class="zone-list">
-										{cat.zones.map((zone) => (
-											<div class={`zone ${zone.tone || ''}`}>
-												<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
-												{zone.items.length > 0 ? (
+									<>
+										<div class="zone-list">
+											{cat.zones.filter((zone) => zone.items.length > 0).map((zone) => (
+												<div class={`zone ${zone.tone || ''}`}>
+													<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
 													<ul class="item-list">
 														{zone.items.map((item) => {
 															const { name, value } = splitItem(item);
@@ -757,12 +757,15 @@ const splitItem = (raw) => {
 															);
 														})}
 													</ul>
-												) : (
-													<p class="zone-empty">待补充</p>
-												)}
-											</div>
-										))}
-									</div>
+												</div>
+											))}
+										</div>
+										{cat.zones.some((zone) => zone.items.length === 0) && (
+											<p class="zone-empty-note">
+												待补充：{cat.zones.filter((zone) => zone.items.length === 0).map((zone) => zone.name).join('、')}
+											</p>
+										)}
+									</>
 								) : (
 									<div class="zone">
 										<ul class="item-list">
@@ -1390,10 +1393,28 @@ const splitItem = (raw) => {
 	.tone-black-box .zone-count { color: #e6e6e6; }
 	.tone-black-box .item-list li { color: #ffffff; }
 	.tone-black-box .item-list li span:first-child { color: #ffffff; }
-	.tone-black-box .zone-empty { color: #cfcfcf; }
 	.tone-black-box .item-list .num { color: #ffffff; font-weight: 600; }
 	.tone-debt { --tone-bg: #f6c4c7; --tone-bd: #e09aa0; }
 	.tone-debt .item-list .num { color: #991b1b; }
+
+	/* 零值行：透明底灰字，降低噪声 */
+	.item-list li.is-zero {
+		background: transparent;
+		border-color: transparent;
+	}
+
+	.item-list li.is-zero span,
+	.item-list li.is-zero span:first-child,
+	.item-list li.is-zero .num {
+		color: #6b7280;
+	}
+
+	/* 空区域合并成一行提示 */
+	.zone-empty-note {
+		margin: 8px 0 0;
+		font-size: 13px;
+		color: #6b7280;
+	}
 
 	/* 区域卡片并列排布，减少纵向高度 */
 	.sub-grid {
@@ -1493,13 +1514,6 @@ const splitItem = (raw) => {
 		font-weight: 400;
 		color: #555;
 		margin-left: 6px;
-	}
-
-	.zone-empty {
-		margin: 0;
-		font-size: 13px;
-		color: var(--muted);
-		padding: 8px 10px;
 	}
 
 	/* ===== 我的经历 ===== */
