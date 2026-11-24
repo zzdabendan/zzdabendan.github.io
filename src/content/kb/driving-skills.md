@@ -1,6 +1,6 @@
 ---
 title: 驾驶
-category: 生活
+category: 个人
 summary: 个人驾考笔记，包含驾校报名花费、科目一法规知识点、科目二三练习与考试记录、科目四、购车用车。
 order: 17
 video: 'BV1Mh2fBFEAG'

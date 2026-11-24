@@ -1,6 +1,6 @@
 ---
 title: 学习
-category: 生活
+category: 个人
 summary: 工作之外的自我学习计划，包含已购买书籍清单。
 order: 6
 ---

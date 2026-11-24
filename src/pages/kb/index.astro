@@ -9,7 +9,7 @@ import SearchBox from '../../components/SearchBox.astro';
 // 知识库首页：与文章详情页一致的三栏布局
 // 左栏文章列表 / 中栏导读、管理方法、分组导航 / 右栏本页目录
 const all = await getCollection('kb');
-const groups = ['生活', '学校', '工作'].map((category) => ({
+const groups = ['个人', '社会'].map((category) => ({
 	category,
 	items: all
 		.filter((a) => a.data.category === category)
@@ -44,7 +44,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 			<main class="kb-content">
 				<h1 class="article-h1">知识库</h1>
 				<p class="kb-stats">
-					共 {all.length} 篇 · 生活 {groups[0].items.length} · 学校 {groups[1].items.length} · 工作 {groups[2].items.length}
+					共 {all.length} 篇 · 个人 {groups[0].items.length} · 社会 {groups[1].items.length}
 				</p>
 
 				<SearchBox />
@@ -87,7 +87,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					<h2 id="管理方法">知识库管理方法</h2>
 					<h3>分类原则</h3>
 					<p>
-						固定三个分组，不再新增：生活放日常方法、习惯与收藏；学校放学生时代的功课笔记；工作放技术笔记与工作方法。新文章只归入其中一组。
+						固定两个分组，不再新增：个人放日常生活方法、习惯、关系与工具；社会放学生时代的功课笔记、工作技术笔记与社会经历。新文章只归入其中一组。
 					</p>
 					<h3>条目管理</h3>
 					<p>

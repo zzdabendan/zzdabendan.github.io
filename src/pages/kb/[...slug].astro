@@ -20,7 +20,7 @@ const { Content, headings } = await render(entry);
 
 // 左栏：全部文章按分组列出，当前篇高亮，组内序号从 1 开始
 const all = await getCollection('kb');
-const sidebarGroups = ['生活', '学校', '工作'].map((category) => ({
+const sidebarGroups = ['个人', '社会'].map((category) => ({
 	category,
 	items: all
 		.filter((a) => a.data.category === category)

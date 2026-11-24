@@ -60,9 +60,9 @@ const socialLinks = [
 const contactList = [...contacts, ...socialLinks].flatMap((c) =>
 	c.items.map((item) => ({ label: c.label, item }))
 );
-// 技能标签：直接取知识库目录，按「生活 → 学校 → 工作」分组、组内按 order 排序
+// 技能标签：直接取知识库目录，按「个人 → 社会」分组、组内按 order 排序
 const kbEntries = await getCollection('kb');
-const skillTags = ['生活', '学校', '工作'].flatMap((category) =>
+const skillTags = ['个人', '社会'].flatMap((category) =>
 	kbEntries
 		.filter((entry) => entry.data.category === category)
 		.sort((a, b) => a.data.order - b.data.order)
