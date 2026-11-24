@@ -656,12 +656,11 @@ const splitItem = (raw) => {
 					</p>
 				</section>
 
-				<!-- 资产：流水（每月花费 / 每月收入 / 每月欠款）+ 存量（钱 / 物） -->
+				<!-- 资产：每月花费 / 每月收入 / 每月欠款，下接当月存款与物品 -->
 				<section class="card assets" id="assets">
 					<h2>我的资产</h2>
 
 					<div class="asset-block asset-flow finance">
-						<h3 class="sub-title">流水</h3>
 
 					<div class="detail-grid">
 						<details class="detail-group tone-spend">
@@ -719,7 +718,6 @@ const splitItem = (raw) => {
 					</div>
 
 					<div class="asset-block asset-stock">
-						<h3 class="sub-title">存量</h3>
 
 						<details class="detail-group tone-deposit" open>
 							<summary>当月存款（{totalDeposit}）</summary>
@@ -1028,7 +1026,7 @@ const splitItem = (raw) => {
 	}
 
 	.asset-flow { order: 1; }
-	.asset-stock { order: 2; }
+	.asset-stock { order: 2; margin-top: 16px; }
 
 	/* 中等宽度：三栏太挤，感悟谋划落到自我介绍下方 */
 	@media (max-width: 1320px) {
@@ -1083,19 +1081,6 @@ const splitItem = (raw) => {
 		margin: 0 0 16px;
 		padding-bottom: 6px;
 		border-bottom: 2px solid #555555;
-	}
-
-	/* 三级标题：子板块，和知识库 h3 一致 */
-	.sub-title {
-		font-size: 15px;
-		font-weight: 600;
-		margin: 20px 0 12px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		/* 用 block + fit-content 代替 inline-block，避免行盒带来的额外间距 */
-		display: block;
-		width: fit-content;
 	}
 
 	/* 我的技能：普通正文文本 + 链接样式，标签之间用顿号分隔 */
