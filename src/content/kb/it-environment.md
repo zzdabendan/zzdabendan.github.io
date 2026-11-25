@@ -1,6 +1,6 @@
 ---
 title: 电脑
-category: 个人
+category: 生活
 summary: 个人电脑硬件、驱动、系统、软件、用户配置与环境搭建记录，含网站架构和地图嵌入方案。
 order: 14
 ---

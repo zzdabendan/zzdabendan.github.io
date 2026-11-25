@@ -9,19 +9,20 @@ import SearchBox from '../../components/SearchBox.astro';
 // 知识库首页：与文章详情页一致的三栏布局
 // 左栏文章列表 / 中栏导读、管理方法、分组导航 / 右栏本页目录
 const all = await getCollection('kb');
-const groups = ['个人', '社会'].map((category) => ({
+const groups = ['生活', '学校', '工作'].map((category) => ({
 	category,
 	items: all
 		.filter((a) => a.data.category === category)
 		.sort((a, b) => a.data.order - b.data.order),
 }));
 
-// 左栏组件数据：只取 id 与标题
+// 左栏组件数据：取 id、标题与组内序号（补零到两位，1 → 01）
 const sidebarGroups = groups.map((g) => ({
 	category: g.category,
-	items: g.items.map((a) => ({
+	items: g.items.map((a, i) => ({
 		id: a.id,
 		title: a.data.title,
+		no: String(i + 1).padStart(2, '0'),
 	})),
 }));
 
@@ -44,7 +45,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 			<main class="kb-content">
 				<h1 class="article-h1">知识库</h1>
 				<p class="kb-stats">
-					共 {all.length} 篇 · 个人 {groups[0].items.length} · 社会 {groups[1].items.length}
+					共 {all.length} 篇 · 生活 {groups[0].items.length} · 学校 {groups[1].items.length} · 工作 {groups[2].items.length}
 				</p>
 
 				<SearchBox />
@@ -68,17 +69,18 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					groups.map((group) => (
 						<section data-group={group.category}>
 							<h2 id={group.category}>{group.category}</h2>
-							<p class="kb-links">
-								{group.items.map((article) => (
+							<div class="card-grid">
+								{group.items.map((article, i) => (
 									<a
 										href={`/kb/${article.id}/`}
-										class="kb-link"
+										class="card-item"
 										data-tags={JSON.stringify(article.data.tags ?? [])}
 									>
-										{article.data.title}
+										<span class="card-no">{String(i + 1).padStart(2, '0')}</span>
+										<span class="card-title">{article.data.title}</span>
 									</a>
 								))}
-							</p>
+							</div>
 						</section>
 					))
 				}
@@ -87,7 +89,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					<h2 id="管理方法">知识库管理方法</h2>
 					<h3>分类原则</h3>
 					<p>
-						固定两个分组，不再新增：个人放日常生活方法、习惯、关系与工具；社会放学生时代的功课笔记、工作技术笔记与社会经历。新文章只归入其中一组。
+						固定三个分组，不再新增：生活放日常方法、习惯与收藏；学校放学生时代的功课笔记；工作放技术笔记与工作方法。新文章只归入其中一组。
 					</p>
 					<h3>条目管理</h3>
 					<p>
@@ -110,7 +112,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		// 标签筛选：点击标签显示对应文章，点击"全部"恢复
 		document.addEventListener('DOMContentLoaded', () => {
 			const btns = document.querySelectorAll('.tag-btn');
-			const links = document.querySelectorAll('.kb-link');
+			const cards = document.querySelectorAll('.card-item');
 			const sections = document.querySelectorAll('section[data-group]');
 
 			btns.forEach((btn) => {
@@ -119,18 +121,17 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					btns.forEach((b) => b.classList.remove('active'));
 					btn.classList.add('active');
 
-					links.forEach((link) => {
-						const tags = JSON.parse(link.dataset.tags || '[]');
-						link.style.display = !tag || tags.includes(tag) ? '' : 'none';
+					cards.forEach((card) => {
+						const tags = JSON.parse(card.dataset.tags || '[]');
+						card.style.display = !tag || tags.includes(tag) ? '' : 'none';
 					});
 
-					// 隐藏空分组，并让每组最后一条不显示顿号
+					// 隐藏空分组
 					sections.forEach((sec) => {
-						const visible = [...sec.querySelectorAll('.kb-link')].filter(
-							(el) => el.style.display !== 'none'
+						const hasVisible = [...sec.querySelectorAll('.card-item')].some(
+							(c) => c.style.display !== 'none'
 						);
-						visible.forEach((el, i) => el.classList.toggle('is-last', i === visible.length - 1));
-						sec.style.display = visible.length ? '' : 'none';
+						sec.style.display = hasVisible ? '' : 'none';
 					});
 				});
 			});
@@ -176,31 +177,41 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		border-bottom: 1px solid #e5e7eb;
 	}
 
-	/* 段落式文章列表：与关于页技能标签一致 */
-	.kb-links {
+	/* 卡片网格 */
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 12px;
 		margin: 8px 0 24px;
-		font-size: 15px;
-		line-height: 1.9;
 	}
 
-	.kb-link {
-		color: #2563eb;
+	.card-item {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 16px;
+		border: 1px solid var(--line);
+		border-radius: 6px;
+		background: #fcfcfc;
 		text-decoration: none;
+		transition: border-color 0.15s, box-shadow 0.15s;
 	}
 
-	.kb-link:hover {
-		text-decoration: underline;
+	.card-no {
+		font-size: 13px;
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
 	}
 
-	/* 条目之间用顿号分隔 */
-	.kb-link:not(:last-child)::after {
-		content: '、';
+	.card-item:hover {
+		border-color: #9ca3af;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	}
+
+	.card-title {
+		font-size: 15px;
+		font-weight: 600;
 		color: var(--text);
-	}
-
-	/* 标签筛选后，每组最后一条不显示顿号 */
-	.kb-link.is-last::after {
-		content: '';
 	}
 
 	/* 标签栏 */

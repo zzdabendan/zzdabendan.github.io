@@ -1,6 +1,6 @@
 ---
 title: 数据
-category: 个人
+category: 生活
 summary: 人口、地理与国家常用统计指标的口径、参考数值与分母差异。
 order: 15
 ---

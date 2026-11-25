@@ -1,6 +1,6 @@
 ---
 title: 思考
-category: 个人
+category: 生活
 summary: 关于怎么思考的方法笔记：看清自己在想什么、把问题问准、拆成小问题、换角度、验证与复盘。
 order: 10
 tags: [思考, 方法]

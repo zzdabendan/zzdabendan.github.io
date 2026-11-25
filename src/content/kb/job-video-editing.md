@@ -1,8 +1,8 @@
 ---
 title: 视频剪辑
-category: 社会
+category: 工作
 summary: 学校实习期间的视频剪辑岗位笔记，记录剪辑流程、常用软件与成片交付要点。
-order: 6
+order: -2.4
 tags: [工作, 实习, 视频剪辑]
 ---
 

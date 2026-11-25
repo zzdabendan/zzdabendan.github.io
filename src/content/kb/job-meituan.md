@@ -1,8 +1,8 @@
 ---
 title: 兼职外卖
-category: 社会
+category: 工作
 summary: 美团众包兼职的接单流程、配送要点与成本收入的实际经验。
-order: 11
+order: -1.9
 tags: [工作, 外卖, 兼职]
 ---
 

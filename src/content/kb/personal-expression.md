@@ -1,6 +1,6 @@
 ---
 title: 表达
-category: 个人
+category: 生活
 summary: 个人表达的方法与场景笔记：表达目标、口头与书面表达、对象差异和常见问题。
 order: 11
 ---

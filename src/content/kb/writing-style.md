@@ -1,6 +1,6 @@
 ---
 title: 写作
-category: 个人
+category: 生活
 summary: 写作中重复性内容的标准格式：布局、标题、段落、列表、链接、代码、图片、视频的统一写法。
 order: 13
 tags: [排版, 规范]
