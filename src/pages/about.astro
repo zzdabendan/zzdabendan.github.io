@@ -573,6 +573,115 @@ const splitItem = (raw) => {
 		<h1>关于</h1>
 
 		<div class="cols">
+
+			<section class="card assets" id="assets">
+				<h2>我的资产</h2>
+
+				<div class="asset-block asset-flow">
+
+				<div class="detail-grid">
+					<details class="detail-group tone-spend">
+						<summary>每月花费（{fixedTotal}）</summary>
+						<ul class="item-list">
+							{fixedSimple.map((r) => (
+								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
+							))}
+						</ul>
+						<div class="sub-grid">
+							{fixedGroups.map((r) => (
+								<div class="zone sub-card">
+									<h4 class="zone-title">
+										{r.label}
+										<span class="zone-count">{r.sub.length} 项</span>
+										<span class="zone-value">{r.value}</span>
+									</h4>
+									<ul class="item-list">
+										{r.sub.map((s) => (
+											<li>
+												<span>{s.label}<em class="unit">{s.unit}</em></span>
+												<span class="num">{s.value}</span>
+											</li>
+										))}
+									</ul>
+									{r.subNote && (
+										<div class="sub-notes">
+											{r.subNote.map((line) => (
+												<p class="sub-note">{line}</p>
+											))}
+										</div>
+									)}
+								</div>
+							))}
+						</div>
+					</details>
+					<details class="detail-group tone-income">
+						<summary>每月收入</summary>
+						<ul class="item-list">
+							{incomeRows.map((r) => (
+								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
+							))}
+						</ul>
+					</details>
+					<details class="detail-group tone-debt">
+						<summary>每月欠款（{totalDebt}）</summary>
+						<ul class="item-list">
+							{debtRows.map((r) => (
+								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
+							))}
+						</ul>
+					</details>
+				</div>
+
+				</div>
+
+				<div class="asset-block asset-stock">
+
+					<details class="detail-group" open>
+						<summary>当月存款（{totalDeposit}）</summary>
+						<ul class="item-list">
+							{depositRows.map((r) => (
+								<li class:list={[r.tone, { 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
+							))}
+						</ul>
+					</details>
+
+					<div class="categories">
+						<p class="cat-legend">
+							{categories.map((cat) => (
+								<span class={`cat-legend-item ${cat.tone}`}>
+									{cat.name}
+									<span class="cat-count">
+										{cat.zones
+											? cat.zones.reduce((s, z) => s + z.items.length, 0)
+											: cat.items.length}
+									</span>
+								</span>
+							))}
+						</p>
+						{categories.flatMap((cat) =>
+							(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
+								.filter((zone) => zone.items.length > 0)
+								.map((zone) => (
+									<div class={`zone ${zone.tone || ''}`}>
+										<h4 class="zone-title">
+											{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
+											<span class="zone-count">{zone.items.length}</span>
+										</h4>
+										<ul class="item-list">
+											{zone.items.map((item) => {
+												const { name, value } = splitItem(item);
+												return (
+													<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+												);
+											})}
+										</ul>
+									</div>
+								))
+						)}
+					</div>
+				</div>
+			</section>
+
 			<!-- 窄栏：活动地图 + 我的经历 -->
 			<div class="col-side">
 				<section class="card side-map">
@@ -662,113 +771,6 @@ const splitItem = (raw) => {
 			</aside>
 
 			<!-- 资产：每月花费 / 每月收入 / 每月欠款，下接当月存款与物品 -->
-				<section class="card assets" id="assets">
-					<h2>我的资产</h2>
-
-					<div class="asset-block asset-flow">
-
-					<div class="detail-grid">
-						<details class="detail-group tone-spend">
-							<summary>每月花费（{fixedTotal}）</summary>
-							<ul class="item-list">
-								{fixedSimple.map((r) => (
-									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
-								))}
-							</ul>
-							<div class="sub-grid">
-								{fixedGroups.map((r) => (
-									<div class="zone sub-card">
-										<h4 class="zone-title">
-											{r.label}
-											<span class="zone-count">{r.sub.length} 项</span>
-											<span class="zone-value">{r.value}</span>
-										</h4>
-										<ul class="item-list">
-											{r.sub.map((s) => (
-												<li>
-													<span>{s.label}<em class="unit">{s.unit}</em></span>
-													<span class="num">{s.value}</span>
-												</li>
-											))}
-										</ul>
-										{r.subNote && (
-											<div class="sub-notes">
-												{r.subNote.map((line) => (
-													<p class="sub-note">{line}</p>
-												))}
-											</div>
-										)}
-									</div>
-								))}
-							</div>
-						</details>
-						<details class="detail-group tone-income">
-							<summary>每月收入</summary>
-							<ul class="item-list">
-								{incomeRows.map((r) => (
-									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
-								))}
-							</ul>
-						</details>
-						<details class="detail-group tone-debt">
-							<summary>每月欠款（{totalDebt}）</summary>
-							<ul class="item-list">
-								{debtRows.map((r) => (
-									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
-								))}
-							</ul>
-						</details>
-					</div>
-
-					</div>
-
-					<div class="asset-block asset-stock">
-
-						<details class="detail-group" open>
-							<summary>当月存款（{totalDeposit}）</summary>
-							<ul class="item-list">
-								{depositRows.map((r) => (
-									<li class:list={[r.tone, { 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
-								))}
-							</ul>
-						</details>
-
-						<div class="categories">
-							<p class="cat-legend">
-								{categories.map((cat) => (
-									<span class={`cat-legend-item ${cat.tone}`}>
-										{cat.name}
-										<span class="cat-count">
-											{cat.zones
-												? cat.zones.reduce((s, z) => s + z.items.length, 0)
-												: cat.items.length}
-										</span>
-									</span>
-								))}
-							</p>
-							{categories.flatMap((cat) =>
-								(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
-									.filter((zone) => zone.items.length > 0)
-									.map((zone) => (
-										<div class={`zone ${zone.tone || ''}`}>
-											<h4 class="zone-title">
-												{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
-												<span class="zone-count">{zone.items.length}</span>
-											</h4>
-											<ul class="item-list">
-												{zone.items.map((item) => {
-													const { name, value } = splitItem(item);
-													return (
-														<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-													);
-												})}
-											</ul>
-										</div>
-									))
-							)}
-						</div>
-					</div>
-				</section>
 		</div>
 	</article>
 
@@ -926,16 +928,18 @@ const splitItem = (raw) => {
 		align-items: start;
 	}
 
-	/* 资产卡跨三栏：8 个区域横排并列 */
+	/* 资产卡跨三栏置顶：8 个区域横排并列 */
 	.cols > .card.assets {
 		grid-column: 1 / -1;
-		margin-top: 40px;
+		grid-row: 1;
+		margin-top: 0;
+		margin-bottom: 32px;
 	}
 
 	/* 中栏在中间：自我介绍 + 我的经历 */
 	.col-main {
 		grid-column: 2;
-		grid-row: 1;
+		grid-row: 2;
 		/* 内容依次纵向排列 */
 		display: flex;
 		flex-direction: column;
@@ -946,7 +950,7 @@ const splitItem = (raw) => {
 
 	.col-side {
 		grid-column: 1;
-		grid-row: 1;
+		grid-row: 2;
 		/* 窄栏内容已超过一屏，取消吸顶以免底部被裁掉 */
 		position: static;
 		background: #fafafa;
@@ -957,7 +961,7 @@ const splitItem = (raw) => {
 	/* 右栏：感悟与谋划上下排列 */
 	.col-note {
 		grid-column: 3;
-		grid-row: 1;
+		grid-row: 2;
 		display: grid;
 		gap: 24px;
 		align-content: start;
@@ -1036,17 +1040,17 @@ const splitItem = (raw) => {
 
 		.col-side {
 			grid-column: 1;
-			grid-row: 1;
+			grid-row: 2;
 		}
 
 		.col-main {
 			grid-column: 2;
-			grid-row: 1;
+			grid-row: 2;
 		}
 
 		.col-note {
 			grid-column: 2;
-			grid-row: 2;
+			grid-row: 3;
 			margin-top: 40px;
 		}
 	}
@@ -1065,7 +1069,7 @@ const splitItem = (raw) => {
 
 		#intro { order: 1; }
 		#assets {
-			order: 2;
+			order: 0;
 			margin-top: 0;
 		}
 		#timeline { order: 3; }
