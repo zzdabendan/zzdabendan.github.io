@@ -1200,6 +1200,15 @@ const splitItem = (raw) => {
 	}
 
 	/* 资金卡：四阶段纵向分节 */
+	.money-section + .money-section {
+		border-top: 1px solid #e6e6e6;
+	}
+
+	/* 展开中的节标题加深，与收起的节区分 */
+	.money-section[open] > summary {
+		color: #374151;
+	}
+
 	.money-section > summary {
 		display: flex;
 		align-items: baseline;
