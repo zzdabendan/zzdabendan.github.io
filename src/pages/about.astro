@@ -649,18 +649,6 @@ const splitItem = (raw) => {
 					</div>
 
 					<div class="categories">
-						<p class="cat-legend">
-							{categories.map((cat) => (
-								<span class={`cat-legend-item ${cat.tone}`}>
-									{cat.name}
-									<span class="cat-count">
-										{cat.zones
-											? cat.zones.reduce((s, z) => s + z.items.length, 0)
-											: cat.items.length}
-									</span>
-								</span>
-							))}
-						</p>
 						{categories.flatMap((cat) =>
 							(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
 								.filter((zone) => zone.items.length > 0)
@@ -1298,47 +1286,12 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 物品 ===== */
-	/* 物品分类：一行图例 + 8 个区域横排，一区一列 */
+	/* 物品分类：8 个区域横排，一区一列 */
 	.categories {
 		display: grid;
 		grid-template-columns: repeat(8, minmax(0, 1fr));
 		gap: 16px;
 		align-items: start;
-	}
-
-	/* 分类图例：随行物品 / 楼内使用 / 楼内存放，色条对应各列 */
-	.cat-legend {
-		grid-column: 1 / -1;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 16px;
-		margin: 0 0 4px;
-	}
-
-	.cat-legend-item {
-		padding-left: 8px;
-		border-left: 4px solid var(--tone-bd, #9ca3af);
-		font-size: 14px;
-		font-weight: 600;
-		color: #333333;
-	}
-
-	/* 分组标题：与流水的分组标题同为四级标题（14px + 细线） */
-	.asset-stock .detail-group summary {
-		font-size: 14px;
-		font-weight: 600;
-		color: #333333;
-		margin: 0;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #9ca3af;
-		display: block;
-	}
-
-	.cat-count {
-		font-size: 12px;
-		font-weight: 400;
-		color: #555;
-		margin-left: 6px;
 	}
 
 	/* 统一网格：五个分类下的条目都用同一套网格与卡片 */
