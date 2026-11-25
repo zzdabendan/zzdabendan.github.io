@@ -1207,19 +1207,11 @@ const splitItem = (raw) => {
 	}
 
 	/* 资金卡：四阶段纵向分节 */
-	.money-section {
-		border-top: 1px solid #ececec;
-	}
-
-	.money-section:first-child {
-		border-top: none;
-	}
-
 	.money-section > summary {
 		display: flex;
 		align-items: baseline;
 		gap: 6px;
-		padding: 6px 0;
+		padding: 8px 0;
 		font-size: 12px;
 		font-weight: 600;
 		color: #6b7280;
@@ -1243,6 +1235,10 @@ const splitItem = (raw) => {
 
 	.money-section > summary > span:last-child {
 		margin-left: auto;
+		font-size: 13px;
+		font-weight: 600;
+		color: #111827;
+		font-variant-numeric: tabular-nums;
 	}
 
 	.money-section .item-list {
@@ -1302,10 +1298,17 @@ const splitItem = (raw) => {
 		border-color: transparent;
 	}
 
-	.item-list li.is-zero span,
-	.item-list li.is-zero span:first-child,
-	.item-list li.is-zero .num {
+	.zone .item-list li.is-zero span,
+	.zone .item-list li.is-zero span:first-child,
+	.zone .item-list li.is-zero .num {
 		color: #6b7280;
+	}
+
+	/* 深一阶底色上把零值提亮，保证小字对比度 */
+	.tone-rmb.zone .item-list li.is-zero span,
+	.tone-rmb.zone .item-list li.is-zero span:first-child,
+	.tone-rmb.zone .item-list li.is-zero .num {
+		color: #4b5563;
 	}
 
 	.zone {
@@ -1319,7 +1322,7 @@ const splitItem = (raw) => {
 	/* 卡片内部的条目退化为普通行，避免嵌套卡片 */
 	.zone .item-list {
 		display: block;
-		padding: 4px 0 0;
+		padding: 0;
 		margin: 0;
 	}
 
@@ -1338,6 +1341,7 @@ const splitItem = (raw) => {
 	.zone .item-list .num {
 		color: #111827;
 		font-weight: 500;
+		font-variant-numeric: tabular-nums;
 	}
 
 	/* 区域标题：纯文本标题，无底色与分割线 */
@@ -1348,25 +1352,26 @@ const splitItem = (raw) => {
 		font-size: 14px;
 		font-weight: 600;
 		color: #111827;
-		margin: 0;
-		padding: 0 0 4px;
+		margin: 0 0 4px;
+		padding: 0 0 6px;
+		border-bottom: 1px solid #d4d4d4;
 	}
 
 	.zone-title .zone-count {
 		margin-left: 0;
-		color: #9ca3af;
+		color: #4b5563;
 	}
 
 	.zone-title .zone-sup {
 		font-size: 11px;
 		font-weight: 400;
-		color: #9ca3af;
+		color: #4b5563;
 	}
 
 	.zone-count {
 		font-size: 11px;
 		font-weight: 400;
-		color: #9ca3af;
+		color: #4b5563;
 		margin-left: 6px;
 	}
 
