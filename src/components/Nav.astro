@@ -27,10 +27,12 @@ const isActive = (href: string) =>
 			</a>
 			<div class="nav-meta">
 				<span class="nav-birth">2001-09-23</span>
-				<span class="nav-energy" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="nav-energy-fill" class="nav-energy-fill"></span></span>
 				<span id="nav-time" class="nav-time"></span>
 			</div>
 			<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
+		</div>
+		<div class="nav-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+			<span id="nav-energy-fill" class="nav-energy-fill"></span>
 		</div>
 		<div class="nav-row">
 			<nav>
@@ -66,7 +68,7 @@ const isActive = (href: string) =>
 		gap: 6px;
 	}
 
-	/* 第一行：姓名居左，中间为出生时间 + 能量条 + 当前时间，右侧留空 */
+	/* 第一行：姓名居左，中间为出生时间与当前时间，右侧留空 */
 	.nav-top {
 		position: relative;
 		display: flex;
@@ -75,22 +77,13 @@ const isActive = (href: string) =>
 		min-height: 26px;
 	}
 
-	/* 中间信息组：左右两块等分宽度，让能量条严格落在页面中线，与第二行导航对齐 */
+	/* 中间信息组：出生时间与当前时间成对居中 */
 	.nav-meta {
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		justify-content: center;
+		gap: 16px;
 		width: 100%;
-	}
-
-	.nav-birth {
-		flex: 1 1 0;
-		text-align: right;
-	}
-
-	.nav-time {
-		flex: 1 1 0;
-		text-align: left;
 	}
 
 	/* 网站标题：固定在左端，不参与中部居中计算 */
@@ -118,19 +111,13 @@ const isActive = (href: string) =>
 		font-variant-numeric: tabular-nums;
 	}
 
-	/* 出生日期与当前时间之间的随机能量条 */
-	.nav-energy {
-		display: inline-block;
-		flex: 0 0 auto;
-		/* 宽度自适应：窄屏 200px 起，宽屏最多 460px，形成横贯中部的基准条 */
-		width: clamp(200px, 39%, 460px);
-		height: 6px;
-		margin: 0;
-		border: 1px solid #9ca3af;
-		border-radius: 999px;
-		background: #ffffff;
+	/* 全宽能量条：横贯页头，充作第二行导航的基准线 */
+	.nav-bar {
+		width: 100%;
+		height: 4px;
+		margin: 8px 0 6px;
+		background: #ececec;
 		overflow: hidden;
-		vertical-align: middle;
 	}
 
 	.nav-energy-fill {
@@ -138,7 +125,7 @@ const isActive = (href: string) =>
 		width: 0;
 		height: 100%;
 		background: #111111;
-		border-radius: 999px;
+		border-radius: 0;
 		transition: width 0.6s ease;
 	}
 
@@ -224,8 +211,9 @@ const isActive = (href: string) =>
 		}
 
 		/* 手机端收窄一点，避免两侧文字被挤 */
-		.nav-energy {
-			width: 64px;
+		.nav-bar {
+			height: 3px;
+			margin: 6px 0 4px;
 		}
 
 		.nav-birth,
