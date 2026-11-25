@@ -1030,7 +1030,16 @@ const splitItem = (raw) => {
 	}
 
 	.asset-flow { order: 1; }
-	.asset-stock { order: 2; margin-top: 16px; }
+
+	/* 存量：当月存款在左，物品区在右，横向并排 */
+	.asset-stock {
+		order: 2;
+		margin-top: 16px;
+		display: grid;
+		grid-template-columns: 200px minmax(0, 1fr);
+		gap: 24px;
+		align-items: start;
+	}
 
 	/* 中等宽度：三栏太挤，感悟谋划落到自我介绍下方 */
 	@media (max-width: 1320px) {
@@ -1311,9 +1320,9 @@ const splitItem = (raw) => {
 		color: #333333;
 	}
 
-	/* 存款与后续分类之间的行距 */
+	/* 存量为左列，不再需要底部间距 */
 	.asset-stock > .detail-group {
-		margin-bottom: 16px;
+		margin-bottom: 0;
 	}
 
 	/* 分组标题：与流水的分组标题同为四级标题（14px + 细线） */
