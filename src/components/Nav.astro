@@ -122,7 +122,8 @@ const isActive = (href: string) =>
 	.nav-energy {
 		display: inline-block;
 		flex: 0 0 auto;
-		width: 80px;
+		/* 宽度自适应：窄屏 200px 起，宽屏最多 460px，形成横贯中部的基准条 */
+		width: clamp(200px, 39%, 460px);
 		height: 6px;
 		margin: 0;
 		border: 1px solid #9ca3af;
