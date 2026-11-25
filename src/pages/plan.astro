@@ -1,12 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import VideoBili from '../components/VideoBili.astro';
 
-// 运动示范视频：bv 留空时显示占位卡，补上 BV 号后自动变成可点击播放
-type Video = { title: string; bv?: string };
-type Phase = { phase: string; goal: string; items: string[]; videos?: Video[] };
-
-// 一日计划：24 小时逐小时安排，每小时三档优先级
+// ===== 战术层：一日作息（折叠附录）=====
 const priorityNames = ['首要安排', '次要安排', '其他安排'];
 
 const dailyPlan = [
@@ -56,228 +51,409 @@ const dailyRows = dailyPlan.map((row) => ({
 	}),
 }));
 
-// 计划数据：5 个主题，每个主题含短/中/长三层
-const themes: { name: string; phases: Phase[] }[] = [
+// ===== 战略层：这一年要什么 =====
+const strategies = [
+	{
+		name: '身体',
+		goal: '把锻炼变成日常，体重和体能回到稳定区间',
+		why: '长期目标是坚持锻炼健身，保持健康的身体。',
+		check: '每周训练不少于 5 次；体重、BMI 按月记录',
+	},
+	{
+		name: '钱',
+		goal: '存到 1 万元，先让每月收支转正',
+		why: '存钱是摆脱只用时间换钱的起点。',
+		check: '每月存款额为正；距离 1 万元的余额',
+	},
+	{
+		name: '能力',
+		goal: '把岗位经验沉淀成能复用的文档和方法',
+		why: '现在的工作以客服技术维护和客户服务为主。',
+		check: '知识库新增篇数；岗位文档完成率',
+	},
+];
+
+// ===== 战役层：这一季各条战线 =====
+type Battle = {
+	name: string;
+	goal: string;
+	milestones: string[];
+	metrics: string[];
+	risks: string[];
+	plan: string;
+};
+
+const battles: Battle[] = [
 	{
 		name: '运动',
-		phases: [
-			{
-				phase: '短期',
-				goal: '每天按结构吃三餐，完成一次自重训练',
-				items: [
-					'热身 5 分钟：肩颈、手腕脚踝、开合跳、高抬腿',
-					'俯卧撑：3 组，组间休息 60 秒',
-					'深蹲：3 组 × 15 次',
-					'引体向上：3 组，做到力竭前一次为止',
-					'三餐按「蔬菜 + 主食 + 蛋白」搭配，饮水 1000ml',
-					'训练后拉伸 5 分钟',
-				],
-				videos: [
-					{ title: '热身动作' },
-					{ title: '俯卧撑标准动作' },
-					{ title: '深蹲标准动作' },
-					{ title: '引体向上标准动作' },
-					{ title: '拉伸与放松' },
-				],
-			},
-			{
-				phase: '中期',
-				goal: '坚持 30 天，观察身体指数变化',
-				items: [
-					'BMI：记录体重与身高比例变化',
-					'肌肉量：观察手臂、腿部、核心肌群围度',
-					'力气：俯卧撑、深蹲、引体向上的单次最大数量增长',
-					'动作质量：从借力代偿到标准发力',
-				],
-			},
-			{
-				phase: '长期',
-				goal: '坚持到质变，身材明显改善',
-				items: [
-					'体型：从偏胖到匀称，体脂率下降',
-					'体能：运动耐力与爆发力显著提升',
-					'习惯：饮食与运动成为生活本能而非任务',
-					'质变：身材改善达到肉眼可见的程度',
-				],
-			},
+		goal: '连续 30 天完成自重训练与三餐结构',
+		milestones: [
+			'第 1 周：固定时段，19:00–20:00 只做训练',
+			'第 2–3 周：动作标准度优先于数量',
+			'第 4 周：量一次围度与最大次数，做第一次对比',
 		],
+		metrics: ['BMI、体重', '俯卧撑 / 深蹲 / 引体向上单次最大数', '每周完成训练天数'],
+		risks: ['天气转冷、感冒打断节奏', '加班或兼职挤掉晚上时段'],
+		plan: '中断不超过 2 天；恢复当天只做一半训练量',
 	},
 	{
-		name: '家务',
-		phases: [
-			{ phase: '短期', goal: '待填写', items: ['待填写'] },
-			{ phase: '中期', goal: '待填写', items: ['待填写'] },
-			{ phase: '长期', goal: '待填写', items: ['待填写'] },
-		],
-	},
-	{
-		name: '学习',
-		phases: [
-			{ phase: '短期', goal: '待填写', items: ['待填写'] },
-			{ phase: '中期', goal: '待填写', items: ['待填写'] },
-			{ phase: '长期', goal: '待填写', items: ['待填写'] },
-		],
-	},
-	{
-		name: '娱乐',
-		phases: [
-			{ phase: '短期', goal: '待填写', items: ['待填写'] },
-			{ phase: '中期', goal: '待填写', items: ['待填写'] },
-			{ phase: '长期', goal: '待填写', items: ['待填写'] },
-		],
+		name: '财务',
+		goal: '本月存款转正，继续推进 1 万元目标',
+		milestones: ['固定支出按预算执行', '兼职按周排班，不临时加单', '月末核对存款与欠款'],
+		metrics: ['每月存款额', '兼职收入', '欠款余额'],
+		risks: ['单量不足、超时罚款', '临时支出打乱预算'],
+		plan: '先保底支出再谈目标；罚款一周不超过 1 单',
 	},
 	{
 		name: '工作',
-		phases: [
-			{ phase: '短期', goal: '待填写', items: ['待填写'] },
-			{ phase: '中期', goal: '待填写', items: ['待填写'] },
-			{ phase: '长期', goal: '待填写', items: ['待填写'] },
-		],
+		goal: '岗位任务稳定交付，文档与检查项补齐',
+		milestones: ['配置文档补齐', '物品清单与安全检查项维护', '交接内容归档到知识库'],
+		metrics: ['文档完成项数', '检查发现问题数'],
+		risks: ['人手减少后事务集中', '临时顶班打乱节奏'],
+		plan: '每天留 30 分钟写文档，不攒到检查前',
 	},
 ];
+
+// ===== 战术层：每周固定动作 =====
+const tactics = [
+	'06:00–07:00 起床、整理床铺、洗漱',
+	'07:00–08:00 早餐按「蔬菜 + 主食 + 蛋白」搭配',
+	'08:00–09:00 通勤，取电动车充电器，骑到公司',
+	'09:00–18:00 岗位任务，中午午休 30 分钟',
+	'18:00–19:00 晚餐、通勤回家',
+	'19:00–20:00 自重训练：热身 5 分钟 + 俯卧撑 3 组、深蹲 3×15、引体向上 3 组 + 拉伸 5 分钟',
+	'20:00–22:00 洗漱、学习或阅读',
+	'22:00–23:00 自由安排，23:00 前入睡',
+	'全天饮水 1000ml；每周日复盘一次存款与训练记录',
+];
+
+// 动作示范视频：补上 BV 号后可改成 VideoBili 组件
+const demoVideos = ['热身动作', '俯卧撑标准动作', '深蹲标准动作', '引体向上标准动作', '拉伸与放松'];
 ---
 
-<BaseLayout title="谋划 - 邹兆廷" description="短期、中期、长期谋划">
+<BaseLayout title="谋划 - 邹兆廷" description="战略、战役、战术三层谋划">
 	<article>
 		<h1>谋划</h1>
 
-		<p class="summary">我在每天夜晚安全安静地睡着，补充满体力的时光度过。在新的清晨起来，开始过上秩序化的生活。首先会整理我的床铺。然后再。整理好我的。其他物品。然后再整理好自身的。身体情况，衣着打扮，卫生情况。补充。身体所需要的水分和。采购每天早上所需要补充的早餐。将没来得及处理的垃圾一同清扫出门。如果时间足够，会进行简单的身体锻炼。然后，把小区门口的电动车充电器收整好，骑电动车进入公司，完成公司当天的岗位任务。中午补充好能量，完成下午的任务。晚上。结束完当天的任务之后。骑电动车离开公司，然后。回到家中，之前去商店采购明日或今日所需的物品。到达家中之后。我会。杨。继续锻炼身体。然后恢复到去兼职。的准备状态。完成兼职工作后回到家，将电动车充满电后清理身体，检查各物品状态后休息，恢复体力，等待新的一天</p>
+		<p class="lead">谋划不是把想做的事列全，而是在有限的时间和体力里排出顺序：先保什么、后放什么、断在哪一步、怎么接回来。这一页按「一年 → 一季 → 一周」三层往下拆，越往下越具体。</p>
 
-		<div class="cols">
-			<!-- 主栏：五大主题谋划 -->
-			<div class="col-main">
-				{
-					themes.map((theme) => (
-						<section class="theme-block">
-							<h2 class="theme-title">{theme.name}</h2>
-							{theme.phases.map((plan) => (
-								<div class="phase">
-									<h3 class="phase-name">{plan.phase}</h3>
-									<p class="phase-goal">{plan.goal}</p>
-									<ul>
-										{plan.items.map((item) => (
-											<li>{item}</li>
-										))}
-									</ul>
-									{plan.videos && (
-										<div class="video-grid">
-											{plan.videos.map((video) =>
-												video.bv ? (
-													<VideoBili bvid={video.bv} title={video.title} />
-												) : (
-													<div class="video-placeholder">
-														<span class="video-title">{video.title}</span>
-														<span class="video-note">待补充视频</span>
-													</div>
-												)
-											)}
-										</div>
-									)}
-								</div>
-							))}
-						</section>
-					))
-				}
+		<!-- 一、战略层 -->
+		<section class="layer">
+			<h2 class="layer-title">一、战略层 · 这一年</h2>
+			<p class="layer-note">只回答一件事：这一年结束的时候，什么必须成立。</p>
+			<div class="strategy-grid">
+				{strategies.map((s) => (
+					<div class="strategy">
+						<h3>{s.name}</h3>
+						<p class="strategy-goal">{s.goal}</p>
+						<p class="strategy-why">{s.why}</p>
+						<p class="strategy-check">判断标准：{s.check}</p>
+					</div>
+				))}
 			</div>
+		</section>
 
-			<!-- 侧栏：一日谋划（24 小时逐时安排） -->
-			<aside class="col-side">
-				<section class="side-daily">
-					<h2 class="theme-title">一日谋划</h2>
-					<table class="daily-table">
-						<thead>
+		<!-- 二、战役层 -->
+		<section class="layer">
+			<h2 class="layer-title">二、战役层 · 这一季</h2>
+			<p class="layer-note">把年度目标拆成可验收的阶段，每条战线写清目标、里程碑、指标、风险和退路。</p>
+
+			{battles.map((b) => (
+				<div class="battle">
+					<h3 class="battle-name">{b.name}</h3>
+					<p class="battle-goal">{b.goal}</p>
+					<dl class="battle-rows">
+						<div class="row">
+							<dt>里程碑</dt>
+							<dd>
+								<ul>
+									{b.milestones.map((m) => <li>{m}</li>)}
+								</ul>
+							</dd>
+						</div>
+						<div class="row">
+							<dt>指标</dt>
+							<dd>
+								<ul>
+									{b.metrics.map((m) => <li>{m}</li>)}
+								</ul>
+							</dd>
+						</div>
+						<div class="row">
+							<dt>风险</dt>
+							<dd>
+								<ul>
+									{b.risks.map((m) => <li>{m}</li>)}
+								</ul>
+							</dd>
+						</div>
+						<div class="row">
+							<dt>退路</dt>
+							<dd>{b.plan}</dd>
+						</div>
+					</dl>
+				</div>
+			))}
+
+			<p class="layer-note">家务、学习、娱乐三条战线待补，补齐后按同样格式并入本节。</p>
+		</section>
+
+		<!-- 三、战术层 -->
+		<section class="layer">
+			<h2 class="layer-title">三、战术层 · 这一周</h2>
+			<p class="layer-note">战术只做一件事：把上面的目标变成今天就能执行的动作。</p>
+
+			<ul class="tactics">
+				{tactics.map((t) => <li>{t}</li>)}
+			</ul>
+
+			<details class="demo">
+				<summary>动作示范视频（待补）</summary>
+				<div class="video-grid">
+					{demoVideos.map((title) => (
+						<div class="video-placeholder">
+							<span class="video-title">{title}</span>
+							<span class="video-note">待补充视频</span>
+						</div>
+					))}
+				</div>
+			</details>
+
+			<details class="daily">
+				<summary>一日作息（24 小时逐时安排）</summary>
+				<table class="daily-table">
+					<thead>
+						<tr>
+							<th class="daily-time">时间</th>
+							{priorityNames.map((name) => (
+								<th>{name}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{dailyRows.map((row) => (
 							<tr>
-								<th class="daily-time">时间</th>
-								{priorityNames.map((name) => (
-									<th>{name}</th>
+								<td class="daily-time">{row.time}</td>
+								{priorityNames.map((_, i) => (
+									<td class:list={['daily-task', { 'is-primary': i === 0 }]}>{row.tasks[i] || '—'}</td>
 								))}
 							</tr>
-						</thead>
-						<tbody>
-							{dailyRows.map((row) => (
-								<tr>
-									<td class="daily-time">{row.time}</td>
-									{priorityNames.map((_, i) => (
-										<td class:list={['daily-task', { 'is-primary': i === 0 }]}>{row.tasks[i] || '—'}</td>
-									))}
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</section>
-			</aside>
-		</div>
+						))}
+					</tbody>
+				</table>
+			</details>
+		</section>
+
+		<!-- 四、复盘 -->
+		<section class="layer">
+			<h2 class="layer-title">四、复盘</h2>
+			<p class="layer-note">每周日 30 分钟：对照上面的指标，写一条记录，答三句话——哪条推进了、哪条停了、下周改哪一步。</p>
+			<p class="review-link"><a href="/reflections">去看每周记录 →</a></p>
+		</section>
 
 		<p class="back"><a href="/">← 返回首页</a></p>
 	</article>
 </BaseLayout>
 
 <style>
-	/* 谋划摘要：标题下第一段，通栏放在两栏布局上方 */
-	.summary {
+	:global(.container) {
+		max-width: 1280px;
+	}
+
+	/* 开篇：说明这一页的方法，而不是流水叙述 */
+	.lead {
 		font-size: 15px;
 		line-height: 1.9;
 		color: #444444;
-		margin: 0 0 32px;
+		margin: 0 0 8px;
 	}
 
-	/* 两栏布局：主栏（主题谋划）+ 侧栏（一日谋划），与关于页一致 */
-	:global(.container) {
-		max-width: 1080px;
+	.layer {
+		margin-top: 36px;
 	}
 
-	.cols {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) 300px;
-		column-gap: 48px;
-		align-items: start;
-	}
-
-	/* 二级标题：主题名，和知识库 h2 一致 */
-	.theme-block + .theme-block {
-		margin-top: 32px;
-	}
-
-	.theme-title {
+	/* 二级标题：层级名，和知识库 h2 一致 */
+	.layer-title {
 		font-size: 20px;
 		font-weight: 700;
-		margin: 0 0 16px;
+		margin: 0 0 10px;
 		padding-bottom: 6px;
 		border-bottom: 2px solid #555555;
 	}
 
-	/* 侧栏标题小一号，分隔线改细线（与关于页侧栏一致） */
-	.col-side .theme-title {
+	.layer-note {
+		font-size: 13px;
+		line-height: 1.8;
+		color: #6b7280;
+		margin: 0 0 16px;
+	}
+
+	/* 战略层：三张并排卡片 */
+	.strategy-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: 16px;
+	}
+
+	.strategy {
+		background: #fafafa;
+		border: 1px solid #e5e7eb;
+		border-radius: 6px;
+		padding: 16px 18px;
+	}
+
+	/* 三级标题：战线名，和知识库 h3 一致 */
+	.strategy h3,
+	.battle-name {
 		font-size: 15px;
-		border-bottom-width: 1px;
-		border-bottom-color: #bbbbbb;
+		font-weight: 600;
+		margin: 0 0 8px;
+		padding: 2px 8px;
+		background: #d1d5db;
+		border-radius: 4px;
+		display: inline-block;
 	}
 
-	/* 侧栏一日计划表：缩窄以适应 300px 栏宽 */
-	.side-daily .daily-table {
+	.strategy-goal {
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1.8;
+		color: #111111;
+		margin: 0 0 8px;
+	}
+
+	.strategy-why {
+		font-size: 14px;
+		line-height: 1.8;
+		color: #6b7280;
+		margin: 0 0 8px;
+	}
+
+	.strategy-check {
+		font-size: 13px;
+		line-height: 1.7;
+		color: #555555;
+		margin: 0;
+	}
+
+	/* 战役层：一条战线一组，左侧细线区分 */
+	.battle {
+		border-left: 2px solid #e5e7eb;
+		padding-left: 16px;
+		margin-bottom: 28px;
+	}
+
+	.battle-goal {
+		font-size: 15px;
+		font-weight: 600;
+		line-height: 1.8;
+		color: #111111;
+		margin: 0 0 8px;
+	}
+
+	.battle-rows {
+		margin: 0;
+	}
+
+	.row {
+		display: grid;
+		grid-template-columns: 64px minmax(0, 1fr);
+		gap: 10px;
+		padding: 4px 0;
+		font-size: 15px;
+		line-height: 1.9;
+	}
+
+	.row dt {
+		color: #9ca3af;
+		font-size: 13px;
+		padding-top: 2px;
+	}
+
+	.row dd {
+		margin: 0;
+		color: #333333;
+	}
+
+	.row ul {
+		margin: 0;
+		padding-left: 18px;
+	}
+
+	.row li {
+		margin: 0;
+	}
+
+	/* 战术层：动作清单 */
+	.tactics {
+		margin: 0 0 20px;
+		padding-left: 20px;
+	}
+
+	.tactics li {
+		font-size: 15px;
+		line-height: 1.9;
+		color: #333333;
+		margin-bottom: 6px;
+	}
+
+	/* 折叠区：示范视频与一日作息 */
+	details.demo,
+	details.daily {
+		margin-bottom: 12px;
+	}
+
+	details summary {
+		font-size: 14px;
+		font-weight: 600;
+		color: #333333;
+		cursor: pointer;
+		border-bottom: 1px solid #d1d5db;
+		padding-bottom: 6px;
+	}
+
+	details summary::marker {
+		color: #6b7280;
+	}
+
+	/* 运动示范视频：两列 16:9 占位 */
+	.video-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px;
+		margin-top: 12px;
+	}
+
+	.video-placeholder {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		aspect-ratio: 16 / 9;
+		border: 1px dashed #d1d5db;
+		border-radius: 4px;
+		background: #fafafa;
+		text-align: center;
+	}
+
+	.video-title {
+		font-size: 14px;
+		color: #555555;
+	}
+
+	.video-note {
 		font-size: 12px;
+		color: #9ca3af;
 	}
 
-	.side-daily .daily-table th {
-		padding: 6px 6px;
-	}
-
-	.side-daily .daily-table td {
-		padding: 5px 6px;
-		line-height: 1.6;
-	}
-
-	.side-daily .daily-time {
-		width: 88px;
-		font-size: 11px;
-	}
-
-	/* 一日计划表：细线分隔，纯文档流 */
+	/* 一日作息表：细线分隔，纯文档流 */
 	.daily-table {
 		width: 100%;
 		border-collapse: collapse;
 		table-layout: fixed;
-		font-size: 14px;
+		font-size: 13px;
+		margin-top: 12px;
 	}
 
 	.daily-table th {
@@ -315,122 +491,41 @@ const themes: { name: string; phases: Phase[] }[] = [
 		font-weight: 500;
 	}
 
-	.phase {
-		margin-bottom: 20px;
-	}
-
-	/* 三级标题：阶段名，和知识库 h3 一致 */
-	.phase-name {
+	.review-link {
 		font-size: 15px;
-		font-weight: 600;
-		margin: 0 0 8px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		display: inline-block;
+		margin: 0;
 	}
 
-	.phase-goal {
-		display: block;
-		font-size: 15px;
-		line-height: 1.9;
-		color: var(--muted);
-		margin-bottom: 8px;
+	.review-link a {
+		color: #2563eb;
+		text-decoration: none;
 	}
 
-	ul {
-		padding-left: 20px;
-	}
-
-	li {
-		margin-bottom: 6px;
-		line-height: 1.8;
-		font-size: 15px;
-		color: #555555;
+	.review-link a:hover {
+		text-decoration: underline;
 	}
 
 	.back {
 		margin-top: 40px;
 	}
 
-	/* 运动示范视频：两列 16:9，bv 为空时显示占位卡 */
-	.video-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 12px;
-		margin-top: 16px;
-	}
-
-	.video-grid :global(.bili-facade) {
-		margin-bottom: 0;
-	}
-
-	.video-placeholder {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 4px;
-		aspect-ratio: 16 / 9;
-		border: 1px dashed #d1d5db;
-		border-radius: 4px;
-		background: #fafafa;
-		text-align: center;
-	}
-
-	.video-title {
-		font-size: 14px;
-		color: #555555;
-	}
-
-	.video-note {
-		font-size: 12px;
-		color: #9ca3af;
-	}
-
-	/* 窄屏：收成单栏，一日谋划排回主题谋划之前，表格恢复原字号 */
-	@media (max-width: 900px) {
-		.cols {
-			grid-template-columns: 1fr;
-		}
-
-		.col-side {
-			order: -1;
-		}
-
-		.col-side .theme-title {
-			font-size: 20px;
-			border-bottom-width: 2px;
-			border-bottom-color: #555555;
-		}
-
-		.side-daily .daily-table {
-			font-size: 14px;
-		}
-
-		.side-daily .daily-table th {
-			padding: 8px 10px;
-		}
-
-		.side-daily .daily-table td {
-			padding: 6px 10px;
-			line-height: 1.7;
-		}
-
-		.side-daily .daily-time {
-			width: 110px;
-			font-size: 14px;
-		}
-	}
-
 	@media (max-width: 600px) {
-		.phase-name {
-			flex-direction: column;
-			gap: 4px;
-		}
-
 		.video-grid {
 			grid-template-columns: 1fr;
+		}
+
+		.row {
+			grid-template-columns: 52px minmax(0, 1fr);
+			gap: 8px;
+		}
+
+		.daily-table {
+			font-size: 12px;
+		}
+
+		.daily-time {
+			width: 88px;
+			font-size: 11px;
 		}
 	}
 </style>

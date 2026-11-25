@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 // 联系方式：按渠道分组，每个账号一行，备注统一括注
@@ -59,20 +60,14 @@ const socialLinks = [
 const contactList = [...contacts, ...socialLinks].flatMap((c) =>
 	c.items.map((item) => ({ label: c.label, item }))
 );
-// 可跳转的技能关联到知识库对应文章；暂无笔记的技能只渲染为纯标签
-const skillTags = [
-	{ label: '组网与无线', href: '/kb/job-customer-service-ops/' },
-	{ label: 'Linux / Windows', href: '/kb/work-basics/' },
-	{ label: '综合布线', href: '/kb/job-customer-service-ops/' },
-	{ label: '设备维护', href: '/kb/job-customer-service-ops/' },
-	{ label: '表格文档' },
-	{ label: '演示制作' },
-	{ label: '视频剪辑', href: '/kb/job-video-editing/' },
-	{ label: '修图设计' },
-	{ label: '编程', href: '/kb/it-environment/' },
-	{ label: '教学', href: '/kb/learning/' },
-	{ label: '客户服务', href: '/kb/job-customer-service-ops/' },
-];
+// 技能标签：直接取知识库目录，按「个人 → 社会」分组、组内按 order 排序
+const kbEntries = await getCollection('kb');
+const skillTags = ['个人', '社会'].flatMap((category) =>
+	kbEntries
+		.filter((entry) => entry.data.category === category)
+		.sort((a, b) => a.data.order - b.data.order)
+		.map((entry) => ({ label: entry.data.title, href: `/kb/${entry.id}/` }))
+);
 
 // 活动地图：常去地点，坐标为大致位置，按实际调整
 const mapPoints = [
@@ -114,7 +109,7 @@ const timeline = [
 					year: '2026年',
 					months: [
 						{ month: '12月', events: '' },
-						{ month: '11月', events: '' },
+						{ month: '11月', events: '闲鱼出售闲置物品，兼职外卖10天（收入400元），光猫（宽带设备）丢失' },
 						{ month: '10月', events: '学习Astro，学习使用国内大公司推出的主流办公AI工具操控电脑' },
 						{ month: '09月', events: '【上旬】更改个人网页计划模块\n【中旬】改版个人网页\n【下旬】改版个人网页' },
 						{ month: '08月', events: '【上旬】改版个人网页，居中布局\n【中旬】改版个人网页，主侧栏布局\n【下旬】改变个人生活感悟记录' },
@@ -338,7 +333,7 @@ const timeline = [
 
 // 财务明细（金额单位：元）
 const debtRows = [
-	{ label: '花呗', value: 1183 },
+	{ label: '花呗', value: 1389 },
 	{ label: '白条', value: 0 },
 ];
 const incomeRows = [
@@ -346,14 +341,14 @@ const incomeRows = [
 	{ label: '兼职收入', value: 0 },
 ];
 const depositRows = [
-	{ label: '江西银行', value: 710, tone: 'tone-bank' },
-	{ label: '建设银行', value: 0, tone: 'tone-bank' },
-	{ label: '工商银行', value: 0, tone: 'tone-bank' },
-	{ label: '招商银行', value: 0, tone: 'tone-bank' },
-	{ label: '农商银行', value: 0, tone: 'tone-bank' },
-	{ label: '支付宝', value: 0, tone: 'tone-alipay' },
-	{ label: '微信', value: 260, tone: 'tone-wechat' },
-	{ label: '定期', value: 6000, tone: 'tone-fixed' },
+	{ label: '江西银行', value: 399, tone: 'tone-rmb' },
+	{ label: '建设银行', value: 0, tone: 'tone-rmb' },
+	{ label: '工商银行', value: 0, tone: 'tone-rmb' },
+	{ label: '招商银行', value: 0, tone: 'tone-rmb' },
+	{ label: '农商银行', value: 0, tone: 'tone-rmb' },
+	{ label: '支付宝', value: 0, tone: 'tone-rmb' },
+	{ label: '微信', value: 60, tone: 'tone-rmb' },
+	{ label: '定期', value: 6000, tone: 'tone-rmb' },
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
@@ -478,31 +473,23 @@ const totalDebt = debtRows.reduce((s, r) => s + r.value, 0);
 const totalIncome = incomeRows.reduce((s, r) => s + r.value, 0);
 const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 
-// 物品分类（装备→随身、出行→出行、仓库→收纳、家具→区域）
+// 物品分类（出行→随身与楼外、仓库→楼内收纳、家具→楼内区域）
 const categories = [
 	{
-		name: '随身物品',
-		tone: 'tone-sky',
-		icon: '口袋',
-		items: ['头部（000）', '面部（000）', '颈部（000）', '手部（000）', '上身（000）', '下身（000）', '腿部（000）'],
-	},
-	{
-		name: '楼内存放',
-		tone: 'tone-violet',
-		icon: '归整',
+		name: '随行物品',
+		tone: 'tone-accent-amber',
+		icon: '出行',
 		zones: [
-			{ name: '白箱 1（49）', tone: 'tone-white-box', items: ['短袖上衣（000）'] },
-			{ name: '白箱 2（49）', tone: 'tone-white-box', items: ['长袖外套（000）'] },
-			{ name: '白箱 3（49）', tone: 'tone-white-box', items: ['裤子（000）'] },
-			{ name: '白箱 4（49）', tone: 'tone-white-box', items: ['被子（240）'] },
-			{ name: '白箱 5（49）', tone: 'tone-white-box', items: ['食物（000）'] },
-			{ name: '白箱 6（49）', tone: 'tone-white-box', items: ['厨具（000）'] },
-			{ name: '白箱 7（49）', tone: 'tone-white-box', items: ['书籍（000）'] },
-			{ name: '白箱 8（49）', tone: 'tone-white-box', items: ['工具（000）'] },
-			{ name: '黑箱 1234（41）', tone: 'tone-black-box', items: ['健身工具（000）'] },
-			{ name: '黑箱 56（41）', tone: 'tone-black-box', items: ['旧鞋子（000）'] },
-			{ name: '黑箱 7（41）', tone: 'tone-black-box', items: ['清洁工具（000）'] },
-			{ name: '黑箱 8（41）', tone: 'tone-black-box', items: [] },
+			{
+				name: '身体物品',
+				tone: 'tone-neutral',
+				items: ['头部（000）', '面部（000）', '颈部（000）', '手部（000）', '上身（000）', '下身（000）', '腿部（000）'],
+			},
+			{
+				name: '出行物品',
+				tone: 'tone-amber',
+				items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
+			},
 		],
 	},
 	{
@@ -512,6 +499,7 @@ const categories = [
 		zones: [
 			{
 				name: '床铺区',
+				tone: 'tone-teal',
 				items: [
 					'枕头 ×2（130）',
 					'玩偶抱枕 ×2（000）',
@@ -525,6 +513,7 @@ const categories = [
 			},
 			{
 				name: '阳台区',
+				tone: 'tone-teal',
 				items: [
 					'晾衣架（000）',
 					'衣物（000）',
@@ -546,15 +535,27 @@ const categories = [
 					'备用手机（000）',
 				],
 			},
-			{ name: '厨房区', items: [] },
-			{ name: '厕所区', items: [] },
+			{ name: '厨房区', tone: 'tone-teal', items: ['牙刷（000）', '牙杯（000）', '牙膏（000）'] },
+			{ name: '厕所区', tone: 'tone-teal', items: ['洗头液（000）'] },
 		],
 	},
 	{
-		name: '楼外物品',
-		tone: 'tone-amber',
-		icon: '路途',
-		items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
+		name: '楼内存放',
+		tone: 'tone-violet',
+		icon: '归整',
+		zones: [
+			{ name: '白箱 1（49）', tone: 'tone-white-box', items: ['短袖上衣（000）'] },
+			{ name: '白箱 2（49）', tone: 'tone-white-box', items: ['长袖外套（000）'] },
+			{ name: '白箱 3（49）', tone: 'tone-white-box', items: ['裤子（000）'] },
+			{ name: '白箱 4（49）', tone: 'tone-white-box', items: ['被子（240）'] },
+			{ name: '白箱 5（49）', tone: 'tone-white-box', items: ['食物（000）'] },
+			{ name: '白箱 6（49）', tone: 'tone-white-box', items: ['厨具（000）'] },
+			{ name: '白箱 7（49）', tone: 'tone-white-box', items: ['书籍（000）'] },
+			{ name: '白箱 8（49）', tone: 'tone-white-box', items: ['工具（000）'] },
+			{ name: '黑箱 1234（41）', tone: 'tone-black-box', items: ['健身工具（000）'] },
+			{ name: '黑箱 56（41）', tone: 'tone-black-box', items: ['旧鞋子（000）'] },
+			{ name: '黑箱 78（41）', tone: 'tone-black-box', items: ['清洁工具（000）'] },
+		],
 	},
 ];
 
@@ -572,28 +573,70 @@ const splitItem = (raw) => {
 	<article class="about">
 		<h1>关于</h1>
 
-		<!-- 页内锚点：长页面快速跳转 -->
-		<nav class="page-toc" aria-label="页内导航">
-			<a href="#intro">自我介绍</a>
-			<a href="#assets">资产</a>
-			<a href="#timeline">我的经历</a>
-		</nav>
-
 		<div class="cols">
-			<!-- 窄栏：活动地图 + 联系方式 + 我的技能 + 资产 -->
+			<!-- 窄栏：活动地图 + 我的经历 -->
 			<div class="col-side">
 				<section class="card side-map">
 					<h2>活动地图</h2>
 					<div class="map-facade" data-points={JSON.stringify(mapPoints)}>
-						<button class="map-open" type="button">点击加载活动地图</button>
+						<button class="map-open" type="button">正在准备地图…</button>
 					</div>
 					<p class="map-note">坐标为大致位置，仅用于示意活动范围。</p>
 				</section>
 
-				<!-- 联系方式 + 我的技能 -->
-				<section class="card contact-skill">
-					<h2>联系方式</h2>
-					<div class="contact-icons">
+				<section class="card main-timeline" id="timeline">
+					<h2>我的经历</h2>
+					{
+						timeline.map((group) => (
+							<div class="timeline-group">
+								<h3 class="stage-title">{group.stage}</h3>
+								{group.years.map((y) => (
+									<div class="year-block">
+										<h4 class="year-title">{y.year}</h4>
+										<ul class="month-list">
+											{y.months.map((m) => (
+												<li>
+													{m.month && <span class="month-label">{m.month}</span>}
+													{m.events && <span class="month-events">{m.events}</span>}
+												</li>
+											))}
+										</ul>
+									</div>
+								))}
+							</div>
+						))
+					}
+				</section>
+			</div>
+
+			<!-- 第三栏：最新感悟节选（静态，需要时手动更新） -->
+			<aside class="col-note">
+				<section class="card note">
+					<h2>我的感悟</h2>
+					<p class="note-meta">2026/11/22 · 周日 · 南昌 · 晴</p>
+					<p class="note-text">今天看到了熟悉的同事，吃到了往常一样的早中晚饭，睡到平常一样的时间，开心。同事的笔记本坏了，我看了半天，重装系统后发现可能是某品牌通病的虚焊。</p>
+					<a class="note-more" href="/reflections">查看全部 →</a>
+				</section>
+
+				<section class="card note">
+					<h2>我的谋划</h2>
+					<ul class="plan-list">
+						<li><span class="plan-key">身体</span>把锻炼变成日常，体重和体能回到稳定区间</li>
+						<li><span class="plan-key">钱</span>存到 1 万元，先让每月收支转正</li>
+						<li><span class="plan-key">能力</span>把岗位经验沉淀成能复用的文档和方法</li>
+					</ul>
+					<a class="note-more" href="/plan">查看全部 →</a>
+				</section>
+			</aside>
+
+			<!-- 宽栏：自我介绍 + 我的技能 + 我的资产 -->
+			<aside class="col-main">
+				<!-- 自我介绍 -->
+				<section class="card intro" id="intro">
+					<h2>自我介绍</h2>
+					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
+					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。长期目标是坚持锻炼健身，保持健康的身体。</p>
+					<p class="intro-text contact-icons">联系方式：
 						{contactList.map(({ label, item }) => (
 							<span class="contact-icon">
 								{item.url ? (
@@ -609,91 +652,26 @@ const splitItem = (raw) => {
 								</span>
 							</span>
 						))}
-					</div>
-
-					<h2>我的技能</h2>
-					<div class="tag-cloud">
-						{skillTags.map((tag) =>
-							tag.href ? (
-								<a class="skill-tag skill-tag-link" href={tag.href} title={`查看笔记：${tag.label}`}>{tag.label}</a>
-							) : (
-								<span class="skill-tag">{tag.label}</span>
-							)
-						)}
-					</div>
+					</p>
+					<p class="intro-text tag-cloud">我的技能：
+						{skillTags.map((tag) => (
+							<a class="skill-tag skill-tag-link" href={tag.href}>{tag.label}</a>
+						))}
+					</p>
 				</section>
 
-				<!-- 资产：存量（钱 / 物）+ 流水（收入 / 花费 / 欠款） -->
+				<!-- 资产：每月花费 / 每月收入 / 每月欠款，下接当月存款与物品 -->
 				<section class="card assets" id="assets">
-					<h2>资产</h2>
+					<h2>我的资产</h2>
 
-					<div class="asset-block asset-stock">
-						<h3 class="sub-title">存量</h3>
-
-						<details class="detail-group tone-deposit" open>
-							<summary>现存存款（{totalDeposit}）</summary>
-							<ul class="item-list">
-								{depositRows.map((r) => (
-									<li class={r.tone}><span>{r.label}</span><span class="num">{r.value}</span></li>
-								))}
-							</ul>
-						</details>
-
-						<div class="categories">
-						{categories.map((cat) => (
-							<details class={`category-details ${cat.tone}`} open>
-								<summary class="cat-title">{cat.name}<span class="cat-count">
-									{cat.zones
-										? cat.zones.reduce((s, z) => s + z.items.length, 0)
-										: cat.items.length}
-								</span></summary>
-								<div class="category">
-
-								{cat.zones ? (
-									<div class="zone-list">
-										{cat.zones.map((zone) => (
-											<div class={`zone ${zone.tone || ''}`}>
-												<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
-												{zone.items.length > 0 ? (
-													<ul class="item-list">
-														{zone.items.map((item) => {
-															const { name, value } = splitItem(item);
-															return (
-																<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-															);
-														})}
-													</ul>
-												) : (
-													<p class="zone-empty">待补充</p>
-												)}
-											</div>
-										))}
-									</div>
-								) : (
-									<ul class="item-list">
-										{cat.items.map((item) => {
-											const { name, value } = splitItem(item);
-											return (
-												<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-											);
-										})}
-									</ul>
-								)}
-								</div>
-							</details>
-						))}
-						</div>
-					</div>
-
-					<div class="asset-block asset-flow finance">
-						<h3 class="sub-title">流水</h3>
+					<div class="asset-block asset-flow">
 
 					<div class="detail-grid">
 						<details class="detail-group tone-spend">
-							<summary>花费（月 · {fixedTotal}）</summary>
+							<summary>每月花费（{fixedTotal}）</summary>
 							<ul class="item-list">
 								{fixedSimple.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 							<div class="sub-grid">
@@ -724,61 +702,87 @@ const splitItem = (raw) => {
 							</div>
 						</details>
 						<details class="detail-group tone-income">
-							<summary>收入（月）</summary>
+							<summary>每月收入</summary>
 							<ul class="item-list">
 								{incomeRows.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 						</details>
 						<details class="detail-group tone-debt">
-							<summary>欠款（{totalDebt}）</summary>
+							<summary>每月欠款（{totalDebt}）</summary>
 							<ul class="item-list">
 								{debtRows.map((r) => (
-									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
 						</details>
 					</div>
 
 					</div>
-				</section>
-			</div>
 
-			<!-- 宽栏：自我介绍 + 联系方式 + 我的技能 + 我的经历 -->
-			<aside class="col-main">
-				<!-- 自我介绍 -->
-				<section class="card intro" id="intro">
-					<img src="/avatar.svg" alt="个人头像" class="intro-avatar" width="120" height="120" />
-					<h2>自我介绍</h2>
-					<p class="intro-text">我是邹兆廷，25 岁，身高 163cm，体重 70kg，现居江西南昌。目前在湖南德沃信息技术有限公司担任运维专员，负责客服技术维护与客户服务。毕业于江西信息应用职业技术学院计算机网络技术专业，学过组网技术、Linux 系统、无线技术、Windows 系统、综合布线等课程。</p>
-					<p class="intro-text">兴趣爱好是游戏、音乐、小说、电影、漫画、直播和写作。工作之外维护这个个人主页和个人知识库，记录生活方法、学校功课与工作运维笔记，也在写博客文章和每日感悟。目前关注的学习方向是个人成长。长期目标是坚持锻炼健身，保持健康的身体。</p>
-				</section>
+					<div class="asset-block asset-stock">
 
-				<section class="card main-timeline" id="timeline">
-					<h2>我的经历</h2>
-					{
-						timeline.map((group, i) => (
-							<div class:list={['timeline-group', { tinted: i % 2 === 1 }]}>
-								<h3 class="stage-title">{group.stage}</h3>
-								{group.years.map((y) => (
-									<div class="year-block">
-										<h4 class="year-title">{y.year}</h4>
-										<ul class="month-list">
-											{y.months.map((m) => (
-												<li>
-													{m.month && <span class="month-label">{m.month}</span>}
-													{m.events && <span class="month-events">{m.events}</span>}
-												</li>
+						<details class="detail-group" open>
+							<summary>当月存款（{totalDeposit}）</summary>
+							<ul class="item-list">
+								{depositRows.map((r) => (
+									<li class:list={[r.tone, { 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
+								))}
+							</ul>
+						</details>
+
+						<div class="categories">
+						{categories.map((cat) => (
+							<details class={`category-details ${cat.tone}`} open>
+								<summary class="cat-title">{cat.name}<span class="cat-count">
+									{cat.zones
+										? cat.zones.reduce((s, z) => s + z.items.length, 0)
+										: cat.items.length}
+								</span></summary>
+								<div class="category">
+
+								{cat.zones ? (
+									<>
+										<div class="zone-list">
+											{cat.zones.filter((zone) => zone.items.length > 0).map((zone) => (
+												<div class={`zone ${zone.tone || ''}`}>
+													<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
+													<ul class="item-list">
+														{zone.items.map((item) => {
+															const { name, value } = splitItem(item);
+															return (
+																<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+															);
+														})}
+													</ul>
+												</div>
 											))}
+										</div>
+										{cat.zones.some((zone) => zone.items.length === 0) && (
+											<p class="zone-empty-note">
+												待补充：{cat.zones.filter((zone) => zone.items.length === 0).map((zone) => zone.name).join('、')}
+											</p>
+										)}
+									</>
+								) : (
+									<div class="zone">
+										<ul class="item-list">
+											{cat.items.map((item) => {
+												const { name, value } = splitItem(item);
+												return (
+													<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+												);
+											})}
 										</ul>
 									</div>
-								))}
-							</div>
-						))
-					}
+								)}
+								</div>
+							</details>
+						))}
+						</div>
+					</div>
 				</section>
-
 			</aside>
 		</div>
 	</article>
@@ -822,12 +826,15 @@ const splitItem = (raw) => {
 		return [lat + dLat, lng + dLng];
 	}
 
-	// 点击后再加载 Leaflet，避免首屏加载第三方资源
+	// 默认自动加载 Leaflet：进入视口时加载，手机端滚到地图附近才开始
 	document.querySelectorAll('.map-facade').forEach((box) => {
 		const trigger = box.querySelector('.map-open');
 		if (!trigger) return;
 
-		trigger.addEventListener('click', () => {
+		let started = false;
+		const load = () => {
+			if (started) return;
+			started = true;
 			trigger.textContent = '地图加载中…';
 
 			const css = document.createElement('link');
@@ -891,10 +898,28 @@ const splitItem = (raw) => {
 				drawMarkers();
 			};
 			script.onerror = () => {
-				trigger.textContent = '地图加载失败，请检查网络后重试';
+				started = false;
+				trigger.textContent = '地图加载失败，点击重试';
 			};
 			document.head.appendChild(script);
-		});
+		};
+
+		// 点击可手动触发；进入视口附近时自动加载
+		trigger.addEventListener('click', load);
+		if ('IntersectionObserver' in window) {
+			const io = new IntersectionObserver(
+				(entries) => {
+					if (entries.some((entry) => entry.isIntersecting)) {
+						io.disconnect();
+						load();
+					}
+				},
+				{ rootMargin: '200px' }
+			);
+			io.observe(box);
+		} else {
+			load();
+		}
 	});
 </script>
 
@@ -909,42 +934,16 @@ const splitItem = (raw) => {
 		max-width: 1600px;
 	}
 
-	/* 页内锚点：跳到板块时避开吸顶导航 */
-	#intro,
-	#assets,
-	#timeline {
-		scroll-margin-top: 120px;
-	}
-
-	.page-toc {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px 20px;
-		margin: -16px 0 28px;
-		font-size: 14px;
-	}
-
-	.page-toc a {
-		color: #555555;
-		border-bottom: 1px solid #d1d5db;
-		padding-bottom: 1px;
-	}
-
-	.page-toc a:hover {
-		color: #111111;
-		border-bottom-color: #555555;
-	}
-
 	.cols {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) 400px;
+		grid-template-columns: 400px minmax(0, 1fr) 300px;
 		column-gap: 40px;
 		align-items: start;
 	}
 
-	/* 宽栏在左、窄栏在右 */
+	/* 中栏在中间：自我介绍 + 我的经历 */
 	.col-main {
-		grid-column: 1;
+		grid-column: 2;
 		grid-row: 1;
 		/* 内容依次纵向排列 */
 		display: flex;
@@ -955,44 +954,133 @@ const splitItem = (raw) => {
 	}
 
 	.col-side {
-		grid-column: 2;
+		grid-column: 1;
 		grid-row: 1;
 		/* 窄栏内容已超过一屏，取消吸顶以免底部被裁掉 */
 		position: static;
-		background: #f5f5f5;
+		background: #fafafa;
 		padding: 24px;
 		border-radius: 6px;
 	}
 
-	/* 宽栏顺序：自我介绍 → 我的经历 */
-	.card.intro { order: 1; }
-	.card.main-timeline { order: 2; }
+	/* 右栏：感悟与谋划上下排列 */
+	.col-note {
+		grid-column: 3;
+		grid-row: 1;
+		display: grid;
+		gap: 24px;
+		align-content: start;
+	}
 
-	/* 资产内部：存量在前，流水在后 */
+	.card.note {
+		margin-bottom: 0;
+	}
+
+	.note-meta {
+		margin: 0 0 10px;
+		font-size: 13px;
+		color: #6b7280;
+	}
+
+	.note-text {
+		margin: 0 0 14px;
+		font-size: 14px;
+		line-height: 1.9;
+		color: #333333;
+	}
+
+	.note-more {
+		font-size: 14px;
+		color: #2563eb;
+		text-decoration: none;
+	}
+
+	.note-more:hover {
+		text-decoration: underline;
+	}
+
+	/* 谋划摘要：三条战略目标 */
+	.plan-list {
+		list-style: none;
+		margin: 0 0 14px;
+		padding: 0;
+	}
+
+	.plan-list li {
+		font-size: 14px;
+		line-height: 1.9;
+		color: #333333;
+		padding: 5px 0;
+		border-bottom: 1px solid #ececec;
+	}
+
+	.plan-list li:last-child {
+		border-bottom: none;
+	}
+
+	.plan-key {
+		color: #9ca3af;
+		font-size: 13px;
+		margin-right: 8px;
+	}
+
+	/* 宽栏顺序：自我介绍 → 我的资产 */
+	.card.intro { order: 1; }
+	.card.assets { order: 2; }
+
+	/* 资产内部：流水在前，存量在后 */
 	.card.assets {
 		display: flex;
 		flex-direction: column;
 	}
 
-	.asset-stock { order: 1; }
-	.asset-flow { order: 2; }
+	.asset-flow { order: 1; }
+	.asset-stock { order: 2; margin-top: 16px; }
+
+	/* 中等宽度：三栏太挤，感悟谋划落到自我介绍下方 */
+	@media (max-width: 1320px) {
+		.cols {
+			grid-template-columns: 400px minmax(0, 1fr);
+		}
+
+		.col-side {
+			grid-column: 1;
+			grid-row: 1;
+		}
+
+		.col-main {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		.col-note {
+			grid-column: 2;
+			grid-row: 2;
+			margin-top: 40px;
+		}
+	}
 
 	@media (max-width: 900px) {
 		.cols {
 			grid-template-columns: 1fr;
 		}
 
-		/* 单列时拆开两栏，顺序与宽栏一致，经历放最后 */
+		/* 单列时拆开各栏：自我介绍 → 资产 → 经历 → 感悟 → 地图 */
 		.col-main,
-		.col-side {
+		.col-side,
+		.col-note {
 			display: contents;
 		}
 
 		#intro { order: 1; }
-		.card.side-map { order: 2; }
-		.card.contact-skill { order: 3; }
-		#timeline { order: 4; }
-		#assets { order: 5; }
+		#assets { order: 2; }
+		#timeline { order: 3; }
+		.card.note {
+			order: 4;
+			margin-top: 0;
+			margin-bottom: 40px;
+		}
+		.card.side-map { order: 5; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
@@ -1004,57 +1092,27 @@ const splitItem = (raw) => {
 		border-bottom: 2px solid #555555;
 	}
 
-	/* 侧栏顶部卡片内第二个标题（我的技能）与上方内容留白 */
-	.contact-skill h2:not(:first-child) {
-		margin-top: 28px;
-	}
-
-	/* 三级标题：子板块，和知识库 h3 一致 */
-	.sub-title {
-		font-size: 15px;
-		font-weight: 600;
-		margin: 20px 0 12px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		/* 用 block + fit-content 代替 inline-block，避免行盒带来的额外间距 */
-		display: block;
-		width: fit-content;
-	}
-
+	/* 我的技能：普通正文文本 + 链接样式，标签之间用顿号分隔 */
 	.tag-cloud {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px 14px;
-		flex: 1;
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
+		margin-top: 4px;
 	}
 
-	/* 技能标签：与联系方式按钮保持同一套样式 */
 	.skill-tag {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		height: 32px;
-		padding: 0 12px;
-		border: 1px solid #333333;
-		border-radius: 6px;
-		background: #333333;
-		color: #ffffff;
-		font-size: 14px;
-		line-height: 1;
-		white-space: nowrap;
-	}
-
-	/* 可跳转到知识库的技能标签：样式不变，只加悬停反馈 */
-	.skill-tag-link {
+		color: #2563eb;
 		text-decoration: none;
-		transition: background-color 0.15s, border-color 0.15s;
 	}
 
-	.skill-tag-link:hover {
-		background: #4b5563;
-		border-color: #4b5563;
-		color: #ffffff;
+	.skill-tag:hover {
+		text-decoration: underline;
+	}
+
+	/* 标签之间用顿号分隔 */
+	.skill-tag:not(:last-child)::after {
+		content: '、';
+		color: var(--text);
 	}
 
 	/* 文档式介绍段落 */
@@ -1064,58 +1122,46 @@ const splitItem = (raw) => {
 		margin-bottom: 12px;
 	}
 
-	/* 关于页顶部头像，与首页共用同一张图 */
-	.intro-avatar {
-		width: 120px;
-		height: 120px;
-		border-radius: 50%;
-		display: block;
-		margin-bottom: 16px;
-	}
-
-	/* 联系方式：图标行 + 悬停弹出账号 */
+	/* 联系方式：普通正文文本 + 链接样式，悬停弹出账号 */
 	.contact-icons {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px 14px;
+		font-size: 15px;
+		line-height: 1.9;
+		color: var(--text);
 		margin-top: 4px;
 	}
 
 	.contact-icon {
 		position: relative;
-		display: inline-flex;
+		display: inline;
 	}
 
 	.contact-icon > a,
 	.contact-icon > button {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 44px;
-		height: 32px;
-		padding: 0 12px;
-		border: 1px solid #333333;
-		border-radius: 6px;
-		background: #333333;
-		color: #ffffff;
-		font-size: 14px;
-		line-height: 1;
+		display: inline;
+		padding: 0;
+		border: none;
+		background: none;
+		color: #2563eb;
+		font-size: 15px;
+		line-height: 1.9;
 		text-decoration: none;
 		cursor: pointer;
-		transition: background 0.15s, color 0.15s;
+		font-family: inherit;
 	}
 
 	.contact-icon > a:hover,
 	.contact-icon > button:hover {
-		background: #555555;
-		border-color: #555555;
-		color: #ffffff;
+		text-decoration: underline;
 	}
 
 	.contact-icon > button.copied {
-		background: #ffffff;
-		border-color: #333333;
-		color: #333333;
+		color: #059669;
+	}
+
+	/* 联系方式之间用顿号分隔 */
+	.contact-icon:not(:last-child)::after {
+		content: '、';
+		color: var(--text);
 	}
 
 	/* 悬停弹出层 */
@@ -1186,25 +1232,6 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 财务 ===== */
-	/* 4 级语义灰阶，作用范围收在本板块内 */
-	.finance {
-		--c-spend: #111111;
-		--c-income: #666666;
-		--c-deposit: #333333;
-		--c-debt: #999999;
-	}
-
-	/* 三级标题：子板块（灰色圆角块），明细标题已移除 */
-	.console-sub {
-		font-size: 15px;
-		font-weight: 600;
-		margin: 0 0 12px;
-		padding: 2px 8px;
-		background: #d1d5db;
-		border-radius: 4px;
-		display: inline-block;
-	}
-
 	/* 财务分组：四级标题，与「钱 / 物」同为 14px 细线 */
 	.detail-group summary {
 		font-size: 14px;
@@ -1226,7 +1253,6 @@ const splitItem = (raw) => {
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 16px;
-		margin-bottom: 32px;
 	}
 
 	.detail-group ul {
@@ -1297,9 +1323,11 @@ const splitItem = (raw) => {
 		margin-left: 6px;
 	}
 
-	/* 分类可折叠 */
+	/* 分类可折叠，左侧色条承接分类色 */
 	.category-details > summary.cat-title {
 		cursor: pointer;
+		padding-left: 10px;
+		border-left: 4px solid var(--tone-bd, #9ca3af);
 	}
 
 	.category-details > summary.cat-title::marker {
@@ -1335,17 +1363,23 @@ const splitItem = (raw) => {
 	}
 
 	/* 分类色板：按分类着色，底色统一加深一档 */
-	.tone-bank { --tone-bg: #c7dcf4; --tone-bd: #9ac0e6; }
-	.tone-alipay { --tone-bg: #c2e0f8; --tone-bd: #8cc4e9; }
-	.tone-wechat { --tone-bg: #c3e8cb; --tone-bd: #92cba1; }
-	.tone-fixed { --tone-bg: #f7dba4; --tone-bd: #e2bb70; }
+	/* 存款统一用人民币的淡红底色 */
+	.tone-rmb { --tone-bg: #f9d9d9; --tone-bd: #e6a8a8; }
 
-	.tone-sky { --tone-bg: #c1e2f8; --tone-bd: #8cc7e9; --tone-hd: #a9d8f3; }
 	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
 	.tone-teal { --tone-bg: #bbe6db; --tone-bd: #84cdbe; --tone-hd: #a3dcd0; }
-	.tone-amber { --tone-bg: #f7d2a9; --tone-bd: #e5ae76; --tone-hd: #f0c393; }
+	/* 随行物品：分类色条用品牌橙，身体物品中性灰、出行物品雅迪橙（白字可读） */
+	.tone-accent-amber { --tone-bd: #c2410c; }
+	.tone-neutral { --tone-bg: #f2f3f5; --tone-bd: #d8dbdf; --tone-hd: #e9ebee; }
+	.tone-amber { --tone-bg: #c2410c; --tone-bd: #9a3412; --tone-hd: #9a3412; }
+	.tone-amber .zone-title { color: #ffffff; border-bottom-color: #7c2d12; }
+	.tone-amber .zone-title .zone-count { color: #ffe6d5; }
+	.tone-amber .item-list li { color: #ffffff; }
+	.tone-amber .item-list li span:first-child { color: #ffffff; }
+	.tone-amber .item-list .num { color: #ffffff; }
 
-	.tone-spend { --tone-bg: #f8cfb8; --tone-bd: #e8a986; --tone-hd: #f1bda1; }
+	/* 每月花费：中性灰，与其他财务语义色（收入绿、欠款红、存款淡红）区分 */
+	.tone-spend { --tone-bg: #eef0f2; --tone-bd: #d9dde1; }
 	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
 
 	/* 收纳箱：白箱灰白、黑箱灰黑，深浅对比 */
@@ -1358,9 +1392,28 @@ const splitItem = (raw) => {
 	.tone-black-box .zone-count { color: #e6e6e6; }
 	.tone-black-box .item-list li { color: #ffffff; }
 	.tone-black-box .item-list li span:first-child { color: #ffffff; }
-	.tone-black-box .zone-empty { color: #cfcfcf; }
 	.tone-black-box .item-list .num { color: #ffffff; font-weight: 600; }
-	.tone-debt { --tone-bg: #f3c8ca; --tone-bd: #dd8e93; }
+	.tone-debt { --tone-bg: #f6c4c7; --tone-bd: #e09aa0; }
+	.tone-debt .item-list .num { color: #991b1b; }
+
+	/* 零值行：透明底灰字，降低噪声 */
+	.item-list li.is-zero {
+		background: transparent;
+		border-color: transparent;
+	}
+
+	.item-list li.is-zero span,
+	.item-list li.is-zero span:first-child,
+	.item-list li.is-zero .num {
+		color: #6b7280;
+	}
+
+	/* 空区域合并成一行提示 */
+	.zone-empty-note {
+		margin: 8px 0 0;
+		font-size: 13px;
+		color: #6b7280;
+	}
 
 	/* 区域卡片并列排布，减少纵向高度 */
 	.sub-grid {
@@ -1404,6 +1457,11 @@ const splitItem = (raw) => {
 		background: var(--tone-bg, #fafafa);
 		border: 1px solid var(--tone-bd, #e5e7eb);
 		border-radius: 6px;
+	}
+
+	/* 无区域的分类（随身物品、楼外物品）：整块着色，与分区卡片同一套容器 */
+	.category > .zone {
+		margin-top: 8px;
 	}
 
 	/* 卡片内部的条目退化为普通行，避免嵌套卡片 */
@@ -1457,25 +1515,11 @@ const splitItem = (raw) => {
 		margin-left: 6px;
 	}
 
-	.zone-empty {
-		margin: 0;
-		font-size: 13px;
-		color: var(--muted);
-		padding: 8px 10px;
-	}
-
 	/* ===== 我的经历 ===== */
-	/* 个人经历：阶段层色带，限制在主栏宽度内，奇偶交替两种底色 */
+	/* 个人经历：阶段之间无底色、无边框，仅靠标题与年份层级区分 */
 	.timeline-group {
 		margin: 0 -16px;
 		padding: 20px 16px;
-		/* 奇数阶段：暖调米灰，和纸面白拉开层次 */
-		background: #f6f3ec;
-	}
-
-	/* 偶数阶段（大学、小学初中等）用冷调浅灰，与奇数阶段形成冷暖交替 */
-	.timeline-group.tinted {
-		background: #e9edf1;
 	}
 
 	/* 三级标题：人生阶段，和知识库 h3 一致 */

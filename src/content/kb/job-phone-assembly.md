@@ -1,8 +1,8 @@
 ---
 title: 手机装配
-category: 工作
+category: 社会
 summary: 手机装配岗位的作业内容与工艺要点，包括流水线工位操作、防静电要求与品质检验。
-order: -2.2
+order: 8
 tags: [工作, 制造, 装配]
 ---
 

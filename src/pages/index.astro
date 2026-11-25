@@ -3,53 +3,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="欢迎" description="邹兆廷的个人主页" bare>
-	<!-- 英雄区两栏：左头像，中时间+提问（首页特有） -->
+	<!-- 英雄区：标题与提问（首页特有） -->
 	<section class="hero">
-		<div class="hero-avatar">
-			<img src="/avatar.svg" alt="个人头像" class="avatar-img" width="240" height="240" />
-		</div>
 		<div class="hero-question">
 			<div class="title-row">
-				<h2>你好 ^_^</h2>
+				<h1>你好 ^_^</h1>
 			</div>
-		</div>
-	</section>
-
-	<!-- 能量链独立一栏：三条链横排并排 -->
-	<section class="energy-rail">
-		<div class="energy-group">
-			<p>个人（每级换一种杠杆，本质是能调动多少人的时间与能量）</p>
-			<p class="energy-chain">自律 → 信任 → 职位 → 资本 → 传播 → 权力</p>
-		</div>
-		<div class="energy-group">
-			<p>国家间（每跨一级近乎碾压，本质是能量投送 × 信息控制）</p>
-			<p class="energy-chain">徒手 → 石器 → 铁器 → 热武器 → 机械化 → 智能化</p>
-		</div>
-		<div class="energy-group">
-			<p>自然界（每级损失 90%，残骸由分解者回收循环）</p>
-			<p class="energy-chain">太阳能 → 植物固定 → 食草动物 → 食肉动物 → 顶级捕食者</p>
-		</div>
-	</section>
-
-	<!-- 手上的牌：个人资本的三张牌 -->
-	<section class="hand-rail">
-		<div class="hand-grid">
-			<div class="hand-card">
-				<p class="hand-head">银牌 · 能力</p>
-				<p class="hand-desc">能独立交付出来的东西：手艺、经验、拿得出手的产出。</p>
+			<!-- 漩涡：标题下方，中心一点、外围一圈 -->
+			<div class="swirl-block" aria-hidden="true">
+				<svg class="swirl" viewBox="0 0 120 120" role="presentation" focusable="false">
+					<circle class="swirl-dot" cx="60" cy="60" r="4.5" />
+					<path class="swirl-line" d="M67.5 60.0L67.9 61.4L68.0 62.9L67.8 64.5L67.3 66.1L66.4 67.7L65.2 69.1L63.8 70.3L62.0 71.3L60.0 72.0L57.8 72.3L55.6 72.2L53.3 71.7L51.0 70.7L48.9 69.3L47.0 67.5L45.5 65.3L44.3 62.8L43.5 60.0L43.3 57.1L43.6 54.0L44.5 51.0L45.9 48.1L47.8 45.5L50.3 43.2L53.2 41.3L56.5 39.9L60.0 39.1L63.7 38.9L67.5 39.4L71.2 40.6L74.7 42.4L77.9 44.9L80.7 48.0L82.9 51.7L84.5 55.7L85.4 60.0L85.5 64.5L84.8 69.0L83.3 73.4L81.0 77.6L77.9 81.4L74.2 84.6L69.9 87.1L65.1 88.9L60.0 89.9L54.7 89.9L49.4 89.0L44.3 87.2L39.5 84.4L35.2 80.8L31.5 76.4L28.6 71.4L26.7 65.9L25.6 60.0L25.7 53.9L26.8 47.9L29.0 42.1L32.2 36.6L36.3 31.8L41.3 27.7L47.1 24.4L53.3 22.2L60.0 21.2L66.8 21.3L73.6 22.6L80.2 25.1L86.2 28.7L91.7 33.4L96.2 39.1L99.8 45.5L102.2 52.6L103.3 60.0" />
+					<path class="swirl-line" d="M67.5 60.0L67.9 61.4L68.0 62.9L67.8 64.5L67.3 66.1L66.4 67.7L65.2 69.1L63.8 70.3L62.0 71.3L60.0 72.0L57.8 72.3L55.6 72.2L53.3 71.7L51.0 70.7L48.9 69.3L47.0 67.5L45.5 65.3L44.3 62.8L43.5 60.0L43.3 57.1L43.6 54.0L44.5 51.0L45.9 48.1L47.8 45.5L50.3 43.2L53.2 41.3L56.5 39.9L60.0 39.1L63.7 38.9L67.5 39.4L71.2 40.6L74.7 42.4L77.9 44.9L80.7 48.0L82.9 51.7L84.5 55.7L85.4 60.0L85.5 64.5L84.8 69.0L83.3 73.4L81.0 77.6L77.9 81.4L74.2 84.6L69.9 87.1L65.1 88.9L60.0 89.9L54.7 89.9L49.4 89.0L44.3 87.2L39.5 84.4L35.2 80.8L31.5 76.4L28.6 71.4L26.7 65.9L25.6 60.0L25.7 53.9L26.8 47.9L29.0 42.1L32.2 36.6L36.3 31.8L41.3 27.7L47.1 24.4L53.3 22.2L60.0 21.2L66.8 21.3L73.6 22.6L80.2 25.1L86.2 28.7L91.7 33.4L96.2 39.1L99.8 45.5L102.2 52.6L103.3 60.0" transform="rotate(180 60 60)" />
+				</svg>
 			</div>
-			<div class="hand-card">
-				<p class="hand-head">金牌 · 人脉</p>
-				<p class="hand-desc">能调动的人：不是认识多少，而是多少人愿意为你出手。</p>
-			</div>
-			<div class="hand-card">
-				<p class="hand-head">王牌 · 思维</p>
-				<p class="hand-desc">看清一件事的方式：同样一副牌，决定怎么打、先出哪张。</p>
-				<p class="hand-desc">智慧，知日，日知，彗星，心。</p>
+			<div class="hero-search">
+				<input
+					type="text"
+					id="deepseek-input"
+					class="search-input"
+					placeholder="是否存在一件事，让所有人都开心"
+				/>
+				<button class="search-btn" onclick="goDeepSeek()">提问</button>
 			</div>
 		</div>
 	</section>
 </BaseLayout>
+
+<script is:inline>
+	// 跳转 DeepSeek 搜索
+	function goDeepSeek() {
+		const input = document.getElementById('deepseek-input');
+		if (!input) return;
+		const q = input.value.trim();
+		if (!q) return;
+		window.open(`https://chat.deepseek.com/?q=${encodeURIComponent(q)}`, '_blank');
+		input.value = '';
+	}
+
+	// 回车触发搜索
+	document.addEventListener('DOMContentLoaded', () => {
+		const input = document.getElementById('deepseek-input');
+		if (!input) return;
+		input.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') goDeepSeek();
+		});
+	});
+</script>
 
 <style>
 	/* ===== 英雄区（全宽通栏，首页特有） ===== */
@@ -64,82 +64,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: flex;
 	}
 
-	/* 头像铺满整个英雄区，作为全屏背景 */
-	.hero-avatar {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-	}
-
-	.avatar-img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		border-radius: 0;
-		/* 缩小整体，避免人形过大 */
-		transform: translateX(-5%) scale(0.72);
-		transform-origin: center center;
-	}
-
-	/* 能量链独立一栏：三条链各占一行居中，放在 hero 下方；通栏突破 720px 容器 */
-	.energy-rail {
-		width: 100vw;
-		margin-left: calc(-50vw + 50%);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 14px;
-		padding: 14px 40px 20px;
-	}
-
-	.energy-group {
-		flex: 0 0 auto;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		gap: 2px;
-	}
-
-	/* 领域、链条、注释统一为同一套正文样式 */
-	.energy-group p {
-		font-size: 13px;
-		line-height: 1.5;
-		color: #333333;
-		margin: 0;
-	}
-
-	.energy-chain {
-		white-space: nowrap;
-	}
-
-	/* 手上的牌：与能量链同一栏宽，基本字体 */
-	.hand-rail {
-		width: 100vw;
-		margin-left: calc(-50vw + 50%);
-		padding: 4px 40px 28px;
-	}
-
-	.hand-grid {
+	/* 漩涡：标题下方居中 */
+	.swirl-block {
 		display: flex;
 		justify-content: center;
-		gap: 36px;
+		margin-top: 16px;
 	}
 
-	.hand-head {
-		font-size: 13px;
-		font-weight: 600;
-		color: #111111;
-		margin: 0 0 4px;
+	.swirl {
+		display: block;
+		width: 112px;
+		height: 112px;
 	}
 
-	.hand-desc {
-		font-size: 13px;
-		line-height: 1.6;
-		color: #6b7280;
-		margin: 0;
+	.swirl-dot {
+		fill: #333333;
+	}
+
+	.swirl-line {
+		fill: none;
+		stroke: #c4c8ce;
+		stroke-width: 1.4;
+		stroke-linecap: round;
 	}
 
 	.hero-question {
@@ -154,7 +100,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		padding: 0 24px;
 	}
 
-	/* 时间与标题同一行，样式一致 */
+	/* 标题行：水平居中 */
 	.title-row {
 		display: flex;
 		align-items: center;
@@ -163,14 +109,61 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		justify-content: center;
 	}
 
-	.hero-question h2,
-	.hero-time {
-		font-size: 32px;
+	/* 页面标题：一级标题 28px（全站规范） */
+	.hero-question h1 {
+		font-size: 28px;
 		font-weight: 700;
+		line-height: 1.5;
 		color: #111111;
 		margin: 0;
 		border-bottom: none;
 		padding-bottom: 0;
+	}
+
+	/* 提问框：首页英雄区，漩涡下方居中 */
+	.hero-search {
+		display: flex;
+		gap: 8px;
+		width: 340px;
+		max-width: 100%;
+		margin-top: 16px;
+	}
+
+	.search-input {
+		flex: 1;
+		min-width: 0;
+		padding: 8px 12px;
+		font-size: 14px;
+		border: 1px solid var(--line);
+		border-radius: 6px;
+		background: #ffffff;
+		outline: none;
+		transition: border-color 0.15s;
+	}
+
+	.search-input:focus {
+		border-color: #9ca3af;
+	}
+
+	.search-input::placeholder {
+		color: #9ca3af;
+	}
+
+	.search-btn {
+		padding: 8px 16px;
+		font-size: 14px;
+		font-weight: 500;
+		color: #ffffff;
+		background: #111111;
+		border: none;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: background 0.15s;
+		white-space: nowrap;
+	}
+
+	.search-btn:hover {
+		background: #333333;
 	}
 
 	/* 桌面端：整页恰好一屏，hero 弹性占据剩余空间 */
@@ -196,34 +189,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 			min-height: 420px;
 		}
 
-		/* 手机端：三条能量链改为上下堆叠，链条允许换行 */
-		.energy-rail {
-			flex-direction: column;
-			gap: 24px;
-			padding: 0 20px 32px;
-		}
-
-		.energy-chain {
-			white-space: normal;
-		}
-
-		/* 手机端：三张牌上下堆叠 */
-		.hand-rail {
-			padding: 0 20px 32px;
-		}
-
-		.hand-grid {
-			flex-direction: column;
-			gap: 12px;
-		}
-
-		.hero-question h2,
-		.hero-time {
+		.hero-question h1 {
 			width: 100%;
-			font-size: 22px;
+			font-size: 28px;
 			line-height: 1.5;
 			text-align: center;
 			overflow-wrap: anywhere;
+		}
+
+		/* 手机端提问框占满可用宽度 */
+		.hero-search {
+			width: 100%;
 		}
 
 		/* 手机端文字改为上下两行，避免横向溢出 */

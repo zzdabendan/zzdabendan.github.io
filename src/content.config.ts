@@ -6,7 +6,7 @@ const kb = defineCollection({
 	loader: glob({ pattern: ['**/*.md', '**/*.mdx'], base: './src/content/kb' }),
 	schema: z.object({
 		title: z.string(),
-		category: z.enum(['生活', '学校', '工作']),
+		category: z.enum(['个人', '社会']),
 		summary: z.string(),
 		// 分组内的排序号，越小越靠前
 		order: z.number(),
