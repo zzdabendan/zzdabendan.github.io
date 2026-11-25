@@ -1324,35 +1324,19 @@ const splitItem = (raw) => {
 
 	/* 分类色板：按分类着色，底色统一加深一档 */
 	/* 存款统一用人民币的淡红底色 */
-	.tone-rmb { --tone-bg: #f9d9d9; --tone-bd: #e6a8a8; }
+	.tone-rmb { --tone-bg: #fef2f2; --tone-bd: #fecaca; --tone-hd: #fee2e2; --tone-bar: #b91c1c; }
 
-	.tone-violet { --tone-bg: #d4caf2; --tone-bd: #ae9ee3; --tone-hd: #c2b3ec; }
-	.tone-teal { --tone-bg: #bbe6db; --tone-bd: #84cdbe; --tone-hd: #a3dcd0; }
-	/* 随行物品：分类色条用品牌橙，身体物品中性灰、出行物品雅迪橙（白字可读） */
-	.tone-accent-amber { --tone-bd: #c2410c; }
-	.tone-neutral { --tone-bg: #f2f3f5; --tone-bd: #d8dbdf; --tone-hd: #e9ebee; }
-	.tone-amber { --tone-bg: #c2410c; --tone-bd: #9a3412; --tone-hd: #9a3412; }
-	.tone-amber .zone-title { color: #ffffff; border-bottom-color: #7c2d12; }
-	.tone-amber .zone-title .zone-count { color: #ffe6d5; }
-	.tone-amber .item-list li { color: #ffffff; }
-	.tone-amber .item-list li span:first-child { color: #ffffff; }
-	.tone-amber .item-list .num { color: #ffffff; }
+	.tone-teal { --tone-bg: #f0fdfa; --tone-bd: #99f6e4; --tone-hd: #ccfbf1; --tone-bar: #0f766e; }
+	.tone-neutral { --tone-bg: #fafafa; --tone-bd: #e5e5e5; --tone-hd: #f1f2f4; --tone-bar: #9ca3af; }
+	.tone-amber { --tone-bg: #fff7ed; --tone-bd: #fed7aa; --tone-hd: #ffedd5; --tone-bar: #c2410c; }
 
 	/* 每月花费：中性灰，与其他财务语义色（收入绿、欠款红、存款淡红）区分 */
 	.tone-spend { --tone-bg: #eef0f2; --tone-bd: #d9dde1; }
 	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
 
-	/* 收纳箱：白箱灰白、黑箱灰黑，深浅对比 */
-	.tone-white-box { --tone-bg: #f7f7f7; --tone-bd: #dcdcdc; --tone-hd: #ececec; }
-	.tone-white-box.zone { background: #f3f3f3; }
-	.tone-black-box { --tone-bg: #4a4a4a; --tone-bd: #1f1f1f; --tone-hd: #262626; }
-	.tone-black-box.zone { background: #333333; }
-	.tone-black-box .zone-title { color: #ffffff; border-bottom-color: #1a1a1a; }
-	.tone-black-box .zone-title .zone-sup { color: #d4d4d4; }
-	.tone-black-box .zone-count { color: #e6e6e6; }
-	.tone-black-box .item-list li { color: #ffffff; }
-	.tone-black-box .item-list li span:first-child { color: #ffffff; }
-	.tone-black-box .item-list .num { color: #ffffff; font-weight: 600; }
+	/* 收纳箱：白箱浅灰、黑箱深灰色条，底色统一 */
+	.tone-white-box { --tone-bg: #fafafa; --tone-bd: #e5e5e5; --tone-hd: #f0f0f0; --tone-bar: #d4d4d4; }
+	.tone-black-box { --tone-bg: #f5f5f5; --tone-bd: #d4d4d4; --tone-hd: #e5e5e5; --tone-bar: #1f2937; }
 	.tone-debt { --tone-bg: #f6c4c7; --tone-bd: #e09aa0; }
 	.tone-debt .item-list .num { color: #991b1b; }
 
@@ -1401,7 +1385,9 @@ const splitItem = (raw) => {
 		overflow: hidden;
 		background: var(--tone-bg, #fafafa);
 		border: 1px solid var(--tone-bd, #e5e7eb);
+		border-left: 3px solid var(--tone-bar, #9ca3af);
 		border-radius: 6px;
+		color: #374151;
 	}
 
 	/* 卡片内部的条目退化为普通行，避免嵌套卡片 */
@@ -1419,14 +1405,23 @@ const splitItem = (raw) => {
 		font-size: 13px;
 	}
 
-	/* 区域标题：表头样式，深色底区分内容 */
+	.zone .item-list li span:first-child {
+		color: #374151;
+	}
+
+	.zone .item-list .num {
+		color: #111827;
+		font-weight: 600;
+	}
+
+	/* 区域标题：表头样式，浅色底区分内容 */
 	.zone-title {
 		display: flex;
 		align-items: baseline;
 		gap: 6px;
 		font-size: 13px;
 		font-weight: 600;
-		color: #333333;
+		color: #111827;
 		margin: 0;
 		padding: 6px 10px;
 		background: var(--tone-hd, #dfe3e8);
@@ -1435,6 +1430,7 @@ const splitItem = (raw) => {
 
 	.zone-title .zone-count {
 		margin-left: 0;
+		color: #6b7280;
 	}
 
 	.zone-title .zone-sup {
