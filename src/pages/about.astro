@@ -466,7 +466,6 @@ const fixedCost = {
 };
 const fixedTotal = fixedCost.items.reduce((s, r) => s + (r.oneTime ? 0 : r.value), 0);
 const fixedSimple = fixedCost.items.filter((r) => !r.sub);
-const fixedGroups = fixedCost.items.filter((r) => r.sub);
 
 // 汇总：收入、存款、欠款（详情区展示用）
 const totalDebt = debtRows.reduce((s, r) => s + r.value, 0);
@@ -638,35 +637,6 @@ const splitItem = (raw) => {
 					)}
 				</div>
 			
-				<details class="asset-extra">
-					<summary>大额支出明细（一次性与长期）</summary>
-					<div class="sub-grid">
-						{fixedGroups.map((r) => (
-							<div class="zone sub-card">
-								<h4 class="zone-title">
-									{r.label}
-									<span class="zone-count">{r.sub.length} 项</span>
-									<span class="zone-value">{r.value}</span>
-								</h4>
-								<ul class="item-list">
-									{r.sub.map((s) => (
-										<li>
-											<span>{s.label}<em class="unit">{s.unit}</em></span>
-											<span class="num">{s.value}</span>
-										</li>
-									))}
-								</ul>
-								{r.subNote && (
-									<div class="sub-notes">
-										{r.subNote.map((line) => (
-											<p class="sub-note">{line}</p>
-										))}
-									</div>
-								)}
-							</div>
-						))}
-					</div>
-				</details>
 			</section>
 
 			<!-- 窄栏：活动地图 + 我的经历 -->
@@ -1215,25 +1185,6 @@ const splitItem = (raw) => {
 		margin-top: 4px;
 	}
 
-	/* ===== 财务 ===== */
-	/* 大额支出：折叠明细，默认收起 */
-	.asset-extra {
-		margin-top: 20px;
-	}
-
-	.asset-extra > summary {
-		font-size: 14px;
-		font-weight: 600;
-		color: #333333;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #e5e5e5;
-		cursor: pointer;
-	}
-
-	.asset-extra > summary::marker {
-		color: #6b7280;
-	}
-	/* ===== 物品 ===== */
 	/* 物品分类：8 个区域横排，一区一列 */
 	.categories {
 		margin-top: 16px;
@@ -1302,34 +1253,6 @@ const splitItem = (raw) => {
 		color: #6b7280;
 	}
 
-	/* 区域卡片并列排布，减少纵向高度 */
-	.sub-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-		gap: 8px;
-		margin-top: 8px;
-		align-items: start;
-	}
-
-	.sub-card .unit {
-		font-style: normal;
-		font-size: 12px;
-		color: #9ca3af;
-		margin-left: 5px;
-	}
-
-	.sub-notes {
-		padding: 6px 10px 8px;
-		border-top: 1px solid var(--tone-bd, #e5e7eb);
-	}
-
-	.sub-notes .sub-note {
-		margin: 2px 0 0;
-		font-size: 12px;
-		color: #6b7280;
-		line-height: 1.7;
-	}
-
 	.zone {
 		min-width: 0;
 		overflow: hidden;
@@ -1387,11 +1310,6 @@ const splitItem = (raw) => {
 		font-size: 11px;
 		font-weight: 500;
 		color: #8b8f96;
-	}
-
-	.zone-title .zone-value {
-		margin-left: auto;
-		font-variant-numeric: tabular-nums;
 	}
 
 	.zone-count {
