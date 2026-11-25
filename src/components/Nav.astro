@@ -122,7 +122,7 @@ const isActive = (href: string) =>
 	.nav-energy {
 		display: inline-block;
 		flex: 0 0 auto;
-		width: 46px;
+		width: 80px;
 		height: 6px;
 		margin: 0;
 		border: 1px solid #9ca3af;
@@ -220,6 +220,11 @@ const isActive = (href: string) =>
 
 		.nav-meta {
 			grid-area: meta;
+		}
+
+		/* 手机端收窄一点，避免两侧文字被挤 */
+		.nav-energy {
+			width: 64px;
 		}
 
 		.nav-birth,
