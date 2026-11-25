@@ -341,14 +341,14 @@ const incomeRows = [
 	{ label: '兼职收入', value: 0 },
 ];
 const depositRows = [
-	{ label: '江西银行', value: 399, tone: 'tone-rmb' },
-	{ label: '建设银行', value: 0, tone: 'tone-rmb' },
-	{ label: '工商银行', value: 0, tone: 'tone-rmb' },
-	{ label: '招商银行', value: 0, tone: 'tone-rmb' },
-	{ label: '农商银行', value: 0, tone: 'tone-rmb' },
-	{ label: '支付宝', value: 0, tone: 'tone-rmb' },
-	{ label: '微信', value: 60, tone: 'tone-rmb' },
-	{ label: '定期', value: 6000, tone: 'tone-rmb' },
+	{ label: '江西银行', value: 399 },
+	{ label: '建设银行', value: 0 },
+	{ label: '工商银行', value: 0 },
+	{ label: '招商银行', value: 0 },
+	{ label: '农商银行', value: 0 },
+	{ label: '支付宝', value: 0 },
+	{ label: '微信', value: 60 },
+	{ label: '定期', value: 6000 },
 ];
 
 // 花费分析（横条宽度按 2852 为满幅计算百分比）
@@ -636,14 +636,17 @@ const splitItem = (raw) => {
 
 				<div class="asset-block asset-stock">
 
-					<details class="detail-group" open>
-						<summary>当月存款（{totalDeposit}）</summary>
+					<div class="zone tone-rmb">
+						<h4 class="zone-title">
+							当月存款
+							<span class="zone-count">{totalDeposit}</span>
+						</h4>
 						<ul class="item-list">
 							{depositRows.map((r) => (
-								<li class:list={[r.tone, { 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
+								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 							))}
 						</ul>
-					</details>
+					</div>
 
 					<div class="categories">
 						<p class="cat-legend">
@@ -1318,11 +1321,6 @@ const splitItem = (raw) => {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-	}
-
-	/* 存量为左列，不再需要底部间距 */
-	.asset-stock > .detail-group {
-		margin-bottom: 0;
 	}
 
 	/* 分组标题：与流水的分组标题同为四级标题（14px + 细线） */
