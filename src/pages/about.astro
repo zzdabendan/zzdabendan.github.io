@@ -487,6 +487,7 @@ const categories = [
 			{
 				name: '出行物品',
 				tone: 'tone-amber',
+				groupEnd: true,
 				items: ['背包（150）', '手提袋（000）', '电动车（2999）', '电动车钥匙（000）', '电动车充电器（80）', '电动车头盔 ×3（000）'],
 			},
 		],
@@ -535,7 +536,7 @@ const categories = [
 				],
 			},
 			{ name: '厨房区', tone: 'tone-teal', items: ['牙刷（000）', '牙杯（000）', '牙膏（000）'] },
-			{ name: '厕所区', tone: 'tone-teal', items: ['洗头液（000）'] },
+			{ name: '厕所区', tone: 'tone-teal', groupEnd: true, items: ['洗头液（000）'] },
 		],
 	},
 	{
@@ -551,6 +552,7 @@ const categories = [
 			{
 				name: '黑箱（123）',
 				tone: 'tone-black-box',
+				groupEnd: true,
 				items: ['健身工具（000）', '旧鞋子（000）', '清洁工具（000）', '工具（000）'],
 			},
 		],
@@ -577,7 +579,7 @@ const splitItem = (raw) => {
 				<h2>我的资产</h2>
 			
 				<div class="cards-row">
-					<div class="zone tone-rmb card-money">
+					<div class="zone tone-rmb card-money group-end">
 						<h4 class="zone-title">资金</h4>
 			
 						<details class="money-section">
@@ -621,7 +623,7 @@ const splitItem = (raw) => {
 						(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
 							.filter((zone) => zone.items.length > 0)
 							.map((zone) => (
-								<div class={`zone ${zone.tone || ''}`}>
+								<div class={`zone ${zone.tone || ''}${zone.groupEnd ? ' group-end' : ''}`}>
 									<h4 class="zone-title">
 										{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
 										<span class="zone-count">{zone.items.length}</span>
@@ -987,6 +989,24 @@ const splitItem = (raw) => {
 		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 		gap: 16px;
 		align-items: start;
+	}
+
+	/* 组末列留出双倍间距，用留白区分四组 */
+	.cards-row .group-end {
+		margin-right: 16px;
+	}
+
+	/* 窄屏固定 7 列：每行结束在组边界上（7 列 + 2 列） */
+	@media (max-width: 1320px) {
+		.cards-row {
+			grid-template-columns: repeat(7, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 700px) {
+		.cards-row {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
 	}
 
 	/* 中等宽度：三栏太挤，感悟谋划落到自我介绍下方 */
