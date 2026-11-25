@@ -247,14 +247,24 @@ const isActive = (href: string) =>
 		el.textContent = `${y}-${m}-${d} ${h}:${min}:${s}`;
 	}
 
-	// 能量条 = 当天剩余时间占比：0 点满格，24 点归零
+	// 能量条：07:00 起床满格 → 23:00 入睡耗尽 → 睡眠时段缓慢回升
+	const WAKE_MIN = 7 * 60;
+	const SLEEP_MIN = 23 * 60;
+
 	function updateNavEnergy() {
 		const fill = document.getElementById('nav-energy-fill');
 		if (!fill) return;
 		const now = new Date();
-		const dayTotal = 24 * 60 * 60;
-		const elapsed = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-		const percent = ((dayTotal - elapsed) / dayTotal) * 100;
+		const t = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+		let percent;
+		if (t >= WAKE_MIN && t <= SLEEP_MIN) {
+			// 清醒时段：从满格线性消耗到 0
+			percent = ((SLEEP_MIN - t) / (SLEEP_MIN - WAKE_MIN)) * 100;
+		} else {
+			// 睡眠时段：跨过零点，从 0 缓慢充回满格
+			const elapsed = t > SLEEP_MIN ? t - SLEEP_MIN : t + 24 * 60 - SLEEP_MIN;
+			percent = (elapsed / (WAKE_MIN + 24 * 60 - SLEEP_MIN)) * 100;
+		}
 		fill.style.width = percent.toFixed(3) + '%';
 		const bar = fill.parentElement;
 		if (bar) bar.setAttribute('aria-valuenow', String(Math.round(percent)));
