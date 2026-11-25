@@ -23,9 +23,16 @@ const isActive = (href: string) =>
 	<div class="nav-inner">
 		<div class="nav-top">
 			<a href="/" class="brand" aria-label="回到首页">
-			<span class="brand-text">邹兆廷<span class="nav-birth">（2001-09-23<span class="nav-energy" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="nav-energy-fill" class="nav-energy-fill"></span></span><span id="nav-time" class="nav-time"></span>）</span></span>
-		</a>
+				<span class="brand-text">邹兆廷</span>
+			</a>
+			<div class="nav-meta">
+				<span class="nav-birth">2001-09-23</span>
+				<span class="nav-energy" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="nav-energy-fill" class="nav-energy-fill"></span></span>
+				<span id="nav-time" class="nav-time"></span>
+			</div>
 			<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
+		</div>
+		<div class="nav-row">
 			<nav>
 				{links.map((link) => (
 					<a
@@ -59,16 +66,39 @@ const isActive = (href: string) =>
 		gap: 6px;
 	}
 
+	/* 第一行：姓名居左，中间为出生时间 + 能量条 + 当前时间，右侧留空 */
 	.nav-top {
+		position: relative;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 24px;
-		flex-wrap: wrap;
+		justify-content: center;
+		min-height: 26px;
 	}
 
-	/* 网站标题 */
+	/* 中间信息组：左右两块等分宽度，让能量条严格落在页面中线，与第二行导航对齐 */
+	.nav-meta {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+	}
+
+	.nav-birth {
+		flex: 1 1 0;
+		text-align: right;
+	}
+
+	.nav-time {
+		flex: 1 1 0;
+		text-align: left;
+	}
+
+	/* 网站标题：固定在左端，不参与中部居中计算 */
 	.brand {
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
@@ -91,9 +121,10 @@ const isActive = (href: string) =>
 	/* 出生日期与当前时间之间的随机能量条 */
 	.nav-energy {
 		display: inline-block;
+		flex: 0 0 auto;
 		width: 46px;
 		height: 6px;
-		margin: 0 5px;
+		margin: 0;
 		border: 1px solid #9ca3af;
 		border-radius: 999px;
 		background: #ffffff;
@@ -119,10 +150,16 @@ const isActive = (href: string) =>
 		display: none;
 	}
 
+	/* 第二行：导航居中对齐，正好落在能量条下方 */
+	.nav-row {
+		display: flex;
+		justify-content: center;
+	}
+
 	nav {
 		display: flex;
 		gap: 4px;
-		justify-content: flex-end;
+		justify-content: center;
 		padding-bottom: 2px;
 		white-space: nowrap;
 	}
@@ -156,9 +193,22 @@ const isActive = (href: string) =>
 
 	/* 移动端：折叠为汉堡菜单，点击 ≡ 展开 */
 	@media (max-width: 700px) {
-		/* 手机端第一行：品牌在左、汉堡在右 */
+		/* 手机端：第一行姓名在左、汉堡在右，第二行出生时间 + 能量条 + 当前时间 */
+		.nav-top {
+			display: grid;
+			grid-template-columns: 1fr auto;
+			grid-template-areas:
+				'brand toggle'
+				'meta meta';
+			align-items: center;
+			gap: 2px 10px;
+		}
+
 		.brand {
-			order: 1;
+			position: static;
+			transform: none;
+			grid-area: brand;
+			justify-self: start;
 			font-size: 12px;
 			gap: 6px;
 			white-space: nowrap;
@@ -168,9 +218,19 @@ const isActive = (href: string) =>
 			gap: 2px;
 		}
 
+		.nav-meta {
+			grid-area: meta;
+		}
+
+		.nav-birth,
+		.nav-time {
+			font-size: 11px;
+		}
+
 		.nav-toggle {
 			display: flex;
-			order: 2;
+			grid-area: toggle;
+			justify-self: end;
 			align-items: center;
 			justify-content: center;
 			width: 36px;
