@@ -1200,23 +1200,41 @@ const splitItem = (raw) => {
 	}
 
 	/* 资金卡：四阶段纵向分节 */
-	.money-section + .money-section {
-		border-top: 1px solid #e6e6e6;
+	/* 资金卡：四阶段用四档灰阶区分，收入最深、存款最浅 */
+	.zone.card-money {
+		padding: 0;
+		overflow: hidden;
+		background: #d6d6d6;
 	}
+
+	.card-money > .zone-title {
+		margin: 0;
+		padding: 8px 10px 6px;
+		border-bottom: none;
+	}
+
+	.money-section {
+		padding: 8px 10px;
+	}
+
+	.money-section:nth-of-type(1) { background: #dedede; }
+	.money-section:nth-of-type(2) { background: #e6e6e6; }
+	.money-section:nth-of-type(3) { background: #eeeeee; }
+	.money-section:nth-of-type(4) { background: #f6f6f6; }
 
 	/* 展开中的节标题加深，与收起的节区分 */
 	.money-section[open] > summary {
-		color: #374151;
+		color: #111827;
 	}
 
 	.money-section > summary {
 		display: flex;
 		align-items: baseline;
 		gap: 6px;
-		padding: 8px 0;
+		padding: 0;
 		font-size: 12px;
 		font-weight: 600;
-		color: #6b7280;
+		color: #4b5563;
 		font-variant-numeric: tabular-nums;
 		cursor: pointer;
 		list-style: none;
@@ -1244,7 +1262,7 @@ const splitItem = (raw) => {
 	}
 
 	.money-section .item-list {
-		padding: 2px 0 8px;
+		padding: 2px 0 0;
 	}
 
 	/* 统一网格：五个分类下的条目都用同一套网格与卡片 */
