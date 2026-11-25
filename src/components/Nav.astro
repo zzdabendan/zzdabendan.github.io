@@ -133,7 +133,7 @@ const isActive = (href: string) =>
 		font-weight: 700;
 		padding: 4px 10px;
 		border-radius: 6px;
-		border-bottom: 2px solid transparent;
+		position: relative;
 		transition: background 0.15s;
 	}
 
@@ -142,9 +142,16 @@ const isActive = (href: string) =>
 		background: #f3f4f6;
 	}
 
-	/* 当前页对应的链接：高亮显示 */
-	.nav-link.active {
-		border-bottom-color: var(--text);
+	/* 当前页对应的链接：底部直角下划线（不吃父级圆角） */
+	.nav-link.active::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 2px;
+		background: var(--text);
+		border-radius: 0;
 	}
 
 	/* 移动端：折叠为汉堡菜单，点击 ≡ 展开 */
@@ -198,12 +205,14 @@ const isActive = (href: string) =>
 
 		.nav-link {
 			padding: 10px 18px;
-			border-bottom: none;
 		}
 
 		.nav-link.active {
 			font-weight: 600;
-			border-bottom: none;
+		}
+
+		.nav-link.active::after {
+			display: none;
 		}
 	}
 
