@@ -1324,19 +1324,24 @@ const splitItem = (raw) => {
 
 	/* 分类色板：按分类着色，底色统一加深一档 */
 	/* 存款统一用人民币的淡红底色 */
-	.tone-rmb { --tone-bg: #fef2f2; --tone-bd: #fecaca; --tone-hd: #fee2e2; --tone-bar: #b91c1c; }
+	/* 灰阶分组：表头与左色条越深，代表组别越靠前 */
+	/* 第一阶：当月存款 */
+	.tone-rmb { --tone-bg: #fbfbfb; --tone-bd: #dcdcdc; --tone-hd: #cfcfcf; --tone-bar: #525252; }
 
-	.tone-teal { --tone-bg: #f0fdfa; --tone-bd: #99f6e4; --tone-hd: #ccfbf1; --tone-bar: #0f766e; }
-	.tone-neutral { --tone-bg: #fafafa; --tone-bd: #e5e5e5; --tone-hd: #f1f2f4; --tone-bar: #9ca3af; }
-	.tone-amber { --tone-bg: #fff7ed; --tone-bd: #fed7aa; --tone-hd: #ffedd5; --tone-bar: #c2410c; }
+	/* 第二阶：身体物品、出行物品 */
+	.tone-neutral { --tone-bg: #fbfbfb; --tone-bd: #dedede; --tone-hd: #dedede; --tone-bar: #737373; }
+	.tone-amber { --tone-bg: #fbfbfb; --tone-bd: #dedede; --tone-hd: #dedede; --tone-bar: #737373; }
+
+	/* 第三阶：床铺、阳台、厨房、厕所 */
+	.tone-teal { --tone-bg: #fbfbfb; --tone-bd: #e5e5e5; --tone-hd: #eaeaea; --tone-bar: #a3a3a3; }
 
 	/* 每月花费：中性灰，与其他财务语义色（收入绿、欠款红、存款淡红）区分 */
 	.tone-spend { --tone-bg: #eef0f2; --tone-bd: #d9dde1; }
 	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
 
-	/* 收纳箱：白箱浅灰、黑箱深灰色条，底色统一 */
-	.tone-white-box { --tone-bg: #fafafa; --tone-bd: #e5e5e5; --tone-hd: #f0f0f0; --tone-bar: #d4d4d4; }
-	.tone-black-box { --tone-bg: #f5f5f5; --tone-bd: #d4d4d4; --tone-hd: #e5e5e5; --tone-bar: #1f2937; }
+	/* 第四阶：白箱、黑箱 */
+	.tone-white-box { --tone-bg: #fbfbfb; --tone-bd: #ececec; --tone-hd: #f4f4f4; --tone-bar: #cfcfcf; }
+	.tone-black-box { --tone-bg: #fbfbfb; --tone-bd: #ececec; --tone-hd: #f4f4f4; --tone-bar: #cfcfcf; }
 	.tone-debt { --tone-bg: #f6c4c7; --tone-bd: #e09aa0; }
 	.tone-debt .item-list .num { color: #991b1b; }
 
