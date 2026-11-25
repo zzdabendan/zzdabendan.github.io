@@ -590,8 +590,11 @@ const splitItem = (raw) => {
 							<div class="timeline-group">
 								<h3 class="stage-title">{group.stage}</h3>
 								{group.years.map((y) => (
-									<div class="year-block">
-										<h4 class="year-title">{y.year}</h4>
+									<details class="year-block" open={y.year === '2026年'}>
+										<summary class="year-title">
+											{y.year}
+											<span class="year-count">{y.months.filter((m) => m.events).length}</span>
+										</summary>
 										<ul class="month-list">
 											{y.months.map((m) => (
 												<li>
@@ -600,7 +603,7 @@ const splitItem = (raw) => {
 												</li>
 											))}
 										</ul>
-									</div>
+									</details>
 								))}
 							</div>
 						))
@@ -1513,13 +1516,29 @@ const splitItem = (raw) => {
 		margin-bottom: 16px;
 	}
 
+	.year-block:not([open]) {
+		margin-bottom: 8px;
+	}
+
 	.year-title {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-		margin: 0 0 8px;
+		margin: 0;
 		padding-bottom: 4px;
 		border-bottom: 1px solid #9ca3af;
+		cursor: pointer;
+	}
+
+	.year-block[open] > .year-title {
+		margin-bottom: 8px;
+	}
+
+	.year-count {
+		margin-left: 6px;
+		font-size: 12px;
+		font-weight: 400;
+		color: #6b7280;
 	}
 
 	/* 月份列表：无序列表样式，每月前带圆点 */
