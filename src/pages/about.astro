@@ -580,41 +580,41 @@ const splitItem = (raw) => {
 					<div class="zone tone-rmb card-money">
 						<h4 class="zone-title">资金</h4>
 			
-						<section class="money-section">
-							<h5><span>收入</span><span>{totalIncome}</span></h5>
+						<details class="money-section">
+							<summary><span>收入</span><span>{totalIncome}</span></summary>
 							<ul class="item-list">
 								{incomeRows.map((r) => (
 									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
-						</section>
+						</details>
 			
-						<section class="money-section">
-							<h5><span>花费</span><span>{fixedTotal}</span></h5>
+						<details class="money-section">
+							<summary><span>花费</span><span>{fixedTotal}</span></summary>
 							<ul class="item-list">
 								{fixedCost.items.map((r) => (
 									<li><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
-						</section>
+						</details>
 			
-						<section class="money-section">
-							<h5><span>欠款</span><span>{totalDebt}</span></h5>
+						<details class="money-section">
+							<summary><span>欠款</span><span>{totalDebt}</span></summary>
 							<ul class="item-list">
 								{debtRows.map((r) => (
 									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
-						</section>
+						</details>
 			
-						<section class="money-section">
-							<h5><span>存款</span><span>{totalDeposit}</span></h5>
+						<details class="money-section" open>
+							<summary><span>存款</span><span>{totalDeposit}</span></summary>
 							<ul class="item-list">
 								{depositRows.map((r) => (
 									<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 								))}
 							</ul>
-						</section>
+						</details>
 					</div>
 			
 					{categories.flatMap((cat) =>
@@ -984,7 +984,7 @@ const splitItem = (raw) => {
 	/* 资产内部：资金卡与 8 张物品卡同一行 */
 	.cards-row {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, 120px);
+		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 		gap: 16px;
 		align-items: start;
 	}
@@ -1195,16 +1195,34 @@ const splitItem = (raw) => {
 		border-top: none;
 	}
 
-	.money-section > h5 {
+	.money-section > summary {
 		display: flex;
-		justify-content: space-between;
+		align-items: baseline;
 		gap: 6px;
-		margin: 0;
-		padding: 6px 10px 0;
+		padding: 6px 10px;
 		font-size: 11px;
 		font-weight: 600;
 		color: #6b7280;
 		font-variant-numeric: tabular-nums;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.money-section > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.money-section > summary::before {
+		content: '▸';
+		color: #9ca3af;
+	}
+
+	.money-section[open] > summary::before {
+		content: '▾';
+	}
+
+	.money-section > summary > span:last-child {
+		margin-left: auto;
 	}
 
 	.money-section .item-list {
@@ -1457,5 +1475,4 @@ const splitItem = (raw) => {
 		color: #6b7280;
 		margin-top: 8px;
 	}
-
 </style>
