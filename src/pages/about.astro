@@ -1199,7 +1199,7 @@ const splitItem = (raw) => {
 		display: flex;
 		align-items: baseline;
 		gap: 6px;
-		padding: 6px 10px;
+		padding: 6px 0;
 		font-size: 11px;
 		font-weight: 600;
 		color: #6b7280;
@@ -1226,7 +1226,7 @@ const splitItem = (raw) => {
 	}
 
 	.money-section .item-list {
-		padding: 2px 10px 8px;
+		padding: 2px 0 8px;
 	}
 
 	/* 统一网格：五个分类下的条目都用同一套网格与卡片 */
@@ -1290,18 +1290,13 @@ const splitItem = (raw) => {
 
 	.zone {
 		min-width: 0;
-		overflow: hidden;
-		background: var(--tone-bg, #fafafa);
-		border: 1px solid var(--tone-bd, #e5e7eb);
-		border-left: 3px solid var(--tone-bar, #9ca3af);
-		border-radius: 6px;
 		color: #374151;
 	}
 
 	/* 卡片内部的条目退化为普通行，避免嵌套卡片 */
 	.zone .item-list {
 		display: block;
-		padding: 8px 10px;
+		padding: 4px 0 0;
 		margin: 0;
 	}
 
@@ -1322,7 +1317,7 @@ const splitItem = (raw) => {
 		font-weight: 600;
 	}
 
-	/* 区域标题：表头样式，浅色底区分内容 */
+	/* 区域标题：纯文本标题，无底色与分割线 */
 	.zone-title {
 		display: flex;
 		align-items: baseline;
@@ -1331,9 +1326,7 @@ const splitItem = (raw) => {
 		font-weight: 600;
 		color: #111827;
 		margin: 0;
-		padding: 6px 10px;
-		background: var(--tone-hd, #dfe3e8);
-		border-bottom: 1px solid var(--tone-bd, #e5e7eb);
+		padding: 0 0 4px;
 	}
 
 	.zone-title .zone-count {
