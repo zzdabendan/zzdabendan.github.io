@@ -544,17 +544,16 @@ const categories = [
 		tone: 'tone-violet',
 		icon: '归整',
 		zones: [
-			{ name: '白箱 1（49）', tone: 'tone-white-box', items: ['短袖上衣（000）'] },
-			{ name: '白箱 2（49）', tone: 'tone-white-box', items: ['长袖外套（000）'] },
-			{ name: '白箱 3（49）', tone: 'tone-white-box', items: ['裤子（000）'] },
-			{ name: '白箱 4（49）', tone: 'tone-white-box', items: ['被子（240）'] },
-			{ name: '白箱 5（49）', tone: 'tone-white-box', items: ['食物（000）'] },
-			{ name: '白箱 6（49）', tone: 'tone-white-box', items: ['厨具（000）'] },
-			{ name: '白箱 7（49）', tone: 'tone-white-box', items: ['书籍（000）'] },
-			{ name: '白箱 8（49）', tone: 'tone-white-box', items: ['工具（000）'] },
-			{ name: '黑箱 1234（41）', tone: 'tone-black-box', items: ['健身工具（000）'] },
-			{ name: '黑箱 56（41）', tone: 'tone-black-box', items: ['旧鞋子（000）'] },
-			{ name: '黑箱 78（41）', tone: 'tone-black-box', items: ['清洁工具（000）'] },
+			{
+				name: '白箱（392）',
+				tone: 'tone-white-box',
+				items: ['短袖上衣（000）', '长袖外套（000）', '裤子（000）', '被子（240）', '食物（000）', '厨具（000）', '书籍（000）', '工具（000）'],
+			},
+			{
+				name: '黑箱（123）',
+				tone: 'tone-black-box',
+				items: ['健身工具（000）', '旧鞋子（000）', '清洁工具（000）'],
+			},
 		],
 	},
 ];
@@ -659,8 +658,9 @@ const splitItem = (raw) => {
 						))}
 					</p>
 				</section>
+			</aside>
 
-				<!-- 资产：每月花费 / 每月收入 / 每月欠款，下接当月存款与物品 -->
+			<!-- 资产：每月花费 / 每月收入 / 每月欠款，下接当月存款与物品 -->
 				<section class="card assets" id="assets">
 					<h2>我的资产</h2>
 
@@ -733,57 +733,41 @@ const splitItem = (raw) => {
 						</details>
 
 						<div class="categories">
-						{categories.map((cat) => (
-							<details class={`category-details ${cat.tone}`} open>
-								<summary class="cat-title">{cat.name}<span class="cat-count">
-									{cat.zones
-										? cat.zones.reduce((s, z) => s + z.items.length, 0)
-										: cat.items.length}
-								</span></summary>
-								<div class="category">
-
-								{cat.zones ? (
-									<>
-										<div class="zone-list">
-											{cat.zones.filter((zone) => zone.items.length > 0).map((zone) => (
-												<div class={`zone ${zone.tone || ''}`}>
-													<h4 class="zone-title">{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}<span class="zone-count">{zone.items.length}</span></h4>
-													<ul class="item-list">
-														{zone.items.map((item) => {
-															const { name, value } = splitItem(item);
-															return (
-																<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-															);
-														})}
-													</ul>
-												</div>
-											))}
+							<p class="cat-legend">
+								{categories.map((cat) => (
+									<span class={`cat-legend-item ${cat.tone}`}>
+										{cat.name}
+										<span class="cat-count">
+											{cat.zones
+												? cat.zones.reduce((s, z) => s + z.items.length, 0)
+												: cat.items.length}
+										</span>
+									</span>
+								))}
+							</p>
+							{categories.flatMap((cat) =>
+								(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
+									.filter((zone) => zone.items.length > 0)
+									.map((zone) => (
+										<div class={`zone ${zone.tone || ''}`}>
+											<h4 class="zone-title">
+												{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
+												<span class="zone-count">{zone.items.length}</span>
+											</h4>
+											<ul class="item-list">
+												{zone.items.map((item) => {
+													const { name, value } = splitItem(item);
+													return (
+														<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+													);
+												})}
+											</ul>
 										</div>
-										{cat.zones.some((zone) => zone.items.length === 0) && (
-											<p class="zone-empty-note">
-												待补充：{cat.zones.filter((zone) => zone.items.length === 0).map((zone) => zone.name).join('、')}
-											</p>
-										)}
-									</>
-								) : (
-									<div class="zone">
-										<ul class="item-list">
-											{cat.items.map((item) => {
-												const { name, value } = splitItem(item);
-												return (
-													<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-												);
-											})}
-										</ul>
-									</div>
-								)}
-								</div>
-							</details>
-						))}
+									))
+							)}
 						</div>
 					</div>
 				</section>
-			</aside>
 		</div>
 	</article>
 
@@ -941,6 +925,12 @@ const splitItem = (raw) => {
 		align-items: start;
 	}
 
+	/* 资产卡跨三栏：8 个区域横排并列 */
+	.cols > .card.assets {
+		grid-column: 1 / -1;
+		margin-top: 40px;
+	}
+
 	/* 中栏在中间：自我介绍 + 我的经历 */
 	.col-main {
 		grid-column: 2;
@@ -1073,7 +1063,10 @@ const splitItem = (raw) => {
 		}
 
 		#intro { order: 1; }
-		#assets { order: 2; }
+		#assets {
+			order: 2;
+			margin-top: 0;
+		}
 		#timeline { order: 3; }
 		.card.note {
 			order: 4;
@@ -1288,11 +1281,29 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 物品 ===== */
-	/* 物品分类：每个分类独占一行，行距与存款一致 */
+	/* 物品分类：一行图例 + 8 个区域横排，一区一列 */
 	.categories {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-columns: repeat(8, minmax(0, 1fr));
 		gap: 16px;
+		align-items: start;
+	}
+
+	/* 分类图例：随行物品 / 楼内使用 / 楼内存放，色条对应各列 */
+	.cat-legend {
+		grid-column: 1 / -1;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		margin: 0 0 4px;
+	}
+
+	.cat-legend-item {
+		padding-left: 8px;
+		border-left: 4px solid var(--tone-bd, #9ca3af);
+		font-size: 14px;
+		font-weight: 600;
+		color: #333333;
 	}
 
 	/* 存款与后续分类之间的行距 */
@@ -1300,12 +1311,7 @@ const splitItem = (raw) => {
 		margin-bottom: 16px;
 	}
 
-	.category {
-		min-width: 0; /* 防止内容撑破网格 */
-	}
-
-	/* 分类标题：与流水的分组标题同为四级标题（14px + 细线） */
-	.cat-title,
+	/* 分组标题：与流水的分组标题同为四级标题（14px + 细线） */
 	.asset-stock .detail-group summary {
 		font-size: 14px;
 		font-weight: 600;
@@ -1321,17 +1327,6 @@ const splitItem = (raw) => {
 		font-weight: 400;
 		color: #555;
 		margin-left: 6px;
-	}
-
-	/* 分类可折叠，左侧色条承接分类色 */
-	.category-details > summary.cat-title {
-		cursor: pointer;
-		padding-left: 10px;
-		border-left: 4px solid var(--tone-bd, #9ca3af);
-	}
-
-	.category-details > summary.cat-title::marker {
-		color: #6b7280;
 	}
 
 	/* 统一网格：五个分类下的条目都用同一套网格与卡片 */
@@ -1408,13 +1403,6 @@ const splitItem = (raw) => {
 		color: #6b7280;
 	}
 
-	/* 空区域合并成一行提示 */
-	.zone-empty-note {
-		margin: 8px 0 0;
-		font-size: 13px;
-		color: #6b7280;
-	}
-
 	/* 区域卡片并列排布，减少纵向高度 */
 	.sub-grid {
 		display: grid;
@@ -1443,25 +1431,12 @@ const splitItem = (raw) => {
 		line-height: 1.7;
 	}
 
-	/* 区域列表：与条目同一套网格与卡片 */
-	.zone-list {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-		gap: 8px;
-		margin-top: 8px;
-	}
-
 	.zone {
 		min-width: 0;
 		overflow: hidden;
 		background: var(--tone-bg, #fafafa);
 		border: 1px solid var(--tone-bd, #e5e7eb);
 		border-radius: 6px;
-	}
-
-	/* 无区域的分类（随身物品、楼外物品）：整块着色，与分区卡片同一套容器 */
-	.category > .zone {
-		margin-top: 8px;
 	}
 
 	/* 卡片内部的条目退化为普通行，避免嵌套卡片 */
@@ -1631,6 +1606,13 @@ const splitItem = (raw) => {
 		margin-top: 8px;
 	}
 
+	/* 中等宽度：8 列收成 4 列 */
+	@media (max-width: 1320px) {
+		.categories {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+	}
+
 	/* 响应式：手机端明细与物品分类都变单列 */
 	@media (max-width: 700px) {
 		.detail-grid {
@@ -1638,7 +1620,7 @@ const splitItem = (raw) => {
 		}
 
 		.categories {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 </style>
