@@ -576,101 +576,97 @@ const splitItem = (raw) => {
 
 			<section class="card assets" id="assets">
 				<h2>我的资产</h2>
-
-				<div class="asset-block asset-flow">
-
-				<div class="detail-grid">
-					<details class="detail-group tone-spend">
-						<summary>每月花费（{fixedTotal}）</summary>
-						<ul class="item-list">
-							{fixedSimple.map((r) => (
-								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
-							))}
-						</ul>
-						<div class="sub-grid">
-							{fixedGroups.map((r) => (
-								<div class="zone sub-card">
-									<h4 class="zone-title">
-										{r.label}
-										<span class="zone-count">{r.sub.length} 项</span>
-										<span class="zone-value">{r.value}</span>
-									</h4>
-									<ul class="item-list">
-										{r.sub.map((s) => (
-											<li>
-												<span>{s.label}<em class="unit">{s.unit}</em></span>
-												<span class="num">{s.value}</span>
-											</li>
-										))}
-									</ul>
-									{r.subNote && (
-										<div class="sub-notes">
-											{r.subNote.map((line) => (
-												<p class="sub-note">{line}</p>
-											))}
-										</div>
-									)}
-								</div>
-							))}
-						</div>
-					</details>
-					<details class="detail-group tone-income">
-						<summary>每月收入</summary>
+			
+				<div class="money-grid">
+					<div class="zone tone-rmb">
+						<h4 class="zone-title">每月收入<span class="zone-count">{totalIncome}</span></h4>
 						<ul class="item-list">
 							{incomeRows.map((r) => (
 								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 							))}
 						</ul>
-					</details>
-					<details class="detail-group tone-debt">
-						<summary>每月欠款（{totalDebt}）</summary>
+					</div>
+			
+					<div class="zone tone-rmb">
+						<h4 class="zone-title">每月花费<span class="zone-count">{fixedTotal}</span></h4>
+						<ul class="item-list">
+							{fixedCost.items.map((r) => (
+								<li><span>{r.label}</span><span class="num">{r.value}</span></li>
+							))}
+						</ul>
+					</div>
+			
+					<div class="zone tone-rmb">
+						<h4 class="zone-title">每月欠款<span class="zone-count">{totalDebt}</span></h4>
 						<ul class="item-list">
 							{debtRows.map((r) => (
 								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 							))}
 						</ul>
-					</details>
-				</div>
-
-				</div>
-
-				<div class="asset-block asset-stock">
-
+					</div>
+			
 					<div class="zone tone-rmb">
-						<h4 class="zone-title">
-							当月存款
-							<span class="zone-count">{totalDeposit}</span>
-						</h4>
+						<h4 class="zone-title">当月存款<span class="zone-count">{totalDeposit}</span></h4>
 						<ul class="item-list">
 							{depositRows.map((r) => (
 								<li class:list={[{ 'is-zero': r.value === 0 }]}><span>{r.label}</span><span class="num">{r.value}</span></li>
 							))}
 						</ul>
 					</div>
-
-					<div class="categories">
-						{categories.flatMap((cat) =>
-							(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
-								.filter((zone) => zone.items.length > 0)
-								.map((zone) => (
-									<div class={`zone ${zone.tone || ''}`}>
-										<h4 class="zone-title">
-											{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
-											<span class="zone-count">{zone.items.length}</span>
-										</h4>
-										<ul class="item-list">
-											{zone.items.map((item) => {
-												const { name, value } = splitItem(item);
-												return (
-													<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-												);
-											})}
-										</ul>
-									</div>
-								))
-						)}
-					</div>
 				</div>
+			
+				<div class="categories">
+					{categories.flatMap((cat) =>
+						(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
+							.filter((zone) => zone.items.length > 0)
+							.map((zone) => (
+								<div class={`zone ${zone.tone || ''}`}>
+									<h4 class="zone-title">
+										{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
+										<span class="zone-count">{zone.items.length}</span>
+									</h4>
+									<ul class="item-list">
+										{zone.items.map((item) => {
+											const { name, value } = splitItem(item);
+											return (
+												<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+											);
+										})}
+									</ul>
+								</div>
+							))
+					)}
+				</div>
+			
+				<details class="asset-extra">
+					<summary>大额支出明细（一次性与长期）</summary>
+					<div class="sub-grid">
+						{fixedGroups.map((r) => (
+							<div class="zone sub-card">
+								<h4 class="zone-title">
+									{r.label}
+									<span class="zone-count">{r.sub.length} 项</span>
+									<span class="zone-value">{r.value}</span>
+								</h4>
+								<ul class="item-list">
+									{r.sub.map((s) => (
+										<li>
+											<span>{s.label}<em class="unit">{s.unit}</em></span>
+											<span class="num">{s.value}</span>
+										</li>
+									))}
+								</ul>
+								{r.subNote && (
+									<div class="sub-notes">
+										{r.subNote.map((line) => (
+											<p class="sub-note">{line}</p>
+										))}
+									</div>
+								)}
+							</div>
+						))}
+					</div>
+				</details>
 			</section>
 
 			<!-- 窄栏：活动地图 + 我的经历 -->
@@ -1014,21 +1010,11 @@ const splitItem = (raw) => {
 	.card.intro { order: 1; }
 	.card.assets { order: 2; }
 
-	/* 资产内部：流水在前，存量在后 */
-	.card.assets {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.asset-flow { order: 1; }
-
-	/* 存量：当月存款在左，物品区在右，横向并排 */
-	.asset-stock {
-		order: 2;
-		margin-top: 16px;
+	/* 资产内部：钱一行、物一行 */
+	.money-grid {
 		display: grid;
-		grid-template-columns: 200px minmax(0, 1fr);
-		gap: 24px;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 16px;
 		align-items: start;
 	}
 
@@ -1230,64 +1216,27 @@ const splitItem = (raw) => {
 	}
 
 	/* ===== 财务 ===== */
-	/* 财务分组：四级标题，与「钱 / 物」同为 14px 细线 */
-	.detail-group summary {
+	/* 大额支出：折叠明细，默认收起 */
+	.asset-extra {
+		margin-top: 20px;
+	}
+
+	.asset-extra > summary {
 		font-size: 14px;
 		font-weight: 600;
 		color: #333333;
-		margin: 0;
 		padding-bottom: 4px;
-		border-bottom: 1px solid #9ca3af;
-		display: block;
+		border-bottom: 1px solid #e5e5e5;
 		cursor: pointer;
 	}
 
-	.detail-group summary::marker {
+	.asset-extra > summary::marker {
 		color: #6b7280;
 	}
-
-	/* 明细区域的分组：每个分组独占一行 */
-	.detail-grid {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 16px;
-	}
-
-	.detail-group ul {
-		list-style: none;
-		padding: 0;
-		/* 与分类列表一致：标题与内容之间 8px */
-		margin: 8px 0 0;
-	}
-
-	.detail-group li {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 12px;
-		font-size: 15px;
-		line-height: 1.9;
-		padding: 8px 0;
-		border-bottom: 1px solid #f3f4f6;
-	}
-
-	.detail-group li:last-child {
-		border-bottom: none;
-	}
-
-	.detail-group li span:first-child {
-		color: #555555;
-	}
-
-	.detail-group .num {
-		font-weight: 600;
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
-	}
-
 	/* ===== 物品 ===== */
 	/* 物品分类：8 个区域横排，一区一列 */
 	.categories {
+		margin-top: 16px;
 		display: grid;
 		grid-template-columns: repeat(8, minmax(0, 1fr));
 		gap: 16px;
@@ -1336,14 +1285,10 @@ const splitItem = (raw) => {
 	.tone-teal { --tone-bg: #fbfbfb; --tone-bd: #e5e5e5; --tone-hd: #eaeaea; --tone-bar: #a3a3a3; }
 
 	/* 每月花费：中性灰，与其他财务语义色（收入绿、欠款红、存款淡红）区分 */
-	.tone-spend { --tone-bg: #eef0f2; --tone-bd: #d9dde1; }
-	.tone-income { --tone-bg: #c3e6c9; --tone-bd: #8bca98; }
 
 	/* 第四阶：白箱、黑箱 */
 	.tone-white-box { --tone-bg: #fbfbfb; --tone-bd: #ececec; --tone-hd: #f4f4f4; --tone-bar: #cfcfcf; }
 	.tone-black-box { --tone-bg: #fbfbfb; --tone-bd: #ececec; --tone-hd: #f4f4f4; --tone-bar: #cfcfcf; }
-	.tone-debt { --tone-bg: #f6c4c7; --tone-bd: #e09aa0; }
-	.tone-debt .item-list .num { color: #991b1b; }
 
 	/* 零值行：透明底灰字，降低噪声 */
 	.item-list li.is-zero {
@@ -1587,11 +1532,11 @@ const splitItem = (raw) => {
 
 	/* 响应式：手机端明细与物品分类都变单列 */
 	@media (max-width: 700px) {
-		.detail-grid {
-			grid-template-columns: 1fr;
+		.categories {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 
-		.categories {
+		.money-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
