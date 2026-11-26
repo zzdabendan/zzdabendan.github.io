@@ -37,7 +37,9 @@ const isActive = (href: string) =>
 			<label for="nav-check" class="nav-toggle" aria-label="打开菜单">≡</label>
 		</div>
 		<div class="nav-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-			<span id="nav-energy-fill" class="nav-energy-fill"></span>
+			{Array.from({ length: 24 }).map(() => (
+				<span class="energy-seg"><span class="seg-fill"></span></span>
+			))}
 		</div>
 	</div>
 </header>
@@ -90,21 +92,29 @@ const isActive = (href: string) =>
 		white-space: nowrap;
 	}
 
-	/* 全宽能量条：横贯页头，作为页头的收尾基准线 */
+	/* 全宽能量条：24 段，每段代表一小时，横贯页头作为收尾基准线 */
 	.nav-bar {
 		width: 100%;
 		height: 4px;
 		margin: 2px 0 0;
+		display: flex;
+		gap: 1px;
+		background: transparent;
+		overflow: hidden;
+	}
+
+	.energy-seg {
+		flex: 1;
+		height: 100%;
 		background: #ececec;
 		overflow: hidden;
 	}
 
-	.nav-energy-fill {
+	.seg-fill {
 		display: block;
 		width: 0;
 		height: 100%;
 		background: #111111;
-		border-radius: 0;
 		transition: width 0.6s ease;
 	}
 
@@ -248,12 +258,15 @@ const isActive = (href: string) =>
 	}
 
 	// 能量条：07:00 起床满格 → 23:00 入睡耗尽 → 睡眠时段缓慢回升
+	// 视觉上分成 24 段，每段代表一小时
 	const WAKE_MIN = 7 * 60;
 	const SLEEP_MIN = 23 * 60;
+	const SEG_COUNT = 24;
+	const SEG_WIDTH = 100 / SEG_COUNT;
 
 	function updateNavEnergy() {
-		const fill = document.getElementById('nav-energy-fill');
-		if (!fill) return;
+		const fills = document.querySelectorAll('.energy-seg .seg-fill');
+		if (!fills.length) return;
 		const now = new Date();
 		const t = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 		let percent;
@@ -265,8 +278,13 @@ const isActive = (href: string) =>
 			const elapsed = t > SLEEP_MIN ? t - SLEEP_MIN : t + 24 * 60 - SLEEP_MIN;
 			percent = (elapsed / (WAKE_MIN + 24 * 60 - SLEEP_MIN)) * 100;
 		}
-		fill.style.width = percent.toFixed(3) + '%';
-		const bar = fill.parentElement;
+		// 每段按总百分比分配：已过段满、当前段部分、未来段空
+		fills.forEach((fill, i) => {
+			const segStart = i * SEG_WIDTH;
+			const ratio = Math.max(0, Math.min(1, (percent - segStart) / SEG_WIDTH));
+			fill.style.width = (ratio * 100).toFixed(2) + '%';
+		});
+		const bar = document.querySelector('.nav-bar');
 		if (bar) bar.setAttribute('aria-valuenow', String(Math.round(percent)));
 	}
 
