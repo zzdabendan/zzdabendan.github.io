@@ -1360,7 +1360,8 @@ const splitItem = (raw) => {
 
 	.zone {
 		min-width: 0;
-		padding: 6px 8px;
+		/* 上下留白、左右为 0：状态带顶到卡片边缘，避免大套小的双层边距 */
+		padding: 6px 0;
 		background: var(--tone-bg, #f5f5f5);
 		border-radius: 4px;
 		color: #374151;
@@ -1394,11 +1395,7 @@ const splitItem = (raw) => {
 	/* 物品卡内部状态节：与资金卡同构的折叠分组，空节灰字且默认收起 */
 	.item-section {
 		padding: 4px 8px;
-		border-radius: 4px;
-	}
-
-	.item-section + .item-section {
-		margin-top: 2px;
+		border-radius: 0;
 	}
 
 	/* 四节灰阶与资金卡一致：使用→维护→清理→存放 对应 收入→花费→欠款→存款 */
@@ -1455,7 +1452,7 @@ const splitItem = (raw) => {
 		font-size: 12px;
 		font-weight: 600;
 		color: #111827;
-		margin: 0 0 3px;
+		margin: 0 8px 3px;
 		padding: 0 0 4px;
 		border-bottom: 1px solid #d4d4d4;
 	}
