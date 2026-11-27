@@ -40,7 +40,10 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		<!-- 左栏：文章列表 -->
 		<ArticleList groups={sidebarGroups} />
 
-		<!-- 中栏：导读 + 管理方法 + 分组导航 + 待完善 -->
+		<!-- 中栏：本页目录 -->
+		<Toc items={toc.map((t) => ({ href: `#${t.id}`, text: t.text }))} />
+
+		<!-- 右栏：导读 + 管理方法 + 分组导航 + 待完善 -->
 			<main class="kb-content">
 				<h1 class="article-h1">知识库</h1>
 				<p class="kb-stats">
@@ -101,9 +104,6 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 				</section>
 			</ArticleBody>
 		</main>
-
-		<!-- 右栏：本页目录 -->
-		<Toc items={toc.map((t) => ({ href: `#${t.id}`, text: t.text }))} />
 	</div>
 
 	<script is:inline>
@@ -139,7 +139,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 </BaseLayout>
 
 <style is:global>
-	/* 三栏容器：侧栏 220 + 目录 200 + 中栏正文 680px，与子页面文字行宽一致 */
+	/* 三栏容器：文章列表 220 + 目录 200 + 右栏正文，与子页面文字行宽一致 */
 	/* 取消容器上下留白：侧栏 sticky 从导航下沿直接开始，滚动到顶部不再位移 */
 	/* 双 class 提高优先级，覆盖 BaseLayout 中带作用域的 .container[data-astro-cid-*] 的 padding */
 	.container.container { --content-width: 1600px; padding: 16px 20px 40px; }
@@ -152,13 +152,13 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 <style>
 	.kb-layout {
 		display: grid;
-		grid-template-columns: 220px 1fr 200px;
+		grid-template-columns: 220px 200px 1fr;
 		gap: 30px;
 		margin: 0 auto;
 		min-height: calc(100vh - 180px); /* 撑满一屏：100vh - 导航约 71px - 页脚约 109px */
 	}
 
-	/* 中栏 */
+	/* 右栏正文 */
 	.kb-content {
 		min-width: 0;
 	}
