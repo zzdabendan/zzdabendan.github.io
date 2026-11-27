@@ -804,11 +804,11 @@ const splitItem = (raw) => {
 		align-items: start;
 	}
 
-	/* 资产卡跨三栏置顶：8 个区域横排并列 */
+	/* 资产卡位于自我介绍下方，横跨中栏与右栏（自我介绍 + 感悟谋划） */
 	.cols > .card.assets {
-		grid-column: 1 / -1;
-		grid-row: 1;
-		margin-top: 0;
+		grid-column: 2 / -1;
+		grid-row: 3;
+		margin-top: 32px;
 		margin-bottom: 32px;
 	}
 
@@ -823,7 +823,8 @@ const splitItem = (raw) => {
 
 	.col-side {
 		grid-column: 1;
-		grid-row: 2;
+		/* 左栏贯穿自我介绍与资产两行 */
+		grid-row: 2 / 4;
 		/* 窄栏内容已超过一屏，取消吸顶以免底部被裁掉 */
 		position: static;
 		background: #fafafa;
@@ -918,7 +919,7 @@ const splitItem = (raw) => {
 
 		.col-side {
 			grid-column: 1;
-			grid-row: 2;
+			grid-row: 2 / 5;
 		}
 
 		.col-main {
@@ -930,6 +931,12 @@ const splitItem = (raw) => {
 			grid-column: 2;
 			grid-row: 3;
 			margin-top: 40px;
+		}
+
+		/* 两列布局下：资产跟在感悟谋划之后，仍在右列 */
+		.cols > .card.assets {
+			grid-column: 2;
+			grid-row: 4;
 		}
 	}
 
@@ -947,7 +954,7 @@ const splitItem = (raw) => {
 
 		#intro { order: 1; }
 		#assets {
-			order: 0;
+			order: 2;
 			margin-top: 0;
 		}
 		#timeline { order: 3; }
