@@ -981,19 +981,12 @@ const splitItem = (raw) => {
 	.card.intro { order: 1; }
 	.card.assets { order: 2; }
 
-	/* 资产内部：资金卡与 8 张物品卡同一行 */
+	/* 资产内部：资金卡与 8 张物品卡同一行，列数随可用宽度自适应 */
 	.cards-row {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-		gap: 16px;
+		grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+		gap: 10px;
 		align-items: start;
-	}
-
-	/* 窄屏固定 7 列：每行结束在组边界上（7 列 + 2 列） */
-	@media (max-width: 1320px) {
-		.cards-row {
-			grid-template-columns: repeat(7, minmax(0, 1fr));
-		}
 	}
 
 	@media (max-width: 700px) {
@@ -1214,7 +1207,7 @@ const splitItem = (raw) => {
 	}
 
 	.money-section {
-		padding: 8px 10px;
+		padding: 6px 8px;
 	}
 
 	.money-section:nth-of-type(1) { background: #dedede; }
@@ -1232,7 +1225,7 @@ const splitItem = (raw) => {
 		align-items: baseline;
 		gap: 6px;
 		padding: 0;
-		font-size: 12px;
+		font-size: 11px;
 		font-weight: 600;
 		color: #4b5563;
 		font-variant-numeric: tabular-nums;
@@ -1255,7 +1248,7 @@ const splitItem = (raw) => {
 
 	.money-section > summary > span:last-child {
 		margin-left: auto;
-		font-size: 13px;
+		font-size: 12px;
 		font-weight: 600;
 		color: #111827;
 		font-variant-numeric: tabular-nums;
@@ -1304,8 +1297,8 @@ const splitItem = (raw) => {
 
 	.assets .item-list li > span:first-child::before {
 		content: counter(asset-item) '.';
-		margin-right: 6px;
-		font-size: 11px;
+		margin-right: 5px;
+		font-size: 10px;
 		color: #9ca3af;
 		font-variant-numeric: tabular-nums;
 	}
@@ -1350,7 +1343,7 @@ const splitItem = (raw) => {
 
 	.zone {
 		min-width: 0;
-		padding: 8px 10px;
+		padding: 6px 8px;
 		background: var(--tone-bg, #f5f5f5);
 		border-radius: 4px;
 		color: #374151;
@@ -1364,11 +1357,11 @@ const splitItem = (raw) => {
 	}
 
 	.zone .item-list li {
-		padding: 2px 0;
+		padding: 1px 0;
 		background: none;
 		border: none;
 		border-radius: 0;
-		font-size: 13px;
+		font-size: 12px;
 	}
 
 	.zone .item-list li span:first-child {
@@ -1385,12 +1378,12 @@ const splitItem = (raw) => {
 	.zone-title {
 		display: flex;
 		align-items: baseline;
-		gap: 6px;
-		font-size: 14px;
+		gap: 5px;
+		font-size: 12px;
 		font-weight: 600;
 		color: #111827;
-		margin: 0 0 4px;
-		padding: 0 0 6px;
+		margin: 0 0 3px;
+		padding: 0 0 4px;
 		border-bottom: 1px solid #d4d4d4;
 	}
 
@@ -1400,13 +1393,13 @@ const splitItem = (raw) => {
 	}
 
 	.zone-title .zone-sup {
-		font-size: 11px;
+		font-size: 10px;
 		font-weight: 400;
 		color: #4b5563;
 	}
 
 	.zone-count {
-		font-size: 11px;
+		font-size: 10px;
 		font-weight: 400;
 		color: #4b5563;
 		margin-left: 6px;
