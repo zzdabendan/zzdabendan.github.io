@@ -1212,7 +1212,7 @@ const splitItem = (raw) => {
 	/* 资金卡：四阶段纵向分节 */
 	/* 资金卡与物品卡共用 .zone / .zone-title，不再单独覆盖底色、标题与边距 */
 	.money-section {
-		padding: 4px 8px;
+		padding: 3px 8px;
 	}
 
 	.money-section:nth-of-type(1) { background: #dedede; }
@@ -1225,7 +1225,7 @@ const splitItem = (raw) => {
 		align-items: baseline;
 		gap: 6px;
 		padding: 0;
-		font-size: 11px;
+		font-size: 10px;
 		font-weight: 600;
 		color: #4b5563;
 		font-variant-numeric: tabular-nums;
@@ -1248,7 +1248,7 @@ const splitItem = (raw) => {
 
 	.money-section > summary > span:last-child {
 		margin-left: auto;
-		font-size: 11px;
+		font-size: 10px;
 		font-weight: 400;
 		color: #6b7280;
 		font-variant-numeric: tabular-nums;
@@ -1304,8 +1304,8 @@ const splitItem = (raw) => {
 
 	.assets .item-list li > span:first-child::before {
 		content: counter(asset-item) '.';
-		margin-right: 5px;
-		font-size: 10px;
+		margin-right: 4px;
+		font-size: 9px;
 		color: #9ca3af;
 		font-variant-numeric: tabular-nums;
 	}
@@ -1351,7 +1351,7 @@ const splitItem = (raw) => {
 	.zone {
 		min-width: 0;
 		/* 上下留白、左右为 0：状态带顶到卡片边缘，避免大套小的双层边距 */
-		padding: 6px 0;
+		padding: 4px 0;
 		background: var(--tone-bg, #f5f5f5);
 		border-radius: 4px;
 		color: #374151;
@@ -1369,7 +1369,8 @@ const splitItem = (raw) => {
 		background: none;
 		border: none;
 		border-radius: 0;
-		font-size: 12px;
+		font-size: 11px;
+		line-height: 1.5;
 	}
 
 	.zone .item-list li span:first-child {
@@ -1384,7 +1385,7 @@ const splitItem = (raw) => {
 
 	/* 物品卡内部状态节：与资金卡同构的折叠分组，空节灰字且默认收起 */
 	.item-section {
-		padding: 4px 8px;
+		padding: 3px 8px;
 		border-radius: 0;
 	}
 
@@ -1398,7 +1399,7 @@ const splitItem = (raw) => {
 		display: flex;
 		align-items: baseline;
 		gap: 5px;
-		font-size: 11px;
+		font-size: 10px;
 		font-weight: 600;
 		color: #4b5563;
 		font-variant-numeric: tabular-nums;
@@ -1455,7 +1456,7 @@ const splitItem = (raw) => {
 		display: flex;
 		align-items: baseline;
 		gap: 5px;
-		font-size: 12px;
+		font-size: 11px;
 		font-weight: 600;
 		color: #111827;
 		margin: 0 8px 3px;
@@ -1469,13 +1470,13 @@ const splitItem = (raw) => {
 	}
 
 	.zone-title .zone-sup {
-		font-size: 10px;
+		font-size: 9px;
 		font-weight: 400;
 		color: #4b5563;
 	}
 
 	.zone-count {
-		font-size: 10px;
+		font-size: 9px;
 		font-weight: 400;
 		color: #4b5563;
 		margin-left: 6px;
