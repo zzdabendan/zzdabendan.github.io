@@ -925,29 +925,21 @@ const splitItem = (raw) => {
 	}
 
 	@media (max-width: 900px) {
+		/* 手机端尽量保留三栏：左地图经历 / 中介绍资产 / 右感悟谋划 */
 		.cols {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 12px;
 		}
 
-		/* 单列时拆开各栏：自我介绍 → 资产 → 经历 → 感悟 → 地图 */
-		.col-main,
 		.col-side,
+		.col-main,
 		.col-note {
-			display: contents;
+			grid-row: auto;
 		}
 
-		#intro { order: 1; }
-		#assets {
-			order: 2;
-			margin-top: 0;
+		.col-side {
+			padding: 12px;
 		}
-		#timeline { order: 3; }
-		.card.note {
-			order: 4;
-			margin-top: 0;
-			margin-bottom: 40px;
-		}
-		.card.side-map { order: 5; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
