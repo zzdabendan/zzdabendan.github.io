@@ -21,18 +21,9 @@ const { items } = Astro.props;
 </aside>
 
 <style>
+	/* 与文章列表一致：不限制高度、不内部滚动，随页面一起滚动 */
 	.kb-toc {
-		position: sticky;
-		top: 70px; /* 与导航高度对齐，避免滚动起始时出现位移 */
 		align-self: start;
-		/* 高度上限预留页脚（约 109px）与底部留白（20px），滚到页尾时侧栏无需上移 */
-		max-height: calc(100vh - 199px);
-		overflow-y: auto;
-		scrollbar-width: none;
-	}
-
-	.kb-toc::-webkit-scrollbar {
-		display: none;
 	}
 
 	.kb-toc-title {
@@ -73,12 +64,9 @@ const { items } = Astro.props;
 		color: #777777;
 	}
 
-	/* 窄屏：回到文档流 */
+	/* 窄屏：单列排在正文之后 */
 	@media (max-width: 900px) {
 		.kb-toc {
-			position: static;
-			max-height: none;
-			overflow-y: visible;
 			order: 3;
 		}
 	}
