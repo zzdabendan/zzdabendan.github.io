@@ -590,7 +590,7 @@ const splitItem = (raw) => {
 					<div class="zone tone-rmb card-money">
 						<h4 class="zone-title">资金</h4>
 			
-						<details class="money-section">
+						<details class:list={['money-section', { 'has-items': incomeRows.length > 0 }]}>
 							<summary><span>收入</span><span>{totalIncome}</span></summary>
 							<ul class="item-list">
 								{incomeRows.map((r) => (
@@ -599,7 +599,7 @@ const splitItem = (raw) => {
 							</ul>
 						</details>
 			
-						<details class="money-section">
+						<details class:list={['money-section', { 'has-items': fixedCost.items.length > 0 }]}>
 							<summary><span>花费</span><span>{fixedTotal}</span></summary>
 							<ul class="item-list">
 								{fixedCost.items.map((r) => (
@@ -608,7 +608,7 @@ const splitItem = (raw) => {
 							</ul>
 						</details>
 			
-						<details class="money-section">
+						<details class:list={['money-section', { 'has-items': debtRows.length > 0 }]}>
 							<summary><span>欠款</span><span>{totalDebt}</span></summary>
 							<ul class="item-list">
 								{debtRows.map((r) => (
@@ -617,7 +617,7 @@ const splitItem = (raw) => {
 							</ul>
 						</details>
 			
-						<details class="money-section" open>
+						<details class:list={['money-section', { 'has-items': depositRows.length > 0 }]} open>
 							<summary><span>存款</span><span>{totalDeposit}</span></summary>
 							<ul class="item-list">
 								{depositRows.map((r) => (
@@ -637,7 +637,7 @@ const splitItem = (raw) => {
 										<span class="zone-count">{zone.items.length}</span>
 									</h4>
 									{zoneStates(zone).map((state) => (
-										<details class="item-section" open={state.items.length > 0}>
+										<details class:list={['item-section', { 'has-items': state.items.length > 0 }]} open={state.items.length > 0}>
 											<summary><span>{state.label}</span><span>{state.items.length}</span></summary>
 											{state.items.length > 0 && (
 												<ul class="item-list">
@@ -1433,6 +1433,22 @@ const splitItem = (raw) => {
 	.item-section .item-list {
 		margin: 4px 0 2px;
 	}
+
+	/* 有内容的状态节按语义上色：收入/使用绿、花费/维护黄、欠款/清理红、存款/存放蓝
+	   空节不加 has-items，保持上面的灰阶 */
+	.has-items:nth-of-type(1) { background: #e8f5e9; }
+	.has-items:nth-of-type(2) { background: #fff4e0; }
+	.has-items:nth-of-type(3) { background: #fdecea; }
+	.has-items:nth-of-type(4) { background: #e8f0fe; }
+
+	.has-items:nth-of-type(1) > summary,
+	.has-items:nth-of-type(1) > summary > span:last-child { color: #1b5e20; }
+	.has-items:nth-of-type(2) > summary,
+	.has-items:nth-of-type(2) > summary > span:last-child { color: #8a5a00; }
+	.has-items:nth-of-type(3) > summary,
+	.has-items:nth-of-type(3) > summary > span:last-child { color: #b3261e; }
+	.has-items:nth-of-type(4) > summary,
+	.has-items:nth-of-type(4) > summary > span:last-child { color: #1a4b9b; }
 
 	/* 区域标题：纯文本标题，无底色与分割线 */
 	.zone-title {
