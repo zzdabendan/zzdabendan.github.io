@@ -24,8 +24,8 @@ const { items } = Astro.props;
 	/* 与文章列表一致：不限制高度、不内部滚动，随页面一起滚动 */
 	.kb-toc {
 		align-self: start;
-		background: #fafafa;
-		border: 1px solid #ebebeb;
+		background: var(--surface-soft, #fafafa);
+		border: 1px solid var(--line, #e6e6e6);
 		border-radius: 6px;
 		padding: 12px;
 	}

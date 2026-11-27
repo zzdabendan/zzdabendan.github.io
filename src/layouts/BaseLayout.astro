@@ -44,34 +44,6 @@ const {
 			{bare || !paper ? <slot /> : <div class="paper"><slot /></div>}
 		</main>
 		<footer class="site-footer">
-			<div class="footer-map" aria-hidden="true">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice">
-					<g stroke="#9ca3af" stroke-width="1" fill="#e5e7eb">
-						<!-- 北美洲 -->
-						<path d="M 150 130 Q 200 90 260 100 Q 300 120 320 170 Q 300 230 260 250 Q 200 240 170 190 Z"/>
-						<!-- 格陵兰 -->
-						<path d="M 280 60 Q 320 50 340 80 Q 330 120 300 110 Z"/>
-						<!-- 南美洲 -->
-						<path d="M 240 290 Q 280 270 300 310 Q 320 380 280 430 Q 240 410 230 350 Z"/>
-						<!-- 非洲 -->
-						<path d="M 460 200 Q 520 180 560 220 Q 580 290 540 360 Q 480 380 440 320 Z"/>
-						<!-- 欧洲 -->
-						<path d="M 460 110 Q 510 90 550 120 Q 560 170 520 190 Q 470 180 450 150 Z"/>
-						<!-- 亚洲 -->
-						<path d="M 580 90 Q 680 60 800 80 Q 880 110 860 190 Q 830 260 730 240 Q 630 220 590 160 Z"/>
-						<!-- 大洋洲 -->
-						<path d="M 800 340 Q 860 320 900 360 Q 910 410 860 430 Q 810 410 800 360 Z"/>
-						<!-- 东南亚群岛 -->
-						<circle cx="780" cy="300" r="8"/>
-						<circle cx="810" cy="320" r="6"/>
-						<circle cx="760" cy="330" r="7"/>
-						<!-- 日本 -->
-						<path d="M 860 180 Q 870 200 860 220 Q 850 200 860 180 Z"/>
-						<!-- 英国 -->
-						<path d="M 460 100 Q 470 90 480 100 Q 475 115 465 110 Z"/>
-					</g>
-				</svg>
-			</div>
 			<p>© 2026 邹兆廷 · 使用 Astro 构建</p>
 			<div class="beian">
 				<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">赣ICP备2026004967号-1</a>
@@ -91,6 +63,10 @@ const {
 		--text: #333333;
 		--muted: #888888;
 		--line: #e6e6e6; /* 细分隔线 */
+		--bg-page: #f4f4f4; /* 页面底色：衬托纸面 */
+		--surface: #ffffff; /* 纸面、页头、正文 */
+		--surface-muted: #f7f7f7; /* 列表等次级栏目底 */
+		--surface-soft: #fafafa; /* 目录等更轻的栏目底 */
 		--content-width: 720px; /* 正文阅读宽度，宽布局页面自行覆盖 */
 	}
 
@@ -109,12 +85,12 @@ const {
 			'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
 		color: var(--text);
 		line-height: 1.7;
-		background: #f0f0f0; /* 淡灰底：子页面内容像白纸浮在上面 */
+		background: var(--bg-page); /* 淡灰底：子页面内容像白纸浮在上面 */
 	}
 
 	/* 首页等通栏页面：保持纯白整屏，不受纸张风影响 */
 	body.bare {
-		background: #ffffff;
+		background: var(--surface);
 	}
 
 	h1, h2, h3, h4, h5, h6,
@@ -151,43 +127,21 @@ const {
 
 	/* 纸张卡片：淡灰背景上的一张白纸，内容全部在纸内 */
 	.paper {
-		background: #ffffff;
-		border: 1px solid #e4e4e4;
-		border-radius: 3px;
-		box-shadow:
-			0 1px 2px rgba(0, 0, 0, 0.04),
-			0 10px 28px rgba(0, 0, 0, 0.05);
+		background: var(--surface);
+		border: 1px solid #e8e8e8;
+		border-radius: 6px;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 		padding: 44px 48px;
 	}
 
+	/* 页脚：与页面同色，仅用一条上边框收尾，避免与正文争夺注意力 */
 	.site-footer {
-		position: relative;
-		overflow: hidden;
 		text-align: center;
 		color: var(--muted);
 		font-size: 13px;
 		padding: 28px 20px;
-		background: #f0f0f0; /* 页脚与页面底色一致，让白纸更突出 */
+		background: var(--bg-page);
 		border-top: 1px solid var(--line);
-	}
-
-	/* 世界地图背景：铺满页脚裁切显示，正文浮在其上 */
-	.footer-map {
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-	}
-
-	.footer-map svg {
-		width: 100%;
-		height: 100%;
-		display: block;
-		opacity: 0.4;
-	}
-
-	.site-footer p,
-	.site-footer .beian {
-		position: relative;
 	}
 
 	.beian {

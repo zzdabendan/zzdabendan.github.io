@@ -41,8 +41,8 @@ const { groups, activeId } = Astro.props;
 	/* 不限制高度：列表按内容自然撑开，随页面一起滚动 */
 	.kb-sidebar {
 		align-self: start;
-		background: #f7f7f7;
-		border: 1px solid #ececec;
+		background: var(--surface-muted, #f7f7f7);
+		border: 1px solid var(--line, #e6e6e6);
 		border-radius: 6px;
 		padding: 8px;
 	}
