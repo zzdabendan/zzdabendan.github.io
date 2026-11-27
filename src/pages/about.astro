@@ -351,52 +351,7 @@ const depositRows = [
 	{ label: '定期', value: 6000 },
 ];
 
-// 花费分析（横条宽度按 2852 为满幅计算百分比）
-// 出行：一次性（购车/过户/整备）、按年（保险/保养/油费/审车）、按月（停车/洗车）三类分开算
-const carOneTime = 16888 + 1000 + 2000;
-const carAnnual = 3000 + 2000 + 5000 + 200;
-const carAnnualMonthly = Math.round(carAnnual / 12);
-const carMonthlyFixed = 60 + 100;
-const carMonthly = carAnnualMonthly + carMonthlyFixed;
-
-// 婚姻：一次性支出，按常规办（南昌等中部省会）参考行情，不含婚房与装修
-const marriageItems = [
-	{ label: '彩礼', value: 120000, unit: '一次性' },
-	{ label: '三金/五金', value: 20000, unit: '一次性' },
-	{ label: '婚纱照', value: 6000, unit: '一次性' },
-	{ label: '婚庆策划（司仪/布置/跟拍）', value: 12000, unit: '一次性' },
-	{ label: '婚宴（20 桌 × 1500）', value: 30000, unit: '一次性' },
-	{ label: '婚纱礼服', value: 4000, unit: '一次性' },
-	{ label: '烟酒糖', value: 8000, unit: '一次性' },
-	{ label: '蜜月', value: 10000, unit: '一次性' },
-	{ label: '婚车/接亲', value: 3000, unit: '一次性' },
-	{ label: '杂项（请柬/喜糖/红包）', value: 5000, unit: '一次性' },
-];
-const marriageTotal = marriageItems.reduce((s, r) => s + r.value, 0);
-
-// 育儿：0~22 岁持续支出，按南昌城镇常规档（公办 + 适度补习），不含婚房首付
-const parentingItems = [
-	{ label: '婴幼儿（0~3 岁）', value: 20000, unit: '年' },
-	{ label: '幼儿园（3~6 岁）', value: 20000, unit: '年' },
-	{ label: '小学（6~12 岁）', value: 18000, unit: '年' },
-	{ label: '初中（12~15 岁）', value: 20000, unit: '年' },
-	{ label: '高中（15~18 岁）', value: 25000, unit: '年' },
-	{ label: '大学（18~22 岁）', value: 30000, unit: '年' },
-];
-const parentingYears = [3, 3, 6, 3, 3, 4];
-const parentingTotal = parentingItems.reduce((s, r, i) => s + r.value * parentingYears[i], 0);
-const parentingMonthly = Math.round(parentingTotal / 22 / 12);
-
-// 养老：父母退休后预计支出，按南昌退休职工医保自付口径，不含已领养老金抵扣
-const elderlyItems = [
-	{ label: '医疗自付（60~70 岁）', value: 4000, unit: '年' },
-	{ label: '医疗自付（70~80 岁）', value: 8000, unit: '年' },
-	{ label: '医疗自付（80+ 岁）', value: 15000, unit: '年' },
-	{ label: '失能护理（居家请护工，自付）', value: 3500, unit: '月' },
-	{ label: '失能护理（普通护理院，自付）', value: 3500, unit: '月' },
-];
-const elderlyMonthlyMedical = Math.round((4000 + 8000 + 15000) / 3 / 12); // 三个阶段均值折月
-
+// 出行、婚姻、育儿、养老的明细数据已移到文章草稿 src/content/posts/draft-4.md
 const fixedCost = {
 	items: [
 		{ label: '房租', value: 600 },
@@ -404,64 +359,10 @@ const fixedCost = {
 		{ label: '话费', value: 39 },
 		{ label: '宽带', value: 99 },
 		{ label: '三餐', value: 1892 },
-		{
-			label: '出行',
-			value: carMonthly,
-			subNote: [
-				`一次性合计 ${carOneTime}（不计入月均）`,
-				`年度合计 ${carAnnual}，折月 ${carAnnualMonthly}`,
-				`月度合计 ${carMonthlyFixed}（停车 60 + 洗车 100）`,
-				`出行月均 ${carMonthly} = ${carAnnualMonthly} + ${carMonthlyFixed}`,
-			],
-			sub: [
-				{ label: '购车价格', value: 16888, unit: '一次性' },
-				{ label: '过户费', value: 1000, unit: '一次性' },
-				{ label: '整备费', value: 2000, unit: '一次性' },
-				{ label: '保险费', value: 3000, unit: '年' },
-				{ label: '保养费', value: 2000, unit: '年' },
-				{ label: '油费', value: 5000, unit: '年' },
-				{ label: '审车费', value: 200, unit: '年' },
-				{ label: '停车费', value: 60, unit: '月' },
-				{ label: '洗车杂费', value: 100, unit: '月' },
-			],
-		},
-		{
-			label: '婚姻（一次性）',
-			value: marriageTotal,
-			oneTime: true,
-			subNote: [
-				`一次性合计 ${marriageTotal}（不计入月均）`,
-				'按常规办参考行情，不含婚房与装修',
-				'婚宴礼金通常可抵掉大部分婚宴成本，彩礼多会以嫁妆形式回流一部分',
-			],
-			sub: marriageItems,
-		},
-		{
-			label: '育儿（22 年持续）',
-			value: parentingMonthly,
-			oneTime: true,
-			subNote: [
-				`0~22 岁累计约 ${parentingTotal}（不计入月均）`,
-				`年均约 ${Math.round(parentingTotal / 22)}，折月约 ${parentingMonthly}`,
-				'按南昌城镇常规档：公办学校 + 适度补习，不含婚房首付',
-				'极简档 20 万~30 万，常规档 40 万~60 万，讲究档 80 万以上',
-				'三大变量：公办/私立、补习强度、是否含婚房首付',
-			],
-			sub: parentingItems,
-		},
-		{
-			label: '养老（未来预计）',
-			value: elderlyMonthlyMedical,
-			oneTime: true,
-			subNote: [
-				`医疗自付均值折月 ${elderlyMonthlyMedical}，按 60~80+ 三阶段年均 4000 / 8000 / 15000 取均值`,
-				'失能护理自付约 3500/月（长护险试点可减 1500~2500）',
-				'以上为医保自付口径，不含子女直接补贴的额外生活费',
-				'退休职工月领约 2800~3500，通常能覆盖日常生活，但医疗自付与护理费需子女补',
-				'80+ 失能期约 5~8 年，总自付 30 万 ~ 80 万（当前物价）',
-			],
-			sub: elderlyItems,
-		},
+		{ label: '出行', value: 0 },
+		{ label: '婚姻（一次性）', value: 0 },
+		{ label: '育儿（22 年持续）', value: 0 },
+		{ label: '养老（未来预计）', value: 0 },
 	],
 };
 const fixedTotal = fixedCost.items.reduce((s, r) => s + (r.oneTime ? 0 : r.value), 0);
