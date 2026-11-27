@@ -1293,6 +1293,23 @@ const splitItem = (raw) => {
 		color: #555555;
 	}
 
+	/* 资产子项目自动编号：每个分组各自从 1 开始，无需手写序号 */
+	.assets .item-list {
+		counter-reset: asset-item;
+	}
+
+	.assets .item-list li {
+		counter-increment: asset-item;
+	}
+
+	.assets .item-list li > span:first-child::before {
+		content: counter(asset-item) '.';
+		margin-right: 6px;
+		font-size: 11px;
+		color: #9ca3af;
+		font-variant-numeric: tabular-nums;
+	}
+
 	/* 分类色板：按分类着色，底色统一加深一档 */
 	/* 存款统一用人民币的淡红底色 */
 	/* 灰阶分组：表头与左色条越深，代表组别越靠前 */
