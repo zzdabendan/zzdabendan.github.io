@@ -46,7 +46,7 @@ const isActive = (href: string) =>
 
 <style>
 	.nav {
-		background: var(--surface, #ffffff);
+		background: var(--surface-header, #e9e9e9);
 		border-bottom: 1px solid var(--line);
 		position: sticky;
 		top: 0;
@@ -106,7 +106,7 @@ const isActive = (href: string) =>
 	.energy-seg {
 		flex: 1;
 		height: 100%;
-		background: #ececec;
+		background: #d9d9d9; /* 轨道比页头底色再深一档，保证分段可见 */
 		overflow: hidden;
 	}
 
@@ -148,12 +148,12 @@ const isActive = (href: string) =>
 
 	.nav-link:hover {
 		color: var(--text);
-		background: #f3f4f6;
+		background: #f2f2f2;
 	}
 
-	/* 当前页对应的链接：浅灰胶囊底色 */
+	/* 当前页：白色胶囊，与灰色页头形成对比，呼应正文纸面 */
 	.nav-link.active {
-		background: #ececec;
+		background: #ffffff;
 	}
 
 	/* 窄桌面：压缩导航字号，保证第一行放得下姓名与导航 */
@@ -231,6 +231,11 @@ const isActive = (href: string) =>
 		.nav-link {
 			padding: 10px 18px;
 			font-size: 15px;
+		}
+
+		/* 下拉面板是白底，当前页胶囊改回浅灰才能看见 */
+		.nav-link.active {
+			background: #ececec;
 		}
 	}
 
