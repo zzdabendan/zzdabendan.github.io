@@ -114,8 +114,8 @@ const isActive = (href: string) =>
 		display: block;
 		width: 0;
 		height: 100%;
-		background: #f5f5f5; /* 深色页头上用亮色填充 */
-		transition: width 0.6s ease;
+		background: #f5f5f5; /* 深色页头上用亮色填充，实际颜色由 JS 按能量渐变 */
+		transition: width 0.6s ease, background-color 0.6s ease;
 	}
 
 	/* 桌面端：checkbox 隐藏，菜单直接横排 */
@@ -283,19 +283,25 @@ const isActive = (href: string) =>
 		const now = new Date();
 		const t = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 		let percent;
+		let charging = false;
 		if (t >= WAKE_MIN && t <= SLEEP_MIN) {
 			// 清醒时段：从满格线性消耗到 0
 			percent = ((SLEEP_MIN - t) / (SLEEP_MIN - WAKE_MIN)) * 100;
 		} else {
 			// 睡眠时段：跨过零点，从 0 缓慢充回满格
+			charging = true;
 			const elapsed = t > SLEEP_MIN ? t - SLEEP_MIN : t + 24 * 60 - SLEEP_MIN;
 			percent = (elapsed / (WAKE_MIN + 24 * 60 - SLEEP_MIN)) * 100;
 		}
+		// 颜色：清醒时按剩余能量连续渐变，100% 绿（120°）→ 50% 黄（60°）→ 0% 红（0°）
+		// 睡眠充电时段统一用淡蓝，与清醒状态区分
+		const color = charging ? '#8ab6ff' : `hsl(${(percent * 1.2).toFixed(1)}, 70%, 45%)`;
 		// 每段按总百分比分配：已过段满、当前段部分、未来段空
 		fills.forEach((fill, i) => {
 			const segStart = i * SEG_WIDTH;
 			const ratio = Math.max(0, Math.min(1, (percent - segStart) / SEG_WIDTH));
 			fill.style.width = (ratio * 100).toFixed(2) + '%';
+			fill.style.background = color;
 		});
 		const bar = document.querySelector('.nav-bar');
 		if (bar) bar.setAttribute('aria-valuenow', String(Math.round(percent)));
