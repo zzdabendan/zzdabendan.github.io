@@ -48,7 +48,10 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 		<!-- 左栏：文章列表 -->
 		<ArticleList groups={sidebarGroups} activeId={entry.id} />
 
-		<!-- 中栏：文章内容 -->
+		<!-- 中栏：文章结构目录 -->
+		<Toc items={toc} />
+
+		<!-- 右栏：文章内容 -->
 		<main class="kb-content">
 			{entry.data.video && <VideoBili bvid={entry.data.video} title={entry.data.title} cover={entry.data.cover} />}
 			<h1 class="article-h1">{entryNo && `${entryNo}. `}{entry.data.title}</h1>
@@ -61,14 +64,11 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 					</div>
 				</ArticleBody>
 		</main>
-
-		<!-- 右栏：文章结构目录 -->
-		<Toc items={toc} />
 	</div>
 </BaseLayout>
 
 <style is:global>
-	/* 三栏容器：侧栏 220 + 目录 200 + 中栏正文 680px，与子页面文字行宽一致 */
+	/* 三栏容器：文章列表 220 + 目录 200 + 右栏正文，与子页面文字行宽一致 */
 	/* 取消容器上下留白：侧栏 sticky 从导航下沿直接开始，滚动到顶部不再位移 */
 	/* 双 class 提高优先级，覆盖 BaseLayout 中带作用域的 .container[data-astro-cid-*] 的 padding */
 	.container.container { --content-width: 1600px; padding: 16px 20px 40px; }
@@ -120,13 +120,13 @@ const readMinutes = Math.max(1, Math.round(chineseChars / 400));
 <style>
 	.kb-layout {
 		display: grid;
-		grid-template-columns: 220px 1fr 200px;
+		grid-template-columns: 220px 200px 1fr;
 		gap: 30px;
 		margin: 0 auto;
 		min-height: calc(100vh - 180px); /* 撑满一屏：100vh - 导航约 71px - 页脚约 109px */
 	}
 
-	/* 中栏 */
+	/* 右栏正文 */
 	.kb-content {
 		min-width: 0;
 	}
