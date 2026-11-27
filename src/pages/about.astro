@@ -1210,19 +1210,7 @@ const splitItem = (raw) => {
 	}
 
 	/* 资金卡：四阶段纵向分节 */
-	/* 资金卡：四阶段用四档灰阶区分，收入最深、存款最浅 */
-	.zone.card-money {
-		padding: 0;
-		overflow: hidden;
-		background: #d6d6d6;
-	}
-
-	.card-money > .zone-title {
-		margin: 0;
-		padding: 8px 10px 6px;
-		border-bottom: none;
-	}
-
+	/* 资金卡与物品卡共用 .zone / .zone-title，不再单独覆盖底色、标题与边距 */
 	.money-section {
 		padding: 4px 8px;
 	}
