@@ -900,10 +900,10 @@ const splitItem = (raw) => {
 		}
 	}
 
-	/* 平板也保持三栏：左地图经历 / 中介绍资产 / 右感悟谋划 */
+	/* 平板也保持三栏：左地图经历 / 中介绍资产 / 右感悟谋划（右栏收窄，把空间让给中栏） */
 	@media (max-width: 1320px) {
 		.cols {
-			grid-template-columns: 320px minmax(0, 1fr) 300px;
+			grid-template-columns: 320px minmax(0, 1fr) 240px;
 		}
 	}
 
