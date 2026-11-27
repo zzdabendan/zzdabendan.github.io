@@ -41,32 +41,12 @@ const activeGroup = groups.find((g) => g.items.some((a) => a.id === activeId))?.
 </aside>
 
 <style>
+	/* 不限制高度：列表按内容自然撑开，随页面一起滚动 */
 	.kb-sidebar {
-		position: sticky;
-		top: 70px; /* 与导航高度对齐，避免滚动起始时出现位移 */
 		align-self: start;
-		/* 高度上限预留页脚（约 109px）与底部留白（20px） */
-		max-height: calc(100vh - 199px);
-		overflow-y: auto;
 		background: #f2f2f2;
 		border-radius: 6px;
 		padding: 8px;
-		scrollbar-width: thin;
-		scrollbar-color: #d1d5db transparent;
-	}
-
-	/* 细滚动条：Chrome / Edge */
-	.kb-sidebar::-webkit-scrollbar {
-		width: 6px;
-	}
-
-	.kb-sidebar::-webkit-scrollbar-thumb {
-		background: #d1d5db;
-		border-radius: 3px;
-	}
-
-	.kb-sidebar::-webkit-scrollbar-track {
-		background: transparent;
 	}
 
 	.article-list {
@@ -158,12 +138,9 @@ const activeGroup = groups.find((g) => g.items.some((a) => a.id === activeId))?.
 		background: #111111;
 	}
 
-	/* 窄屏：回到文档流，取消内部滚动 */
+	/* 窄屏：单列排在正文之前 */
 	@media (max-width: 900px) {
 		.kb-sidebar {
-			position: static;
-			max-height: none;
-			overflow-y: visible;
 			order: 1;
 		}
 	}
