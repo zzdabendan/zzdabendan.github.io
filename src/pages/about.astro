@@ -472,11 +472,11 @@ const totalDebt = debtRows.reduce((s, r) => s + r.value, 0);
 const totalIncome = incomeRows.reduce((s, r) => s + r.value, 0);
 const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 
-// 物品卡内部的四个状态节：使用 / 存放 / 维护 / 清理，与资金卡四节同构
+// 物品卡内部的四个状态节，顺序与资金卡对齐：收入→使用、花费→维护、欠款→清理、存款→存放
 // 现有条目：白箱黑箱属于存放，其余各卡属于使用；维护与清理先留空
 function zoneStates(zone: { name: string; items: string[] }) {
 	const storage = /^[白黑]箱/.test(zone.name);
-	return ['使用', '存放', '维护', '清理'].map((label) => ({
+	return ['使用', '维护', '清理', '存放'].map((label) => ({
 		label,
 		items: label === (storage ? '存放' : '使用') ? zone.items : [],
 	}));
