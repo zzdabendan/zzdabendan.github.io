@@ -900,45 +900,37 @@ const splitItem = (raw) => {
 		}
 	}
 
-	/* 中等宽度：三栏太挤，感悟谋划落到自我介绍下方 */
+	/* 平板也保持三栏：左地图经历 / 中介绍资产 / 右感悟谋划 */
 	@media (max-width: 1320px) {
 		.cols {
-			grid-template-columns: 320px minmax(0, 1fr);
-		}
-
-		.col-side {
-			grid-column: 1;
-			grid-row: 2 / 4;
-		}
-
-		.col-main {
-			grid-column: 2;
-			grid-row: 2;
-		}
-
-		.col-note {
-			grid-column: 2;
-			grid-row: 3;
-			margin-top: 0;
+			grid-template-columns: 320px minmax(0, 1fr) 300px;
 		}
 	}
 
 	@media (max-width: 900px) {
-		/* 手机端尽量保留三栏：左地图经历 / 中介绍资产 / 右感悟谋划 */
+		/* 手机端单栏堆叠：自我介绍 → 资产 → 经历 → 感悟 → 地图 */
 		.cols {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 12px;
+			grid-template-columns: 1fr;
 		}
 
-		.col-side,
 		.col-main,
+		.col-side,
 		.col-note {
-			grid-row: auto;
+			display: contents;
 		}
 
-		.col-side {
-			padding: 12px;
+		#intro { order: 1; }
+		#assets {
+			order: 2;
+			margin-top: 0;
 		}
+		#timeline { order: 3; }
+		.card.note {
+			order: 4;
+			margin-top: 0;
+			margin-bottom: 40px;
+		}
+		.card.side-map { order: 5; }
 	}
 
 	/* 二级标题：各板块，和知识库 h2 一致 */
