@@ -7,7 +7,7 @@ import Toc from '../../components/Toc.astro';
 import SearchBox from '../../components/SearchBox.astro';
 
 // 知识库首页：与文章详情页一致的三栏布局
-// 左栏文章列表 / 中栏导读、管理方法、分组导航 / 右栏本页目录
+// 左栏文章列表 / 中栏本页目录 / 右栏导读与分组导航
 const all = await getCollection('kb');
 const groups = ['个人', '社会'].map((category) => ({
 	category,
@@ -26,10 +26,7 @@ const sidebarGroups = groups.map((g) => ({
 }));
 
 // 右栏目录
-const toc = [
-	...groups.map((g) => ({ id: g.category, text: g.category })),
-	{ id: '管理方法', text: '知识库管理方法' },
-];
+const toc = groups.map((g) => ({ id: g.category, text: g.category }));
 
 // 收集全部标签（去重）
 const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
@@ -43,7 +40,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		<!-- 中栏：本页目录 -->
 		<Toc items={toc.map((t) => ({ href: `#${t.id}`, text: t.text }))} />
 
-		<!-- 右栏：导读 + 管理方法 + 分组导航 + 待完善 -->
+		<!-- 右栏：导读 + 分组导航 -->
 			<main class="kb-content">
 				<h1 class="article-h1">知识库</h1>
 				<p class="kb-stats">
@@ -86,23 +83,7 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 					))
 				}
 
-				<section>
-					<h2 id="管理方法">知识库管理方法</h2>
-					<h3>分类原则</h3>
-					<p>
-						固定两个分组，不再新增：个人放日常生活方法、习惯、关系与工具；社会放学生时代的功课笔记、工作技术笔记与社会经历。新文章只归入其中一组。
-					</p>
-					<h3>条目管理</h3>
-					<p>
-						一个主题一个条目，标题用短语不用句子。内容还少时先合并进相关条目，长到能独立成篇时再拆分。占位条目先建骨架，内容逐步补充。
-					</p>
-					<h3>写作与维护</h3>
-					<p>
-						排版格式统一遵循<a href="/kb/writing-style/">写作排版规范</a>。新文章在 <code>src/content/kb/</code> 下新建
-						.md 文件，frontmatter 写明标题、分组、摘要与排序号，首页导航与目录会自动生成。
-					</p>
-				</section>
-			</ArticleBody>
+				</ArticleBody>
 		</main>
 	</div>
 
