@@ -169,13 +169,15 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		line-height: 1.9;
 	}
 
-	.kb-link {
+	/* 分组导航：纯文字链接，任何状态都不显示下划线 */
+	.kb-links .kb-link {
 		color: #2563eb;
 		text-decoration: none;
 	}
 
-	.kb-link:hover {
-		text-decoration: underline;
+	.kb-links .kb-link:hover {
+		color: #1d4ed8;
+		text-decoration: none;
 	}
 
 	/* 条目之间用顿号分隔 */
