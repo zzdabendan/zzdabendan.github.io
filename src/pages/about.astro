@@ -472,6 +472,16 @@ const totalDebt = debtRows.reduce((s, r) => s + r.value, 0);
 const totalIncome = incomeRows.reduce((s, r) => s + r.value, 0);
 const totalDeposit = depositRows.reduce((s, r) => s + r.value, 0);
 
+// 物品卡内部的四个状态节：使用 / 存放 / 维护 / 清理，与资金卡四节同构
+// 现有条目：白箱黑箱属于存放，其余各卡属于使用；维护与清理先留空
+function zoneStates(zone: { name: string; items: string[] }) {
+	const storage = /^[白黑]箱/.test(zone.name);
+	return ['使用', '存放', '维护', '清理'].map((label) => ({
+		label,
+		items: label === (storage ? '存放' : '使用') ? zone.items : [],
+	}));
+}
+
 // 物品分类（出行→随身与楼外、仓库→楼内收纳、家具→楼内区域）
 const categories = [
 	{
@@ -626,14 +636,21 @@ const splitItem = (raw) => {
 										{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
 										<span class="zone-count">{zone.items.length}</span>
 									</h4>
-									<ul class="item-list">
-										{zone.items.map((item) => {
-											const { name, value } = splitItem(item);
-											return (
-												<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
-											);
-										})}
-									</ul>
+									{zoneStates(zone).map((state) => (
+										<details class="item-section" open={state.items.length > 0}>
+											<summary><span>{state.label}</span><span>{state.items.length}</span></summary>
+											{state.items.length > 0 && (
+												<ul class="item-list">
+													{state.items.map((item) => {
+														const { name, value } = splitItem(item);
+														return (
+															<li><span>{name}</span>{value && <span class="num">{value}</span>}</li>
+														);
+													})}
+												</ul>
+											)}
+										</details>
+									))}
 								</div>
 							))
 					)}
@@ -1372,6 +1389,51 @@ const splitItem = (raw) => {
 		color: #111827;
 		font-weight: 500;
 		font-variant-numeric: tabular-nums;
+	}
+
+	/* 物品卡内部状态节：与资金卡同构的折叠分组，空节灰字且默认收起 */
+	.item-section {
+		padding: 2px 0;
+	}
+
+	.item-section > summary {
+		display: flex;
+		align-items: baseline;
+		gap: 5px;
+		font-size: 11px;
+		font-weight: 600;
+		color: #4b5563;
+		font-variant-numeric: tabular-nums;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.item-section > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.item-section > summary::before {
+		content: '▸';
+		color: #9ca3af;
+	}
+
+	.item-section[open] > summary::before {
+		content: '▾';
+	}
+
+	.item-section > summary > span:last-child {
+		margin-left: auto;
+		font-weight: 400;
+		color: #6b7280;
+	}
+
+	.item-section:not([open]) > summary {
+		color: #9ca3af;
+		font-weight: 400;
+	}
+
+	.item-section .item-list {
+		margin: 4px 0 2px;
 	}
 
 	/* 区域标题：纯文本标题，无底色与分割线 */
