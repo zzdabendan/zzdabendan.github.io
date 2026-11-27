@@ -573,8 +573,8 @@ const splitItem = (raw) => {
 				<section class="card assets" id="assets">
 					<h2>我的资产</h2>
 					<div class="cards-row">
-						<div class="zone tone-rmb card-money">
-							<h4 class="zone-title">资金</h4>
+						<details class="zone tone-rmb card-money">
+							<summary class="zone-title">资金</summary>
 							<details class:list={['money-section', { 'has-items': incomeRows.length > 0 }]}>
 								<summary><span>收入</span><span>{totalIncome}</span></summary>
 								<ul class="item-list">
@@ -607,16 +607,16 @@ const splitItem = (raw) => {
 									))}
 								</ul>
 							</details>
-						</div>
+						</details>
 						{categories.flatMap((cat) =>
 							(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
 								.filter((zone) => zone.items.length > 0)
 								.map((zone) => (
-									<div class={`zone ${zone.tone || ''}`}>
-										<h4 class="zone-title">
+									<details class={`zone ${zone.tone || ''}`}>
+										<summary class="zone-title">
 											{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
 											<span class="zone-count">{zone.items.length}</span>
-										</h4>
+										</summary>
 										{zoneStates(zone).map((state) => (
 											<details class:list={['item-section', { 'has-items': state.items.length > 0 }]} open={state.items.length > 0}>
 												<summary><span>{state.label}</span><span>{state.items.length}</span></summary>
@@ -632,7 +632,7 @@ const splitItem = (raw) => {
 												)}
 											</details>
 										))}
-									</div>
+									</details>
 								))
 						)}
 					</div>
@@ -1323,7 +1323,7 @@ const splitItem = (raw) => {
 	.has-items:nth-of-type(4) > summary,
 	.has-items:nth-of-type(4) > summary > span:last-child { color: #1a4b9b; }
 
-	/* 区域标题：纯文本标题，无底色与分割线 */
+	/* 区域标题：纯文本标题，无底色与分割线；同时作为整张卡片的折叠开关 */
 	.zone-title {
 		display: flex;
 		align-items: baseline;
@@ -1334,6 +1334,26 @@ const splitItem = (raw) => {
 		margin: 0 8px 3px;
 		padding: 0 0 4px;
 		border-bottom: 1px solid #d4d4d4;
+	}
+
+	/* 资产卡片整体默认折叠：点击标题展开内部状态节 */
+	.zone > summary.zone-title {
+		list-style: none;
+		cursor: pointer;
+	}
+
+	.zone > summary.zone-title::-webkit-details-marker {
+		display: none;
+	}
+
+	.zone > summary.zone-title::before {
+		content: '▸';
+		color: #9ca3af;
+		font-size: 10px;
+	}
+
+	.zone[open] > summary.zone-title::before {
+		content: '▾';
 	}
 
 	.zone-title .zone-count {
