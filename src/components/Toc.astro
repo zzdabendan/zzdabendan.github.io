@@ -24,8 +24,8 @@ const { items } = Astro.props;
 	/* 与文章列表一致：不限制高度、不内部滚动，随页面一起滚动 */
 	.kb-toc {
 		align-self: start;
-		background: var(--surface-soft, #fafafa);
-		border: 1px solid var(--line, #e6e6e6);
+		background: #fafbfc;
+		border: 1px solid #e5e6eb;
 		border-radius: 6px;
 		padding: 12px;
 	}
@@ -33,19 +33,19 @@ const { items } = Astro.props;
 	.kb-toc-title {
 		font-size: 15px;
 		margin-bottom: 12px;
-		color: #666666;
+		color: #1f2329;
 	}
 
 	.toc-list {
 		list-style: none;
 		padding: 0;
-		border-left: 2px solid #e5e7eb;
+		border-left: 2px solid #e5e6eb;
 	}
 
 	.toc-list a {
 		display: block;
 		font-size: 13px;
-		color: #555555;
+		color: #646a73;
 		padding: 4px 12px;
 		margin-left: -2px;
 		border-left: 2px solid transparent;
@@ -53,8 +53,8 @@ const { items } = Astro.props;
 	}
 
 	.toc-list a:hover {
-		color: #111111;
-		border-left-color: #111111;
+		color: #1456f0;
+		border-left-color: #1456f0;
 	}
 
 	.toc-list a.toc-h3 {

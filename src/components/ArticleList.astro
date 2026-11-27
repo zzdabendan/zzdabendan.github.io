@@ -41,8 +41,7 @@ const { groups, activeId } = Astro.props;
 	/* 不限制高度：列表按内容自然撑开，随页面一起滚动 */
 	.kb-sidebar {
 		align-self: start;
-		background: var(--surface-muted, #f7f7f7);
-		border: 1px solid var(--line, #e6e6e6);
+		background: #f5f6f7;
 		border-radius: 6px;
 		padding: 8px;
 	}
@@ -64,7 +63,7 @@ const { groups, activeId } = Astro.props;
 		padding: 10px 6px 6px;
 		font-size: 13px;
 		font-weight: 600;
-		color: #6b7280;
+		color: #646a73;
 		cursor: pointer;
 		list-style: none;
 		user-select: none;
@@ -110,17 +109,18 @@ const { groups, activeId } = Astro.props;
 		border-radius: 6px;
 		font-size: 15px;
 		line-height: 1.4;
-		color: var(--text);
+		color: #646a73;
 		transition: background 0.15s;
 	}
 
 	.article-link:hover {
-		background: #ececec;
+		background: #edeef0;
+		color: #1f2329;
 	}
 
-	/* 当前篇：左侧黑条 + 加粗，比底色更明确 */
+	/* 当前篇：飞书蓝文字 + 蓝色小竖条，不加底色 */
 	.article-link.active {
-		background: #e8e8e8;
+		color: #1456f0;
 		font-weight: 600;
 	}
 
@@ -133,7 +133,7 @@ const { groups, activeId } = Astro.props;
 		width: 2px;
 		height: 14px;
 		border-radius: 1px;
-		background: #111111;
+		background: #1456f0;
 	}
 
 	/* 窄屏：单列排在正文之前 */
