@@ -7,10 +7,17 @@ interface Props {
 	description?: string;
 	/** 首页等通栏页面：不加纸张卡片，保持白底整屏 */
 	bare?: boolean;
+	/** 分栏页面：去掉外层白纸，由各栏目自带底色 */
+	paper?: boolean;
 }
 
 // 给 title 和 description 设置默认值
-const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主页，基于 Astro 构建。', bare = false } = Astro.props;
+const {
+	title = '邹兆廷 - 个人主页',
+	description = '邹兆廷的个人主页，基于 Astro 构建。',
+	bare = false,
+	paper = true,
+} = Astro.props;
 ---
 
 <!-- ② HTML 模板：每个页面共用的“外壳” -->
@@ -34,7 +41,7 @@ const { title = '邹兆廷 - 个人主页', description = '邹兆廷的个人主
 		<Nav />
 		<!-- slot 是“占位符”：各页面的内容会被放到这里 -->
 		<main class:list={['container', { bare }]}>
-			{bare ? <slot /> : <div class="paper"><slot /></div>}
+			{bare || !paper ? <slot /> : <div class="paper"><slot /></div>}
 		</main>
 		<footer class="site-footer">
 			<div class="footer-map" aria-hidden="true">

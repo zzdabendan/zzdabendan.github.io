@@ -35,7 +35,7 @@ const toc = [
 const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 ---
 
-<BaseLayout title="知识库 - 邹兆廷" description="个人知识库文章导航">
+<BaseLayout title="知识库 - 邹兆廷" description="个人知识库文章导航" paper={false}>
 	<div class="kb-layout">
 		<!-- 左栏：文章列表 -->
 		<ArticleList groups={sidebarGroups} />
@@ -158,9 +158,13 @@ const allTags = [...new Set(all.flatMap((a) => a.data.tags ?? []))];
 		min-height: calc(100vh - 180px); /* 撑满一屏：100vh - 导航约 71px - 页脚约 109px */
 	}
 
-	/* 右栏正文 */
+	/* 右栏正文：独立白卡，与左侧两块灰底区分 */
 	.kb-content {
 		min-width: 0;
+		background: #fdfdfd;
+		border: 1px solid #e6e6e6;
+		border-radius: 6px;
+		padding: 20px 24px;
 	}
 
 	.article-h1 {
