@@ -531,14 +531,13 @@ const splitItem = (raw) => {
 				<LiveBili roomId="21648980" title="我的直播间" />
 
 				<section class="card note">
-					<h2>我的感悟</h2>
+					<h2><a class="card-title-link" href="/reflections">我的感悟<span aria-hidden="true">→</span></a></h2>
 					<p class="note-meta">2026/11/27 · 周五 · 南昌 · 晴</p>
 					<p class="note-text">临时加班更新了90台电脑浏览器，好累。成绩过了，领证书还要等一个月。</p>
-					<a class="note-more" href="/reflections">查看全部 →</a>
 				</section>
 
 				<section class="card note">
-					<h2>我的谋划</h2>
+					<h2><a class="card-title-link" href="/plan">我的谋划<span aria-hidden="true">→</span></a></h2>
 					<ul class="plan-list">
 						{foresightRows.map((row) => (
 							<li class:list={['plan-item', `is-${row.key}`]}>
@@ -547,7 +546,6 @@ const splitItem = (raw) => {
 							</li>
 						))}
 					</ul>
-					<a class="note-more" href="/plan">查看全部 →</a>
 				</section>
 			</aside>
 
@@ -865,14 +863,28 @@ const splitItem = (raw) => {
 		color: #333333;
 	}
 
-	.note-more {
-		font-size: 14px;
-		color: #2563eb;
+	/* 卡片标题可点击跳转：保留标题样式，右侧箭头提示可点击 */
+	.card-title-link {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 8px;
+		color: inherit;
 		text-decoration: none;
+		transition: color 0.15s ease;
 	}
 
-	.note-more:hover {
-		text-decoration: underline;
+	.card-title-link span {
+		font-weight: 400;
+		color: #9ca3af;
+	}
+
+	.card-title-link:hover {
+		color: #2563eb;
+	}
+
+	.card-title-link:hover span {
+		color: #2563eb;
 	}
 
 	/* 谋划摘要：一年预知的上 / 中 / 下 */
