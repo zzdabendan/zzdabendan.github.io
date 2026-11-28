@@ -2,7 +2,7 @@
 title: 健康
 category: 个人
 summary: 饮食、运动、作息的基本原则，以及黄帝内经的男女生长发育阶段。
-order: 2
+order: 3
 tags: [健康, 习惯]
 ---
 
