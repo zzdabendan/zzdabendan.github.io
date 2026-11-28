@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { foresightColumns, foresightRows } from '../data/foresight';
 
 // ===== 战术层：一日作息（折叠附录）=====
 const priorityNames = ['首要安排', '次要安排', '其他安排'];
@@ -51,19 +52,7 @@ const dailyRows = dailyPlan.map((row) => ({
 	}),
 }));
 
-// ===== 预知层：表格，四列（一年 / 三年 / 四年 / 十年）× 三行（上 / 中 / 下）=====
-// 列 = 时间阶段；行 = 情景。上 = 最好情况；中 = 按当前节奏最可能发生；下 = 最坏情况
-const foresightColumns = [
-	{ horizon: '一年', year: 2027, up: '', mid: '', down: '' },
-	{ horizon: '三年', year: 2029, up: '', mid: '', down: '' },
-	{ horizon: '四年', year: 2030, up: '', mid: '', down: '' },
-	{ horizon: '十年', year: 2036, up: '', mid: '', down: '' },
-];
-const foresightRows = [
-	{ key: 'up', label: '上', hint: '最好的情况是什么？' },
-	{ key: 'mid', label: '中', hint: '按当前节奏最可能发生什么？' },
-	{ key: 'down', label: '下', hint: '最坏的情况是什么，怎么提前防？' },
-];
+// 预知层数据见 ../data/foresight.ts（与 about 页右栏共用）
 
 // ===== 战略层：这一年要什么 =====
 const strategies = [

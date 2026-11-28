@@ -1,6 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { foresightColumns, foresightRows } from '../data/foresight';
+
+// 右栏「我的谋划」展示预知层里「一年」阶段的上 / 中 / 下
+const yearForesight = foresightColumns.find((c) => c.horizon === '一年') ?? foresightColumns[0];
 
 // 联系方式：按渠道分组，每个账号一行，备注统一括注
 const contacts = [
@@ -533,9 +537,12 @@ const splitItem = (raw) => {
 				<section class="card note">
 					<h2>我的谋划</h2>
 					<ul class="plan-list">
-						<li><span class="plan-key">身体</span>把锻炼变成日常，体重和体能回到稳定区间</li>
-						<li><span class="plan-key">钱</span>存到 1 万元，先让每月收支转正</li>
-						<li><span class="plan-key">能力</span>把岗位经验沉淀成能复用的文档和方法</li>
+						{foresightRows.map((row) => (
+							<li class:list={['plan-item', `is-${row.key}`]}>
+								<span class="plan-key">{row.label}</span>
+								{yearForesight[row.key] || `待填写：${row.hint}`}
+							</li>
+						))}
 					</ul>
 					<a class="note-more" href="/plan">查看全部 →</a>
 				</section>
@@ -860,7 +867,7 @@ const splitItem = (raw) => {
 		text-decoration: underline;
 	}
 
-	/* 谋划摘要：三条战略目标 */
+	/* 谋划摘要：一年预知的上 / 中 / 下 */
 	.plan-list {
 		list-style: none;
 		margin: 0 0 14px;
@@ -884,6 +891,11 @@ const splitItem = (raw) => {
 		font-size: 13px;
 		margin-right: 8px;
 	}
+
+	/* 预知上 / 中 / 下着色，与 plan 页预知层一致 */
+	.plan-item.is-up .plan-key { color: #2e7d32; }
+	.plan-item.is-mid .plan-key { color: #616161; }
+	.plan-item.is-down .plan-key { color: #c62828; }
 
 	/* 宽栏顺序：自我介绍 → 我的资产 */
 	.card.intro { order: 1; }
