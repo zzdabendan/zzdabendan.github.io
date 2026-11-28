@@ -575,7 +575,7 @@ const splitItem = (raw) => {
 				<section class="card assets" id="assets">
 					<h2>我的资产</h2>
 					<div class="cards-row">
-						<details class="zone tone-rmb card-money">
+						<details class="zone tone-rmb card-money" open>
 							<summary class="zone-title">资金</summary>
 							<details class:list={['money-section', { 'has-items': incomeRows.length > 0 }]}>
 								<summary><span>收入</span><span>{totalIncome}</span></summary>
@@ -601,7 +601,7 @@ const splitItem = (raw) => {
 									))}
 								</ul>
 							</details>
-							<details class:list={['money-section', { 'has-items': depositRows.length > 0 }]} open>
+							<details class:list={['money-section', { 'has-items': depositRows.length > 0 }]}>
 								<summary><span>存款</span><span>{totalDeposit}</span></summary>
 								<ul class="item-list">
 									{depositRows.map((r) => (
@@ -614,13 +614,13 @@ const splitItem = (raw) => {
 							(cat.zones ?? [{ name: cat.name, tone: cat.tone, items: cat.items }])
 								.filter((zone) => zone.items.length > 0)
 								.map((zone) => (
-									<details class={`zone ${zone.tone || ''}`}>
+									<details class={`zone ${zone.tone || ''}`} open>
 										<summary class="zone-title">
 											{zone.name}{zone.sup && <span class="zone-sup"> · {zone.sup}</span>}
 											<span class="zone-count">{zone.items.length}</span>
 										</summary>
 										{zoneStates(zone).map((state) => (
-											<details class:list={['item-section', { 'has-items': state.items.length > 0 }]} open={state.items.length > 0}>
+											<details class:list={['item-section', { 'has-items': state.items.length > 0 }]}>
 												<summary><span>{state.label}</span><span>{state.items.length}</span></summary>
 												{state.items.length > 0 && (
 													<ul class="item-list">
