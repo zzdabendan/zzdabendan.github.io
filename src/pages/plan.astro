@@ -51,13 +51,18 @@ const dailyRows = dailyPlan.map((row) => ({
 	}),
 }));
 
-// ===== 预知层：每个时间节点的上 / 中 / 下三种未来 =====
-// 上 = 最好情况；中 = 按当前节奏最可能发生；下 = 最坏情况
-const foresight = [
-	{ horizon: '10 年后', year: 2036, up: '', mid: '', down: '' },
-	{ horizon: '5 年后', year: 2031, up: '', mid: '', down: '' },
-	{ horizon: '3 年后', year: 2029, up: '', mid: '', down: '' },
-	{ horizon: '1 年后', year: 2027, up: '', mid: '', down: '' },
+// ===== 预知层：表格，四列（一年 / 三年 / 四年 / 十年）× 三行（上 / 中 / 下）=====
+// 列 = 时间阶段；行 = 情景。上 = 最好情况；中 = 按当前节奏最可能发生；下 = 最坏情况
+const foresightColumns = [
+	{ horizon: '一年', year: 2027, up: '', mid: '', down: '' },
+	{ horizon: '三年', year: 2029, up: '', mid: '', down: '' },
+	{ horizon: '四年', year: 2030, up: '', mid: '', down: '' },
+	{ horizon: '十年', year: 2036, up: '', mid: '', down: '' },
+];
+const foresightRows = [
+	{ key: 'up', label: '上', hint: '最好的情况是什么？' },
+	{ key: 'mid', label: '中', hint: '按当前节奏最可能发生什么？' },
+	{ key: 'down', label: '下', hint: '最坏的情况是什么，怎么提前防？' },
 ];
 
 // ===== 战略层：这一年要什么 =====
@@ -149,27 +154,30 @@ const demoVideos = ['热身动作', '俯卧撑标准动作', '深蹲标准动作
 		<!-- 零、预知层 -->
 		<section class="layer foresight">
 			<h2 class="layer-title">零、预知层 · 未来的上中下</h2>
-			<p class="layer-note">在每个时间节点上先想清楚三种情况：上是最好的，中是按当前节奏最可能发生的，下是要提前防的。看清这三条，才知道今天该把力用在哪。</p>
+			<p class="layer-note">四个时间阶段 × 三种情况：上是最好的，中是按当前节奏最可能发生的，下是要提前防的。同一行横向对比，才知道今天该把力用在哪。</p>
 
-			{foresight.map((f) => (
-				<div class="foresight-stage">
-					<h3 class="foresight-horizon">{f.horizon} <span class="foresight-year">（{f.year}）</span></h3>
-					<div class="foresight-grid">
-						<div class="foresight-card up">
-							<span class="foresight-label">上</span>
-							<p class="foresight-text">{f.up || '待填写：这个时间点，最好的情况是什么？'}</p>
-						</div>
-						<div class="foresight-card mid">
-							<span class="foresight-label">中</span>
-							<p class="foresight-text">{f.mid || '待填写：按当前节奏走，最可能发生的是什么？'}</p>
-						</div>
-						<div class="foresight-card down">
-							<span class="foresight-label">下</span>
-							<p class="foresight-text">{f.down || '待填写：最坏的情况会是什么，怎么提前防？'}</p>
-						</div>
-					</div>
-				</div>
-			))}
+			<div class="foresight-scroll">
+				<table class="foresight-table">
+					<thead>
+						<tr>
+							<th class="foresight-corner">情景 \ 阶段</th>
+							{foresightColumns.map((c) => (
+								<th class="foresight-colhead">{c.horizon}<span class="foresight-year">（{c.year}）</span></th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{foresightRows.map((row) => (
+							<tr class={`foresight-row ${row.key}`}>
+								<th class="foresight-rowhead">{row.label}</th>
+								{foresightColumns.map((c) => (
+									<td>{c[row.key] || `待填写：${row.hint}`}</td>
+								))}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
 		</section>
 
 		<!-- 一、战略层 -->
@@ -323,97 +331,62 @@ const demoVideos = ['热身动作', '俯卧撑标准动作', '深蹲标准动作
 		margin: 0 0 16px;
 	}
 
-	/* 预知层：每个阶段一组，上中下三卡并排 */
-	.foresight-stage {
-		margin-bottom: 24px;
+	/* 预知层：四列 × 三行表格 */
+	.foresight-scroll {
+		overflow-x: auto;
 	}
 
-	.foresight-horizon {
-		font-size: 15px;
-		font-weight: 700;
-		margin: 0 0 10px;
+	.foresight-table {
+		width: 100%;
+		border-collapse: collapse;
+		table-layout: fixed;
+		font-size: 13px;
+		line-height: 1.8;
+	}
+
+	.foresight-table th,
+	.foresight-table td {
+		border: 1px solid #d1d5db;
+		padding: 10px 12px;
+		vertical-align: top;
+	}
+
+	.foresight-corner,
+	.foresight-colhead {
+		background: #e5e5e5;
 		color: #111111;
+		font-weight: 700;
+		text-align: center;
+	}
+
+	.foresight-corner {
+		width: 96px;
+		white-space: nowrap;
 	}
 
 	.foresight-year {
 		font-weight: 400;
-		color: #9ca3af;
-		font-size: 13px;
+		color: #6b7280;
+		font-size: 12px;
+		margin-left: 2px;
 	}
 
-	.foresight-grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 12px;
-	}
-
-	.foresight-card {
-		border: 1px solid;
-		border-radius: 6px;
-		padding: 12px 14px;
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-	}
-
-	.foresight-label {
-		font-size: 13px;
+	.foresight-rowhead {
 		font-weight: 700;
-		align-self: flex-start;
-		padding: 1px 10px;
-		border-radius: 10px;
-	}
-
-	.foresight-text {
-		font-size: 13px;
-		line-height: 1.8;
-		margin: 0;
-	}
-
-	/* 上：最好情况，绿色 */
-	.foresight-card.up {
-		background: #e8f5e9;
-		border-color: #a5d6a7;
-	}
-
-	.foresight-card.up .foresight-label {
-		background: #2e7d32;
 		color: #ffffff;
+		text-align: center;
+		white-space: nowrap;
 	}
 
-	.foresight-card.up .foresight-text {
-		color: #1b5e20;
-	}
+	/* 行按情景着色：上绿 / 中灰 / 下红 */
+	.foresight-row.up .foresight-rowhead { background: #2e7d32; }
+	.foresight-row.up td { background: #e8f5e9; color: #1b5e20; }
 
-	/* 中：基准，灰色 */
-	.foresight-card.mid {
-		background: #f5f5f5;
-		border-color: #bdbdbd;
-	}
+	.foresight-row.mid .foresight-rowhead { background: #616161; }
+	.foresight-row.mid td { background: #f5f5f5; color: #424242; }
 
-	.foresight-card.mid .foresight-label {
-		background: #616161;
-		color: #ffffff;
-	}
-
-	.foresight-card.mid .foresight-text {
-		color: #424242;
-	}
-
-	/* 下：最坏情况，红色 */
-	.foresight-card.down {
-		background: #fdecea;
-		border-color: #ef9a9a;
-	}
-
-	.foresight-card.down .foresight-label {
-		background: #c62828;
-		color: #ffffff;
-	}
-
-	.foresight-card.down .foresight-text {
-		color: #b3261e;
-	}
+	.foresight-row.down .foresight-rowhead { background: #c62828; }
+	.foresight-row.down td { background: #fdecea; color: #b3261e; }
 
 	/* 战略层：三张并排卡片 */
 	.strategy-grid {
@@ -637,9 +610,21 @@ const demoVideos = ['热身动作', '俯卧撑标准动作', '深蹲标准动作
 	}
 
 	@media (max-width: 600px) {
-		.foresight-grid,
 		.video-grid {
 			grid-template-columns: 1fr;
+		}
+
+		.foresight-table {
+			font-size: 12px;
+		}
+
+		.foresight-corner {
+			width: 72px;
+		}
+
+		.foresight-table th,
+		.foresight-table td {
+			padding: 8px;
 		}
 
 		.row {
