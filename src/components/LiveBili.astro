@@ -1,0 +1,116 @@
+---
+// B站直播嵌入组件：官方 H5 播放器 + 常驻跳转按钮
+// 开播时播放器直接播放；未开播时显示 B站自身的未开播画面。
+// 注意：B站对浏览器直连接口做了 CORS + 风控拦截，GitHub Pages 这类
+// 纯静态站无法在前端可靠判断开播状态，因此窗口常驻显示，跳转按钮始终可见。
+// 若需「未开播时隐藏播放器、只显示跳转按钮」，需要一个轻量后端/Worker
+// 做状态代理，详见文末说明。
+interface Props {
+	roomId: string | number;
+	title?: string;
+}
+const { roomId, title = '我的直播间' } = Astro.props;
+const roomUrl = `https://live.bilibili.com/${roomId}`;
+const playerSrc = `https://www.bilibili.com/blackboard/live/live-mobile-playerV3.html?roomId=${roomId}&danmaku=0`;
+---
+
+<div class="live-bili">
+	<div class="live-stage">
+		<iframe
+			class="live-frame"
+			src={playerSrc}
+			title={`B站直播间：${title}`}
+			loading="lazy"
+			scrolling="no"
+			frameborder="0"
+			allowfullscreen
+			allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+		></iframe>
+	</div>
+	<div class="live-bar">
+		<span class="live-meta">
+			<span class="live-dot" aria-hidden="true"></span>
+			{title} · 房间 {roomId}
+		</span>
+		<a class="live-link" href={roomUrl} target="_blank" rel="noopener noreferrer">前往直播间 →</a>
+	</div>
+</div>
+
+<style>
+	.live-bili {
+		margin: 0 0 32px;
+		border: 1px solid #e5e7eb;
+		border-radius: 6px;
+		overflow: hidden;
+		background: #111111;
+	}
+
+	.live-stage {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		background: #000000;
+	}
+
+	.live-frame {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	.live-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 8px 12px;
+		background: #f5f5f5;
+	}
+
+	.live-meta {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 13px;
+		color: #555555;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.live-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #9ca3af;
+		flex-shrink: 0;
+	}
+
+	.live-link {
+		flex-shrink: 0;
+		padding: 5px 12px;
+		font-size: 13px;
+		color: #ffffff;
+		background: #111111;
+		border-radius: 4px;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	.live-link:hover {
+		background: #333333;
+	}
+
+	@media (max-width: 600px) {
+		.live-meta {
+			font-size: 12px;
+		}
+
+		.live-link {
+			font-size: 12px;
+			padding: 4px 10px;
+		}
+	}
+</style>
