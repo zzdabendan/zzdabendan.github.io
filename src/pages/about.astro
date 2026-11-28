@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import LiveBili from '../components/LiveBili.astro';
 import { foresightColumns, foresightRows } from '../data/foresight';
 
 // 右栏「我的谋划」展示预知层里「一年」阶段的上 / 中 / 下
@@ -527,6 +528,8 @@ const splitItem = (raw) => {
 
 			<!-- 第三栏：最新感悟节选（静态，需要时手动更新） -->
 			<aside class="col-note">
+				<LiveBili roomId="21648980" title="我的直播间" />
+
 				<section class="card note">
 					<h2>我的感悟</h2>
 					<p class="note-meta">2026/11/27 · 周五 · 南昌 · 晴</p>
@@ -842,6 +845,11 @@ const splitItem = (raw) => {
 
 	.card.note {
 		margin-bottom: 0;
+	}
+
+	/* 右栏顶部的直播窗口：间距交给 grid gap（24px）统一处理 */
+	.col-note :global(.live-bili) {
+		margin: 0;
 	}
 
 	.note-meta {
